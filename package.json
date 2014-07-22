@@ -1,0 +1,11 @@
+{
+  "name": "ioBroker.hm-rega",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "xml2js": "~0.4.4",
+    "iconv-lite": "~0.4.3",
+    "extend": "~1.3.0",
+    "request": "~2.36.0"
+  }
+}

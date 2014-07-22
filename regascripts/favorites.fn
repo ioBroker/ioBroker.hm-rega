@@ -1,0 +1,66 @@
+!# favorites.fn 1.1
+!#
+!# Dieses Script gibt die Favoriten als JSON String aus
+!#
+!# 7''2013 - 7'2014 hobbyquaker
+!#
+
+
+object oFavorite;
+object fav;
+string sFavoriteId;
+string sFavoriteName;
+string favId;
+string chId;
+boolean nFirst = true;
+boolean aFirst;
+boolean bFirst;
+Write('{');
+foreach (sFavoriteId, dom.GetObject(ID_FAVORITES).EnumUsedIDs()) {
+  oFavorite     = dom.GetObject(sFavoriteId);
+  if (oFavorite.Name().Substr(0,5) == '_USER') {
+     aFirst = true;
+     var userId = oFavorite.Name().Substr(5,5).ToInteger(); 
+     object userObj = dom.GetObject(userId);
+     if (userObj) {
+       userId = userObj.UserFirstName();
+       if (nFirst) {
+         nFirst = false;
+       } else {
+         WriteLine(',');
+       }
+       Write('"' # userId # '":{');
+       foreach(favId, oFavorite.EnumUsedIDs()) {
+         if (aFirst) {
+           aFirst = false;
+         } else {
+           WriteLine(',');
+         }
+         fav = dom.GetObject(favId);
+         Write('"');
+         WriteURL(fav.Name());
+         Write('":{"id":' # favId # ',"Channels":[');
+         bFirst = true;
+         foreach (chId, fav.EnumUsedIDs()) {
+     	 if (bFirst) {
+           bFirst = false;
+         } else {
+           Write(',');
+         }
+         object chObj = dom.GetObject(chId);
+         if (chObj.TypeName() == 'CHANNEL') {
+           string sIfaceId = chObj.Interface();
+           string sIface = dom.GetObject(sIfaceId).Name();
+           Write('{"Address":"' # chObj.Address() # '",');
+           Write('"Interface":"' # sIface # '"}');
+         } else {
+       	   Write(chId);
+         }
+       }
+       Write( ']}');
+  	 }
+    Write('}');
+    }    
+  }
+}
+Write('}');
