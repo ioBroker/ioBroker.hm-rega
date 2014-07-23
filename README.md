@@ -8,6 +8,8 @@ Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker
 
 ... test ...
 
+... test 2 ...
+
 ## License
 
 The MIT License (MIT)
