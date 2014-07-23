@@ -4,6 +4,8 @@ Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker
 
 ## Install
 
+... muh!
+
 ... test ...
 
 ## License
