@@ -2,7 +2,19 @@
 
 Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker
 
+## Purpose
+
+This Adapter can keep HomeMatic-CCU-Variables in sync with ioBroker and offers the possibility to start
+HomeMatic-CCU-Programs from ioBroker. Furthermore this adapter can be seen as a migration-helper, you can sync
+device/channel-names, rooms, functions and favorites from the CCU to ioBroker (this is one way only, changes on ioBroker
+side will be overwritten when synced again - so deactivate this features after the first sync).
+
 ## Install
+
+This adapter needs one (ore more) already installed and initialized hm-rpc adapter to work.
+
+### Configuration
+
 
 
 
@@ -10,7 +22,7 @@ Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker
 
 The MIT License (MIT)
 
-Copyright (c) 2014 hobbyquaker, bluefox
+Copyright (c) 2014 hobbyquaker
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
