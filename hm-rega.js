@@ -1,4 +1,4 @@
-var adapter = require('../../modules/adapter.js')({
+var adapter = require(__dirname + '/../../lib/adapter.js')({
 
     name:           'hm-rega',
     version:        '0.1.0',
@@ -78,7 +78,7 @@ function main() {
 
     adapter.subscribeObjects('*');
 
-    var Rega = require('./modules/rega.js');
+    var Rega = require(__dirname + '/lib/rega.js');
 
     rega = new Rega({
         ccuIp: adapter.config.ip,
