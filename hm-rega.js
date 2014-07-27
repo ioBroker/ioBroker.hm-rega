@@ -169,11 +169,8 @@ function getPrograms(callback) {
                     name: adapter.namespace + ' Program ' + unescape(data[id].Name)  + ' execute',
                     common: {
                         type: 'boolean',
-                        oper: {
-                            read:   true,
-                            write:  true,
-                            event:  true
-                        }
+                        read:   true,
+                        write:  true
                     },
                     native: {
 
@@ -185,11 +182,8 @@ function getPrograms(callback) {
                     parent: adapter.namespace + '.' + id,
                     common: {
                         type: 'boolean',
-                        oper: {
-                            read:   true,
-                            write:  true,
-                            event:  true
-                        }
+                        read:   true,
+                        write:  true
                     },
                     native: {
 
@@ -468,8 +462,8 @@ function getDevices(callback) {
             }
 
             id += addr;
-            adapter.log.info('extend ' + id + ' {"name":"' + unescape(data[addr].Name) + '"}');
-            adapter.extendForeignObject(id, {name: unescape(data[addr].Name)});
+            adapter.log.info('extend ' + id + ' {"common":{"name":"' + unescape(data[addr].Name) + '"}}');
+            adapter.extendForeignObject(id, {common: {name: unescape(data[addr].Name)}});
 
         }
 
@@ -508,11 +502,8 @@ function getVariables(callback) {
                     name: adapter.namespace + ' Variable ' + unescape(data[id].Name),
                     common: {
                         type:   commonTypes[data[id].ValueType],
-                        oper: {
-                            read:   true,
-                            write:  true,
-                            event:  true
-                        }
+                        read:   true,
+                        write:  true,
                     },
                     native: {
                         Name:           unescape(data[id].Name),
