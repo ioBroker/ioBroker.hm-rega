@@ -19,17 +19,17 @@ var adapter = require(__dirname + '/../../lib/adapter.js')({
             if (rid[3] === 'ProgramExecute') {
                 if (!state.ack && state.val) {
                     adapter.log.info('ProgramExecute ' + rid[2]);
-                    //rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
+                    rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
                 }
             } else if (rid[3] === 'Active') {
                 if (!state.ack) {
                     adapter.log.info('Active ' + rid[2] + ' ' + state.val);
-                    //rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
+                    rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
                 }
             } else {
                 if (regaStates[rid[2]] !== state.val || !state.ack) {
                     adapter.log.info('State ' + rid[2] + ' ' + state.val);
-                    //rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
+                    rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
                 }
             }
         }

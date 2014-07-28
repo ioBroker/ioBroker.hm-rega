@@ -14,7 +14,7 @@
             "hobbyquaker <hq@ccu.io>"
         ],
         "mode":                     "daemon",
-        "language":                 "javascript",
+        "platform":                 "Javascript/Node.js",
         "loglevel":                 "info"
     },
     "native": {
@@ -24,16 +24,16 @@
         "pollingInterval":          30,
         "pollingTrigger":           "BidCoS-RF:50.PRESS_SHORT",
         "rfdAdapter":               "hm-rpc.0",
-        "hs485dAdapter":            null,
+        "hs485dAdapter":            true,
         "cuxdAdapter":              null,
         "syncVariables":            true,
         "syncPrograms":             true,
         "syncNames":                true,
-        "syncRooms":                false,
+        "syncRooms":                true,
         "enumRooms":                "enum.rooms",
-        "syncFunctions":            false,
+        "syncFunctions":            true,
         "enumFunctions":            "enum.functions",
-        "syncFavorites":            false,
+        "syncFavorites":            true,
         "enumFavorites":            "enum.favorites"
     },
     "objects": [
@@ -48,6 +48,7 @@
                     "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
                 }
             }
-        }
+        },
+
     ]
 }
