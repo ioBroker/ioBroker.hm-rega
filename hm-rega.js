@@ -1,7 +1,6 @@
 var adapter = require(__dirname + '/../../lib/adapter.js')({
 
     name:           'hm-rega',
-    version:        '0.1.0',
 
     objectChange: function (id, obj) {
         adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
@@ -20,17 +19,17 @@ var adapter = require(__dirname + '/../../lib/adapter.js')({
             if (rid[3] === 'ProgramExecute') {
                 if (!state.ack && state.val) {
                     adapter.log.info('ProgramExecute ' + rid[2]);
-                    //rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
+                    rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
                 }
             } else if (rid[3] === 'Active') {
                 if (!state.ack) {
                     adapter.log.info('Active ' + rid[2] + ' ' + state.val);
-                    //rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
+                    rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
                 }
             } else {
                 if (regaStates[rid[2]] !== state.val || !state.ack) {
                     adapter.log.info('State ' + rid[2] + ' ' + state.val);
-                    //rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
+                    rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
                 }
             }
         }
@@ -152,8 +151,8 @@ function getPrograms(callback) {
                 count += 1;
                 adapter.setObject(id, {
                     type: 'channel',
-                    name: adapter.namespace + ' Program ' + unescape(data[id].Name),
                     common: {
+                        name: adapter.namespace + ' Program ' + unescape(data[id].Name),
                         enabled: true
                     },
                     native: {
@@ -166,14 +165,11 @@ function getPrograms(callback) {
                 adapter.setObject(id + '.ProgramExecute', {
                     type: 'state',
                     parent: adapter.namespace + '.' + id,
-                    name: adapter.namespace + ' Program ' + unescape(data[id].Name)  + ' execute',
                     common: {
+                        name: adapter.namespace + ' Program ' + unescape(data[id].Name)  + ' execute',
                         type: 'boolean',
-                        oper: {
-                            read:   true,
-                            write:  true,
-                            event:  true
-                        }
+                        read:   true,
+                        write:  true
                     },
                     native: {
 
@@ -181,15 +177,12 @@ function getPrograms(callback) {
                 });
                 adapter.setObject(id + '.Active', {
                     type: 'state',
-                    name: adapter.namespace + ' Program ' + unescape(data[id].Name) + ' enabled',
                     parent: adapter.namespace + '.' + id,
                     common: {
+                        name: adapter.namespace + ' Program ' + unescape(data[id].Name) + ' enabled',
                         type: 'boolean',
-                        oper: {
-                            read:   true,
-                            write:  true,
-                            event:  true
-                        }
+                        read:   true,
+                        write:  true
                     },
                     native: {
 
@@ -259,11 +252,11 @@ function getFunctions(callback) {
             var desc = unescape(data[regaId].EnumInfo);
             functions.push(adapter.config.enumFunctions + '.' + name);
             adapter.setForeignObject(adapter.config.enumFunctions + '.' + name, {
-                name: name,
                 desc: desc,
                 type: 'enum',
                 parent: adapter.config.enumFunctions,
                 common: {
+                    name: name,
                     members: members
                 },
                 native: {
@@ -278,9 +271,9 @@ function getFunctions(callback) {
         adapter.log.info('added/updated ' + functions.length + ' functions to ' + adapter.config.enumFunctions);
 
         adapter.setForeignObject(adapter.config.enumFunctions, {
-            name: 'Functions',
             type: 'enum',
             common: {
+                name: 'Functions',
                 members: functions
             },
             native: {
@@ -331,11 +324,11 @@ function getRooms(callback) {
             var desc = unescape(data[regaId].EnumInfo);
             rooms.push(adapter.config.enumRooms + '.' + name);
             adapter.setForeignObject(adapter.config.enumRooms + '.' + name, {
-                name: name,
-                desc: desc,
                 type: 'enum',
                 parent: adapter.config.enumRooms,
                 common: {
+                    name: name,
+                    desc: desc,
                     members: members
                 },
                 native: {
@@ -350,9 +343,9 @@ function getRooms(callback) {
         adapter.log.info('added/updated ' + rooms.length + ' rooms to ' + adapter.config.enumRooms);
 
         adapter.setForeignObject(adapter.config.enumRooms, {
-            name: 'Rooms',
             type: 'enum',
             common: {
+                name: 'Rooms',
                 members: rooms
             },
             native: {
@@ -373,8 +366,9 @@ function getFavorites(callback) {
 
         adapter.setForeignObject(adapter.config.enumFavorites, {
             type: 'enum',
-            name: 'Favorites',
-            common: {},
+            common: {
+                name: 'Favorites'
+            },
             native: {}
         });
 
@@ -384,9 +378,10 @@ function getFavorites(callback) {
 
             adapter.setForeignObject(adapter.config.enumFavorites + '.' + user, {
                 type: 'enum',
-                name: user + ' Favorites',
                 parent: adapter.config.enumFavorites,
-                common: {},
+                common: {
+                    name: user + ' Favorites'
+                },
                 native: {}
             });
 
@@ -424,9 +419,9 @@ function getFavorites(callback) {
                 c += 1;
                 adapter.setForeignObject(adapter.config.enumFavorites + '.' + user + '.' + fav, {
                     type: 'enum',
-                    name: fav,
                     parent: adapter.config.enumFavorites + '.' + user,
                     common: {
+                        name: fav,
                         members: members
                     },
                     native: {
@@ -468,8 +463,8 @@ function getDevices(callback) {
             }
 
             id += addr;
-            adapter.log.info('extend ' + id + ' {"name":"' + unescape(data[addr].Name) + '"}');
-            adapter.extendForeignObject(id, {name: unescape(data[addr].Name)});
+            adapter.log.info('extend ' + id + ' {"common":{"name":"' + unescape(data[addr].Name) + '"}}');
+            adapter.extendForeignObject(id, {common: {name: unescape(data[addr].Name)}});
 
         }
 
@@ -505,14 +500,11 @@ function getVariables(callback) {
                 var obj = {
                     _id: adapter.namespace + '.' + id,
                     type: 'state',
-                    name: adapter.namespace + ' Variable ' + unescape(data[id].Name),
                     common: {
+                        name: adapter.namespace + ' Variable ' + unescape(data[id].Name),
                         type:   commonTypes[data[id].ValueType],
-                        oper: {
-                            read:   true,
-                            write:  true,
-                            event:  true
-                        }
+                        read:   true,
+                        write:  true
                     },
                     native: {
                         Name:           unescape(data[id].Name),

@@ -16,7 +16,17 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ### Configuration
 
 
+## Changelog
 
+### 0.1.1
+
+* Fix common.name attribute
+
+
+
+## Todo
+
+* set connected state
 
 ... test 2 ...
 
