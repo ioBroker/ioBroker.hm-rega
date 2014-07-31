@@ -48,7 +48,6 @@
                     "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
                 }
             }
-        },
-
+        }
     ]
 }
