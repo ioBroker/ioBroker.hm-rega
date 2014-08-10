@@ -18,6 +18,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 0.1.2
+
+* Fix common.children in getPrograms
+
 ### 0.1.1
 
 * Fix common.name attribute
