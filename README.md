@@ -26,13 +26,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 * Fix common.name attribute
 
-
-
 ## Todo
 
 * set connected state
-
-... test 2 ...
+* get initial values for all datapoints on adapter start
 
 ## License
 
