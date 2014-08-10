@@ -151,12 +151,12 @@ function getPrograms(callback) {
                 count += 1;
                 adapter.setObject(id, {
                     type: 'channel',
-                    common: {
-                        name: adapter.namespace + ' Program ' + unescape(data[id].Name),
-                        children: [
+                    children: [
                             adapter.namesapce + '.' + id + '.ProgramExecute',
                             adapter.namesapce + '.' + id + '.Active'
-                        ],
+                    ],
+                    common: {
+                        name: adapter.namespace + ' Program ' + unescape(data[id].Name),
                         enabled: true
                     },
                     native: {

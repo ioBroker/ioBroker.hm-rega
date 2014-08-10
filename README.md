@@ -18,6 +18,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 0.1.3
+
+* common.children vs children
+
 ### 0.1.2
 
 * Fix common.children in getPrograms
@@ -30,6 +34,8 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 * set connected state
 * get initial values for all datapoints on adapter start
+* sync enums
+* special script-device to run arbitrary regascripts
 
 ## License
 
