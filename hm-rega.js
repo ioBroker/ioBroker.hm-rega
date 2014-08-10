@@ -153,6 +153,10 @@ function getPrograms(callback) {
                     type: 'channel',
                     common: {
                         name: adapter.namespace + ' Program ' + unescape(data[id].Name),
+                        children: [
+                            adapter.namesapce + '.' + id + '.ProgramExecute',
+                            adapter.namesapce + '.' + id + '.Active'
+                        ],
                         enabled: true
                     },
                     native: {
