@@ -278,9 +278,10 @@ function getFunctions(callback) {
 
         adapter.setForeignObject(adapter.config.enumFunctions, {
             type: 'enum',
+            children: functions,
             common: {
                 name: 'Functions',
-                members: functions
+                members: []
             },
             native: {
 
@@ -350,9 +351,10 @@ function getRooms(callback) {
 
         adapter.setForeignObject(adapter.config.enumRooms, {
             type: 'enum',
+            children: rooms,
             common: {
                 name: 'Rooms',
-                members: rooms
+                members: []
             },
             native: {
 
@@ -372,6 +374,7 @@ function getFavorites(callback) {
 
         adapter.setForeignObject(adapter.config.enumFavorites, {
             type: 'enum',
+            children: [],
             common: {
                 name: 'Favorites'
             },
@@ -385,6 +388,7 @@ function getFavorites(callback) {
             adapter.setForeignObject(adapter.config.enumFavorites + '.' + user, {
                 type: 'enum',
                 parent: adapter.config.enumFavorites,
+                children: [],
                 common: {
                     name: user + ' Favorites'
                 },
