@@ -1,0 +1,136 @@
+<html>
+
+
+<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
+<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+<style type="text/css">
+    #config tr {
+        height: 22px;
+    }
+    #config tr td {
+        padding-left: 10px;
+    }
+</style>
+
+<script type="text/javascript">
+
+    function load(settings) {
+        for (var key in settings) {
+            $('#' + key + '.value').val(settings[key]);
+            if (settings[key]) {
+                $('#' + key + '.check').attr('checked', true);
+            } else {
+                $('#' + key + '.check').removeAttr('checked');
+            }
+        }
+    }
+
+    function save(callback) {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            obj[$this.attr('id')] = $this.val();
+        });
+        $('.check').each(function () {
+            var $this = $(this);
+            obj[$this.attr('id')] = $this.is(':checked');
+        });
+        callback(obj);
+    }
+</script>
+
+<div id="adapter-container">
+    <p>&nbsp;</p>
+
+    <table id="config">
+        <tr>
+            <td colspan="4">HomeMatic CCU Address</td>
+            <td colspan="1"><input type="text" size="50" id="homematicAddress" class="value"></td>
+        </tr>
+
+        <tr>
+            <td>rfd</td>
+            <td>enabled</td>
+            <td><input type="checkbox" id="rfdEnabled" value="true" class="check"></td>
+            <td>hm-rpc instance</td>
+            <td><input type="text" size="50" id="rfdAdapter" class="value"></td>
+        </tr>
+        <tr>
+            <td>hs485d (Wired)</td>
+            <td>enabled</td>
+            <td><input type="checkbox" id="hs485dEnabled" value="true" class="check"></td>
+            <td>hm-rpc instance</td>
+            <td><input type="text" size="50" id="hs485dAdapter" class="value"></td>
+        </tr>
+        <tr>
+            <td>CUxD</td>
+            <td>enabled</td>
+            <td><input type="checkbox" id="cuxdEnabled" value="true" class="check"></td>
+            <td>hm-rpc instance</td>
+            <td><input type="text" size="50" id="cuxdAdapter" class="value"></td>
+        </tr>
+
+        <tr>
+            <td>Polling</td>
+            <td>enabled</td>
+            <td><input type="checkbox" id="polling" value="true" class="check"></td>
+            <td>interval (s)</td>
+            <td><input type="text" size="50" id="pollingInterval" class="value"></td>
+        </tr>
+        <tr>
+            <td>Polling</td>
+            <td colspan="3">trigger</td>
+            <td><input type="text" size="50" id="pollingTrigger" class="value"></td>
+        </tr>
+
+
+        <tr>
+            <td>Sync variables</td>
+            <td>enabled</td>
+            <td colspan="3"><input type="checkbox" id="syncVariables" value="true" class="check"></td>
+        </tr>
+        <tr>
+            <td>Sync programs</td>
+            <td>enabled</td>
+            <td colspan="3"><input type="checkbox" id="syncPrograms" value="true" class="check"></td>
+        </tr>
+        <tr>
+            <td>Sync names</td>
+            <td>enabled</td>
+            <td colspan="3"><input type="checkbox" id="syncNames" value="true" class="check"></td>
+        </tr>
+
+        <tr>
+            <td>Sync favorites</td>
+            <td>enabled</td>
+            <td><input type="checkbox" id="syncFavorites" value="true" class="check"></td>
+            <td>enum</td>
+            <td><input type="text" size="50" id="enumFavorites" class="value"></td>
+        </tr>
+        <tr>
+            <td>Sync rooms</td>
+            <td>enabled</td>
+            <td><input type="checkbox" id="syncRooms" value="true" class="check"></td>
+            <td>enum</td>
+            <td><input type="text" size="50" id="enumRooms" class="value"></td>
+        </tr>
+        <tr>
+            <td>Sync functions</td>
+            <td>enabled</td>
+            <td><input type="checkbox" id="syncFunctions" value="true" class="check"></td>
+            <td>enum</td>
+            <td><input type="text" size="50" id="enumFunctions" class="value"></td>
+        </tr>
+
+
+    </table>
+
+</div>
+
+</html>
