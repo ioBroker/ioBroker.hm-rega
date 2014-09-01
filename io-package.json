@@ -9,14 +9,15 @@
         "depends": [
             "hm-rpc"
         ],
-        "version":                  "0.1.4",
+        "version":                  "0.1.5",
         "authors": [
             "hobbyquaker <hq@ccu.io>"
         ],
         "license":                  "MIT",
         "mode":                     "daemon",
         "platform":                 "Javascript/Node.js",
-        "loglevel":                 "info"
+        "loglevel":                 "info",
+        "readme":                   "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md"
     },
     "native": {
         "homematicAddress":         "172.16.23.3",

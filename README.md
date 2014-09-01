@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 0.1.5
+* (hobbyquaker) enum fixes
+
 ### 0.1.4
 * (hobbyquaker) fixes
 * (hobbyquaker) add settings ui
