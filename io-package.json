@@ -9,23 +9,27 @@
         "depends": [
             "hm-rpc"
         ],
-        "version":                  "0.1.3",
+        "version":                  "0.1.4",
         "authors": [
             "hobbyquaker <hq@ccu.io>"
         ],
+        "license":                  "MIT",
         "mode":                     "daemon",
         "platform":                 "Javascript/Node.js",
         "loglevel":                 "info"
     },
     "native": {
-        "ip":                       "172.16.23.3",
-        "port":                     8181,
+        "homematicAddress":         "172.16.23.3",
+        "homematicPort":            8181,
         "polling":                  true,
         "pollingInterval":          30,
         "pollingTrigger":           "BidCoS-RF:50.PRESS_SHORT",
+        "rfdEnabled":               true,
         "rfdAdapter":               "hm-rpc.0",
-        "hs485dAdapter":            true,
-        "cuxdAdapter":              null,
+        "hs485denabled":            false,
+        "hs485dAdapter":            "hm-rpc.1",
+        "cuxdEnabled":              false,
+        "cuxdAdapter":              "hm-rpc.2",
         "syncVariables":            true,
         "syncPrograms":             true,
         "syncNames":                true,

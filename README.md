@@ -18,17 +18,21 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 0.1.4
+* (hobbyquaker) fixes
+* (hobbyquaker) add settings ui
+
 ### 0.1.3
 
-* common.children vs children
+* (hobbyquaker) common.children vs children
 
 ### 0.1.2
 
-* Fix common.children in getPrograms
+* (hobbyquaker) Fix common.children in getPrograms
 
 ### 0.1.1
 
-* Fix common.name attribute
+* (hobbyquaker) Fix common.name attribute
 
 ## Todo
 

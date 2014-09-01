@@ -80,25 +80,25 @@ function main() {
     var Rega = require(__dirname + '/lib/rega.js');
 
     rega = new Rega({
-        ccuIp: adapter.config.ip,
-        port: adapter.config.port,
+        ccuIp: adapter.config.homematicAddress,
+        port: adapter.config.homematicPort,
         logger: adapter.log,
         ready: function (err) {
 
-            if (err == 'ReGaHSS ' + adapter.config.ip + ' down') {
+            if (err == 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
                 adapter.log.error('ReGaHSS down');
                 ccuReachable = true;
                 ccuRegaUp = false;
 
             } else if (err == 'CCU unreachable') {
 
-                adapter.log.error('CCU ' + adapter.config.ip + ' unreachable');
+                adapter.log.error('CCU ' + adapter.config.homematicAddress + ' unreachable');
                 ccuReachable = false;
                 ccuRegaUp = false;
 
             } else {
 
-                adapter.log.info('ReGaHSS ' + adapter.config.ip + ' up');
+                adapter.log.info('ReGaHSS ' + adapter.config.homematicAddress + ' up');
                 ccuReachable = true;
                 ccuRegaUp = true;
 
@@ -172,6 +172,7 @@ function getPrograms(callback) {
                     common: {
                         name: adapter.namespace + ' Program ' + unescape(data[id].Name)  + ' execute',
                         type: 'boolean',
+                        role: 'action.execute',
                         read:   true,
                         write:  true
                     },
@@ -185,6 +186,7 @@ function getPrograms(callback) {
                     common: {
                         name: adapter.namespace + ' Program ' + unescape(data[id].Name) + ' enabled',
                         type: 'boolean',
+                        role: 'flag.enabled',
                         read:   true,
                         write:  true
                     },
@@ -233,16 +235,16 @@ function getFunctions(callback) {
                 var id;
                 switch (memberObjs[i].Interface) {
                     case 'BidCos-RF':
+                        if (!adapter.config.rfdEnabled) continue;
                         id = adapter.config.rfdAdapter + '.';
-                        if (!adapter.config.rfdAdapter) continue;
                         break;
                     case 'BidCos-Wired':
+                        if (!adapter.config.hs485dEnabled) continue;
                         id = adapter.config.hs485dAdapter + '.';
-                        if (!adapter.config.hs485dAdapter) continue;
                         break;
                     case 'CUxD':
+                        if (!adapter.config.cuxdEnabled) continue;
                         id = adapter.config.cuxdAdapter + '.';
-                        if (!adapter.config.cuxdAdapter) continue;
                         break;
                     default:
                         continue;
@@ -452,22 +454,24 @@ function getDevices(callback) {
             var id;
             switch (data[addr].Interface) {
                 case 'BidCos-RF':
-                    if (!adapter.config.rfdAdapter) continue;
+                    if (!adapter.config.rfdEnabled) continue;
                     id = adapter.config.rfdAdapter + '.';
                     break;
                 case 'BidCos-Wired':
-                    if (!adapter.config.hs485dAdapter) continue;
+                    if (!adapter.config.hs485dEnabled) continue;
                     id = adapter.config.hs485dAdapter + '.';
                     break;
                 case 'CUxD':
-                    if (!adapter.config.cuxdAdapter) continue;
+                    if (!adapter.config.cuxdEnabled) continue;
                     id = adapter.config.cuxdAdapter + '.';
                     break;
                 default:
+                    continue;
             }
 
             id += addr;
-            adapter.log.info('extend ' + id + ' {"common":{"name":"' + unescape(data[addr].Name) + '"}}');
+            adapter.log.info('extend ' + id);
+            adapter.log.debug('{"common":{"name":"' + unescape(data[addr].Name) + '"}}');
             adapter.extendForeignObject(id, {common: {name: unescape(data[addr].Name)}});
 
         }
