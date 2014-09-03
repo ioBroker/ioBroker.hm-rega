@@ -156,7 +156,7 @@ function getPrograms(callback) {
                             adapter.namesapce + '.' + id + '.Active'
                     ],
                     common: {
-                        name: adapter.namespace + ' Program ' + unescape(data[id].Name),
+                        name: unescape(data[id].Name),
                         enabled: true
                     },
                     native: {
@@ -170,7 +170,7 @@ function getPrograms(callback) {
                     type: 'state',
                     parent: adapter.namespace + '.' + id,
                     common: {
-                        name: adapter.namespace + ' Program ' + unescape(data[id].Name)  + ' execute',
+                        name: unescape(data[id].Name)  + ' execute',
                         type: 'boolean',
                         role: 'action.execute',
                         read:   true,
@@ -184,9 +184,9 @@ function getPrograms(callback) {
                     type: 'state',
                     parent: adapter.namespace + '.' + id,
                     common: {
-                        name: adapter.namespace + ' Program ' + unescape(data[id].Name) + ' enabled',
+                        name: unescape(data[id].Name) + ' enabled',
                         type: 'boolean',
-                        role: 'flag.enabled',
+                        role: 'state.enabled',
                         read:   true,
                         write:  true
                     },
@@ -454,6 +454,7 @@ function getDevices(callback) {
 
     rega.runScriptFile('devices', function (data) {
         data = JSON.parse(data);
+        var objs = [];
         for (var addr in data) {
             var id;
             switch (data[addr].Interface) {
@@ -474,14 +475,24 @@ function getDevices(callback) {
             }
 
             id += addr;
-            adapter.log.info('extend ' + id);
-            adapter.log.debug('{"common":{"name":"' + unescape(data[addr].Name) + '"}}');
-            adapter.extendForeignObject(id, {common: {name: unescape(data[addr].Name)}});
+            objs.push({_id: id, common: {name: unescape(data[addr].Name)}});
+
 
         }
 
-        if (typeof callback === 'function') callback();
+        function queue() {
+            if (objs.length > 1) {
+                var obj = objs.pop();
+                adapter.log.info('extend ' + obj._id);
+                adapter.extendForeignObject(obj._id, obj, function () {
+                    queue();
+                });
+            } else {
+                if (typeof callback === 'function') callback();
+            }
+        }
 
+        queue();
     });
 
 }
@@ -509,14 +520,15 @@ function getVariables(callback) {
             var count = 0;
             for (var id in data) {
                 count += 1;
+
                 var obj = {
                     _id: adapter.namespace + '.' + id,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + ' Variable ' + unescape(data[id].Name),
-                        type:   commonTypes[data[id].ValueType],
-                        read:   true,
-                        write:  true
+                        name:           unescape(data[id].Name),
+                        type:           commonTypes[data[id].ValueType],
+                        read:           true,
+                        write:          true
                     },
                     native: {
                         Name:           unescape(data[id].Name),
