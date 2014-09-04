@@ -56,6 +56,7 @@ var functionQueue = [];
 
 function main() {
 
+    functionQueue.push(getDatapoints);
     if (adapter.config.syncVariables) functionQueue.push(getVariables);
     if (adapter.config.syncPrograms) functionQueue.push(getPrograms);
     if (adapter.config.syncNames) functionQueue.push(getDevices);
@@ -450,6 +451,38 @@ function getFavorites(callback) {
     });
 }
 
+function getDatapoints(callback) {
+    adapter.log.info('request state values');
+    rega.runScriptFile('datapoints', function (data) {
+        data = JSON.parse(data);
+        for (var dp in data) {
+            var tmp = dp.split('.');
+            if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') continue;
+            var id;
+            switch (tmp[0]) {
+                case 'BidCos-RF':
+                    if (!adapter.config.rfdEnabled) continue;
+                    id = adapter.config.rfdAdapter + '.';
+                    break;
+                case 'BidCos-Wired':
+                    if (!adapter.config.hs485dEnabled) continue;
+                    id = adapter.config.hs485dAdapter + '.';
+                    break;
+                case 'CUxD':
+                    if (!adapter.config.cuxdEnabled) continue;
+                    id = adapter.config.cuxdAdapter + '.';
+                    break;
+                default:
+                    continue;
+            }
+            id += tmp[1] + '.' + tmp[2];
+            adapter.setForeignState(id, {val: data[dp], ack: true});
+        }
+        adapter.log.info('got state values');
+        if (typeof callback === 'function') callback();
+    });
+}
+
 function getDevices(callback) {
 
     rega.runScriptFile('devices', function (data) {
@@ -483,7 +516,7 @@ function getDevices(callback) {
         function queue() {
             if (objs.length > 1) {
                 var obj = objs.pop();
-                adapter.log.info('extend ' + obj._id);
+                adapter.log.info('renamed ' + obj._id + ' to "' + obj.common.name + '"');
                 adapter.extendForeignObject(obj._id, obj, function () {
                     queue();
                 });
@@ -521,6 +554,11 @@ function getVariables(callback) {
             for (var id in data) {
                 count += 1;
 
+                var role = 'state';
+
+                if (id === 40) role = 'indicator.alarms';
+                if (id === 41) role = 'indicator.maintenance';
+
                 var obj = {
                     _id: adapter.namespace + '.' + id,
                     type: 'state',
@@ -528,7 +566,8 @@ function getVariables(callback) {
                         name:           unescape(data[id].Name),
                         type:           commonTypes[data[id].ValueType],
                         read:           true,
-                        write:          true
+                        write:          true,
+                        role:           role
                     },
                     native: {
                         Name:           unescape(data[id].Name),
