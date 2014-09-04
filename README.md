@@ -21,6 +21,7 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ### 0.1.6
 * (hobbyquaker) added common.role for variables
 * (hobbyquaker) get state values
+* (hobbyquaker) queue device/channel renaming
 
 ### 0.1.5
 * (hobbyquaker) enum fixes
