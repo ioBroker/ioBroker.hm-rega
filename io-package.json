@@ -1,15 +1,15 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "title":                    "HomeMatic ReGaHSS Adapter",
+        "version":                  "0.1.6",
+        "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
             "de":                   "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker"
         },
-        "depends": [
+        "dependencies": [
             "hm-rpc"
         ],
-        "version":                  "0.1.5",
         "authors": [
             "hobbyquaker <hq@ccu.io>"
         ],
