@@ -45,7 +45,6 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ## Todo
 
 * set connected state
-* get initial values for all datapoints on adapter start
 * sync enums
 * special script-device to run arbitrary regascripts
 

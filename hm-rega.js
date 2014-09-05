@@ -167,7 +167,7 @@ function getPrograms(callback) {
                     }
                 });
 
-                adapter.setObject(id + '.ProgramExecute', {
+                adapter.extendObject(id + '.ProgramExecute', {
                     type: 'state',
                     parent: adapter.namespace + '.' + id,
                     common: {
@@ -181,7 +181,7 @@ function getPrograms(callback) {
 
                     }
                 });
-                adapter.setObject(id + '.Active', {
+                adapter.extendObject(id + '.Active', {
                     type: 'state',
                     parent: adapter.namespace + '.' + id,
                     common: {
@@ -350,7 +350,7 @@ function getRooms(callback) {
 
         adapter.log.info('added/updated ' + rooms.length + ' rooms to ' + adapter.config.enumRooms);
 
-        adapter.setForeignObject(adapter.config.enumRooms, {
+        adapter.extendForeignObject(adapter.config.enumRooms, {
             type: 'enum',
             children: rooms,
             common: {
@@ -598,7 +598,7 @@ function getVariables(callback) {
 
                 }
 
-                adapter.setObject(id, obj);
+                adapter.extendObject(id, obj);
                 var val = data[id].Value;
                 if (typeof val === 'string') val = unescape(val);
                 regaStates[id] = val;
