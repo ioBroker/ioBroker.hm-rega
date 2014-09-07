@@ -17,7 +17,10 @@
         "mode":                     "daemon",
         "platform":                 "Javascript/Node.js",
         "loglevel":                 "info",
-        "readme":                   "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md"
+        "readme":                   "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
+        "icon":                     "homematic.png",
+        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png"
+
     },
     "native": {
         "homematicAddress":         "172.16.23.3",
