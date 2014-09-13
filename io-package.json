@@ -19,7 +19,8 @@
         "loglevel":                 "info",
         "readme":                   "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
         "icon":                     "homematic.png",
-        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png"
+        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
+        "keywords":                 ["homematic", "eq3", "regahss", "ccu1", "ccu2"]
 
     },
     "native": {
