@@ -136,6 +136,12 @@ function pollVariables() {
 function getPrograms(callback) {
     adapter.objects.getObjectView('hm-rega', 'programs', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
 
+        if (!doc) {
+            adapter.log.error('no data for ' + adapter.instance + ' programs');
+            if (typeof callback === 'function') callback();
+            return;
+        }
+        
         // Todo catch errors
         var response = [];
         for (var i = 0; i < doc.rows.length; i++) {
@@ -539,6 +545,12 @@ function getVariables(callback) {
     };
 
     adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
+        if (!doc) {
+            adapter.log.error('no data for ' + adapter.instance + ' variables');
+            if (typeof callback === 'function') callback();
+            return;
+        }
+        
         // Todo catch errors
         var response = [];
         for (var i = 0; i < doc.rows.length; i++) {
