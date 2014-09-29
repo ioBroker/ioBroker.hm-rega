@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 0.1.7
+* (Bluefox, Hobbyquaker) fix bug if no programs or variables exist
+
 ### 0.1.6
 * (hobbyquaker) added common.role for variables
 * (hobbyquaker) get state values

@@ -136,14 +136,18 @@ function pollVariables() {
 function getPrograms(callback) {
     adapter.objects.getObjectView('hm-rega', 'programs', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
 
-        // Todo catch errors
         var response = [];
-        for (var i = 0; i < doc.rows.length; i++) {
-            var id = doc.rows[i].value._id.split('.');
-            id = id[id.length - 1];
-            response.push(id);
+
+        if (!err && doc) {
+            for (var i = 0; i < doc.rows.length; i++) {
+                var id = doc.rows[i].value._id.split('.');
+                id = id[id.length - 1];
+                response.push(id);
+            }
+            adapter.log.info('got ' + doc.rows.length + ' programs');
+        } else {
+            adapter.log.info('got 0 programs');
         }
-        adapter.log.info('got ' + doc.rows.length + ' programs');
 
         rega.runScriptFile('programs', function (data) {
             data = JSON.parse(data);
@@ -539,14 +543,18 @@ function getVariables(callback) {
     };
 
     adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
-        // Todo catch errors
         var response = [];
-        for (var i = 0; i < doc.rows.length; i++) {
-            var id = doc.rows[i].value._id.split('.');
-            id = id[id.length - 1];
-            response.push(id);
+
+        if (!err && doc) {
+            for (var i = 0; i < doc.rows.length; i++) {
+                var id = doc.rows[i].value._id.split('.');
+                id = id[id.length - 1];
+                response.push(id);
+            }
+            adapter.log.info('got ' + doc.rows.length + ' variables');
+        } else {
+            adapter.log.info('got 0 variables');
         }
-        adapter.log.info('got ' + doc.rows.length + ' variables');
 
         rega.runScriptFile('variables', function (data) {
             data = JSON.parse(data);
