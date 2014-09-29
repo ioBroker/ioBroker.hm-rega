@@ -1,3 +1,4 @@
+[Logo](admin/homematic.png)
 # ioBroker HomeMatic ReGaHSS Adapter
 
 Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker
