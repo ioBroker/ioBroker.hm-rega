@@ -559,6 +559,8 @@ function getVariables(callback) {
         rega.runScriptFile('variables', function (data) {
             data = JSON.parse(data);
             var count = 0;
+            var i;
+
             for (var id in data) {
                 count += 1;
 
@@ -596,7 +598,7 @@ function getVariables(callback) {
                 if (data[id].ValueList) {
                     var statesArr = unescape(data[id].ValueList).split(';');
                     obj.common.states = {};
-                    for (var i = 0; i < statesArr.length; i++) {
+                    for (i = 0; i < statesArr.length; i++) {
                         obj.common.states[i] = statesArr[i];
                     }
                     if (data[id].ValueSubType === 29) {
@@ -621,7 +623,7 @@ function getVariables(callback) {
 
             adapter.log.info('added/updated ' + count + ' variables');
 
-            for (var i = 0; i < response.length; i++) {
+            for (i = 0; i < response.length; i++) {
                 adapter.delObject(response[i]);
             }
             adapter.log.info('deleted ' + response.length + ' variables');

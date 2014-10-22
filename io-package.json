@@ -1,11 +1,12 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version":                  "0.1.7",
+        "version":                  "0.1.8",
         "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
-            "de":                   "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker"
+            "de":                   "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
+            "ru":                   "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroler"
         },
         "dependencies": [
             "hm-rpc"
@@ -24,7 +25,7 @@
 
     },
     "native": {
-        "homematicAddress":         "172.16.23.3",
+        "homematicAddress":         "192.168.0.100",
         "homematicPort":            8181,
         "polling":                  true,
         "pollingInterval":          30,
