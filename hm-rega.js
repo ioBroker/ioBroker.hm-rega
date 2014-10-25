@@ -663,17 +663,18 @@ function getVariables(callback) {
 
 }
 
-var firstStop = true;
+var stopCount = 0;
 function stop(callback) {
-    if (firstStop) clearInterval(pollingInterval);
-    if (rega.pendingRequests > 0) {
-        if (firstStop) adapter.log.info('waiting for pending request');
+    if (!stopCount) clearInterval(pollingInterval);
+
+    if (rega.pendingRequests > 0 && stopCount < 5) {
+        if (!stopCount) adapter.log.info('waiting for pending request');
         setTimeout(function () {
             stop(callback);
         }, 500);
     } else {
         callback();
     }
-    firstStop = false;
+    stopCount++;
 }
 
