@@ -20,112 +20,247 @@
 </style>
 
 <script type="text/javascript">
+    systemDictionary = {
+        "HomeMatic Address": {"en": "HomeMatic CCU Address", "de": "HomeMatic CCU Adresse", "ru": "Адрес HomeMatic CCU"}
+    };
+    var instances = null;
 
-    function load(settings) {
-        for (var key in settings) {
-            $('#' + key + '.value').val(settings[key]);
-            if (settings[key]) {
-                $('#' + key + '.check').attr('checked', true);
-            } else {
-                $('#' + key + '.check').removeAttr('checked');
-            }
+    function fillInstances(id, arr, ip, val, type, preset) {
+        var $sel = $('#' + id);
+        $sel.html('<option value="">' + _('none') + '</option>');
+        for (var i = 0; i < arr.length; i++) {
+            if (!arr[i].native || !arr[i].native.homematicAddress || arr[i].native.homematicAddress != ip) continue;
+            if (arr[i].native.daemon != type && arr[i].native.type != type) continue;
+            var id = arr[i]._id.replace('system.adapter.', '');
+
+            // Take first value
+            if (!val && preset) val = id;
+
+            $sel.append('<option value="' + id + '"' + ((id == val) ? ' selected' : '') + '>' + id + '</option>');
         }
     }
 
-    function save(callback) {
+    function fillIpAddress(id, arr, val) {
+        var $sel = $('#' + id);
+        $sel.html('<option value="">' + _('none') + '</option>');
+
+        for (var i = 0; i < arr.length; i++) {
+            if (!arr[i].native || !arr[i].native.homematicAddress) continue;
+
+            var id = arr[i].native.homematicAddress;
+            $sel.append('<option value="' + id + '"' + ((id == val) ? ' selected' : '') + '>' + id + '</option>');
+        }
+    }
+
+    function enableFields() {
+        $('#rfdAdapter').prop('disabled', !$('#rfdEnabled').prop('checked'));
+        $('#hs485dAdapter').prop('disabled', !$('#hs485dEnabled').prop('checked'));
+        $('#cuxdAdapter').prop('disabled', !$('#cuxdEnabled').prop('checked'));
+
+        $('#pollingInterval').prop('disabled', !$('#polling').prop('checked'));
+        $('#enumFavorites').prop('disabled', !$('#syncFavorites').prop('checked'));
+        $('#enumRooms').prop('disabled', !$('#syncRooms').prop('checked'));
+        $('#enumFunctions').prop('disabled', !$('#syncFunctions').prop('checked'));
+    }
+
+    function setValue(id, value) {
+        // example: select elements with id=key and class=value and insert value
+        if ($('#' + id + '.value').attr('type') == 'checkbox') {
+            $('#' + id + '.value').prop('checked', value).change(function() {
+                changed = true;
+                $('#save').button("enable");
+                enableFields();
+            });
+        } else {
+            $('#' + id + '.value').val(value).change(function() {
+                changed = true;
+                $('#save').button("enable");
+            }).keyup(function() {
+                changed = true;
+                $('#save').button("enable");
+            });
+        }
+    }
+    // TODO get the IP addresses
+    function load(settings) {
+        for (var key in settings) {
+            setValue(key, settings[key]);
+        }
+
+        changed = false;
+        $('#save').button("disable");
+
+        getAdapterInstances('hm-rpc', function (arr) {
+            instances = arr;
+            fillIpAddress('homematicAddress', arr, settings['homematicAddress']);
+
+            fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],   'rfd');
+            fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter', 'hs485d']);
+            fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],  'CUxD');
+            enableFields();
+
+            $('#homematicAddress').change(function () {
+                var ip = $(this).val();
+                fillInstances('rfdAdapter',       arr, ip, settings['rfdAdapter'],    'rfd',    true);
+                fillInstances('hs485dAdapter',    arr, ip, settings['hs485dAdapter'], 'hs485d', true);
+                fillInstances('cuxdAdapter',      arr, ip, settings['cuxdAdapter'],   'CUxD',   true);
+
+            });
+        });
+    }
+    function getSettings() {
         var obj = {};
         $('.value').each(function () {
             var $this = $(this);
-            obj[$this.attr('id')] = $this.val();
+            var id = $this.attr('id');
+
+            if ($this.attr('type') == 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
         });
-        $('.check').each(function () {
-            var $this = $(this);
-            obj[$this.attr('id')] = $this.is(':checked');
-        });
+        return obj;
+    }
+
+    function save(callback) {
+        var obj = getSettings();
+
+        if (obj.cuxdEnabled) {
+            if (!obj.cuxdAdapter) {
+                alert(_('Please select rpc adapter for enabled service or install one first.'));
+                return;
+            }
+
+            if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter == obj.cuxdAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            } else
+            if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter == obj.cuxdAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
+        }
+        if (obj.rfdEnabled) {
+            if (!obj.rfdAdapter) {
+                alert(_('Please select rpc adapter for enabled service or install one first.'));
+                return;
+            }
+
+            if (obj.cuxdEnabled && obj.cuxdAdapter && obj.cuxdAdapter == obj.rfdAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            } else
+            if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter == obj.rfdAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
+        }
+        if (obj.hs485dAdapter) {
+            if (!obj.hs485dAdapter) {
+                alert(_('Please select rpc adapter for enabled service or install one first.'));
+                return;
+            }
+
+            if (obj.cuxdEnabled && obj.cuxdAdapter && obj.cuxdAdapter == obj.hs485dAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            } else
+            if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter == obj.hs485dAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
+        }
+
+        changed = false;
+        $('#save').button("disable");
+
         callback(obj);
     }
 </script>
 
 <div id="adapter-container">
-    <p>&nbsp;</p>
+    <table><tr><td><img src="homematic.png" width="64" height="64"></td><td><h3 class="translate">Homematic Rega-Logic adapter settings</h3>
+        <p class="translate" style="font-size: 10">&nbsp;&nbsp;Setup first according rpc adapter!</p>
+    </td></tr></table>
 
     <table id="config">
         <tr>
-            <td colspan="4">HomeMatic CCU Address</td>
-            <td colspan="1"><input type="text" size="50" id="homematicAddress" class="value"></td>
+            <td colspan="4" class="translate">HomeMatic CCU Address</td>
+            <td colspan="1"><select id="homematicAddress" class="value"></select></td>
         </tr>
 
         <tr>
-            <td>rfd</td>
-            <td>enabled</td>
-            <td><input type="checkbox" id="rfdEnabled" value="true" class="check"></td>
-            <td>hm-rpc instance</td>
-            <td><input type="text" size="50" id="rfdAdapter" class="value"></td>
+            <td class="translate">rfd</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="rfdEnabled" value="true" class="value"></td>
+            <td class="translate">hm-rpc instance</td>
+            <td><select id="rfdAdapter" class="value"></select></td>
         </tr>
         <tr>
-            <td>hs485d (Wired)</td>
-            <td>enabled</td>
-            <td><input type="checkbox" id="hs485dEnabled" value="true" class="check"></td>
-            <td>hm-rpc instance</td>
-            <td><input type="text" size="50" id="hs485dAdapter" class="value"></td>
+            <td class="translate">hs485d (Wired)</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="hs485dEnabled" value="true" class="value"></td>
+            <td class="translate">hm-rpc instance</td>
+            <td><select id="hs485dAdapter" class="value"></select></td>
         </tr>
         <tr>
-            <td>CUxD</td>
-            <td>enabled</td>
-            <td><input type="checkbox" id="cuxdEnabled" value="true" class="check"></td>
-            <td>hm-rpc instance</td>
-            <td><input type="text" size="50" id="cuxdAdapter" class="value"></td>
+            <td class="translate">CUxD</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="cuxdEnabled" value="true" class="value"></td>
+            <td class="translate">hm-rpc instance</td>
+            <td><select id="cuxdAdapter" class="value"></select></td>
         </tr>
 
         <tr>
-            <td>Polling</td>
-            <td>enabled</td>
-            <td><input type="checkbox" id="polling" value="true" class="check"></td>
-            <td>interval (s)</td>
+            <td class="translate">Polling</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="polling" value="true" class="value"></td>
+            <td class="translate">interval (s)</td>
             <td><input type="text" size="50" id="pollingInterval" class="value"></td>
         </tr>
         <tr>
-            <td>Polling</td>
-            <td colspan="3">trigger</td>
+            <td class="translate">Polling</td>
+            <td colspan="3" class="translate">trigger</td>
             <td><input type="text" size="50" id="pollingTrigger" class="value"></td>
         </tr>
 
 
         <tr>
-            <td>Sync variables</td>
-            <td>enabled</td>
-            <td colspan="3"><input type="checkbox" id="syncVariables" value="true" class="check"></td>
+            <td class="translate">Sync variables</td>
+            <td class="translate">enabled</td>
+            <td colspan="3"><input type="checkbox" id="syncVariables" value="true" class="value"></td>
         </tr>
         <tr>
-            <td>Sync programs</td>
-            <td>enabled</td>
-            <td colspan="3"><input type="checkbox" id="syncPrograms" value="true" class="check"></td>
+            <td class="translate">Sync programs</td>
+            <td class="translate">enabled</td>
+            <td colspan="3"><input type="checkbox" id="syncPrograms" value="true" class="value"></td>
         </tr>
         <tr>
-            <td>Sync names</td>
-            <td>enabled</td>
-            <td colspan="3"><input type="checkbox" id="syncNames" value="true" class="check"></td>
+            <td class="translate">Sync names</td>
+            <td class="translate">enabled</td>
+            <td colspan="3"><input type="checkbox" id="syncNames" value="true" class="value"></td>
         </tr>
 
         <tr>
-            <td>Sync favorites</td>
-            <td>enabled</td>
-            <td><input type="checkbox" id="syncFavorites" value="true" class="check"></td>
-            <td>enum</td>
+            <td class="translate">Sync favorites</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="syncFavorites" value="true" class="value"></td>
+            <td class="translate">enum</td>
             <td><input type="text" size="50" id="enumFavorites" class="value"></td>
         </tr>
         <tr>
-            <td>Sync rooms</td>
-            <td>enabled</td>
-            <td><input type="checkbox" id="syncRooms" value="true" class="check"></td>
-            <td>enum</td>
+            <td class="translate">Sync rooms</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="syncRooms" value="true" class="value"></td>
+            <td class="translate">enum</td>
             <td><input type="text" size="50" id="enumRooms" class="value"></td>
         </tr>
         <tr>
-            <td>Sync functions</td>
-            <td>enabled</td>
-            <td><input type="checkbox" id="syncFunctions" value="true" class="check"></td>
-            <td>enum</td>
+            <td class="translate">Sync functions</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="syncFunctions" value="true" class="value"></td>
+            <td class="translate">enum</td>
             <td><input type="text" size="50" id="enumFunctions" class="value"></td>
         </tr>
 
