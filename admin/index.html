@@ -78,6 +78,20 @@
             }).keyup(function() {
                 changed = true;
                 $('#save').button("enable");
+                // Chack that only numbers entered
+                if ($(this).hasClass('number')) {
+                    var val = $(this).val();
+                    if (val) {
+                        var newVal = '';
+                        for (var i = 0; i < val.length; i++) {
+                            if (val[i] >= '0' && val[i] <= '9') {
+                                newVal += val[i];
+                            }
+                        }
+
+                        if (val != newVal) $(this).val(newVal);
+                    }
+                }
             });
         }
     }
@@ -174,8 +188,9 @@
 
         changed = false;
         $('#save').button("disable");
+        var link = obj.homematicAddress ? 'http://' + obj.homematicAddress : '';
 
-        callback(obj);
+        callback(obj, {localLink: link});
     }
 </script>
 
@@ -217,7 +232,7 @@
             <td class="translate">enabled</td>
             <td><input type="checkbox" id="polling" value="true" class="value"></td>
             <td class="translate">interval (s)</td>
-            <td><input type="text" size="50" id="pollingInterval" class="value"></td>
+            <td><input type="text" size="50" id="pollingInterval" class="value number"></td>
         </tr>
         <tr>
             <td class="translate">Polling</td>
