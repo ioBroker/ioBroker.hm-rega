@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.1.9 (2014-11-11)
+* (bluefox) fix error with stopping adapter
+
 ### 0.1.8 (2014-10-22)
 * (bluefox) fix error with scripts
 * (bluefox) add gruntfile.js and remove jscs warnings
