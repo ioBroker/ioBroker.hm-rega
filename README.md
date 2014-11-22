@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.1.10 (2014-11-21)
+* (bluefox) support of new naming concept with no parents and children
+
 ### 0.1.9 (2014-11-11)
 * (bluefox) fix error with stopping adapter
 

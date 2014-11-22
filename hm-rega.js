@@ -1,6 +1,6 @@
 var adapter = require(__dirname + '/../../lib/adapter.js')({
 
-    name:           'hm-rega',
+    name: 'hm-rega',
 
     objectChange: function (id, obj) {
         adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
@@ -14,20 +14,27 @@ var adapter = require(__dirname + '/../../lib/adapter.js')({
             pollVariables();
         } else {
             var rid = id.split('.');
-            if (rid[4] === 'ProgramExecute') {
+            if (rid[3] === 'ProgramExecute') {
                 if (!state.ack && state.val) {
-                    adapter.log.info('ProgramExecute ' + rid[3]);
-                    rega.script('dom.GetObject(' + rid[3] + ').ProgramExecute();');
+                    adapter.log.info('ProgramExecute ' + rid[2]);
+                    rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
                 }
-            } else if (rid[4] === 'Active') {
+            } else if (rid[3] === 'Active') {
                 if (!state.ack) {
-                    adapter.log.info('Active ' + rid[3] + ' ' + state.val);
-                    rega.script('dom.GetObject(' + rid[3] + ').Active(' + JSON.stringify(state.val) + ')');
+                    adapter.log.info('Active ' + rid[2] + ' ' + state.val);
+                    rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
                 }
             } else {
-                if (regaStates[rid[3]] !== state.val || !state.ack) {
-                    adapter.log.info('State ' + rid[3] + ' ' + state.val);
-                    rega.script('dom.GetObject(' + rid[3] + ').State(' + JSON.stringify(state.val) + ')');
+                if (rid[2] == 'alarms')      rid[2] = 40;
+                if (rid[2] == 'maintenance') rid[2] = 41;
+
+                if (regaStates[rid[2]] === undefined) {
+                    console.log(rid[2]);
+                }
+
+                if (regaStates[rid[2]] !== state.val || !state.ack) {
+                    adapter.log.info('State ' + rid[2] + ' ' + state.val);
+                    rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
                 }
             }
         }
@@ -129,10 +136,22 @@ function pollVariables() {
             var ts = Math.floor((new Date(data[id][1])).getTime() / 1000);
             if (id == 40) id = 'alarms';
             if (id == 41) id = 'maintenance';
-            adapter.setState('io.' + adapter.namespace + '.' + id, {val: val, ack: true, lc: ts});
+            adapter.setState(adapter.namespace + '.' + id, {val: val, ack: true, lc: ts});
         }
     });
 }
+
+function pollProgramms() {
+    rega.runScriptFile('programs', function (data) {
+        data = JSON.parse(data);
+        for (var id in data) {
+            regaStates[id] = data[id].Active;
+            var ts = Math.floor((new Date(data[id][1])).getTime() / 1000);
+            adapter.setState(adapter.namespace + '.' + id + '.Active', {val: regaStates[id], ack: true});
+        }
+    });
+}
+
 
 function getPrograms(callback) {
     adapter.objects.getObjectView('hm-rega', 'programs', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
@@ -157,10 +176,6 @@ function getPrograms(callback) {
                 count += 1;
                 adapter.setObject(id, {
                     type: 'channel',
-                    children: [
-                            'io.' + adapter.namespace + '.' + id + '.ProgramExecute',
-                            'io.' + adapter.namespace + '.' + id + '.Active'
-                    ],
                     common: {
                         name: unescape(data[id].Name),
                         enabled: true
@@ -172,9 +187,8 @@ function getPrograms(callback) {
                     }
                 });
 
-                adapter.extendObject('io.' + id + '.ProgramExecute', {
+                adapter.extendObject(id + '.ProgramExecute', {
                     type:   'state',
-                    parent: adapter.namespace + '.' + id,
                     common: {
                         name:  unescape(data[id].Name)  + ' execute',
                         type:  'boolean',
@@ -186,9 +200,8 @@ function getPrograms(callback) {
 
                     }
                 });
-                adapter.extendObject('io.' + id + '.Active', {
+                adapter.extendObject(id + '.Active', {
                     type:  'state',
-                    parent: adapter.namespace + '.' + id,
                     common: {
                         name: unescape(data[id].Name) + ' enabled',
                         type: 'boolean',
@@ -201,16 +214,13 @@ function getPrograms(callback) {
                     }
                 });
 
-                regaStates[id] = unescape(data[id].Value);
+                regaStates[id] = data[id].Active;
                 var ts = Math.floor((new Date(data[id].Timestamp)).getTime() / 1000);
 
-                adapter.setState('io.' + id + '.ProgramExecute', {val: false, ack: true, lc: ts});
-                adapter.setState('io.' + id + '.Active', {val: data[id].Active, ack: true});
+                adapter.setState(id + '.ProgramExecute', {val: false,           ack: true, lc: ts});
+                adapter.setState(id + '.Active',         {val: data[id].Active, ack: true});
 
-                if (response.indexOf(id) !== -1) {
-                    response.splice(response.indexOf(id), 1);
-                }
-
+                if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
             }
 
             adapter.log.info('added/updated ' + count + ' programs');
@@ -229,8 +239,6 @@ function getFunctions(callback) {
     rega.runScriptFile('functions', function (data) {
         // Todo Handle Errors
         data = JSON.parse(data);
-
-        var functions = [];
 
         for (var regaId in data) {
             var members = [];
@@ -258,17 +266,15 @@ function getFunctions(callback) {
                         continue;
 
                 }
-                id = id + memberObjs[i].Address;
+                id = id + memberObjs[i].Address.replace(':', '.');
                 members.push(id);
             }
 
             var name = unescape(data[regaId].Name);
             var desc = unescape(data[regaId].EnumInfo);
-            functions.push(adapter.config.enumFunctions + '.' + name);
             adapter.setForeignObject(adapter.config.enumFunctions + '.' + name, {
                 desc: desc,
                 type: 'enum',
-                parent: adapter.config.enumFunctions,
                 common: {
                     name: name,
                     members: members
@@ -282,11 +288,10 @@ function getFunctions(callback) {
 
         }
 
-        adapter.log.info('added/updated ' + functions.length + ' functions to ' + adapter.config.enumFunctions);
+        adapter.log.info('added/updated functions to ' + adapter.config.enumFunctions);
 
         adapter.setForeignObject(adapter.config.enumFunctions, {
             type: 'enum',
-            children: functions,
             common: {
                 name: 'Functions',
                 members: []
@@ -304,8 +309,6 @@ function getRooms(callback) {
     rega.runScriptFile('rooms', function (data) {
         // Todo Handle Errors
         data = JSON.parse(data);
-
-        var rooms = [];
 
         for (var regaId in data) {
             var members = [];
@@ -334,16 +337,14 @@ function getRooms(callback) {
                         continue;
 
                 }
-                id = id + memberObjs[i].Address;
+                id = id + memberObjs[i].Address.replace(':', '.');
                 members.push(id);
             }
 
             var name = unescape(data[regaId].Name);
             var desc = unescape(data[regaId].EnumInfo);
-            rooms.push(adapter.config.enumRooms + '.' + name);
             adapter.setForeignObject(adapter.config.enumRooms + '.' + name, {
                 type: 'enum',
-                parent: adapter.config.enumRooms,
                 common: {
                     name: name,
                     desc: desc,
@@ -358,11 +359,10 @@ function getRooms(callback) {
 
         }
 
-        adapter.log.info('added/updated ' + rooms.length + ' rooms to ' + adapter.config.enumRooms);
+        adapter.log.info('added/updated rooms to ' + adapter.config.enumRooms);
 
         adapter.extendForeignObject(adapter.config.enumRooms, {
             type: 'enum',
-            children: rooms,
             common: {
                 name: 'Rooms',
                 members: []
@@ -385,7 +385,6 @@ function getFavorites(callback) {
 
         adapter.setForeignObject(adapter.config.enumFavorites, {
             type: 'enum',
-            children: [],
             common: {
                 name: 'Favorites'
             },
@@ -398,8 +397,6 @@ function getFavorites(callback) {
 
             adapter.setForeignObject(adapter.config.enumFavorites + '.' + user, {
                 type: 'enum',
-                parent: adapter.config.enumFavorites,
-                children: [],
                 common: {
                     name: user + ' Favorites'
                 },
@@ -432,15 +429,13 @@ function getFavorites(callback) {
                                 continue;
 
                         }
-                        id = id + channels[i].Address;
+                        id = id + channels[i].Address.replace(':', '.');
                         members.push(id);
-
                     }
                 }
                 c += 1;
                 adapter.setForeignObject(adapter.config.enumFavorites + '.' + user + '.' + fav, {
                     type: 'enum',
-                    parent: adapter.config.enumFavorites + '.' + user,
                     common: {
                         name: fav,
                         members: members
@@ -488,8 +483,8 @@ function getDatapoints(callback) {
                 default:
                     continue;
             }
-            id += tmp[1] + '.' + tmp[2];
-            adapter.setForeignState('io.' + id, {val: data[dp], ack: true});
+            id += tmp[1].replace(':', '.') + '.' + tmp[2];
+            adapter.setForeignState(id, {val: data[dp], ack: true});
         }
         adapter.log.info('got state values');
         if (typeof callback === 'function') callback();
@@ -520,10 +515,8 @@ function getDevices(callback) {
                     continue;
             }
 
-            id += addr;
+            id += addr.replace(':', '.');
             objs.push({_id: id, common: {name: unescape(data[addr].Name)}});
-
-
         }
 
         function queue() {
@@ -551,7 +544,7 @@ function getVariables(callback) {
         20: 'string'
     };
 
-    adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'io.hm-rega.' + adapter.instance + '.', endkey: 'io.hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
+    adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
         var response = [];
 
         if (!err && doc) {
@@ -576,7 +569,7 @@ function getVariables(callback) {
                 var role = 'state';
 
                 var obj = {
-                    _id:  'io.' + adapter.namespace + '.' + id,
+                    _id:  adapter.namespace + '.' + id,
                     type: 'state',
                     common: {
                         name:           unescape(data[id].Name),
@@ -621,19 +614,19 @@ function getVariables(callback) {
 
                 if (id == 40) {
                     obj.role = 'indicator.alarms';
-                    obj._id = 'io.' + adapter.namespace + '.alarms';
+                    obj._id = adapter.namespace + '.alarms';
                     id = 'alarms';
-                    adapter.extendObject('io.' + adapter.namespace + '.alarms', obj);
-                    adapter.setState('io.' + adapter.namespace + '.alarms', {val: val, ack: true, lc: ts});
+                    adapter.extendObject(adapter.namespace + '.alarms', obj);
+                    adapter.setState(adapter.namespace + '.alarms', {val: val, ack: true, lc: ts});
                 } else if (id == 41) {
                     obj.role = 'indicator.maintenance';
-                    obj._id = 'io.' + adapter.namespace + '.maintenance'
+                    obj._id = adapter.namespace + '.maintenance';
                     id = 'maintenance';
-                    adapter.extendObject('io.' + adapter.namespace + '.maintenance', obj);
-                    adapter.setState('io.' + adapter.namespace + '.maintenance', {val: val, ack: true, lc: ts});
+                    adapter.extendObject(adapter.namespace + '.maintenance', obj);
+                    adapter.setState(adapter.namespace + '.maintenance', {val: val, ack: true, lc: ts});
                 } else {
-                    adapter.extendObject('io.' + adapter.namespace + '.' + id, obj);
-                    adapter.setState('io.' + adapter.namespace + '.' + id, {val: val, ack: true, lc: ts});
+                    adapter.extendObject(adapter.namespace + '.' + id, obj);
+                    adapter.setState(adapter.namespace + '.' + id, {val: val, ack: true, lc: ts});
                 }
 
                 if (response.indexOf(id) !== -1) {
@@ -652,6 +645,7 @@ function getVariables(callback) {
             if (adapter.config.polling && adapter.config.pollingInterval > 0) {
                 pollingInterval = setInterval(function () {
                     pollVariables();
+                    pollProgramms();
                 }, adapter.config.pollingInterval * 1000);
             }
 
