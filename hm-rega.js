@@ -152,7 +152,6 @@ function pollProgramms() {
     });
 }
 
-
 function getPrograms(callback) {
     adapter.objects.getObjectView('hm-rega', 'programs', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
 
@@ -491,8 +490,8 @@ function getDatapoints(callback) {
     });
 }
 
-function getDevices(callback) {
-
+function _getDevicesFromRega(devices, channels, states, callback) {
+    // Get all devices channels and states
     rega.runScriptFile('devices', function (data) {
         data = JSON.parse(data);
         var objs = [];
@@ -516,7 +515,28 @@ function getDevices(callback) {
             }
 
             id += addr.replace(':', '.');
-            objs.push({_id: id, common: {name: unescape(data[addr].Name)}});
+            var name = unescape(data[addr].Name);
+            if (addr.indexOf(':') == -1) {
+                // device
+                if (devices[id] === undefined || devices[id] != name) {
+                    objs.push({_id: id, common: {name: name}});
+                }
+            } else {
+                // channel
+                if (channels[id] === undefined || channels[id] != name) {
+                    objs.push({_id: id, common: {name: name}});
+                } else if (!channels[id]) {
+                    var dev = id.split('.');
+                    var last = dev.pop();
+                    dev = dev.join('.');
+                    if (devices[dev]) objs.push({_id: id, common: {name: devices[dev] + '.' + last}});
+                }
+                if (states[id]) {
+                    for (var s in states[id]) {
+                        if (!states[id][s]) objs.push({_id: id + '.' + s, common: {name: name + '.' + s}});
+                    }
+                }
+            }
         }
 
         function queue() {
@@ -534,6 +554,110 @@ function getDevices(callback) {
         queue();
     });
 
+}
+
+function getDevices(callback) {
+    var count = 0;
+    var channels = {};
+    var devices  = {};
+    var states   = {};
+
+    if (adapter.config.rfdEnabled) {
+        count++;
+        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
+            if (doc) {
+                for (var i = 0; i < doc.rows.length; i++) {
+                    devices[doc.rows[i].id] = doc.rows[i].value.common.name;
+                }
+            }
+            adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
+                if (doc) {
+                    for (var i = 0; i < doc.rows.length; i++) {
+                        channels[doc.rows[i].id] = doc.rows[i].value.common.name;
+                    }
+                }
+                adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
+                    if (doc) {
+                        for (var i = 0; i < doc.rows.length; i++) {
+                            var parts = doc.rows[i].id.split('.');
+                            var last = parts.pop();
+                            var id = parts.join('.');
+                            states[id] = states[id] || [];
+                            states[id][last] = doc.rows[i].value.common.name;
+                        }
+                    }
+                    count--;
+                    if (!count) _getDevicesFromRega(devices, channels, states, callback);
+                });
+            });
+        });
+    }
+    if (adapter.config.hs485dEnabled) {
+        count++;
+        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
+            if (doc) {
+                for (var i = 0; i < doc.rows.length; i++) {
+                    devices[doc.rows[i].id] = doc.rows[i].value.common.name;
+                }
+            }
+            adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
+                if (doc) {
+                    for (var i = 0; i < doc.rows.length; i++) {
+                        channels[doc.rows[i].id] = doc.rows[i].value.common.name;
+                    }
+                }
+                adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
+                    if (doc) {
+                        for (var i = 0; i < doc.rows.length; i++) {
+                            for (var i = 0; i < doc.rows.length; i++) {
+                                var parts = doc.rows[i].id.split('.');
+                                var last = parts.pop();
+                                var id = parts.join('.');
+                                states[id] = states[id] || [];
+                                states[id][last] = doc.rows[i].value.common.name;
+                            }
+                        }
+                    }
+                    count--;
+                    if (!count) _getDevicesFromRega(devices, channels, states, callback);
+                });
+            });
+        });
+    }
+    if (adapter.config.cuxdEnabled) {
+        count++;
+        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
+            if (doc) {
+                for (var i = 0; i < doc.rows.length; i++) {
+                    devices[doc.rows[i].id] = doc.rows[i].value.common.name;
+                }
+            }
+            adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
+                if (doc) {
+                    for (var i = 0; i < doc.rows.length; i++) {
+                        channels[doc.rows[i].id] = doc.rows[i].value.common.name;
+                    }
+                }
+                adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
+                    if (doc) {
+                        for (var i = 0; i < doc.rows.length; i++) {
+                            for (var i = 0; i < doc.rows.length; i++) {
+                                var parts = doc.rows[i].id.split('.');
+                                var last = parts.pop();
+                                var id = parts.join('.');
+                                states[id] = states[id] || [];
+                                states[id][last] = doc.rows[i].value.common.name;
+                            }
+                        }
+                    }
+                    count--;
+                    if (!count) _getDevicesFromRega(devices, channels, states, callback);
+                });
+            });
+        });
+    }
+
+    if (!count) _getDevicesFromRega(channels, callback);
 }
 
 function getVariables(callback) {
