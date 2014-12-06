@@ -8,6 +8,14 @@ var adapter = require(__dirname + '/../../lib/adapter.js')({
     },
 
     stateChange: function (id, state) {
+        // Read devices anew if hm-rpc updated the list of devices
+        if (id == adapter.config.rfdAdapter    + '.ready' ||
+            id == adapter.config.cuxdEnabled   + '.ready' ||
+            id == adapter.config.hs485dEnabled + '.ready') {
+            if (state.val) setTimeout(getDevices, 1000);
+            return;
+        }
+
         adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
         if (id === pollingTrigger) {
             adapter.log.info('pollingTrigger');
@@ -29,7 +37,8 @@ var adapter = require(__dirname + '/../../lib/adapter.js')({
                 if (rid[2] == 'maintenance') rid[2] = 41;
 
                 if (regaStates[rid[2]] === undefined) {
-                    console.log(rid[2]);
+                    adapter.log.info('Got unexpected ID: ' + id);
+                    return;
                 }
 
                 if (regaStates[rid[2]] !== state.val || !state.ack) {
@@ -49,7 +58,6 @@ var adapter = require(__dirname + '/../../lib/adapter.js')({
 });
 
 var rega;
-var regaPending = 0;
 var ccuReachable;
 var ccuRegaUp;
 var regaStates = {};
@@ -83,6 +91,10 @@ function main() {
     adapter.subscribeStates('*');
 
     adapter.subscribeObjects('*');
+
+    if (adapter.config.rfdAdapter    && adapter.config.rfdEnabled)    adapter.subscribeForeignStates(adapter.config.rfdAdapter + '.ready');
+    if (adapter.config.cuxdAdapter   && adapter.config.cuxdEnabled)   adapter.subscribeForeignStates(adapter.config.cuxdAdapter + '.ready');
+    if (adapter.config.hs485dAdapter && adapter.config.hs485dEnabled) adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.ready');
 
     var Rega = require(__dirname + '/lib/rega.js');
 

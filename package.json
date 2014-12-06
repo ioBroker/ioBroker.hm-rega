@@ -1,5 +1,5 @@
 {
-  "name": "ioBroker.hm-rega",
+  "name": "iobroker.hm-rega",
   "private": true,
   "dependencies": {
     "xml2js": "~0.4.4",
