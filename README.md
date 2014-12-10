@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.1.12 (2014-12-10)
+* (bluefox) update devices if hm-rpc updates the device list
+
 ### 0.1.11 (2014-12-06)
 * (bluefox) update devices if hm-rpc updates the device list
 
