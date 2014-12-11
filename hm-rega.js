@@ -146,7 +146,12 @@ function queue() {
 
 function pollVariables() {
     rega.runScriptFile('polling', function (data) {
-        data = JSON.parse(data);
+        try {
+            data = JSON.parse(data);
+        } catch(e) {
+            adapter.log.error('Cannot parse answer for polling: ' + data);
+            return;
+        }
         for (var id in data) {
             var val = data[id][0];
             if (typeof val === 'string') val = unescape(val);
@@ -161,7 +166,12 @@ function pollVariables() {
 
 function pollProgramms() {
     rega.runScriptFile('programs', function (data) {
-        data = JSON.parse(data);
+        try {
+            data = JSON.parse(data);
+        } catch(e) {
+            adapter.log.error('Cannot parse answer for programs: ' + data);
+            return;
+        }
         for (var id in data) {
             regaStates[id] = data[id].Active;
             var ts = Math.floor((new Date(data[id][1])).getTime() / 1000);
@@ -187,7 +197,12 @@ function getPrograms(callback) {
         }
 
         rega.runScriptFile('programs', function (data) {
-            data = JSON.parse(data);
+            try {
+                data = JSON.parse(data);
+            } catch(e) {
+                adapter.log.error('Cannot parse answer for programs: ' + data);
+                return;
+            }
             var count = 0;
             for (var id in data) {
                 count += 1;
@@ -254,9 +269,12 @@ function getPrograms(callback) {
 
 function getFunctions(callback) {
     rega.runScriptFile('functions', function (data) {
-        // Todo Handle Errors
-        data = JSON.parse(data);
-
+        try {
+            data = JSON.parse(data);
+        } catch(e) {
+            adapter.log.error('Cannot parse answer for functions: ' + data);
+            return;
+        }
         for (var regaId in data) {
             var members = [];
 
@@ -324,9 +342,12 @@ function getFunctions(callback) {
 
 function getRooms(callback) {
     rega.runScriptFile('rooms', function (data) {
-        // Todo Handle Errors
-        data = JSON.parse(data);
-
+        try {
+            data = JSON.parse(data);
+        } catch(e) {
+            adapter.log.error('Cannot parse answer for rooms: ' + data);
+            return;
+        }
         for (var regaId in data) {
             var members = [];
 
@@ -395,9 +416,12 @@ function getRooms(callback) {
 
 function getFavorites(callback) {
     rega.runScriptFile('favorites', function (data) {
-        // Todo Handle Errors
-        data = JSON.parse(data);
-
+        try {
+            data = JSON.parse(data);
+        } catch(e) {
+            adapter.log.error('Cannot parse answer for favorites: ' + data);
+            return;
+        }
         var favorites = {};
 
         adapter.setForeignObject(adapter.config.enumFavorites, {
@@ -476,7 +500,12 @@ function getFavorites(callback) {
 function getDatapoints(callback) {
     adapter.log.info('request state values');
     rega.runScriptFile('datapoints', function (data) {
-        data = JSON.parse(data);
+        try {
+            data = JSON.parse(data);
+        } catch(e) {
+            adapter.log.error('Cannot parse answer for datapoints: ' + data);
+            return;
+        }
         for (var dp in data) {
             var tmp = dp.split('.');
             if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') continue;
@@ -511,7 +540,12 @@ function getDatapoints(callback) {
 function _getDevicesFromRega(devices, channels, states, callback) {
     // Get all devices channels and states
     rega.runScriptFile('devices', function (data) {
-        data = JSON.parse(data);
+        try {
+            data = JSON.parse(data);
+        } catch(e) {
+            adapter.log.error('Cannot parse answer for devices: ' + data);
+            return;
+        }
         var objs = [];
         for (var addr in data) {
             var id;
@@ -705,7 +739,12 @@ function getVariables(callback) {
         }
 
         rega.runScriptFile('variables', function (data) {
-            data = JSON.parse(data);
+            try {
+                data = JSON.parse(data);
+            } catch(e) {
+                adapter.log.error('Cannot parse answer for variables: ' + data);
+                return;
+            }
             var count = 0;
             var i;
 
