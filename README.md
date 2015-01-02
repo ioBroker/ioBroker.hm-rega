@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.1.14 (2015-01-03)
+* (bluefox) enable npm install
+
 ### 0.1.13 (2014-12-11)
 * (bluefox) process errors
 
