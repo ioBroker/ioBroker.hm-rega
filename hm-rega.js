@@ -12,6 +12,8 @@ var adapter = utils.adapter({
     },
 
     stateChange: function (id, state) {
+        if (!state) return;
+
         // Read devices anew if hm-rpc updated the list of devices
         if (id == adapter.config.rfdAdapter    + '.updated' ||
             id == adapter.config.cuxdEnabled   + '.updated' ||
