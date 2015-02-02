@@ -108,9 +108,9 @@
             instances = arr;
             fillIpAddress('homematicAddress', arr, settings['homematicAddress']);
 
-            fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],   'rfd');
-            fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter', 'hs485d']);
-            fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],  'CUxD');
+            fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],    'rfd');
+            fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
+            fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],   'CUxD');
             enableFields();
 
             $('#homematicAddress').change(function () {

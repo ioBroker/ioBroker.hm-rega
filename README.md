@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.1.17 (2015-02-02)
+* (bluefox) fix setting for wired components
+
 ### 0.1.16 (2015-01-04)
 * (bluefox) catch errors if states deleted
 
