@@ -75,9 +75,33 @@ var ccuRegaUp;
 var regaStates = {};
 var pollingInterval;
 var pollingTrigger;
+var checkInterval = {};
 
 var functionQueue = [];
 
+function checkInit(id) {
+    adapter.getForeignObject('system.adapter.' + id, function (err, obj) {
+        if (obj && obj.native.checkInit && obj.native.checkInitTrigger) {
+            var interval = parseInt(obj.native.checkInitInterval, 10);
+
+            // Fix error in config
+            if (obj.native.checkInitTrigger == 'BidCos-RF:50.PRESS_LONG') {
+                obj.native.checkInitTrigger = 'BidCos-RF.BidCoS-RF:50.PRESS_LONG';
+            }
+
+            var _id = obj.native.checkInitTrigger;
+            if (!checkInterval[id]) {
+                checkInterval[id] = setInterval(function () {
+                    if (rega) {
+                        //BidCos-RF.BidCoS-RF:50.PRESS_LONG
+                        adapter.log.debug('Set check init state ' + _id + ' to true');
+                        rega.script('dom.GetObject("' + _id + '").State(1);');
+                    }
+                }, interval * 500);
+            }
+        }
+    });
+}
 
 function main() {
 
@@ -104,9 +128,18 @@ function main() {
 
     adapter.subscribeObjects('*');
 
-    if (adapter.config.rfdAdapter    && adapter.config.rfdEnabled)    adapter.subscribeForeignStates(adapter.config.rfdAdapter    + '.updated');
-    if (adapter.config.cuxdAdapter   && adapter.config.cuxdEnabled)   adapter.subscribeForeignStates(adapter.config.cuxdAdapter   + '.updated');
-    if (adapter.config.hs485dAdapter && adapter.config.hs485dEnabled) adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.updated');
+    if (adapter.config.rfdAdapter    && adapter.config.rfdEnabled) {
+        adapter.subscribeForeignStates(adapter.config.rfdAdapter    + '.updated');
+        checkInit(adapter.config.rfdAdapter);
+    }
+    if (adapter.config.cuxdAdapter   && adapter.config.cuxdEnabled) {
+        adapter.subscribeForeignStates(adapter.config.cuxdAdapter   + '.updated');
+        checkInit(adapter.config.rfdAdapter);
+    }
+    if (adapter.config.hs485dAdapter && adapter.config.hs485dEnabled)  {
+        adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.updated');
+        checkInit(adapter.config.rfdAdapter);
+    }
 
     var Rega = require(__dirname + '/lib/rega.js');
 
@@ -509,6 +542,7 @@ function getDatapoints(callback) {
         try {
             data = JSON.parse(data);
         } catch(e) {
+            require('fs').writeFile(__dirname + '/hm-rega-log.log', data);
             adapter.log.error('Cannot parse answer for datapoints: ' + data);
             return;
         }
@@ -851,8 +885,11 @@ function getVariables(callback) {
 var stopCount = 0;
 function stop(callback) {
     if (!stopCount) clearInterval(pollingInterval);
+    for (var id in checkInterval) {
+        clearInterval(checkInterval[id]);
+    }
 
-    if (rega.pendingRequests > 0 && stopCount < 5) {
+    if (rega && rega.pendingRequests > 0 && stopCount < 5) {
         if (!stopCount) adapter.log.info('waiting for pending request');
         setTimeout(function () {
             stop(callback);

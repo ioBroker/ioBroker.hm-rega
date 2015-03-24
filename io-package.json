@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version":                  "0.1.17",
+        "version":                  "0.2.0",
         "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
@@ -22,7 +22,8 @@
         "icon":                     "homematic.png",
         "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
         "keywords":                 ["homematic", "eq3", "regahss", "ccu1", "ccu2"],
-        "localLink":                "http://192.168.0.100"
+        "localLink":                "http://192.168.0.100",
+        "type":                     "hardware"
     },
     "native": {
         "homematicAddress":         "192.168.0.100",
