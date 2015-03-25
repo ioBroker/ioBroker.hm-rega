@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.2.1 (2015-03-25)
+* (bluefox) fix "\n" in values
+
 ### 0.2.0 (2015-03-24)
 * (bluefox) implement check init function
 

@@ -186,7 +186,7 @@ function queue() {
 function pollVariables() {
     rega.runScriptFile('polling', function (data) {
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(data.replace(/\n/gm, ''));
         } catch(e) {
             adapter.log.error('Cannot parse answer for polling: ' + data);
             return;
@@ -540,7 +540,7 @@ function getDatapoints(callback) {
     adapter.log.info('request state values');
     rega.runScriptFile('datapoints', function (data) {
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(data.replace(/\n/gm, ''));
         } catch(e) {
             require('fs').writeFile(__dirname + '/hm-rega-log.log', data);
             adapter.log.error('Cannot parse answer for datapoints: ' + data);
@@ -780,7 +780,7 @@ function getVariables(callback) {
 
         rega.runScriptFile('variables', function (data) {
             try {
-                data = JSON.parse(data);
+                data = JSON.parse(data.replace(/\n/gm, ''));
             } catch(e) {
                 adapter.log.error('Cannot parse answer for variables: ' + data);
                 return;
