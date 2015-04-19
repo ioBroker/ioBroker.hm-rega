@@ -21,7 +21,35 @@
 
 <script type="text/javascript">
     systemDictionary = {
-        "HomeMatic Address": {"en": "HomeMatic CCU Address", "de": "HomeMatic CCU Adresse", "ru": "Адрес HomeMatic CCU"}
+        "HomeMatic Address": 	{"en": "HomeMatic CCU Address", "de": "HomeMatic CCU Adresse", "ru": "Адрес HomeMatic CCU"},
+		"Sync functions": 		{"en": "functions", 		    "de": "Gewerke",                "ru": "групп устройств"},
+		"enabled": 				{"en": "enabled", 				"de": "aktiviert",              "ru": "активно"},
+		"enum": 				{"en": "store in enum", 		"de": "speichere in der Aufzählung", "ru": "сохраниить в категории"},
+        "Homematic Rega-Logic adapter settings": {
+            "en": "Homematic Rega-Logic adapter settings",
+            "de": "Homematic Rega-Logic Adaptereinstellungen",
+            "ru": "Настройки драйвера Homematic Rega-Logic"
+        },
+        "Setup first according rpc adapter!": {
+            "en": "Setup first according rpc adapter!",
+            "de": "Installiere erst die passende hm-rpc Instanzen!",
+            "ru": "Перед конфигурацией кстановите сначала соответствующие hm-rpc драйвера!"
+        },
+        "HomeMatic CCU Address": {"en": "HomeMatic CCU Address", "de": "HomeMatic CCU Adresse", "ru": "Адрес HomeMatic CCU"},
+        "rfd":                  {"en": "rfd",                   "de": "rfd",            "ru": "rfd"},
+        "hm-rpc instance":      {"en": "hm-rpc instance",       "de": "hm-rpc Instanz", "ru": "Инстанция hm-rpc"},
+        "hs485d (Wired)":       {"en": "hs485d (Wired)",        "de": "hs485d (Wired)", "ru": "hs485d (Wired)"},
+        "CUxD":                 {"en": "CUxD",                  "de": "CUxD",           "ru": "CUxD"},
+        "Polling":              {"en": "Polling",               "de": "Polling",        "ru": "Опрос"},
+        "interval (s)":         {"en": "interval (s)",          "de": "Intervalle (s)", "ru": "Интервал (с)"},
+        "trigger":              {"en": "trigger",               "de": "Trigger",        "ru": "Триггер"},
+        "Sync":                 {"en": "Synchronize",           "de": "Synchroniziere", "ru": "Синхронизация"},
+        "Sync variables":       {"en": "variables",             "de": "Variablen",      "ru": "переменных"},
+        "Sync programs":        {"en": "programs",              "de": "Programme",      "ru": "программ"},
+        "Sync names":           {"en": "names",                 "de": "Namen",          "ru": "имён"},
+        "Sync favorites":       {"en": "favorites",             "de": "Favorites",      "ru": "фаворитов"},
+        "Sync rooms":           {"en": "rooms",                 "de": "Räume",          "ru": "комнат"},
+        "Main settings":        {"en": "Main settings",         "de": "Haupteinstellungen", "ru": "Основные настройки"}
     };
     var instances = null;
 
@@ -63,21 +91,18 @@
         $('#enumFunctions').prop('disabled', !$('#syncFunctions').prop('checked'));
     }
 
-    function setValue(id, value) {
+    function setValue(id, value, onChange) {
         // example: select elements with id=key and class=value and insert value
         if ($('#' + id + '.value').attr('type') == 'checkbox') {
             $('#' + id + '.value').prop('checked', value).change(function() {
-                changed = true;
-                $('#save').button("enable");
+                onChange();
                 enableFields();
             });
         } else {
             $('#' + id + '.value').val(value).change(function() {
-                changed = true;
-                $('#save').button("enable");
+                onChange();
             }).keyup(function() {
-                changed = true;
-                $('#save').button("enable");
+                onChange();
                 // Chack that only numbers entered
                 if ($(this).hasClass('number')) {
                     var val = $(this).val();
@@ -95,14 +120,13 @@
             });
         }
     }
-    // TODO get the IP addresses
-    function load(settings) {
+
+    function load(settings, onChange) {
         for (var key in settings) {
-            setValue(key, settings[key]);
+            setValue(key, settings[key], onChange);
         }
 
-        changed = false;
-        $('#save').button("disable");
+        onChange(false);
 
         getAdapterInstances('hm-rpc', function (arr) {
             instances = arr;
@@ -186,8 +210,6 @@
             }
         }
 
-        changed = false;
-        $('#save').button("disable");
         var link = obj.homematicAddress ? 'http://' + obj.homematicAddress : '';
 
         callback(obj, {localLink: link});
@@ -196,10 +218,11 @@
 
 <div id="adapter-container">
     <table><tr><td><img src="homematic.png" width="64" height="64"></td><td><h3 class="translate">Homematic Rega-Logic adapter settings</h3>
-        <p class="translate" style="font-size: 10">&nbsp;&nbsp;Setup first according rpc adapter!</p>
+        <p class="translate" style="font-size: 10px; padding-left: 15px">Setup first according rpc adapter!</p>
     </td></tr></table>
 
     <table id="config">
+        <tr style="height: 10px; padding-top: 10px" class="ui-widget-header"><td colspan="5" class="translate" style="padding-left: 20px">Main settings</td></tr>
         <tr>
             <td colspan="4" class="translate">HomeMatic CCU Address</td>
             <td colspan="1"><select id="homematicAddress" class="value"></select></td>
@@ -226,21 +249,22 @@
             <td class="translate">hm-rpc instance</td>
             <td><select id="cuxdAdapter" class="value"></select></td>
         </tr>
-
+        <tr style="height: 10px; padding-top:10px"><td></td></tr>
         <tr>
             <td class="translate">Polling</td>
             <td class="translate">enabled</td>
             <td><input type="checkbox" id="polling" value="true" class="value"></td>
             <td class="translate">interval (s)</td>
-            <td><input type="text" size="50" id="pollingInterval" class="value number"></td>
+            <td><input type="text" size="30" id="pollingInterval" class="value number"></td>
         </tr>
         <tr>
-            <td class="translate">Polling</td>
-            <td colspan="3" class="translate">trigger</td>
-            <td><input type="text" size="50" id="pollingTrigger" class="value"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="translate">trigger</td>
+            <td><input type="text" size="30" id="pollingTrigger" class="value"></td>
         </tr>
-
-
+        <tr style="height: 10px; padding-top: 10px" class="ui-widget-header"><td colspan="5" class="translate" style="padding-left: 20px">Sync</td></tr>
         <tr>
             <td class="translate">Sync variables</td>
             <td class="translate">enabled</td>
@@ -262,21 +286,21 @@
             <td class="translate">enabled</td>
             <td><input type="checkbox" id="syncFavorites" value="true" class="value"></td>
             <td class="translate">enum</td>
-            <td><input type="text" size="50" id="enumFavorites" class="value"></td>
+            <td><input type="text" size="30" id="enumFavorites" class="value"></td>
         </tr>
         <tr>
             <td class="translate">Sync rooms</td>
             <td class="translate">enabled</td>
             <td><input type="checkbox" id="syncRooms" value="true" class="value"></td>
             <td class="translate">enum</td>
-            <td><input type="text" size="50" id="enumRooms" class="value"></td>
+            <td><input type="text" size="30" id="enumRooms" class="value"></td>
         </tr>
         <tr>
             <td class="translate">Sync functions</td>
             <td class="translate">enabled</td>
             <td><input type="checkbox" id="syncFunctions" value="true" class="value"></td>
             <td class="translate">enum</td>
-            <td><input type="text" size="50" id="enumFunctions" class="value"></td>
+            <td><input type="text" size="30" id="enumFunctions" class="value"></td>
         </tr>
 
 
