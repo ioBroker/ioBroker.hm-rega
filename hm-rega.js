@@ -72,12 +72,218 @@ var adapter = utils.adapter({
 var rega;
 var ccuReachable;
 var ccuRegaUp;
-var regaStates = {};
+var regaStates      = {};
 var pollingInterval;
 var pollingTrigger;
-var checkInterval = {};
+var checkInterval   = {};
+var functionQueue   = [];
+var units           = {};
+var chars = [
+    {regex: /%C4/g,     replace: 'Ä'},
+    {regex: /%D6/g,     replace: 'Ö'},
+    {regex: /%DC/g,     replace: 'Ü'},
+    {regex: /%E4/g,     replace: 'ä'},
+    {regex: /%F6/g,     replace: 'ö'},
+    {regex: /%FC/g,     replace: 'ü'},
+    {regex: /%DF/g,     replace: 'ß'},
+    {regex: /%u20AC/g,  replace: 'Ђ'},
+    {regex: /%24/g,     replace: '$'},
+    {regex: /%25/g,     replace: '%'},
+    {regex: /%3A/g,     replace: ':'}
 
-var functionQueue = [];
+    /*{regex: /%08/g, replace: ''},
+    {regex: /%09/g, replace: '\t'},
+    {regex: /%0A/g, replace: '\n'},
+    {regex: /%0D/g, replace: '\r'},
+    {regex: /%20/g, replace: ' '},
+    {regex: /%21/g, replace: '!'},
+    {regex: /%22/g, replace: '"'},
+    {regex: /%23/g, replace: '#'},
+    {regex: /%24/g, replace: '$'},
+    {regex: /%25/g, replace: '%'},
+    {regex: /%26/g, replace: '&'},
+    {regex: /%27/g, replace: '\''},
+    {regex: /%28/g, replace: '('},
+    {regex: /%29/g, replace: ')'},
+    {regex: /%2A/g, replace: '*'},
+    {regex: /%2B/g, replace: '+'},
+    {regex: /%2C/g, replace: ','},
+    {regex: /%2D/g, replace: '-'},
+    {regex: /%2E/g, replace: '.'},
+    {regex: /%2F/g, replace: '/'},
+    {regex: /%30/g, replace: '0'},
+    {regex: /%31/g, replace: '1'},
+    {regex: /%32/g, replace: '2'},
+    {regex: /%33/g, replace: '3'},
+    {regex: /%34/g, replace: '4'},
+    {regex: /%35/g, replace: '5'},
+    {regex: /%36/g, replace: '6'},
+    {regex: /%37/g, replace: '7'},
+    {regex: /%38/g, replace: '8'},
+    {regex: /%39/g, replace: '9'},
+    {regex: /%3A/g, replace: ':'},
+    {regex: /%3B/g, replace: ';'},
+    {regex: /%3C/g, replace: '<'},
+    {regex: /%3D/g, replace: '='},
+    {regex: /%3E/g, replace: '>'},
+    {regex: /%3F/g, replace: '?'},
+    {regex: /%40/g, replace: '@'},
+    {regex: /%41/g, replace: 'A'},
+    {regex: /%42/g, replace: 'B'},
+    {regex: /%43/g, replace: 'C'},
+    {regex: /%44/g, replace: 'D'},
+    {regex: /%45/g, replace: 'E'},
+    {regex: /%46/g, replace: 'F'},
+    {regex: /%47/g, replace: 'G'},
+    {regex: /%48/g, replace: 'H'},
+    {regex: /%49/g, replace: 'I'},
+    {regex: /%4A/g, replace: 'J'},
+    {regex: /%4B/g, replace: 'K'},
+    {regex: /%4C/g, replace: 'L'},
+    {regex: /%4D/g, replace: 'M'},
+    {regex: /%4E/g, replace: 'N'},
+    {regex: /%4F/g, replace: 'O'},
+    {regex: /%50/g, replace: 'P'},
+    {regex: /%51/g, replace: 'Q'},
+    {regex: /%52/g, replace: 'R'},
+    {regex: /%53/g, replace: 'S'},
+    {regex: /%54/g, replace: 'T'},
+    {regex: /%55/g, replace: 'U'},
+    {regex: /%56/g, replace: 'V'},
+    {regex: /%57/g, replace: 'W'},
+    {regex: /%58/g, replace: 'X'},
+    {regex: /%59/g, replace: 'Y'},
+    {regex: /%5A/g, replace: 'Z'},
+    {regex: /%5B/g, replace: '['},
+    {regex: /%5C/g, replace: '\'},
+    {regex: /%5D/g, replace: ']'},
+    {regex: /%5E/g, replace: '^'},
+    {regex: /%5F/g, replace: '_'},
+    {regex: /%60/g, replace: '`'},
+    {regex: /%61/g, replace: 'a'},
+    {regex: /%62/g, replace: 'b'},
+    {regex: /%63/g, replace: 'c'},
+    {regex: /%64/g, replace: 'd'},
+    {regex: /%65/g, replace: 'e'},
+    {regex: /%66/g, replace: 'f'},
+    {regex: /%67/g, replace: 'g'},
+    {regex: /%68/g, replace: 'h'},
+    {regex: /%69/g, replace: 'i'},
+    {regex: /%6A/g, replace: 'j'},
+    {regex: /%6B/g, replace: 'k'},
+    {regex: /%6C/g, replace: 'l'},
+    {regex: /%6D/g, replace: 'm'},
+    {regex: /%6E/g, replace: 'n'},
+    {regex: /%6F/g, replace: 'o'},
+    {regex: /%70/g, replace: 'p'},
+    {regex: /%71/g, replace: 'q'},
+    {regex: /%72/g, replace: 'r'},
+    {regex: /%73/g, replace: 's'},
+    {regex: /%74/g, replace: 't'},
+    {regex: /%75/g, replace: 'u'},
+    {regex: /%76/g, replace: 'v'},
+    {regex: /%77/g, replace: 'w'},
+    {regex: /%78/g, replace: 'x'},
+    {regex: /%79/g, replace: 'y'},
+    {regex: /%7A/g, replace: 'z'},
+    {regex: /%7B/g, replace: '{'},
+    {regex: /%7C/g, replace: '|'},
+    {regex: /%7D/g, replace: '}'},
+    {regex: /%7E/g, replace: '~'},
+    {regex: /%A2/g, replace: '¢'},
+    {regex: /%A3/g, replace: '£'},
+    {regex: /%A5/g, replace: '¥'},
+    {regex: /%A6/g, replace: '|'},
+    {regex: /%A7/g, replace: '§'},
+    {regex: /%AB/g, replace: '«'},
+    {regex: /%AC/g, replace: '¬'},
+    {regex: /%AD/g, replace: '¯'},
+    {regex: /%B0/g, replace: 'º'},
+    {regex: /%B1/g, replace: '±'},
+    {regex: /%B2/g, replace: 'ª'},
+    {regex: /%B4/g, replace: ','},
+    {regex: /%B5/g, replace: 'µ'},
+    {regex: /%BB/g, replace: '»'},
+    {regex: /%BC/g, replace: '¼'},
+    {regex: /%BD/g, replace: '½'},
+    {regex: /%BF/g, replace: '¿'},
+    {regex: /%C0/g, replace: 'À'},
+    {regex: /%C1/g, replace: 'Á'},
+    {regex: /%C2/g, replace: 'Â'},
+    {regex: /%C3/g, replace: 'Ã'},
+    {regex: /%C4/g, replace: 'Ä'},
+    {regex: /%C5/g, replace: 'Å'},
+    {regex: /%C6/g, replace: 'Æ'},
+    {regex: /%C7/g, replace: 'Ç'},
+    {regex: /%C8/g, replace: 'È'},
+    {regex: /%C9/g, replace: 'É'},
+    {regex: /%CA/g, replace: 'Ê'},
+    {regex: /%CB/g, replace: 'Ë'},
+    {regex: /%CC/g, replace: 'Ì'},
+    {regex: /%CD/g, replace: 'Í'},
+    {regex: /%CE/g, replace: 'Î'},
+    {regex: /%CF/g, replace: 'Ï'},
+    {regex: /%D0/g, replace: 'Ð'},
+    {regex: /%D1/g, replace: 'Ñ'},
+    {regex: /%D2/g, replace: 'Ò'},
+    {regex: /%D3/g, replace: 'Ó'},
+    {regex: /%D4/g, replace: 'Ô'},
+    {regex: /%D5/g, replace: 'Õ'},
+    {regex: /%D6/g, replace: 'Ö'},
+    {regex: /%D8/g, replace: 'Ø'},
+    {regex: /%D9/g, replace: 'Ù'},
+    {regex: /%DA/g, replace: 'Ú'},
+    {regex: /%DB/g, replace: 'Û'},
+    {regex: /%DC/g, replace: 'Ü'},
+    {regex: /%DD/g, replace: 'Ý'},
+    {regex: /%DE/g, replace: 'Þ'},
+    {regex: /%DF/g, replace: 'ß'},
+    {regex: /%E0/g, replace: 'à'},
+    {regex: /%E1/g, replace: 'á'},
+    {regex: /%E2/g, replace: 'â'},
+    {regex: /%E3/g, replace: 'ã'},
+    {regex: /%E4/g, replace: 'ä'},
+    {regex: /%E5/g, replace: 'å'},
+    {regex: /%E6/g, replace: 'æ'},
+    {regex: /%E7/g, replace: 'ç'},
+    {regex: /%E8/g, replace: 'è'},
+    {regex: /%E9/g, replace: 'é'},
+    {regex: /%EA/g, replace: 'ê'},
+    {regex: /%EB/g, replace: 'ë'},
+    {regex: /%EC/g, replace: 'ì'},
+    {regex: /%ED/g, replace: 'í'},
+    {regex: /%EE/g, replace: 'î'},
+    {regex: /%EF/g, replace: 'ï'},
+    {regex: /%F0/g, replace: 'ð'},
+    {regex: /%F1/g, replace: 'ñ'},
+    {regex: /%F2/g, replace: 'ò'},
+    {regex: /%F3/g, replace: 'ó'},
+    {regex: /%F4/g, replace: 'ô'},
+    {regex: /%F5/g, replace: 'õ'},
+    {regex: /%F6/g, replace: 'ö'},
+    {regex: /%F7/g, replace: '÷'},
+    {regex: /%F8/g, replace: 'ø'},
+    {regex: /%F9/g, replace: 'ù'},
+    {regex: /%FA/g, replace: 'ú'},
+    {regex: /%FB/g, replace: 'û'},
+    {regex: /%FC/g, replace: 'ü'},
+    {regex: /%FD/g, replace: 'ý'},
+    {regex: /%FE/g, replace: 'þ'},
+    {regex: /%FF/g, replace: 'ÿ'}*/
+];
+
+function _unescape(text) {
+    if (!text) return '';
+    for (var c = 0; c < chars.length; c++) {
+        text = text.replace(chars[c].regex, chars[c].replace);
+    }
+    try {
+        return decodeURI(text);
+    } catch (err) {
+        adapter.log.error('Cannot decode :' + text);
+        return text;
+    }
+}
 
 function checkInit(id) {
     adapter.getForeignObject('system.adapter.' + id, function (err, obj) {
@@ -187,13 +393,13 @@ function pollVariables() {
     rega.runScriptFile('polling', function (data) {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
-        } catch(e) {
+        } catch (e) {
             adapter.log.error('Cannot parse answer for polling: ' + data);
             return;
         }
         for (var id in data) {
             var val = data[id][0];
-            if (typeof val === 'string') val = unescape(val);
+            if (typeof val === 'string') val = _unescape(val);
             regaStates[id] = val;
             var ts = Math.floor((new Date(data[id][1])).getTime() / 1000);
             if (id == 40) id = 'alarms';
@@ -207,7 +413,7 @@ function pollProgramms() {
     rega.runScriptFile('programs', function (data) {
         try {
             data = JSON.parse(data);
-        } catch(e) {
+        } catch (e) {
             adapter.log.error('Cannot parse answer for programs: ' + data);
             return;
         }
@@ -238,7 +444,7 @@ function getPrograms(callback) {
         rega.runScriptFile('programs', function (data) {
             try {
                 data = JSON.parse(data);
-            } catch(e) {
+            } catch (e) {
                 adapter.log.error('Cannot parse answer for programs: ' + data);
                 return;
             }
@@ -248,20 +454,20 @@ function getPrograms(callback) {
                 adapter.setObject(id, {
                     type: 'channel',
                     common: {
-                        name: unescape(data[id].Name),
+                        name: _unescape(data[id].Name),
                         enabled: true
                     },
                     native: {
-                        Name: unescape(data[id].Name),
+                        Name: _unescape(data[id].Name),
                         TypeName: data[id].TypeName,
-                        PrgInfo: unescape(data[id].DPInfo)
+                        PrgInfo: _unescape(data[id].DPInfo)
                     }
                 });
 
                 adapter.extendObject(id + '.ProgramExecute', {
                     type:   'state',
                     common: {
-                        name:  unescape(data[id].Name)  + ' execute',
+                        name:  _unescape(data[id].Name)  + ' execute',
                         type:  'boolean',
                         role:  'action.execute',
                         read:  true,
@@ -274,7 +480,7 @@ function getPrograms(callback) {
                 adapter.extendObject(id + '.Active', {
                     type:  'state',
                     common: {
-                        name: unescape(data[id].Name) + ' enabled',
+                        name: _unescape(data[id].Name) + ' enabled',
                         type: 'boolean',
                         role: 'state.enabled',
                         read:   true,
@@ -310,7 +516,7 @@ function getFunctions(callback) {
     rega.runScriptFile('functions', function (data) {
         try {
             data = JSON.parse(data);
-        } catch(e) {
+        } catch (e) {
             adapter.log.error('Cannot parse answer for functions: ' + data);
             return;
         }
@@ -344,8 +550,8 @@ function getFunctions(callback) {
                 members.push(id);
             }
 
-            var name = unescape(data[regaId].Name);
-            var desc = unescape(data[regaId].EnumInfo);
+            var name = _unescape(data[regaId].Name);
+            var desc = _unescape(data[regaId].EnumInfo);
             adapter.setForeignObject(adapter.config.enumFunctions + '.' + name, {
                 desc: desc,
                 type: 'enum',
@@ -383,7 +589,7 @@ function getRooms(callback) {
     rega.runScriptFile('rooms', function (data) {
         try {
             data = JSON.parse(data);
-        } catch(e) {
+        } catch (e) {
             adapter.log.error('Cannot parse answer for rooms: ' + data);
             return;
         }
@@ -418,8 +624,8 @@ function getRooms(callback) {
                 members.push(id);
             }
 
-            var name = unescape(data[regaId].Name);
-            var desc = unescape(data[regaId].EnumInfo);
+            var name = _unescape(data[regaId].Name);
+            var desc = _unescape(data[regaId].EnumInfo);
             adapter.setForeignObject(adapter.config.enumRooms + '.' + name, {
                 type: 'enum',
                 common: {
@@ -457,7 +663,7 @@ function getFavorites(callback) {
     rega.runScriptFile('favorites', function (data) {
         try {
             data = JSON.parse(data);
-        } catch(e) {
+        } catch (e) {
             adapter.log.error('Cannot parse answer for favorites: ' + data);
             return;
         }
@@ -541,7 +747,7 @@ function getDatapoints(callback) {
     rega.runScriptFile('datapoints', function (data) {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
-        } catch(e) {
+        } catch (e) {
             require('fs').writeFile(__dirname + '/hm-rega-log.log', data);
             adapter.log.error('Cannot parse answer for datapoints: ' + data);
             return;
@@ -570,19 +776,24 @@ function getDatapoints(callback) {
                     continue;
             }
             id += tmp[1].replace(':', '.') + '.' + tmp[2];
+
+            // convert dimmer and blinds
+            if (units[id] === '100%') data[dp] = parseFloat(data[dp]) * 100;
+
             adapter.setForeignState(id, {val: data[dp], ack: true});
         }
         adapter.log.info('got state values');
         if (typeof callback === 'function') callback();
+        units = null;
     });
 }
 
-function _getDevicesFromRega(devices, channels, states, callback) {
+function _getDevicesFromRega(devices, channels, _states, callback) {
     // Get all devices channels and states
     rega.runScriptFile('devices', function (data) {
         try {
             data = JSON.parse(data);
-        } catch(e) {
+        } catch (e) {
             adapter.log.error('Cannot parse answer for devices: ' + data);
             return;
         }
@@ -607,7 +818,7 @@ function _getDevicesFromRega(devices, channels, states, callback) {
             }
 
             id += addr.replace(':', '.');
-            var name = unescape(data[addr].Name);
+            var name = _unescape(data[addr].Name);
             if (addr.indexOf(':') == -1) {
                 // device
                 if (devices[id] === undefined || devices[id] != name) {
@@ -623,9 +834,9 @@ function _getDevicesFromRega(devices, channels, states, callback) {
                     dev = dev.join('.');
                     if (devices[dev]) objs.push({_id: id, common: {name: devices[dev] + '.' + last}});
                 }
-                if (states[id]) {
-                    for (var s in states[id]) {
-                        if (!states[id][s]) objs.push({_id: id + '.' + s, common: {name: name + '.' + s}});
+                if (_states[id]) {
+                    for (var s in _states[id]) {
+                        if (!_states[id][s]) objs.push({_id: id + '.' + s, common: {name: name + '.' + s}});
                     }
                 }
             }
@@ -652,36 +863,37 @@ function getDevices(callback) {
     var count = 0;
     var channels = {};
     var devices  = {};
-    var states   = {};
+    var _states  = {};
     var someEnabled = false;
     if (adapter.config.rfdEnabled) {
         someEnabled = true;
         count++;
         adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
-            if (doc) {
+            if (doc && doc.rows) {
                 for (var i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
                 }
             }
             adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
-                if (doc) {
+                if (doc && doc.rows) {
                     for (var i = 0; i < doc.rows.length; i++) {
                         channels[doc.rows[i].id] = doc.rows[i].value.common.name;
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
-                    if (doc) {
+                    if (doc && doc.rows) {
                         for (var i = 0; i < doc.rows.length; i++) {
                             var parts = doc.rows[i].id.split('.');
                             var last = parts.pop();
                             var id = parts.join('.');
-                            states[id] = states[id] || [];
-                            states[id][last] = doc.rows[i].value.common.name;
+                            units[id] = doc.rows[i].value.native ? doc.rows[i].value.native.UNIT : undefined;
+                            _states[id] = _states[id] || [];
+                            _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
                     count--;
                     if (!count)
-                        _getDevicesFromRega(devices, channels, states, callback);
+                        _getDevicesFromRega(devices, channels, _states, callback);
                 });
             });
         });
@@ -690,31 +902,30 @@ function getDevices(callback) {
         someEnabled = true;
         count++;
         adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
-            if (doc) {
+            if (doc && doc.rows) {
                 for (var i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
                 }
             }
             adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
-                if (doc) {
+                if (doc && doc.rows) {
                     for (var i = 0; i < doc.rows.length; i++) {
                         channels[doc.rows[i].id] = doc.rows[i].value.common.name;
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
-                    if (doc) {
+                    if (doc && doc.rows) {
                         for (var i = 0; i < doc.rows.length; i++) {
-                            for (var i = 0; i < doc.rows.length; i++) {
-                                var parts = doc.rows[i].id.split('.');
-                                var last = parts.pop();
-                                var id = parts.join('.');
-                                states[id] = states[id] || [];
-                                states[id][last] = doc.rows[i].value.common.name;
-                            }
+                            var parts = doc.rows[i].id.split('.');
+                            var last = parts.pop();
+                            var id = parts.join('.');
+                            units[id] = doc.rows[i].value.native ? doc.rows[i].value.native.UNIT : undefined;
+                            _states[id] = _states[id] || [];
+                            _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
                     count--;
-                    if (!count) _getDevicesFromRega(devices, channels, states, callback);
+                    if (!count) _getDevicesFromRega(devices, channels, _states, callback);
                 });
             });
         });
@@ -723,37 +934,36 @@ function getDevices(callback) {
         someEnabled = true;
         count++;
         adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
-            if (doc) {
+            if (doc && doc.rows) {
                 for (var i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
                 }
             }
             adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
-                if (doc) {
+                if (doc && doc.rows) {
                     for (var i = 0; i < doc.rows.length; i++) {
                         channels[doc.rows[i].id] = doc.rows[i].value.common.name;
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
-                    if (doc) {
+                    if (doc && doc.rows) {
                         for (var i = 0; i < doc.rows.length; i++) {
-                            for (var i = 0; i < doc.rows.length; i++) {
-                                var parts = doc.rows[i].id.split('.');
-                                var last = parts.pop();
-                                var id = parts.join('.');
-                                states[id] = states[id] || [];
-                                states[id][last] = doc.rows[i].value.common.name;
-                            }
+                            var parts = doc.rows[i].id.split('.');
+                            var last = parts.pop();
+                            var id = parts.join('.');
+                            units[id] = doc.rows[i].value.native ? doc.rows[i].value.native.UNIT : undefined;
+                            _states[id] = _states[id] || [];
+                            _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
                     count--;
-                    if (!count) _getDevicesFromRega(devices, channels, states, callback);
+                    if (!count) _getDevicesFromRega(devices, channels, _states, callback);
                 });
             });
         });
     }
 
-    if (!someEnabled && !count) _getDevicesFromRega(devices, channels, states, callback);
+    if (!someEnabled && !count) _getDevicesFromRega(devices, channels, _states, callback);
 }
 
 function getVariables(callback) {
@@ -781,7 +991,7 @@ function getVariables(callback) {
         rega.runScriptFile('variables', function (data) {
             try {
                 data = JSON.parse(data.replace(/\n/gm, ''));
-            } catch(e) {
+            } catch (e) {
                 adapter.log.error('Cannot parse answer for variables: ' + data);
                 return;
             }
@@ -797,31 +1007,31 @@ function getVariables(callback) {
                     _id:  adapter.namespace + '.' + id,
                     type: 'state',
                     common: {
-                        name:           unescape(data[id].Name),
+                        name:           _unescape(data[id].Name),
                         type:           commonTypes[data[id].ValueType],
                         read:           true,
                         write:          true,
                         role:           role
                     },
                     native: {
-                        Name:           unescape(data[id].Name),
+                        Name:           _unescape(data[id].Name),
                         TypeName:       data[id].TypeName,
-                        DPInfo:         unescape(data[id].DPInfo),
+                        DPInfo:         _unescape(data[id].DPInfo),
                         ValueMin:       data[id].ValueMin,
                         ValueMax:       data[id].ValueMax,
                         ValueUnit:      data[id].ValueUnit,
                         ValueType:      data[id].ValueType,
                         ValueSubType:   data[id].ValueSubType,
-                        ValueList:      unescape(data[id].ValueList)
+                        ValueList:      _unescape(data[id].ValueList)
                     }
                 };
                 if (data[id].ValueMin)  obj.common.min = data[id].ValueMin;
                 if (data[id].ValueMax)  obj.common.min = data[id].ValueMax;
                 if (data[id].ValueUnit) obj.common.min = data[id].ValueUnit;
-                if (data[id].DPInfo)    obj.common.desc = unescape(data[id].DPInfo);
+                if (data[id].DPInfo)    obj.common.desc = _unescape(data[id].DPInfo);
 
                 if (data[id].ValueList) {
-                    var statesArr = unescape(data[id].ValueList).split(';');
+                    var statesArr = _unescape(data[id].ValueList).split(';');
                     obj.common.states = {};
                     for (i = 0; i < statesArr.length; i++) {
                         obj.common.states[i] = statesArr[i];
@@ -833,7 +1043,7 @@ function getVariables(callback) {
 
                 }
                 var val = data[id].Value;
-                if (typeof val === 'string') val = unescape(val);
+                if (typeof val === 'string') val = _unescape(val);
                 regaStates[id] = val;
                 var ts = Math.floor((new Date(data[id].Timestamp)).getTime() / 1000);
 
