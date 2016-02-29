@@ -18,9 +18,11 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.3.1 (2016-02-29)
+* (bluefox) fix dimmer and blinds values at start
+
 ### 0.3.0 (2016-02-28)
 * (bluefox) remove deprecated unescape
-* (bluefox) fix dimmer and blinds values at start
 
 ### 0.2.1 (2015-03-25)
 * (bluefox) fix "\n" in values

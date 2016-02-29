@@ -886,7 +886,9 @@ function getDevices(callback) {
                             var parts = doc.rows[i].id.split('.');
                             var last = parts.pop();
                             var id = parts.join('.');
-                            units[id] = doc.rows[i].value.native ? doc.rows[i].value.native.UNIT : undefined;
+                            if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
+                                units[doc.rows[i].id] = doc.rows[i].value.native.UNIT;
+                            }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
