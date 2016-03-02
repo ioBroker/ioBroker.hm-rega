@@ -118,20 +118,23 @@ var chars = [
     {regex: /%B0/g,     replace: 'º'},
     {regex: /%B4/g,     replace: ','},
     {regex: /%B5/g,     replace: 'µ'},
-    {regex: /%BB/g,     replace: '»'}
+    {regex: /%BB/g,     replace: '»'},
+    {regex: /%28/g,     replace: '('},
+    {regex: /%29/g,     replace: ')'},
+    {regex: /%2A/g,     replace: '*'},
+    {regex: /%2B/g,     replace: '+'},
+    {regex: /%2C/g,     replace: ','},
+    {regex: /%2D/g,     replace: '-'},
+    {regex: /%2E/g,     replace: '.'},
+    {regex: /%2F/g,     replace: '/'},
+    {regex: /%A6/g,     replace: '|'},
+    {regex: /%A7/g,     replace: '§'},
+    {regex: /%AB/g,     replace: '«'}
 
     /*{regex: /%08/g, replace: ''},
     {regex: /%09/g, replace: '\t'},
     {regex: /%0A/g, replace: '\n'},
     {regex: /%0D/g, replace: '\r'},
-    {regex: /%28/g, replace: '('},
-    {regex: /%29/g, replace: ')'},
-    {regex: /%2A/g, replace: '*'},
-    {regex: /%2B/g, replace: '+'},
-    {regex: /%2C/g, replace: ','},
-    {regex: /%2D/g, replace: '-'},
-    {regex: /%2E/g, replace: '.'},
-    {regex: /%2F/g, replace: '/'},
     {regex: /%30/g, replace: '0'},
     {regex: /%31/g, replace: '1'},
     {regex: /%32/g, replace: '2'},
@@ -197,9 +200,6 @@ var chars = [
     {regex: /%A2/g, replace: '¢'},
     {regex: /%A3/g, replace: '£'},
     {regex: /%A5/g, replace: '¥'},
-    {regex: /%A6/g, replace: '|'},
-    {regex: /%A7/g, replace: '§'},
-    {regex: /%AB/g, replace: '«'},
     {regex: /%AC/g, replace: '¬'},
     {regex: /%AD/g, replace: '¯'},
     {regex: /%B1/g, replace: '±'},
@@ -355,26 +355,35 @@ function main() {
         ready: function (err) {
 
             if (err == 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
+
                 adapter.log.error('ReGaHSS down');
                 ccuReachable = true;
-                ccuRegaUp = false;
+                ccuRegaUp    = false;
+                adapter.setState('info.connection',   false,        true);
+                adapter.setState('info.ccuReachable', ccuReachable, true);
+                adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
 
             } else if (err == 'CCU unreachable') {
 
                 adapter.log.error('CCU ' + adapter.config.homematicAddress + ' unreachable');
                 ccuReachable = false;
-                ccuRegaUp = false;
+                ccuRegaUp    = false;
+                adapter.setState('info.connection',   false,        true);
+                adapter.setState('info.ccuReachable', ccuReachable, true);
+                adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
 
             } else {
 
                 adapter.log.info('ReGaHSS ' + adapter.config.homematicAddress + ' up');
                 ccuReachable = true;
-                ccuRegaUp = true;
+                ccuRegaUp    = true;
+                adapter.setState('info.connection',   true,         true);
+                adapter.setState('info.ccuReachable', ccuReachable, true);
+                adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
 
                 rega.checkTime(function () {
                     queue();
                 });
-
             }
         }
     });
@@ -1095,6 +1104,7 @@ function getVariables(callback) {
 
 var stopCount = 0;
 function stop(callback) {
+    adapter.setState('info.connection', false, true);
     if (!stopCount) clearInterval(pollingInterval);
     for (var id in checkInterval) {
         clearInterval(checkInterval[id]);

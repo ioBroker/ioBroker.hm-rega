@@ -18,6 +18,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.3.3 (2016-03-01)
+* (bluefox) remove deprecated unescape
+* (bluefox) add connection state
+
 ### 0.3.2 (2016-03-01)
 * (bluefox) remove deprecated unescape
 

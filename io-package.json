@@ -1,12 +1,12 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "0.3.2",
+        "version": "0.3.3",
         "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
             "de":                   "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
-            "ru":                   "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroler"
+            "ru":                   "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker"
         },
         "dependencies": [
             "hm-rpc"
@@ -59,6 +59,55 @@
                     "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
                 }
             }
+        }
+    ],
+    "instanceObjects": [
+        {
+            "_id":  "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id":  "info.connection",
+            "type": "state",
+            "common": {
+                "role":  "indicator.connected",
+                "name":  "If connected to CCU",
+                "type":  "boolean",
+                "read":  true,
+                "write": false,
+                "def":   false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "info.ccuReachable",
+            "type": "state",
+            "common": {
+                "role":  "indicator.connected",
+                "name":  "If connected to CCU on IP layer",
+                "type":  "boolean",
+                "read":  true,
+                "write": false,
+                "def":   false
+            },
+            "native": {}
+        },
+        {
+            "_id":  "info.ccuRegaUp",
+            "type": "state",
+            "common": {
+                "role":  "indicator.connected",
+                "name":  "If rega is UP",
+                "type":  "boolean",
+                "read":  true,
+                "write": false,
+                "def":   false
+            },
+            "native": {}
         }
     ]
 }

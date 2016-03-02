@@ -1,11 +1,11 @@
 {
   "name": "iobroker.hm-rega",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
   "author": "hobbyquaker <hq@ccu.io>",
   "contributors": [
-    "hobbyquaker <hq@ccu.io>",
-    "bluefox <bluefox@ccu.io>"
+      "bluefox <bluefox@ccu.io>",
+      "hobbyquaker <hq@ccu.io>"
   ],
   "homepage": "https://github.com/ioBroker/ioBroker.hm-rega",
   "licenses": [
