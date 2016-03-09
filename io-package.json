@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "0.3.3",
+        "version": "0.3.4",
         "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",

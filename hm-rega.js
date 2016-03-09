@@ -129,7 +129,9 @@ var chars = [
     {regex: /%2F/g,     replace: '/'},
     {regex: /%A6/g,     replace: '|'},
     {regex: /%A7/g,     replace: '§'},
-    {regex: /%AB/g,     replace: '«'}
+    {regex: /%AB/g,     replace: '«'},
+    {regex: /%/g,       replace: '%25'}
+
 
     /*{regex: /%08/g, replace: ''},
     {regex: /%09/g, replace: '\t'},
@@ -1104,7 +1106,10 @@ function getVariables(callback) {
 
 var stopCount = 0;
 function stop(callback) {
-    adapter.setState('info.connection', false, true);
+    adapter.setState('info.connection',   false, true);
+    adapter.setState('info.ccuReachable', false, true);
+    adapter.setState('info.ccuRegaUp',    false, true);
+
     if (!stopCount) clearInterval(pollingInterval);
     for (var id in checkInterval) {
         clearInterval(checkInterval[id]);
