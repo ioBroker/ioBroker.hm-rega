@@ -12,7 +12,7 @@ var adapter = utils.adapter({
     },
 
     stateChange: function (id, state) {
-        if (!state) return;
+        if (!state || state.ack) return;
 
         // Read devices anew if hm-rpc updated the list of devices
         if (id == adapter.config.rfdAdapter    + '.updated' ||
@@ -25,36 +25,31 @@ var adapter = utils.adapter({
                 // Reset flag
                 adapter.setForeignState(id, false, true);
             }
-            return;
-        }
-
-        adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-        if (id === pollingTrigger) {
-            adapter.log.info('pollingTrigger');
-            pollVariables();
         } else {
-            var rid = id.split('.');
-            if (rid[3] === 'ProgramExecute') {
-                if (!state.ack && state.val) {
-                    adapter.log.info('ProgramExecute ' + rid[2]);
-                    rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
-                }
-            } else if (rid[3] === 'Active') {
-                if (!state.ack) {
-                    adapter.log.info('Active ' + rid[2] + ' ' + state.val);
-                    rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
-                }
+            adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+            if (id === pollingTrigger) {
+                adapter.log.info('pollingTrigger');
+                pollVariables();
             } else {
-                if (rid[2] == 'alarms')      rid[2] = 40;
-                if (rid[2] == 'maintenance') rid[2] = 41;
+                var rid = id.split('.');
+                if (rid[3] === 'ProgramExecute') {
+                    if (state.val) {
+                        adapter.log.debug('ProgramExecute ' + rid[2]);
+                        rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
+                    }
+                } else if (rid[3] === 'Active') {
+                    adapter.log.debug('Active ' + rid[2] + ' ' + state.val);
+                    rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
+                } else {
+                    if (rid[2] == 'alarms')      rid[2] = 40;
+                    if (rid[2] == 'maintenance') rid[2] = 41;
 
-                if (regaStates[rid[2]] === undefined) {
-                    adapter.log.info('Got unexpected ID: ' + id);
-                    return;
-                }
+                    if (regaStates[rid[2]] === undefined) {
+                        if (!id.match(/\.updated$/)) adapter.log.warn('Got unexpected ID: ' + id);
+                        return;
+                    }
 
-                if (regaStates[rid[2]] !== state.val || !state.ack) {
-                    adapter.log.info('State ' + rid[2] + ' ' + state.val);
+                    adapter.log.debug('Set state ' + rid[2] + ': ' + state.val);
                     rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
                 }
             }
@@ -92,7 +87,7 @@ var chars = [
     {regex: /%3A/g,     replace: ':'},
     {regex: /%20/g,     replace: ' '},
     {regex: /%5B/g,     replace: '['},
-    {regex: /%5C/g,     replace: '\''},
+    {regex: /%5C/g,     replace: "'"},
     {regex: /%5D/g,     replace: ']'},
     {regex: /%5E/g,     replace: '^'},
     {regex: /%5F/g,     replace: '_'},
@@ -103,7 +98,7 @@ var chars = [
     {regex: /%24/g,     replace: '$'},
     {regex: /%25/g,     replace: '%'},
     {regex: /%26/g,     replace: '&'},
-    {regex: /%27/g,     replace: '\''},
+    {regex: /%27/g,     replace: "'"},
     {regex: /%3A/g,     replace: ':'},
     {regex: /%3B/g,     replace: ';'},
     {regex: /%3C/g,     replace: '<'},
@@ -897,7 +892,7 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
-                                units[doc.rows[i].id] = doc.rows[i].value.native.UNIT;
+                                units[doc.rows[i].id] = _unescape(doc.rows[i].value.native.UNIT);
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
@@ -931,7 +926,7 @@ function getDevices(callback) {
                             var parts = doc.rows[i].id.split('.');
                             var last = parts.pop();
                             var id = parts.join('.');
-                            units[id] = doc.rows[i].value.native ? doc.rows[i].value.native.UNIT : undefined;
+                            units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
@@ -963,7 +958,7 @@ function getDevices(callback) {
                             var parts = doc.rows[i].id.split('.');
                             var last = parts.pop();
                             var id = parts.join('.');
-                            units[id] = doc.rows[i].value.native ? doc.rows[i].value.native.UNIT : undefined;
+                            units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
