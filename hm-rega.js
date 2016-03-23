@@ -417,7 +417,7 @@ function pollVariables() {
 function pollProgramms() {
     rega.runScriptFile('programs', function (data) {
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for programs: ' + data);
             return;
@@ -448,7 +448,7 @@ function getPrograms(callback) {
 
         rega.runScriptFile('programs', function (data) {
             try {
-                data = JSON.parse(data);
+                data = JSON.parse(data.replace(/\n/gm, ''));
             } catch (e) {
                 adapter.log.error('Cannot parse answer for programs: ' + data);
                 return;
@@ -520,7 +520,7 @@ function getPrograms(callback) {
 function getFunctions(callback) {
     rega.runScriptFile('functions', function (data) {
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for functions: ' + data);
             return;
@@ -575,14 +575,18 @@ function getFunctions(callback) {
 
         adapter.log.info('added/updated functions to ' + adapter.config.enumFunctions);
 
-        adapter.setForeignObject(adapter.config.enumFunctions, {
-            type: 'enum',
-            common: {
-                name: 'Functions',
-                members: []
-            },
-            native: {
+        adapter.getForeignObject(adapter.config.enumFunctions, function (err, obj) {
+            if (!obj || err) {
+                adapter.setForeignObject(adapter.config.enumFunctions, {
+                    type: 'enum',
+                    common: {
+                        name: 'Functions',
+                        members: []
+                    },
+                    native: {
 
+                    }
+                });
             }
         });
 
@@ -593,7 +597,7 @@ function getFunctions(callback) {
 function getRooms(callback) {
     rega.runScriptFile('rooms', function (data) {
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for rooms: ' + data);
             return;
@@ -649,14 +653,18 @@ function getRooms(callback) {
 
         adapter.log.info('added/updated rooms to ' + adapter.config.enumRooms);
 
-        adapter.extendForeignObject(adapter.config.enumRooms, {
-            type: 'enum',
-            common: {
-                name: 'Rooms',
-                members: []
-            },
-            native: {
+        adapter.getForeignObject(adapter.config.enumRooms, function (err, obj) {
+            if (!obj || err) {
+                adapter.setForeignObject(adapter.config.enumRooms, {
+                    type: 'enum',
+                    common: {
+                        name: 'Rooms',
+                        members: []
+                    },
+                    native: {
 
+                    }
+                });
             }
         });
 
@@ -667,7 +675,7 @@ function getRooms(callback) {
 function getFavorites(callback) {
     rega.runScriptFile('favorites', function (data) {
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for favorites: ' + data);
             return;
@@ -685,7 +693,7 @@ function getFavorites(callback) {
         var c = 0;
 
         for (var user in data) {
-
+            user = _unescape(user);
             adapter.setForeignObject(adapter.config.enumFavorites + '.' + user, {
                 type: 'enum',
                 common: {
@@ -758,6 +766,7 @@ function getDatapoints(callback) {
             return;
         }
         for (var dp in data) {
+            dp = _unescape(dp);
             var tmp = dp.split('.');
             if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') continue;
             var id;
@@ -797,7 +806,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
     // Get all devices channels and states
     rega.runScriptFile('devices', function (data) {
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for devices: ' + data);
             return;

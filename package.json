@@ -1,6 +1,6 @@
 {
   "name": "iobroker.hm-rega",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
   "author": "hobbyquaker <hq@ccu.io>",
   "contributors": [
