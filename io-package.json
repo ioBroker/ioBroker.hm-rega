@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "0.3.6",
+        "version": "0.3.7",
         "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
@@ -22,7 +22,7 @@
         "icon":                     "homematic.png",
         "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
         "keywords":                 ["homematic", "eq3", "regahss", "ccu1", "ccu2"],
-        "localLink":                "http://192.168.0.100",
+        "localLink":                "http://%homematicAddress%",
         "type":                     "hardware"
     },
     "native": {
@@ -30,7 +30,7 @@
         "homematicPort":            8181,
         "polling":                  true,
         "pollingInterval":          30,
-        "pollingTrigger":           "BidCoS-RF:50.PRESS_SHORT",
+        "pollingTrigger":           "BidCoS-RF.50.PRESS_SHORT",
         "rfdEnabled":               true,
         "rfdAdapter":               "hm-rpc.0",
         "hs485denabled":            false,

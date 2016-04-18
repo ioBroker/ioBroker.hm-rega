@@ -18,6 +18,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 0.3.7 (2016-04-18)
+* (bluefox) fix error with polling trigger
+
 ### 0.3.6 (2016-03-12)
 * (bluefox) fix read datapoints
 
