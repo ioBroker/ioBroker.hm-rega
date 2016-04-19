@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "0.3.7",
+        "version": "1.0.0",
         "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
@@ -28,6 +28,7 @@
     "native": {
         "homematicAddress":         "192.168.0.100",
         "homematicPort":            8181,
+        "reconnectionInterval":     30,
         "polling":                  true,
         "pollingInterval":          30,
         "pollingTrigger":           "BidCoS-RF.50.PRESS_SHORT",

@@ -1,7 +1,7 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
 "use strict";
-var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
+var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 
 var adapter = utils.adapter({
 
@@ -308,15 +308,7 @@ function checkInit(id) {
 }
 
 function main() {
-
-    functionQueue.push(getDatapoints);
-
-    if (adapter.config.syncVariables) functionQueue.push(getVariables);
-    if (adapter.config.syncPrograms)  functionQueue.push(getPrograms);
-    if (adapter.config.syncNames)     functionQueue.push(getDevices);
-    if (adapter.config.syncRooms)     functionQueue.push(getRooms);
-    if (adapter.config.syncFunctions) functionQueue.push(getFunctions);
-    if (adapter.config.syncFavorites) functionQueue.push(getFavorites);
+    adapter.config.reconnectionInterval = parseInt(adapter.config.reconnectionInterval, 10) || 30;
 
     if (adapter.config.pollingTrigger) {
         adapter.config.pollingTrigger = adapter.config.pollingTrigger.replace(':', '.');
@@ -351,8 +343,9 @@ function main() {
     rega = new Rega({
         ccuIp:  adapter.config.homematicAddress,
         port:   adapter.config.homematicPort,
+        reconnectionInterval: adapter.config.reconnectionInterval,
         logger: adapter.log,
-        ready: function (err) {
+        ready:  function (err) {
 
             if (err == 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
 
@@ -372,6 +365,15 @@ function main() {
                 adapter.setState('info.ccuReachable', ccuReachable, true);
                 adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
 
+            } else if (err) {
+
+                adapter.log.error(err);
+                ccuReachable = false;
+                ccuRegaUp    = false;
+                adapter.setState('info.connection',   false,        true);
+                adapter.setState('info.ccuReachable', ccuReachable, true);
+                adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
+
             } else {
 
                 adapter.log.info('ReGaHSS ' + adapter.config.homematicAddress + ' up');
@@ -381,13 +383,23 @@ function main() {
                 adapter.setState('info.ccuReachable', ccuReachable, true);
                 adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
 
+                if (!functionQueue.length) {
+                    functionQueue.push(getDatapoints);
+
+                    if (adapter.config.syncVariables) functionQueue.push(getVariables);
+                    if (adapter.config.syncPrograms)  functionQueue.push(getPrograms);
+                    if (adapter.config.syncNames)     functionQueue.push(getDevices);
+                    if (adapter.config.syncRooms)     functionQueue.push(getRooms);
+                    if (adapter.config.syncFunctions) functionQueue.push(getFunctions);
+                    if (adapter.config.syncFavorites) functionQueue.push(getFavorites);
+                }
+
                 rega.checkTime(function () {
-                    queue();
+                    setTimeout(queue, 0);
                 });
             }
         }
     });
-
 }
 
 function queue() {
@@ -399,6 +411,8 @@ function queue() {
 
 function pollVariables() {
     rega.runScriptFile('polling', function (data) {
+        if (!data) return;
+
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
@@ -419,6 +433,7 @@ function pollVariables() {
 
 function pollProgramms() {
     rega.runScriptFile('programs', function (data) {
+        if (!data) return;
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
@@ -859,29 +874,29 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             }
         }
 
-        function queue() {
+        function _queue() {
             if (objs.length > 1) {
                 var obj = objs.pop();
                 adapter.log.info('renamed ' + obj._id + ' to "' + obj.common.name + '"');
                 adapter.extendForeignObject(obj._id, obj, function () {
-                    queue();
+                    setTimeout(_queue, 0);
                 });
             } else {
                 if (typeof callback === 'function') callback();
             }
         }
 
-        queue();
+        _queue();
     });
-
 }
 
 function getDevices(callback) {
-    var count = 0;
+    var count    = 0;
     var channels = {};
     var devices  = {};
     var _states  = {};
     var someEnabled = false;
+
     if (adapter.config.rfdEnabled) {
         someEnabled = true;
         count++;
@@ -899,10 +914,11 @@ function getDevices(callback) {
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
+                        units = units || {};
                         for (var i = 0; i < doc.rows.length; i++) {
                             var parts = doc.rows[i].id.split('.');
-                            var last = parts.pop();
-                            var id = parts.join('.');
+                            var last  = parts.pop();
+                            var id    = parts.join('.');
                             if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
                                 units[doc.rows[i].id] = _unescape(doc.rows[i].value.native.UNIT);
                             }
@@ -910,9 +926,9 @@ function getDevices(callback) {
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
-                    count--;
-                    if (!count)
+                    if (!--count) {
                         _getDevicesFromRega(devices, channels, _states, callback);
+                    }
                 });
             });
         });
@@ -1097,18 +1113,18 @@ function getVariables(callback) {
             adapter.log.info('deleted ' + response.length + ' variables');
 
             if (adapter.config.polling && adapter.config.pollingInterval > 0) {
-                pollingInterval = setInterval(function () {
-                    pollVariables();
-                    pollProgramms();
-                }, adapter.config.pollingInterval * 1000);
+                if (!pollingInterval) {
+                    pollingInterval = setInterval(function () {
+                        pollVariables();
+                        pollProgramms();
+                    }, adapter.config.pollingInterval * 1000);
+                }
             }
 
             if (typeof callback === 'function') callback();
 
         });
-
     });
-
 }
 
 var stopCount = 0;

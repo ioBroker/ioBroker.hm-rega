@@ -1,5 +1,11 @@
 ![Logo](admin/homematic.png)
 # ioBroker HomeMatic ReGaHSS Adapter
+==================
+
+[![NPM version](http://img.shields.io/npm/v/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
+
+[![NPM](https://nodei.co/npm/iobroker.hm-rega.png?downloads=true)](https://nodei.co/npm/iobroker.hm-rega/)
 
 Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker
 
@@ -18,6 +24,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.0.0 (2016-04-19)
+* (bluefox) detect disconnection and handle it
+
 ### 0.3.7 (2016-04-18)
 * (bluefox) fix error with polling trigger
 
@@ -114,7 +123,7 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 The MIT License (MIT)
 
-Copyright (c) 2014 hobbyquaker
+Copyright (c) 2014-2016 hobbyquaker
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
