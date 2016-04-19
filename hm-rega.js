@@ -319,6 +319,7 @@ function main() {
     if (adapter.config.syncFavorites) functionQueue.push(getFavorites);
 
     if (adapter.config.pollingTrigger) {
+        adapter.config.pollingTrigger = adapter.config.pollingTrigger.replace(':', '.');
         if (adapter.config.pollingTrigger.match(/^BidCoS-RF/)) {
             pollingTrigger = adapter.config.rfdAdapter + '.' + adapter.config.pollingTrigger;
         } else {
