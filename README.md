@@ -24,6 +24,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.1.0 (2016-04-19)
+* (bluefox) change timestamp and last change of states
+
 ### 1.0.0 (2016-04-19)
 * (bluefox) detect disconnection and handle it
 

@@ -423,15 +423,14 @@ function pollVariables() {
             var val = data[id][0];
             if (typeof val === 'string') val = _unescape(val);
             regaStates[id] = val;
-            var ts = Math.floor((new Date(data[id][1])).getTime() / 1000);
             if (id == 40) id = 'alarms';
             if (id == 41) id = 'maintenance';
-            adapter.setState(adapter.namespace + '.' + id, {val: val, ack: true, lc: ts});
+            adapter.setState(adapter.namespace + '.' + id, val, true);
         }
     });
 }
 
-function pollProgramms() {
+function pollPrograms() {
     rega.runScriptFile('programs', function (data) {
         if (!data) return;
         try {
@@ -442,8 +441,7 @@ function pollProgramms() {
         }
         for (var id in data) {
             regaStates[id] = data[id].Active;
-            var ts = Math.floor((new Date(data[id][1])).getTime() / 1000);
-            adapter.setState(adapter.namespace + '.' + id + '.Active', {val: regaStates[id], ack: true});
+            adapter.setState(adapter.namespace + '.' + id + '.Active', regaStates[id], true);
         }
     });
 }
@@ -515,10 +513,8 @@ function getPrograms(callback) {
                 });
 
                 regaStates[id] = data[id].Active;
-                var ts = Math.floor((new Date(data[id].Timestamp)).getTime() / 1000);
-
-                adapter.setState(id + '.ProgramExecute', {val: false,           ack: true, lc: ts});
-                adapter.setState(id + '.Active',         {val: data[id].Active, ack: true});
+                adapter.setState(id + '.ProgramExecute', false, true);
+                adapter.setState(id + '.Active',         data[id].Active, true);
 
                 if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
             }
@@ -1080,23 +1076,21 @@ function getVariables(callback) {
                 var val = data[id].Value;
                 if (typeof val === 'string') val = _unescape(val);
                 regaStates[id] = val;
-                var ts = Math.floor((new Date(data[id].Timestamp)).getTime() / 1000);
-
                 if (id == 40) {
                     obj.role = 'indicator.alarms';
                     obj._id = adapter.namespace + '.alarms';
                     id = 'alarms';
                     adapter.extendObject(adapter.namespace + '.alarms', obj);
-                    adapter.setState(adapter.namespace + '.alarms', {val: val, ack: true, lc: ts});
+                    adapter.setState(adapter.namespace + '.alarms', val, true);
                 } else if (id == 41) {
                     obj.role = 'indicator.maintenance';
                     obj._id = adapter.namespace + '.maintenance';
                     id = 'maintenance';
                     adapter.extendObject(adapter.namespace + '.maintenance', obj);
-                    adapter.setState(adapter.namespace + '.maintenance', {val: val, ack: true, lc: ts});
+                    adapter.setState(adapter.namespace + '.maintenance', val, true);
                 } else {
                     adapter.extendObject(adapter.namespace + '.' + id, obj);
-                    adapter.setState(adapter.namespace + '.' + id, {val: val, ack: true, lc: ts});
+                    adapter.setState(adapter.namespace + '.' + id, val, true);
                 }
 
                 if (response.indexOf(id) !== -1) {
@@ -1116,7 +1110,7 @@ function getVariables(callback) {
                 if (!pollingInterval) {
                     pollingInterval = setInterval(function () {
                         pollVariables();
-                        pollProgramms();
+                        pollPrograms();
                     }, adapter.config.pollingInterval * 1000);
                 }
             }
