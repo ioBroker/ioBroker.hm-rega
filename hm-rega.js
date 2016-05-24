@@ -1057,8 +1057,8 @@ function getVariables(callback) {
                     }
                 };
                 if (data[id].ValueMin)  obj.common.min = data[id].ValueMin;
-                if (data[id].ValueMax)  obj.common.min = data[id].ValueMax;
-                if (data[id].ValueUnit) obj.common.min = data[id].ValueUnit;
+                if (data[id].ValueMax)  obj.common.max = data[id].ValueMax;
+                if (data[id].ValueUnit) obj.common.unit = data[id].ValueUnit;
                 if (data[id].DPInfo)    obj.common.desc = _unescape(data[id].DPInfo);
 
                 if (data[id].ValueList) {
