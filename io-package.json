@@ -1,7 +1,14 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.1.0",
+        "version": "1.1.1",
+        "news": {
+            "1.1.1": {
+                "en": "fix min/max for variables",
+                "de": "fix min/max for variables",
+                "ru": "fix min/max for variables"
+            }
+        },
         "title":                    "HomeMatic ReGaHSS",
         "desc": {
             "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
@@ -12,7 +19,8 @@
             "hm-rpc"
         ],
         "authors": [
-            "hobbyquaker <hq@ccu.io>"
+            "hobbyquaker <hq@ccu.io>",
+            "bluefox <dogafox@gmail.com>"
         ],
         "license":                  "MIT",
         "mode":                     "daemon",
