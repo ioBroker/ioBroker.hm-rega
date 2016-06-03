@@ -24,6 +24,11 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.2.0 (2016-05-27)
+* (bluefox) read variables anew if connection of rfd detected
+* (bluefox) read alarms
+* (bluefox) support of acknowledgment of alarms
+
 ### 1.1.1 (2016-05-27)
 * (bluefox) fix min/max for variables
 

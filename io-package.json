@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.1.1",
+        "version": "1.2.0",
         "news": {
+            "1.2.0": {
+                "en": "read variables anew if connection of rfd detected\nread alarms\nsupport of acknowledgment of alarms",
+                "de": "read variables anew if connection of rfd detected\nread alarms\nsupport of acknowledgment of alarms",
+                "ru": "read variables anew if connection of rfd detected\nread alarms\nsupport of acknowledgment of alarms"
+            },
             "1.1.1": {
                 "en": "fix min/max for variables",
                 "de": "fix min/max for variables",

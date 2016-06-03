@@ -3,6 +3,8 @@
 "use strict";
 var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 
+var afterReconnect = null;
+
 var adapter = utils.adapter({
 
     name: 'hm-rega',
@@ -19,17 +21,40 @@ var adapter = utils.adapter({
             }
             return;
         }
-
+        if (id.match(/_ALARM$/)) {
+            if (!state.val) {
+                setTimeout(acknowledgeAlarm, 100, id);
+            }
+        } else
         // Read devices anew if hm-rpc updated the list of devices
-        if (id == adapter.config.rfdAdapter    + '.updated' ||
-            id == adapter.config.cuxdEnabled   + '.updated' ||
-            id == adapter.config.hs485dEnabled + '.updated') {
+        if (id === adapter.config.rfdAdapter    + '.updated' ||
+            id === adapter.config.cuxdAdapter   + '.updated' ||
+            id === adapter.config.hs485dAdapter + '.updated') {
             if (state.val) {
                 setTimeout(function () {
                     getDevices();
                 }, 1000);
                 // Reset flag
                 adapter.setForeignState(id, false, true);
+            }
+        } else
+        if (id === adapter.config.rfdAdapter    + '.info.connection' ||
+            id === adapter.config.cuxdAdapter   + '.info.connection' ||
+            id === adapter.config.hs485dAdapter + '.info.connection') {
+            if (state.val) {
+                if (!afterReconnect) {
+                    adapter.log.debug('Connection of "' + id + '" detected. Read variables anew in 60 seconds');
+                    afterReconnect = setTimeout(function () {
+                        afterReconnect = null;
+                        getVariables();
+                    }, 60000);
+                }
+            } else {
+                if (afterReconnect) {
+                    adapter.log.debug('Disonnection of "' + id + '" detected. Cancel read of variables');
+                    clearTimeout(afterReconnect);
+                    afterReconnect = null;
+                }
             }
         } else {
             adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
@@ -63,7 +88,6 @@ var adapter = utils.adapter({
     ready: function () {
         main();
     }
-
 });
 
 var rega;
@@ -84,9 +108,6 @@ var chars = [
     {regex: /%FC/g,     replace: 'ü'},
     {regex: /%DF/g,     replace: 'ß'},
     {regex: /%u20AC/g,  replace: 'Ђ'},
-    {regex: /%24/g,     replace: '$'},
-    {regex: /%25/g,     replace: '%'},
-    {regex: /%3A/g,     replace: ':'},
     {regex: /%20/g,     replace: ' '},
     {regex: /%5B/g,     replace: '['},
     {regex: /%5C/g,     replace: "'"},
@@ -289,7 +310,7 @@ function checkInit(id) {
             var interval = parseInt(obj.native.checkInitInterval, 10);
 
             // Fix error in config
-            if (obj.native.checkInitTrigger == 'BidCos-RF:50.PRESS_LONG') {
+            if (obj.native.checkInitTrigger === 'BidCos-RF:50.PRESS_LONG') {
                 obj.native.checkInitTrigger = 'BidCos-RF.BidCoS-RF:50.PRESS_LONG';
             }
 
@@ -327,14 +348,18 @@ function main() {
 
     if (adapter.config.rfdAdapter    && adapter.config.rfdEnabled) {
         adapter.subscribeForeignStates(adapter.config.rfdAdapter    + '.updated');
+        adapter.subscribeForeignStates(adapter.config.rfdAdapter    + '.info.connection');
+        adapter.subscribeForeignStates(adapter.config.rfdAdapter + '.*_ALARM');
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.cuxdAdapter   && adapter.config.cuxdEnabled) {
         adapter.subscribeForeignStates(adapter.config.cuxdAdapter   + '.updated');
+        adapter.subscribeForeignStates(adapter.config.cuxdAdapter   + '.info.connection');
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.hs485dAdapter && adapter.config.hs485dEnabled)  {
         adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.updated');
+        adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.info.connection');
         checkInit(adapter.config.rfdAdapter);
     }
 
@@ -384,6 +409,8 @@ function main() {
                 adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
 
                 if (!functionQueue.length) {
+                    if (adapter.config.syncVariables) functionQueue.push(getServiceMsgs);
+                    
                     functionQueue.push(getDatapoints);
 
                     if (adapter.config.syncVariables) functionQueue.push(getVariables);
@@ -422,9 +449,13 @@ function pollVariables() {
         for (var id in data) {
             var val = data[id][0];
             if (typeof val === 'string') val = _unescape(val);
-            regaStates[id] = val;
             if (id == 40) id = 'alarms';
-            if (id == 41) id = 'maintenance';
+            if (id == 41) {
+                // If number of alarms changed
+                if (regaStates[id] !== val) setTimeout(pollServiceMsgs, 1000);
+                id = 'maintenance';
+            }
+            regaStates[id] = val;
             adapter.setState(adapter.namespace + '.' + id, val, true);
         }
     });
@@ -442,6 +473,96 @@ function pollPrograms() {
         for (var id in data) {
             regaStates[id] = data[id].Active;
             adapter.setState(adapter.namespace + '.' + id + '.Active', regaStates[id], true);
+        }
+    });
+}
+
+function pollServiceMsgs() {
+    if (!adapter.config.rfdEnabled || !adapter.config.rfdAdapter) {
+        return;
+    }
+
+    adapter.log.debug('polling service messages');
+
+    rega.runScriptFile('alarms', function (data) {
+        if (!data) return;
+        try {
+            data = JSON.parse(data.replace(/\n/gm, ''));
+        } catch (e) {
+            adapter.log.error('Cannot parse answer for alarms: ' + data);
+            return;
+        }
+        for (var dp in data) {
+            var id = _unescape(data[dp].Name);
+            if (id.match(/^AL-/)) id = id.substring(3);
+            id = adapter.config.rfdAdapter + '.' + id.replace(':', '.') + '_ALARM';
+            adapter.setForeignState(id, {
+                val:    !!data[dp].AlState,
+                ack:    true,
+                lc:     new Date(data[dp].AlOccurrenceTime),
+                ts:     new Date(data[dp].LastTriggerTime)
+            });
+        }
+    });
+}
+
+// Acknowledge Alarm
+function acknowledgeAlarm(id) {
+    adapter.getForeignObject(id, function (err, obj) {
+        if (obj && obj.native) {
+            rega.script('dom.GetObject(' + obj.native.DP + ').AlReceipt();');
+            setTimeout(function () {
+                pollServiceMsgs();
+            }, 1000);
+        }
+    });
+}
+
+function getServiceMsgs() {
+    if (!adapter.config.rfdEnabled || !adapter.config.rfdAdapter) {
+        return;
+    }
+
+    adapter.log.debug('create service messages');
+
+    rega.runScriptFile('alarms', function (data) {
+        if (!data) return;
+        try {
+            data = JSON.parse(data.replace(/\n/gm, ''));
+        } catch (e) {
+            adapter.log.error('Cannot parse answer for alarms: ' + data);
+            return;
+        }
+        for (var dp in data) {
+            var name = _unescape(data[dp].Name);
+            var id = name;
+            if (id.match(/^AL-/)) id = id.substring(3);
+
+            id = adapter.config.rfdAdapter + '.' + id.replace(':', '.') + '_ALARM';
+
+            adapter.setForeignObject(id, {
+                type: 'state',
+                common: {
+                    name:  name,
+                    type:  'boolean',
+                    role:  'indicator.alarm',
+                    read:  true,
+                    write: true,
+                    def:   false
+                },
+                native: {
+                    Name:       name,
+                    TypeName:   'ALARM',
+                    DP:         dp
+                }
+            });
+
+            adapter.setForeignState(id, {
+                val:    !!data[dp].AlState,
+                ack:    true,
+                lc:     new Date(data[dp].AlOccurrenceTime),
+                ts:     new Date(data[dp].LastTriggerTime)
+            });
         }
     });
 }
