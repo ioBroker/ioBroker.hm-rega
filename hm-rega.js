@@ -1052,7 +1052,7 @@ function getVariables(callback) {
                         DPInfo:         _unescape(data[id].DPInfo),
                         ValueMin:       data[id].ValueMin,
                         ValueMax:       data[id].ValueMax,
-                        ValueUnit:      data[id].ValueUnit,
+                        ValueUnit:      _unescape(data[id].ValueUnit),
                         ValueType:      data[id].ValueType,
                         ValueSubType:   data[id].ValueSubType,
                         ValueList:      _unescape(data[id].ValueList)
@@ -1060,7 +1060,7 @@ function getVariables(callback) {
                 };
                 if (data[id].ValueMin || data[id].ValueMin === 0)  obj.common.min = data[id].ValueMin;
                 if (data[id].ValueMax || data[id].ValueMax === 0)  obj.common.max = data[id].ValueMax;
-                if (data[id].ValueUnit) obj.common.unit = data[id].ValueUnit;
+                if (data[id].ValueUnit) obj.common.unit = _unescape(data[id].ValueUnit);
                 if (data[id].DPInfo)    obj.common.desc = _unescape(data[id].DPInfo);
 
                 if (data[id].ValueList) {
