@@ -292,6 +292,7 @@ var chars = [
 ];
 
 function _unescape(text) {
+    if (typeof text !== 'string') return text;
     if (!text) return '';
     for (var c = 0; c < chars.length; c++) {
         text = text.replace(chars[c].regex, chars[c].replace);
@@ -1182,20 +1183,20 @@ function getVariables(callback) {
                     },
                     native: {
                         Name:           _unescape(data[dp].Name),
-                        TypeName:       data[dp].TypeName,
+                        TypeName:       _unescape(data[dp].TypeName),
                         DPInfo:         _unescape(data[dp].DPInfo),
-                        ValueMin:       data[dp].ValueMin,
-                        ValueMax:       data[dp].ValueMax,
-                        ValueUnit:      data[dp].ValueUnit,
-                        ValueType:      data[dp].ValueType,
-                        ValueSubType:   data[dp].ValueSubType,
+                        ValueMin:       _unescape(data[dp].ValueMin),
+                        ValueMax:       _unescape(data[dp].ValueMax),
+                        ValueUnit:      _unescape(data[dp].ValueUnit),
+                        ValueType:      _unescape(data[dp].ValueType),
+                        ValueSubType:   _unescape(data[dp].ValueSubType),
                         ValueList:      _unescape(data[dp].ValueList)
                     }
                 };
-                if (data[dp].ValueMin || data[dp].ValueMin === 0)  obj.common.min = data[dp].ValueMin;
-                if (data[dp].ValueMax || data[dp].ValueMax === 0)  obj.common.max = data[dp].ValueMax;
-                if (data[dp].ValueUnit) obj.common.unit = data[dp].ValueUnit;
-                if (data[dp].DPInfo)    obj.common.desc = _unescape(data[dp].DPInfo);
+                if (data[dp].ValueMin || data[dp].ValueMin === 0)  obj.common.min = obj.native.ValueMin;
+                if (data[dp].ValueMax || data[dp].ValueMax === 0)  obj.common.max = obj.native.ValueMax;
+                if (data[dp].ValueUnit) obj.common.unit = obj.native.ValueUnit;
+                if (data[dp].DPInfo)    obj.common.desc = obj.native.DPInfo;
 
                 if (data[dp].ValueList) {
                     var statesArr = _unescape(data[dp].ValueList).split(';');
