@@ -448,8 +448,14 @@ function pollVariables() {
         }
         for (var id in data) {
             var val = data[id][0];
+
             if (typeof val === 'string') val = _unescape(val);
-            if (id == 40) id = 'alarms';
+
+            id = _unescape(id);
+
+            if (id == 40) {
+                id = 'alarms';
+            } else
             if (id == 41) {
                 // If number of alarms changed
                 if (regaStates[id] !== val) setTimeout(pollServiceMsgs, 1000);
@@ -470,8 +476,9 @@ function pollPrograms() {
             adapter.log.error('Cannot parse answer for programs: ' + data);
             return;
         }
-        for (var id in data) {
-            regaStates[id] = data[id].Active;
+        for (var dp in data) {
+            var id = _unescape(dp);
+            regaStates[id] = data[dp].Active;
             adapter.setState(adapter.namespace + '.' + id + '.Active', regaStates[id], true);
         }
     });
@@ -591,25 +598,27 @@ function getPrograms(callback) {
                 return;
             }
             var count = 0;
-            for (var id in data) {
+            var id;
+            for (var dp in data) {
+                id = _unescape(dp);
                 count += 1;
                 adapter.setObject(id, {
                     type: 'channel',
                     common: {
-                        name: _unescape(data[id].Name),
+                        name: _unescape(data[dp].Name),
                         enabled: true
                     },
                     native: {
-                        Name: _unescape(data[id].Name),
-                        TypeName: data[id].TypeName,
-                        PrgInfo: _unescape(data[id].DPInfo)
+                        Name: _unescape(data[dp].Name),
+                        TypeName: data[dp].TypeName,
+                        PrgInfo: _unescape(data[dp].DPInfo)
                     }
                 });
 
                 adapter.extendObject(id + '.ProgramExecute', {
                     type:   'state',
                     common: {
-                        name:  _unescape(data[id].Name)  + ' execute',
+                        name:  _unescape(data[dp].Name)  + ' execute',
                         type:  'boolean',
                         role:  'action.execute',
                         read:  true,
@@ -622,7 +631,7 @@ function getPrograms(callback) {
                 adapter.extendObject(id + '.Active', {
                     type:  'state',
                     common: {
-                        name: _unescape(data[id].Name) + ' enabled',
+                        name: _unescape(data[dp].Name) + ' enabled',
                         type: 'boolean',
                         role: 'state.enabled',
                         read:   true,
@@ -633,9 +642,9 @@ function getPrograms(callback) {
                     }
                 });
 
-                regaStates[id] = data[id].Active;
+                regaStates[id] = data[dp].Active;
                 adapter.setState(id + '.ProgramExecute', false, true);
-                adapter.setState(id + '.Active',         data[id].Active, true);
+                adapter.setState(id + '.Active',         data[dp].Active, true);
 
                 if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
             }
@@ -665,8 +674,8 @@ function getFunctions(callback) {
 
             var memberObjs = data[regaId].Channels;
 
+            var id;
             for (var i = 0; i < memberObjs.length; i++) {
-                var id;
                 switch (memberObjs[i].Interface) {
                     case 'BidCos-RF':
                         if (!adapter.config.rfdEnabled) continue;
@@ -682,6 +691,7 @@ function getFunctions(callback) {
                         if (!adapter.config.cuxdEnabled) continue;
                         id = adapter.config.cuxdAdapter + '.';
                         break;
+
                     default:
                         continue;
 
@@ -742,8 +752,8 @@ function getRooms(callback) {
 
             var memberObjs = data[regaId].Channels;
 
+            var id;
             for (var i = 0; i < memberObjs.length; i++) {
-                var id;
                 switch (memberObjs[i].Interface) {
                     case 'BidCos-RF':
                         id = adapter.config.rfdAdapter + '.';
@@ -764,7 +774,7 @@ function getRooms(callback) {
                         continue;
 
                 }
-                id = id + memberObjs[i].Address.replace(':', '.');
+                id = id + _unescape(memberObjs[i].Address).replace(':', '.');
                 members.push(id);
             }
 
@@ -863,7 +873,7 @@ function getFavorites(callback) {
                                 continue;
 
                         }
-                        id = id + channels[i].Address.replace(':', '.');
+                        id = id + _unescape(channels[i].Address).replace(':', '.');
                         members.push(id);
                     }
                 }
@@ -947,26 +957,29 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             return;
         }
         var objs = [];
+        var id;
         for (var addr in data) {
-            var id;
             switch (data[addr].Interface) {
                 case 'BidCos-RF':
                     if (!adapter.config.rfdEnabled) continue;
                     id = adapter.config.rfdAdapter + '.';
                     break;
+
                 case 'BidCos-Wired':
                     if (!adapter.config.hs485dEnabled) continue;
                     id = adapter.config.hs485dAdapter + '.';
                     break;
+
                 case 'CUxD':
                     if (!adapter.config.cuxdEnabled) continue;
                     id = adapter.config.cuxdAdapter + '.';
                     break;
+
                 default:
                     continue;
             }
 
-            id += addr.replace(':', '.');
+            id += _unescape(addr).replace(':', '.');
             var name = _unescape(data[addr].Name);
             if (addr.indexOf(':') == -1) {
                 // device
@@ -1149,8 +1162,10 @@ function getVariables(callback) {
             }
             var count = 0;
             var i;
+            var id;
 
-            for (var id in data) {
+            for (var dp in data) {
+                id = _unescape(dp);
                 count += 1;
 
                 var role = 'state';
@@ -1159,43 +1174,45 @@ function getVariables(callback) {
                     _id:  adapter.namespace + '.' + id,
                     type: 'state',
                     common: {
-                        name:           _unescape(data[id].Name),
-                        type:           commonTypes[data[id].ValueType],
+                        name:           _unescape(data[dp].Name),
+                        type:           commonTypes[data[dp].ValueType],
                         read:           true,
                         write:          true,
                         role:           role
                     },
                     native: {
-                        Name:           _unescape(data[id].Name),
-                        TypeName:       data[id].TypeName,
-                        DPInfo:         _unescape(data[id].DPInfo),
-                        ValueMin:       data[id].ValueMin,
-                        ValueMax:       data[id].ValueMax,
-                        ValueUnit:      data[id].ValueUnit,
-                        ValueType:      data[id].ValueType,
-                        ValueSubType:   data[id].ValueSubType,
-                        ValueList:      _unescape(data[id].ValueList)
+                        Name:           _unescape(data[dp].Name),
+                        TypeName:       data[dp].TypeName,
+                        DPInfo:         _unescape(data[dp].DPInfo),
+                        ValueMin:       data[dp].ValueMin,
+                        ValueMax:       data[dp].ValueMax,
+                        ValueUnit:      data[dp].ValueUnit,
+                        ValueType:      data[dp].ValueType,
+                        ValueSubType:   data[dp].ValueSubType,
+                        ValueList:      _unescape(data[dp].ValueList)
                     }
                 };
-                if (data[id].ValueMin || data[id].ValueMin === 0)  obj.common.min = data[id].ValueMin;
-                if (data[id].ValueMax || data[id].ValueMax === 0)  obj.common.max = data[id].ValueMax;
-                if (data[id].ValueUnit) obj.common.unit = data[id].ValueUnit;
-                if (data[id].DPInfo)    obj.common.desc = _unescape(data[id].DPInfo);
+                if (data[dp].ValueMin || data[dp].ValueMin === 0)  obj.common.min = data[dp].ValueMin;
+                if (data[dp].ValueMax || data[dp].ValueMax === 0)  obj.common.max = data[dp].ValueMax;
+                if (data[dp].ValueUnit) obj.common.unit = data[dp].ValueUnit;
+                if (data[dp].DPInfo)    obj.common.desc = _unescape(data[dp].DPInfo);
 
-                if (data[id].ValueList) {
-                    var statesArr = _unescape(data[id].ValueList).split(';');
+                if (data[dp].ValueList) {
+                    var statesArr = _unescape(data[dp].ValueList).split(';');
                     obj.common.states = {};
                     for (i = 0; i < statesArr.length; i++) {
                         obj.common.states[i] = statesArr[i];
                     }
-                    if (data[id].ValueSubType === 29) {
+                    if (data[dp].ValueSubType === 29) {
                         obj.common.min = 0;
                         obj.common.max = statesArr.length - 1;
                     }
 
                 }
-                var val = data[id].Value;
+                var val = data[dp].Value;
+
                 if (typeof val === 'string') val = _unescape(val);
+
                 regaStates[id] = val;
                 if (id == 40) {
                     obj.role = 'indicator.alarms';
@@ -1214,10 +1231,7 @@ function getVariables(callback) {
                     adapter.setState(adapter.namespace + '.' + id, val, true);
                 }
 
-                if (response.indexOf(id) !== -1) {
-                    response.splice(response.indexOf(id), 1);
-                }
-
+                if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
             }
 
             adapter.log.info('added/updated ' + count + ' variables');
