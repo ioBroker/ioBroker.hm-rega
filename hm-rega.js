@@ -22,9 +22,7 @@ var adapter = utils.adapter({
             return;
         }
         if (id.match(/_ALARM$/)) {
-            if (!state.val) {
-                setTimeout(acknowledgeAlarm, 100, id);
-            }
+            setTimeout(acknowledgeAlarm, 100, id);
         } else
         // Read devices anew if hm-rpc updated the list of devices
         if (id === adapter.config.rfdAdapter    + '.updated' ||
