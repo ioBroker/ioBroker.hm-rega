@@ -24,6 +24,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.2.1 (2016-07-15)
+* (nobody) fix initial read of states
+
 ### 1.2.0 (2016-05-27)
 * (bluefox) read variables anew if connection of rfd detected
 * (bluefox) read alarms

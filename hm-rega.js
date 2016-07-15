@@ -910,8 +910,11 @@ function getDatapoints(callback) {
             return;
         }
         for (var dp in data) {
-            dp = _unescape(dp);
-            var tmp = dp.split('.');
+            //dp = _unescape(dp);
+            //var tmp = dp.split('.');
+            var tmp = (_unescape(dp)).split('.');
+
+
             if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') continue;
             var id;
             switch (tmp[0]) {

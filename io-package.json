@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.2.0",
+        "version": "1.2.1",
         "news": {
+			"1.2.1": {
+                "en": "fix initial read of states",
+                "de": "fix initial read of states",
+                "ru": "fix initial read of states"
+            },
             "1.2.0": {
                 "en": "read variables anew if connection of rfd detected\nread alarms\nsupport of acknowledgment of alarms",
                 "de": "read variables anew if connection of rfd detected\nread alarms\nsupport of acknowledgment of alarms",
