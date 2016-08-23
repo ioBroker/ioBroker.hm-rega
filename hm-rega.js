@@ -1,6 +1,6 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
-"use strict";
+'use strict';
 var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 
 var afterReconnect = null;
@@ -19,8 +19,7 @@ var adapter = utils.adapter({
                 adapter.log.info('pollingTrigger');
                 pollVariables();
             }
-            return;
-        }
+        } else
         if (id.match(/_ALARM$/)) {
             setTimeout(acknowledgeAlarm, 100, id);
         } else
@@ -61,21 +60,24 @@ var adapter = utils.adapter({
             if (rid[3] === 'ProgramExecute') {
                 if (state.val) {
                     adapter.log.debug('ProgramExecute ' + rid[2]);
+                    states[id] = {ack: false};
                     rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
                 }
             } else if (rid[3] === 'Active') {
                 adapter.log.debug('Active ' + rid[2] + ' ' + state.val);
+                states[id] = {ack: false};
                 rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
             } else {
-                if (rid[2] == 'alarms')      rid[2] = 40;
-                if (rid[2] == 'maintenance') rid[2] = 41;
+                if (rid[2] === 'alarms')      rid[2] = 40;
+                if (rid[2] === 'maintenance') rid[2] = 41;
 
-                if (regaStates[rid[2]] === undefined) {
+                if (!states[id]) {
                     if (!id.match(/\.updated$/)) adapter.log.warn('Got unexpected ID: ' + id);
                     return;
                 }
 
                 adapter.log.debug('Set state ' + rid[2] + ': ' + state.val);
+                states[id] = {ack: false};
                 rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
             }
         }
@@ -91,12 +93,13 @@ var adapter = utils.adapter({
 var rega;
 var ccuReachable;
 var ccuRegaUp;
-var regaStates      = {};
 var pollingInterval;
 var pollingTrigger;
 var checkInterval   = {};
 var functionQueue   = [];
 var units           = {};
+var states          = {};
+var objects         = {};
 var chars = [
     {regex: /%C4/g,     replace: 'Ä'},
     {regex: /%D6/g,     replace: 'Ö'},
@@ -371,7 +374,7 @@ function main() {
         logger: adapter.log,
         ready:  function (err) {
 
-            if (err == 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
+            if (err === 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
 
                 adapter.log.error('ReGaHSS down');
                 ccuReachable = true;
@@ -380,7 +383,7 @@ function main() {
                 adapter.setState('info.ccuReachable', ccuReachable, true);
                 adapter.setState('info.ccuRegaUp',    ccuRegaUp,    true);
 
-            } else if (err == 'CCU unreachable') {
+            } else if (err === 'CCU unreachable') {
 
                 adapter.log.error('CCU ' + adapter.config.homematicAddress + ' unreachable');
                 ccuReachable = false;
@@ -446,6 +449,8 @@ function pollVariables() {
             return;
         }
         for (var id in data) {
+            if (!data.hasOwnProperty(id)) continue;
+
             var val = data[id][0];
 
             if (typeof val === 'string') val = _unescape(val);
@@ -457,11 +462,21 @@ function pollVariables() {
             } else
             if (id == 41) {
                 // If number of alarms changed
-                if (regaStates[id] !== val) setTimeout(pollServiceMsgs, 1000);
                 id = 'maintenance';
             }
-            regaStates[id] = val;
-            adapter.setState(adapter.namespace + '.' + id, val, true);
+            var fullId = adapter.namespace + '.' + id;
+
+            if (id === 'maintenance') {
+                if (!states[fullId] || states[fullId].val !== val) setTimeout(pollServiceMsgs, 1000);
+            }
+
+            if (!states[fullId]     ||
+                !states[fullId].ack ||
+                states[fullId].val !== val
+            ) {
+                states[fullId] = {val: val, ack: true};
+                adapter.setForeignState(fullId, val, true);
+            }
         }
     });
 }
@@ -476,17 +491,25 @@ function pollPrograms() {
             return;
         }
         for (var dp in data) {
+            if (!data.hasOwnProperty(dp)) continue;
+
             var id = _unescape(dp);
-            regaStates[id] = data[dp].Active;
-            adapter.setState(adapter.namespace + '.' + id + '.Active', regaStates[id], true);
+            var val = data[dp].Active;
+
+            var fullId = adapter.namespace + '.' + id + '.Active';
+            if (!states[fullId]     ||
+                !states[fullId].ack ||
+                states[fullId].val !== val
+            ) {
+                states[fullId] = {val: val, ack: true};
+                adapter.setForeignState(fullId, states[fullId]);
+            }
         }
     });
 }
 
 function pollServiceMsgs() {
-    if (!adapter.config.rfdEnabled || !adapter.config.rfdAdapter) {
-        return;
-    }
+    if (!adapter.config.rfdEnabled || !adapter.config.rfdAdapter) return;
 
     adapter.log.debug('polling service messages');
 
@@ -499,27 +522,39 @@ function pollServiceMsgs() {
             return;
         }
         for (var dp in data) {
+            if (!data.hasOwnProperty(dp)) continue;
+
             var id = _unescape(data[dp].Name);
             if (id.match(/^AL-/)) id = id.substring(3);
             id = adapter.config.rfdAdapter + '.' + id.replace(':', '.') + '_ALARM';
-            adapter.setForeignState(id, {
+
+            var state = {
                 val:    !!data[dp].AlState,
                 ack:    true,
                 lc:     new Date(data[dp].AlOccurrenceTime),
                 ts:     new Date(data[dp].LastTriggerTime)
-            });
+            };
+
+            if (!states[id]                  ||
+                !states[id].ack              ||
+                states[id].val !== state.val ||
+                states[id].lc  !== state.lc  ||
+                states[id].ts  !== state.ts
+            ) {
+                states[id] = state;
+                adapter.setForeignState(id, state);
+            }
         }
     });
 }
 
 // Acknowledge Alarm
 function acknowledgeAlarm(id) {
+    states[id] = {ack: false};
     adapter.getForeignObject(id, function (err, obj) {
         if (obj && obj.native) {
             rega.script('dom.GetObject(' + obj.native.DP + ').AlReceipt();');
-            setTimeout(function () {
-                pollServiceMsgs();
-            }, 1000);
+            setTimeout(pollServiceMsgs, 1000);
         }
     });
 }
@@ -540,35 +575,55 @@ function getServiceMsgs() {
             return;
         }
         for (var dp in data) {
+            if (!data.hasOwnProperty(dp)) continue;
+
             var name = _unescape(data[dp].Name);
             var id = name;
             if (id.match(/^AL-/)) id = id.substring(3);
 
             id = adapter.config.rfdAdapter + '.' + id.replace(':', '.') + '_ALARM';
 
-            adapter.setForeignObject(id, {
-                type: 'state',
-                common: {
-                    name:  name,
-                    type:  'boolean',
-                    role:  'indicator.alarm',
-                    read:  true,
-                    write: true,
-                    def:   false
-                },
-                native: {
-                    Name:       name,
-                    TypeName:   'ALARM',
-                    DP:         dp
-                }
-            });
+            var state = {
+                val: !!data[dp].AlState,
+                ack: true,
+                lc:  new Date(data[dp].AlOccurrenceTime),
+                ts:  new Date(data[dp].LastTriggerTime)
+            };
 
-            adapter.setForeignState(id, {
-                val:    !!data[dp].AlState,
-                ack:    true,
-                lc:     new Date(data[dp].AlOccurrenceTime),
-                ts:     new Date(data[dp].LastTriggerTime)
-            });
+            if (!states[id]                  ||
+                !states[id].ack              ||
+                states[id].val !== state.val ||
+                states[id].lc  !== state.lc  ||
+                states[id].ts  !== state.ts
+            ) {
+                states[id] = state;
+                adapter.setForeignState(id, state);
+            }
+
+            // create object if not created
+            if (!objects[id]) {
+                objects[id] = true;
+                adapter.getForeignObject(id, function (err, obj) {
+                    if (err || !obj || obj.name !== name || !obj.native || obj.native.DP !== dp) {
+                        adapter.setForeignObject(id, {
+                            type: 'state',
+                            common: {
+                                name:  name,
+                                type:  'boolean',
+                                role:  'indicator.alarm',
+                                read:  true,
+                                write: true,
+                                def:   false
+                            },
+                            native: {
+                                Name:       name,
+                                TypeName:   'ALARM',
+                                DP:         dp
+                            }
+                        });
+                    }
+                });
+            }
         }
     });
 }
@@ -599,51 +654,81 @@ function getPrograms(callback) {
             var count = 0;
             var id;
             for (var dp in data) {
+                if (!data.hasOwnProperty(dp)) continue;
+
                 id = _unescape(dp);
                 count += 1;
-                adapter.setObject(id, {
-                    type: 'channel',
-                    common: {
-                        name: _unescape(data[dp].Name),
-                        enabled: true
-                    },
-                    native: {
-                        Name: _unescape(data[dp].Name),
-                        TypeName: data[dp].TypeName,
-                        PrgInfo: _unescape(data[dp].DPInfo)
-                    }
-                });
+                var fullId = adapter.namespace + '.' + id;
+                if (!objects[fullId]) {
+                    objects[fullId] = true;
+                    adapter.setForeignObject(fullId, {
+                        type: 'channel',
+                        common: {
+                            name: _unescape(data[dp].Name),
+                            enabled: true
+                        },
+                        native: {
+                            Name: _unescape(data[dp].Name),
+                            TypeName: data[dp].TypeName,
+                            PrgInfo: _unescape(data[dp].DPInfo)
+                        }
+                    });
+                }
 
-                adapter.extendObject(id + '.ProgramExecute', {
-                    type:   'state',
-                    common: {
-                        name:  _unescape(data[dp].Name)  + ' execute',
-                        type:  'boolean',
-                        role:  'action.execute',
-                        read:  true,
-                        write: true
-                    },
-                    native: {
+                var val = data[dp].Active;
 
-                    }
-                });
-                adapter.extendObject(id + '.Active', {
-                    type:  'state',
-                    common: {
-                        name: _unescape(data[dp].Name) + ' enabled',
-                        type: 'boolean',
-                        role: 'state.enabled',
-                        read:   true,
-                        write:  true
-                    },
-                    native: {
+                fullId = adapter.namespace + '.' + id + '.ProgramExecute';
 
-                    }
-                });
+                if (!objects[fullId]) {
+                    objects[fullId] = true;
+                    adapter.extendForeignObject(fullId, {
+                        type:   'state',
+                        common: {
+                            name:  _unescape(data[dp].Name)  + ' execute',
+                            type:  'boolean',
+                            role:  'action.execute',
+                            read:  true,
+                            write: true
+                        },
+                        native: {
 
-                regaStates[id] = data[dp].Active;
-                adapter.setState(id + '.ProgramExecute', false, true);
-                adapter.setState(id + '.Active',         data[dp].Active, true);
+                        }
+                    });
+                }
+
+                if (!states[fullId]     ||
+                    !states[fullId].ack ||
+                    states[fullId].val !== false
+                ) {
+                    states[fullId] = {val: false, ack: true};
+                    adapter.setForeignState(fullId, states[fullId]);
+                }
+
+                fullId = adapter.namespace + '.' + id + '.Active';
+                if (!objects[fullId]) {
+                    objects[fullId] = true;
+                    adapter.extendForeignObject(fullId, {
+                        type:  'state',
+                        common: {
+                            name: _unescape(data[dp].Name) + ' enabled',
+                            type: 'boolean',
+                            role: 'state.enabled',
+                            read:   true,
+                            write:  true
+                        },
+                        native: {
+
+                        }
+                    });
+                }
+
+                if (!states[fullId]     ||
+                    !states[fullId].ack ||
+                    states[fullId].val !== val
+                ) {
+                    states[fullId] = {val: val, ack: true};
+                    adapter.setForeignState(fullId, states[fullId]);
+                }
 
                 if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
             }
@@ -669,6 +754,8 @@ function getFunctions(callback) {
             return;
         }
         for (var regaId in data) {
+            if (!data.hasOwnProperty(regaId)) continue;
+
             var members = [];
 
             var memberObjs = data[regaId].Channels;
@@ -747,6 +834,8 @@ function getRooms(callback) {
             return;
         }
         for (var regaId in data) {
+            if (!data.hasOwnProperty(regaId)) continue;
+
             var members = [];
 
             var memberObjs = data[regaId].Channels;
@@ -837,6 +926,8 @@ function getFavorites(callback) {
         var c = 0;
 
         for (var user in data) {
+            if (!data.hasOwnProperty(user)) continue;
+
             user = _unescape(user);
             adapter.setForeignObject(adapter.config.enumFavorites + '.' + user, {
                 type: 'enum',
@@ -848,6 +939,8 @@ function getFavorites(callback) {
 
 
             for (var fav in data[user]) {
+                if (!data[user].hasOwnProperty(fav)) continue;
+
                 var channels = data[user][fav].Channels;
                 var members = [];
                 for (var i = 0; i < channels.length; i++) {
@@ -889,7 +982,6 @@ function getFavorites(callback) {
                     }
                 });
             }
-
         }
 
         adapter.log.info('added/updated ' + c + ' favorites to ' + adapter.config.enumFavorites);
@@ -910,6 +1002,7 @@ function getDatapoints(callback) {
             return;
         }
         for (var dp in data) {
+            if (!data.hasOwnProperty(dp)) continue;
             //dp = _unescape(dp);
             //var tmp = dp.split('.');
             var tmp = (_unescape(dp)).split('.');
@@ -941,7 +1034,15 @@ function getDatapoints(callback) {
             // convert dimmer and blinds
             if (units[id] === '100%') data[dp] = parseFloat(data[dp]) * 100;
 
-            adapter.setForeignState(id, {val: data[dp], ack: true});
+            var state = {val: data[dp], ack: true};
+
+            if (!states[id] ||
+                states[id].val !== state.val ||
+                !states[id].ack
+            ) {
+                states[id] = state;
+                adapter.setForeignState(id, state);
+            }
         }
         adapter.log.info('got state values');
         if (typeof callback === 'function') callback();
@@ -961,6 +1062,8 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
         var objs = [];
         var id;
         for (var addr in data) {
+            if (!data.hasOwnProperty(addr)) continue;
+
             switch (data[addr].Interface) {
                 case 'BidCos-RF':
                     if (!adapter.config.rfdEnabled) continue;
@@ -985,21 +1088,22 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             var name = _unescape(data[addr].Name);
             if (addr.indexOf(':') == -1) {
                 // device
-                if (devices[id] === undefined || devices[id] != name) {
+                if (devices[id] === undefined || devices[id] !== name) {
                     objs.push({_id: id, common: {name: name}});
                 }
             } else {
                 // channel
-                if (channels[id] === undefined || channels[id] != name) {
+                if (channels[id] === undefined || channels[id] !== name) {
                     objs.push({_id: id, common: {name: name}});
                 } else if (!channels[id]) {
-                    var dev = id.split('.');
+                    var dev  = id.split('.');
                     var last = dev.pop();
                     dev = dev.join('.');
                     if (devices[dev]) objs.push({_id: id, common: {name: devices[dev] + '.' + last}});
                 }
                 if (_states[id]) {
                     for (var s in _states[id]) {
+                        if (!_states[id].hasOwnProperty(s)) continue;
                         if (!_states[id][s]) objs.push({_id: id + '.' + s, common: {name: name + '.' + s}});
                     }
                 }
@@ -1167,6 +1271,7 @@ function getVariables(callback) {
             var id;
 
             for (var dp in data) {
+                if (!data.hasOwnProperty(dp)) continue;
                 id = _unescape(dp);
                 count += 1;
 
@@ -1215,22 +1320,27 @@ function getVariables(callback) {
 
                 if (typeof val === 'string') val = _unescape(val);
 
-                regaStates[id] = val;
                 if (id == 40) {
-                    obj.role = 'indicator.alarms';
-                    obj._id = adapter.namespace + '.alarms';
                     id = 'alarms';
-                    adapter.extendObject(adapter.namespace + '.alarms', obj);
-                    adapter.setState(adapter.namespace + '.alarms', val, true);
+                    obj.role = 'indicator.' + id;
+                    obj._id = adapter.namespace + '.' + id;
                 } else if (id == 41) {
-                    obj.role = 'indicator.maintenance';
-                    obj._id = adapter.namespace + '.maintenance';
                     id = 'maintenance';
-                    adapter.extendObject(adapter.namespace + '.maintenance', obj);
-                    adapter.setState(adapter.namespace + '.maintenance', val, true);
-                } else {
-                    adapter.extendObject(adapter.namespace + '.' + id, obj);
-                    adapter.setState(adapter.namespace + '.' + id, val, true);
+                    obj.role = 'indicator.' + id;
+                    obj._id = adapter.namespace + '.' + id;
+                }
+                var fullId = obj._id;
+
+                if (!objects[fullId]) {
+                    objects[fullId] = true;
+                    adapter.extendForeignObject(fullId, obj);
+                }
+
+                if (!states[fullId] ||
+                    !states[fullId].ack ||
+                    states[fullId].val !== val) {
+                    states[fullId] = {val: val, ack: true};
+                    adapter.setForeignState(fullId, states[fullId]);
                 }
 
                 if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
@@ -1266,14 +1376,13 @@ function stop(callback) {
 
     if (!stopCount) clearInterval(pollingInterval);
     for (var id in checkInterval) {
+        if (!checkInterval.hasOwnProperty(id)) continue;
         clearInterval(checkInterval[id]);
     }
 
     if (rega && rega.pendingRequests > 0 && stopCount < 5) {
         if (!stopCount) adapter.log.info('waiting for pending request');
-        setTimeout(function () {
-            stop(callback);
-        }, 500);
+        setTimeout(stop, 500, callback);
     } else {
         callback();
     }

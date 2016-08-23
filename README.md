@@ -24,6 +24,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.3.0 (2016-08-23)
+* (bluefox) update states only if changed
+
 ### 1.2.1 (2016-07-15)
 * (nobody) fix initial read of states
 
