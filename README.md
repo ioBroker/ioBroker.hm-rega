@@ -24,7 +24,7 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
-### 1.3.0 (2016-08-23)
+### 1.4.0 (2017-01-15)
 * (jens-maus) Add HMIP support
 
 ### 1.3.0 (2016-08-23)
