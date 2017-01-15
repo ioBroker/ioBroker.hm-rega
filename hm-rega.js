@@ -14,6 +14,7 @@ var adapter = utils.adapter({
     },
 
     stateChange: function (id, state) {
+        adapter.log.info("State-Change: " + id + " -> " + state.val);
         if (!state || state.ack) {
             if (state && id === pollingTrigger) {
                 adapter.log.info('pollingTrigger');
@@ -419,7 +420,7 @@ function main() {
 
                 if (!functionQueue.length) {
                     if (adapter.config.syncVariables) functionQueue.push(getServiceMsgs);
-                    
+
                     functionQueue.push(getDatapoints);
 
                     if (adapter.config.syncVariables) functionQueue.push(getVariables);
@@ -1451,4 +1452,3 @@ function stop(callback) {
     }
     stopCount++;
 }
-
