@@ -800,20 +800,41 @@ function getFunctions(callback) {
 
             var name = _unescape(data[regaId].Name);
             var desc = _unescape(data[regaId].EnumInfo);
-            adapter.setForeignObject(adapter.config.enumFunctions + '.' + name, {
+            var obj = {
                 desc: desc,
                 type: 'enum',
                 common: {
-                    name: name,
+                    name:    name,
                     members: members
                 },
                 native: {
-                    Name: name,
+                    Name:     name,
                     TypeName: 'ENUM',
                     EnumInfo: desc
                 }
-            });
+            };
 
+            (function (newObj) {
+                adapter.getForeignObject(adapter.config.enumFunctions + '.' + newObj.common.name, function (err, obj) {
+                    var changed = false;
+                    if (!obj) {
+                        obj = newObj;
+                        changed = true;
+                    } else {
+                        obj.common = obj.common || {};
+                        obj.common.members = obj.common.members || [];
+                        for (var m = 0; m < newObj.common.members.length; m++) {
+                            if (obj.common.members.indexOf(newObj.common.members[m]) === -1) {
+                                changed = true;
+                                obj.common.members.push(newObj.common.members[m]);
+                            }
+                        }
+                    }
+                    if (changed) {
+                        adapter.setForeignObject(adapter.config.enumFunctions + '.' + newObj.common.name, obj);
+                    }
+                });
+            })(obj);
         }
 
         adapter.log.info('added/updated functions to ' + adapter.config.enumFunctions);
@@ -885,7 +906,7 @@ function getRooms(callback) {
 
             var name = _unescape(data[regaId].Name);
             var desc = _unescape(data[regaId].EnumInfo);
-            adapter.setForeignObject(adapter.config.enumRooms + '.' + name, {
+            var obj = {
                 type: 'enum',
                 common: {
                     name: name,
@@ -897,8 +918,29 @@ function getRooms(callback) {
                     TypeName: 'ENUM',
                     EnumInfo: desc
                 }
-            });
+            };
 
+            (function (newObj) {
+                adapter.getForeignObject(adapter.config.enumRooms + '.' + newObj.common.name, function (err, obj) {
+                    var changed = false;
+                    if (!obj) {
+                        obj = newObj;
+                        changed = true;
+                    } else {
+                        obj.common = obj.common || {};
+                        obj.common.members = obj.common.members || [];
+                        for (var m = 0; m < newObj.common.members.length; m++) {
+                            if (obj.common.members.indexOf(newObj.common.members[m]) === -1) {
+                                changed = true;
+                                obj.common.members.push(newObj.common.members[m]);
+                            }
+                        }
+                    }
+                    if (changed) {
+                        adapter.setForeignObject(adapter.config.enumRooms + '.' + newObj.common.name, obj);
+                    }
+                });
+            })(obj);
         }
 
         adapter.log.info('added/updated rooms to ' + adapter.config.enumRooms);
@@ -991,17 +1033,40 @@ function getFavorites(callback) {
                     }
                 }
                 c += 1;
-                adapter.setForeignObject(adapter.config.enumFavorites + '.' + user + '.' + fav, {
+                var obj = {
                     type: 'enum',
                     common: {
                         name: fav,
                         members: members
                     },
                     native: {
+                        user: user,
                         id: data[user][fav].id,
                         TypeName: 'FAVORITE'
                     }
-                });
+                };
+
+                (function (newObj) {
+                    adapter.getForeignObject(adapter.config.enumFavorites + '.' + newObj.native.user + '.' + newObj.common.name, function (err, obj) {
+                        var changed = false;
+                        if (!obj) {
+                            obj = newObj;
+                            changed = true;
+                        } else {
+                            obj.common = obj.common || {};
+                            obj.common.members = obj.common.members || [];
+                            for (var m = 0; m < newObj.common.members.length; m++) {
+                                if (obj.common.members.indexOf(newObj.common.members[m]) === -1) {
+                                    changed = true;
+                                    obj.common.members.push(newObj.common.members[m]);
+                                }
+                            }
+                        }
+                        if (changed) {
+                            adapter.setForeignObject(adapter.config.enumFavorites + '.' + newObj.native.user + '.' + newObj.common.name, obj);
+                        }
+                    });
+                })(obj);
             }
         }
 

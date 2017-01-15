@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.4.0",
+        "version": "1.4.1",
         "news": {
+            "1.4.1": {
+                "en": "merge rooms, functions and favorites with existing one",
+                "de": "merge rooms, functions und favorites mit aktuellen Werten",
+                "ru": "Объединять комнаты с существующими значениями"
+            },
             "1.4.0": {
                 "en": "Add HMIP support",
                 "de": "HMIP-Unterstützung hinzugefügt",

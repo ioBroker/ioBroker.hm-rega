@@ -24,7 +24,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
-### 1.3.0 (2016-08-23)
+### 1.4.1 (2016-01-16)
+* (bluefox) merge rooms, functions and favorites with existing one
+
+### 1.4.0 (2016-01-15)
 * (jens-maus) Add HMIP support
 
 ### 1.3.0 (2016-08-23)
