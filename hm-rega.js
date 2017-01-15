@@ -14,7 +14,6 @@ var adapter = utils.adapter({
     },
 
     stateChange: function (id, state) {
-        adapter.log.info("State-Change: " + id + " -> " + state.val);
         if (!state || state.ack) {
             if (state && id === pollingTrigger) {
                 adapter.log.info('pollingTrigger');
