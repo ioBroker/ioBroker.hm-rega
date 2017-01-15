@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.3.0",
+        "version": "1.4.0",
         "news": {
+            "1.4.0": {
+                "en": "Add HMIP support",
+                "de": "HMIP-Unterstützung hinzugefügt",
+                "ru": "Add HMIP support"
+            },
             "1.3.0": {
                 "en": "update states only if changed",
                 "de": "Zustände nur bei der Änderung updaten",
