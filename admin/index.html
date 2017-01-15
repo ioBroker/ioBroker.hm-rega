@@ -138,7 +138,7 @@
             fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],    'rfd');
             fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
             fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],   'CUxD');
-            fillInstances('hmipAdapter',      arr, settings['homematicAddress'], settings['hmipAdapter'],   'HmIP');
+            fillInstances('hmipAdapter',      arr, settings['homematicAddress'], settings['hmipAdapter'],   'HomeMatic IP');
             enableFields();
 
             $('#homematicAddress').change(function () {
@@ -146,7 +146,7 @@
                 fillInstances('rfdAdapter',       arr, ip, settings['rfdAdapter'],    'rfd',    true);
                 fillInstances('hs485dAdapter',    arr, ip, settings['hs485dAdapter'], 'hs485d', true);
                 fillInstances('cuxdAdapter',      arr, ip, settings['cuxdAdapter'],   'CUxD',   true);
-                fillInstances('hmipAdapter',      arr, ip, settings['hmipAdapter'],   'HmIP',   true);
+                fillInstances('hmipAdapter',      arr, ip, settings['hmipAdapter'],   'HomeMatic IP',   true);
 
             });
         });
