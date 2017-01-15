@@ -26,6 +26,7 @@ var adapter = utils.adapter({
         // Read devices anew if hm-rpc updated the list of devices
         if (id === adapter.config.rfdAdapter    + '.updated' ||
             id === adapter.config.cuxdAdapter   + '.updated' ||
+            id === adapter.config.hmipAdapter   + '.updated' ||
             id === adapter.config.hs485dAdapter + '.updated') {
             if (state.val) {
                 setTimeout(function () {
@@ -37,6 +38,7 @@ var adapter = utils.adapter({
         } else
         if (id === adapter.config.rfdAdapter    + '.info.connection' ||
             id === adapter.config.cuxdAdapter   + '.info.connection' ||
+            id === adapter.config.hmipAdapter   + '.info.connection' ||
             id === adapter.config.hs485dAdapter + '.info.connection') {
             if (state.val) {
                 if (!afterReconnect) {
@@ -357,6 +359,11 @@ function main() {
     if (adapter.config.cuxdAdapter   && adapter.config.cuxdEnabled) {
         adapter.subscribeForeignStates(adapter.config.cuxdAdapter   + '.updated');
         adapter.subscribeForeignStates(adapter.config.cuxdAdapter   + '.info.connection');
+        checkInit(adapter.config.rfdAdapter);
+    }
+    if (adapter.config.hmipAdapter && adapter.config.hmipEnabled) {
+        adapter.subscribeForeignStates(adapter.config.hmipAdapter   + '.updated');
+        adapter.subscribeForeignStates(adapter.config.hmipAdapter   + '.info.connection');
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.hs485dAdapter && adapter.config.hs485dEnabled)  {
@@ -778,6 +785,11 @@ function getFunctions(callback) {
                         id = adapter.config.cuxdAdapter + '.';
                         break;
 
+                    case 'HmIP-RF':
+                        if (!adapter.config.hmipEnabled) continue;
+                        id = adapter.config.hmipAdapter + '.';
+                        break;
+
                     default:
                         continue;
 
@@ -856,6 +868,11 @@ function getRooms(callback) {
                     case 'CUxD':
                         id = adapter.config.cuxdAdapter + '.';
                         if (!adapter.config.cuxdAdapter) continue;
+                        break;
+
+                    case 'HmIP-RF':
+                        id = adapter.config.hmipAdapter + '.';
+                        if (!adapter.config.hmipAdapter) continue;
                         break;
 
                     default:
@@ -961,6 +978,10 @@ function getFavorites(callback) {
                                 id = adapter.config.cuxdAdapter + '.';
                                 if (!adapter.config.cuxdAdapter) continue;
                                 break;
+                            case 'HmIP-RF':
+                                id = adapter.config.hmipAdapter + '.';
+                                if (!adapter.config.hmipAdapter) continue;
+                                break;
                             default:
                                 continue;
 
@@ -1026,6 +1047,11 @@ function getDatapoints(callback) {
                     id = adapter.config.cuxdAdapter + '.';
                     break;
 
+                case 'HmIP-RF':
+                    if (!adapter.config.hmipEnabled) continue;
+                    id = adapter.config.hmipAdapter + '.';
+                    break;
+
                 default:
                     continue;
             }
@@ -1078,6 +1104,11 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                 case 'CUxD':
                     if (!adapter.config.cuxdEnabled) continue;
                     id = adapter.config.cuxdAdapter + '.';
+                    break;
+
+                case 'HmIP-RF':
+                    if (!adapter.config.hmipEnabled) continue;
+                    id = adapter.config.hmipAdapter + '.';
                     break;
 
                 default:
@@ -1217,6 +1248,38 @@ function getDevices(callback) {
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
+                    if (doc && doc.rows) {
+                        for (var i = 0; i < doc.rows.length; i++) {
+                            var parts = doc.rows[i].id.split('.');
+                            var last = parts.pop();
+                            var id = parts.join('.');
+                            units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
+                            _states[id] = _states[id] || [];
+                            _states[id][last] = doc.rows[i].value.common.name;
+                        }
+                    }
+                    count--;
+                    if (!count) _getDevicesFromRega(devices, channels, _states, callback);
+                });
+            });
+        });
+    }
+    if (adapter.config.hmipEnabled) {
+        someEnabled = true;
+        count++;
+        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
+            if (doc && doc.rows) {
+                for (var i = 0; i < doc.rows.length; i++) {
+                    devices[doc.rows[i].id] = doc.rows[i].value.common.name;
+                }
+            }
+            adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
+                if (doc && doc.rows) {
+                    for (var i = 0; i < doc.rows.length; i++) {
+                        channels[doc.rows[i].id] = doc.rows[i].value.common.name;
+                    }
+                }
+                adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
                         for (var i = 0; i < doc.rows.length; i++) {
                             var parts = doc.rows[i].id.split('.');
