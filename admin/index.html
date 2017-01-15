@@ -41,6 +41,7 @@
         "hm-rpc instance":      {"en": "hm-rpc instance",       "de": "hm-rpc Instanz", "ru": "Инстанция hm-rpc"},
         "hs485d (Wired)":       {"en": "hs485d (Wired)",        "de": "hs485d (Wired)", "ru": "hs485d (Wired)"},
         "CUxD":                 {"en": "CUxD",                  "de": "CUxD",           "ru": "CUxD"},
+        "HomeMatic IP":         {"en": "HomeMatic IP",          "de": "HomeMatic IP",   "ru": "HomeMatic IP"},
         "Polling":              {"en": "Polling",               "de": "Polling",        "ru": "Опрос"},
         "interval (s)":         {"en": "interval (s)",          "de": "Intervalle (s)", "ru": "Интервал (с)"},
         "trigger":              {"en": "trigger",               "de": "Trigger",        "ru": "Триггер"},
@@ -85,6 +86,7 @@
         $('#rfdAdapter').prop('disabled', !$('#rfdEnabled').prop('checked'));
         $('#hs485dAdapter').prop('disabled', !$('#hs485dEnabled').prop('checked'));
         $('#cuxdAdapter').prop('disabled', !$('#cuxdEnabled').prop('checked'));
+        $('#hmipAdapter').prop('disabled', !$('#hmipEnabled').prop('checked'));
 
         $('#pollingInterval').prop('disabled', !$('#polling').prop('checked'));
         $('#enumFavorites').prop('disabled', !$('#syncFavorites').prop('checked'));
@@ -136,6 +138,7 @@
             fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],    'rfd');
             fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
             fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],   'CUxD');
+            fillInstances('hmipAdapter',      arr, settings['homematicAddress'], settings['hmipAdapter'],   'HMIP');
             enableFields();
 
             $('#homematicAddress').change(function () {
@@ -143,6 +146,7 @@
                 fillInstances('rfdAdapter',       arr, ip, settings['rfdAdapter'],    'rfd',    true);
                 fillInstances('hs485dAdapter',    arr, ip, settings['hs485dAdapter'], 'hs485d', true);
                 fillInstances('cuxdAdapter',      arr, ip, settings['cuxdAdapter'],   'CUxD',   true);
+                fillInstances('hmipAdapter',      arr, ip, settings['hmipAdapter'],   'HMIP',   true);
 
             });
         });
@@ -165,6 +169,25 @@
     function save(callback) {
         var obj = getSettings();
 
+        if (obj.hmipEnabled) {
+            if (!obj.hmipAdapter) {
+                alert(_('Please select rpc adapter for enabled service or install one first.'));
+                return;
+            }
+
+            if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter == obj.hmipAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            } else
+            if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter == obj.hmipAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
+            if (obj.cuxdEnabled && obj.cuxdAdapter && obj.cuxdAdapter == obj.hmipAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
+        }
         if (obj.cuxdEnabled) {
             if (!obj.cuxdAdapter) {
                 alert(_('Please select rpc adapter for enabled service or install one first.'));
@@ -176,6 +199,10 @@
                 return;
             } else
             if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter == obj.cuxdAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
+            if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter == obj.cuxdAdapter) {
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
@@ -194,6 +221,10 @@
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
+            if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter == obj.rfdAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
         }
         if (obj.hs485dAdapter) {
             if (!obj.hs485dAdapter) {
@@ -206,6 +237,10 @@
                 return;
             } else
             if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter == obj.hs485dAdapter) {
+                alert(_('Cannot use one adapter instance for more than one service.'));
+                return;
+            }
+            if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter == obj.hs485Adapter) {
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
@@ -252,6 +287,14 @@
             <td class="translate">hm-rpc instance</td>
             <td><select id="cuxdAdapter" class="value"></select></td>
         </tr>
+        <tr>
+            <td class="translate">HomeMatic IP</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="hmipEnabled" value="true" class="value"></td>
+            <td class="translate">hm-rpc instance</td>
+            <td><select id="hmipAdapter" class="value"></select></td>
+        </tr>
+
         <tr style="height: 10px; padding-top:10px"><td></td></tr>
         <tr>
             <td class="translate">Polling</td>

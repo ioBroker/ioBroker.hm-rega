@@ -5,7 +5,8 @@
   "author": "hobbyquaker <hq@ccu.io>",
   "contributors": [
     "bluefox <dogafox@gmail.com>",
-    "hobbyquaker <hq@ccu.io>"
+    "hobbyquaker <hq@ccu.io>",
+    "Jens Maus <mail@jens-maus.de>"
   ],
   "homepage": "https://github.com/ioBroker/ioBroker.hm-rega",
   "licenses": [

@@ -61,6 +61,8 @@
         "hs485dAdapter":            "hm-rpc.1",
         "cuxdEnabled":              false,
         "cuxdAdapter":              "hm-rpc.2",
+        "hmipEnabled":              false,
+        "hmipAdapter":              "hm-rpc.3",
         "syncVariables":            true,
         "syncPrograms":             true,
         "syncNames":                true,
