@@ -24,6 +24,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.4.2 (2017-01-30)
+* (bluefox) remove error log in CCU by start
+
 ### 1.4.1 (2017-01-16)
 * (bluefox) merge rooms, functions and favorites with existing one
 

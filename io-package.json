@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "news": {
+			"1.4.2": {
+                "en": "remove error log in CCU by start",
+                "de": "Verhindern von der Fehlermeldung in CCU beim Start",
+                "ru": "remove error log in CCU by start"
+            },
             "1.4.1": {
                 "en": "merge rooms, functions and favorites with existing one",
                 "de": "merge rooms, functions und favorites mit aktuellen Werten",
