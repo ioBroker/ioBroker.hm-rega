@@ -17,7 +17,7 @@ var adapter = utils.adapter({
         if (!state || state.ack) {
             if (state && id === pollingTrigger) {
                 adapter.log.info('pollingTrigger');
-                pollVariables();
+                if (adapter.config.syncVariables) pollVariables();
             }
         } else
         if (id.match(/_ALARM$/)) {
@@ -45,7 +45,7 @@ var adapter = utils.adapter({
                     adapter.log.debug('Connection of "' + id + '" detected. Read variables anew in 60 seconds');
                     afterReconnect = setTimeout(function () {
                         afterReconnect = null;
-                        getVariables();
+                        if (adapter.config.syncVariables) getVariables();
                     }, 60000);
                 }
             } else {
@@ -1482,10 +1482,10 @@ function getVariables(callback) {
             adapter.log.info('deleted ' + response.length + ' variables');
 
             if (adapter.config.polling && adapter.config.pollingInterval > 0) {
-                if (!pollingInterval) {
+                if (!pollingInterval && (adapter.config.syncVariables || adapter.config.syncPrograms)) {
                     pollingInterval = setInterval(function () {
-                        pollVariables();
-                        pollPrograms();
+                        if (adapter.config.syncVariables) pollVariables();
+                        if (adapter.config.syncPrograms) pollPrograms();
                     }, adapter.config.pollingInterval * 1000);
                 }
             }
