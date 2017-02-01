@@ -24,6 +24,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.4.3 (2017-02-01)
+* (Apollon77) respect settings and only sync variables and programs if selected in settings (issue #22)
+
 ### 1.4.2 (2017-01-30)
 * (bluefox) remove error log in CCU by start
 
