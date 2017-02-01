@@ -1,9 +1,10 @@
 language: node_js
 node_js:
-  - "4.1"
-  - "4.0"
-  - "0.12"
-  - "0.11"
-  - "0.10"
+  - '4.1'
+  - '4.0'
+  - '0.12'
+  - '0.11'
+  - '0.10'
+  - '7'
 before_script:
-  - npm install https://github.com/ioBroker/ioBroker.js-controller/tarball/master --production
+  - 'npm install https://github.com/ioBroker/ioBroker.js-controller/tarball/master --production'
