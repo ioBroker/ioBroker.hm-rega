@@ -1282,6 +1282,7 @@ function getDevices(callback) {
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
+                        units = units || {};
                         for (var i = 0; i < doc.rows.length; i++) {
                             var parts = doc.rows[i].id.split('.');
                             var last = parts.pop();
@@ -1314,6 +1315,7 @@ function getDevices(callback) {
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
+                        units = units || {};
                         for (var i = 0; i < doc.rows.length; i++) {
                             var parts = doc.rows[i].id.split('.');
                             var last = parts.pop();
@@ -1346,6 +1348,7 @@ function getDevices(callback) {
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
+                        units = units || {};
                         for (var i = 0; i < doc.rows.length; i++) {
                             var parts = doc.rows[i].id.split('.');
                             var last = parts.pop();
