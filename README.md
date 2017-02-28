@@ -24,6 +24,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+### 1.4.4 (2017-02-28)
+* (Apollon77) small fix (issue #23)
+
 ### 1.4.3 (2017-02-01)
 * (Apollon77) respect settings and only sync variables and programs if selected in settings (issue #22)
 

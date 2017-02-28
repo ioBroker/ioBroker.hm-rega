@@ -1,14 +1,18 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.4.3",
+        "version": "1.4.4",
         "news": {
+            "1.4.4": {
+                "en": "small fix",
+                "de": "Kleine Fehlerbehebung",
+                "ru": "small fix"
+            },
             "1.4.3": {
                 "en": "respect settings and only sync variables and programs if selected in settings",
                 "de": "Respektieren der Einstellungen zum Syncen der Variablen und Programme und nur dann syncen wenn ausgewählt",
                 "ru": "respect settings and only sync variables and programs if selected in settings"
             },
-
             "1.4.2": {
                 "en": "remove error log in CCU by start",
                 "de": "Verhindern von der Fehlermeldung in CCU beim Start",
