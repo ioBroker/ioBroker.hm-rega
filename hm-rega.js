@@ -1123,7 +1123,12 @@ function getDatapoints(callback) {
             id += tmp[1].replace(':', '.') + '.' + tmp[2];
 
             // convert dimmer and blinds
-            if (units[id] === '100%') data[dp] = parseFloat(data[dp]) * 100;
+            if (typeof units[id] === 'object') {
+                data[dp] = Math.round(((parseFloat(data[dp]) - units[id].MIN) / (units[id.MAX - units[id].MIN)) * 10000) / 100;
+            } else
+            if (units[id] === '100%') {
+                data[dp] = parseFloat(data[dp]) * 100;
+            }
 
             var state = {val: data[dp], ack: true};
 
@@ -1253,6 +1258,13 @@ function getDevices(callback) {
                             var id    = parts.join('.');
                             if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
                                 units[doc.rows[i].id] = _unescape(doc.rows[i].value.native.UNIT);
+                                if (units[doc.rows[i].id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                                    units[doc.rows[i].id] = {
+                                        UNIT: '%',
+                                        MIN: parseFloat(doc.rows[i].value.native.MIN),
+                                        MAX: parseFloat(doc.rows[i].value.native.MAX)
+                                    };
+                                }
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
@@ -1288,6 +1300,13 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
+                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                                units[id] = {
+                                    UNIT: '%',
+                                    MIN: parseFloat(doc.rows[i].value.native.MIN),
+                                    MAX: parseFloat(doc.rows[i].value.native.MAX)
+                                };
+                            }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
@@ -1321,6 +1340,13 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
+                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                                units[id] = {
+                                    UNIT: '%',
+                                    MIN: parseFloat(doc.rows[i].value.native.MIN),
+                                    MAX: parseFloat(doc.rows[i].value.native.MAX)
+                                };
+                            }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
@@ -1354,6 +1380,13 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
+                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                                units[id] = {
+                                    UNIT: '%',
+                                    MIN: parseFloat(doc.rows[i].value.native.MIN),
+                                    MAX: parseFloat(doc.rows[i].value.native.MAX)
+                                };
+                            }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
