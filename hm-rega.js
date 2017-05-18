@@ -1124,7 +1124,7 @@ function getDatapoints(callback) {
 
             // convert dimmer and blinds
             if (typeof units[id] === 'object') {
-                data[dp] = Math.round(((parseFloat(data[dp]) - units[id].MIN) / (units[id.MAX - units[id].MIN)) * 10000) / 100;
+                data[dp] = Math.round(((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 10000) / 100;
             } else
             if (units[id] === '100%') {
                 data[dp] = parseFloat(data[dp]) * 100;
