@@ -1258,7 +1258,7 @@ function getDevices(callback) {
                             var id    = parts.join('.');
                             if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
                                 units[doc.rows[i].id] = _unescape(doc.rows[i].value.native.UNIT);
-                                if (units[doc.rows[i].id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                                if (units[doc.rows[i].id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
                                     units[doc.rows[i].id] = {
                                         UNIT: '%',
                                         MIN: parseFloat(doc.rows[i].value.native.MIN),
@@ -1300,7 +1300,7 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
                                 units[id] = {
                                     UNIT: '%',
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
@@ -1340,7 +1340,7 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
                                 units[id] = {
                                     UNIT: '%',
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
@@ -1380,7 +1380,7 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined) {
+                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
                                 units[id] = {
                                     UNIT: '%',
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
