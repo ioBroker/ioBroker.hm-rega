@@ -61,52 +61,52 @@
         for (var i = 0; i < arr.length; i++) {
             if (!arr[i].native || !arr[i].native.homematicAddress || arr[i].native.homematicAddress != ip) continue;
             if (arr[i].native.daemon != type && arr[i].native.type != type) continue;
-            var id = arr[i]._id.replace('system.adapter.', '');
+            var _id = arr[i]._id.replace('system.adapter.', '');
 
             // Take first value
-            if (!val && preset) val = id;
+            if (!val && preset) val = _id;
 
-            $sel.append('<option value="' + id + '"' + ((id == val) ? ' selected' : '') + '>' + id + '</option>');
+            $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _id + '</option>');
         }
     }
 
     function fillIpAddress(id, arr, val) {
         var $sel = $('#' + id);
         $sel.html('<option value="">' + _('none') + '</option>');
-
+        var _id;
         for (var i = 0; i < arr.length; i++) {
             if (!arr[i].native || !arr[i].native.homematicAddress) continue;
 
-            var id = arr[i].native.homematicAddress;
-            $sel.append('<option value="' + id + '"' + ((id == val) ? ' selected' : '') + '>' + id + '</option>');
+            _id = arr[i].native.homematicAddress;
+            $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _id + '</option>');
         }
     }
 
     function enableFields() {
-        $('#rfdAdapter').prop('disabled', !$('#rfdEnabled').prop('checked'));
-        $('#hs485dAdapter').prop('disabled', !$('#hs485dEnabled').prop('checked'));
-        $('#cuxdAdapter').prop('disabled', !$('#cuxdEnabled').prop('checked'));
-        $('#hmipAdapter').prop('disabled', !$('#hmipEnabled').prop('checked'));
+        $('#rfdAdapter').prop('disabled',      !$('#rfdEnabled').prop('checked'));
+        $('#hs485dAdapter').prop('disabled',   !$('#hs485dEnabled').prop('checked'));
+        $('#cuxdAdapter').prop('disabled',     !$('#cuxdEnabled').prop('checked'));
+        $('#hmipAdapter').prop('disabled',     !$('#hmipEnabled').prop('checked'));
 
         $('#pollingInterval').prop('disabled', !$('#polling').prop('checked'));
-        $('#enumFavorites').prop('disabled', !$('#syncFavorites').prop('checked'));
-        $('#enumRooms').prop('disabled', !$('#syncRooms').prop('checked'));
-        $('#enumFunctions').prop('disabled', !$('#syncFunctions').prop('checked'));
+        $('#enumFavorites').prop('disabled',   !$('#syncFavorites').prop('checked'));
+        $('#enumRooms').prop('disabled',       !$('#syncRooms').prop('checked'));
+        $('#enumFunctions').prop('disabled',   !$('#syncFunctions').prop('checked'));
     }
 
     function setValue(id, value, onChange) {
-        // example: select elements with id=key and class=value and insert value
-        if ($('#' + id + '.value').attr('type') == 'checkbox') {
-            $('#' + id + '.value').prop('checked', value).change(function() {
+        var $value = $('#' + id + '.value');
+        if ($value.attr('type') === 'checkbox') {
+            $value.prop('checked', value).change(function() {
                 onChange();
                 enableFields();
             });
         } else {
-            $('#' + id + '.value').val(value).change(function() {
+            $value.val(value).change(function() {
                 onChange();
             }).keyup(function() {
                 onChange();
-                // Chack that only numbers entered
+                // Check that only numbers entered
                 if ($(this).hasClass('number')) {
                     var val = $(this).val();
                     if (val) {
@@ -126,7 +126,7 @@
 
     function load(settings, onChange) {
         for (var key in settings) {
-            setValue(key, settings[key], onChange);
+            if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
         }
 
         onChange(false);
@@ -157,7 +157,7 @@
             var $this = $(this);
             var id = $this.attr('id');
 
-            if ($this.attr('type') == 'checkbox') {
+            if ($this.attr('type') === 'checkbox') {
                 obj[$this.attr('id')] = $this.prop('checked');
             } else {
                 obj[$this.attr('id')] = $this.val();
