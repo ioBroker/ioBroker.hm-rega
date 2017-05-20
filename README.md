@@ -24,7 +24,7 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
-### 1.4.5 (2017-05-18)
+### 1.4.6 (2017-05-20)
 * (bluefox) Fix values conversion for CUxD
 
 ### 1.4.4 (2017-02-28)
