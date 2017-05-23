@@ -464,10 +464,10 @@ function pollVariables() {
 
             id = _unescape(id);
 
-            if (id == 40) {
+            if (id === '40') {
                 id = 'alarms';
             } else
-            if (id == 41) {
+            if (id === '41') {
                 // If number of alarms changed
                 id = 'maintenance';
             }
@@ -1267,7 +1267,7 @@ function getDevices(callback) {
                                         MIN: parseFloat(doc.rows[i].value.native.MIN),
                                         MAX: parseFloat(doc.rows[i].value.native.MAX)
                                     };
-                                    if (units[_id].max === 99) units[id].max = 100;
+                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
                                 }
                             }
                             _states[id] = _states[id] || [];
@@ -1312,7 +1312,7 @@ function getDevices(callback) {
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
                                     MAX: parseFloat(doc.rows[i].value.native.MAX)
                                 };
-                                if (units[id].max === 99) units[id].max = 100;
+                                if (units[id].MAX === 99) units[id].MAX = 100;
                             }
 
                             _states[id] = _states[id] || [];
@@ -1356,7 +1356,7 @@ function getDevices(callback) {
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
                                     MAX: parseFloat(doc.rows[i].value.native.MAX)
                                 };
-                                if (units[id].max === 99) units[id].max = 100;
+                                if (units[id].MAX === 99) units[id].MAX = 100;
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
@@ -1399,7 +1399,7 @@ function getDevices(callback) {
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
                                     MAX: parseFloat(doc.rows[i].value.native.MAX)
                                 };
-                                if (units[id].max === 99) units[id].max = 100;
+                                if (units[id].MAX === 99) units[id].MAX = 100;
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
@@ -1498,11 +1498,11 @@ function getVariables(callback) {
 
                 if (typeof val === 'string') val = _unescape(val);
 
-                if (id == 40) {
+                if (id === '40') {
                     id = 'alarms';
                     obj.role = 'indicator.' + id;
                     obj._id = adapter.namespace + '.' + id;
-                } else if (id == 41) {
+                } else if (id === '41') {
                     id = 'maintenance';
                     obj.role = 'indicator.' + id;
                     obj._id = adapter.namespace + '.' + id;
