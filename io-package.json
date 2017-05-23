@@ -1,9 +1,9 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.4.6",
+        "version": "1.4.7",
         "news": {
-		    "1.4.6": {
+		    "1.4.7": {
                 "en": "Fix values conversion for CUxD",
                 "de": "Korrigiere die Kalkulation von CUxD Werten",
                 "ru": "Fix values conversion for CUxD"

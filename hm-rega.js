@@ -1124,7 +1124,7 @@ function getDatapoints(callback) {
 
             // convert dimmer and blinds
             if (typeof units[id] === 'object') {
-                data[dp] = Math.round(((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 10000) / 100;
+                data[dp] = Math.round(((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100) / 100;
             } else
             if (units[id] === '100%' || (units[id] === '%' && (!units[id].MAX || units[id].MAX === 1))) {
                 data[dp] = parseFloat(data[dp]) * 100;
@@ -1257,13 +1257,17 @@ function getDevices(callback) {
                             var last  = parts.pop();
                             var id    = parts.join('.');
                             if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
-                                units[doc.rows[i].id] = _unescape(doc.rows[i].value.native.UNIT);
-                                if (units[doc.rows[i].id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
-                                    units[doc.rows[i].id] = {
+                                var _id = doc.rows[i].id;
+                                units[_id] = _unescape(doc.rows[i].value.native.UNIT);
+                                if ((units[_id] === '100%' || units[_id] === '%') &&
+                                    doc.rows[i].value.native.MIN !== undefined &&
+                                    typeof doc.rows[i].value.native.MIN === 'number') {
+                                    units[_id] = {
                                         UNIT: '%',
                                         MIN: parseFloat(doc.rows[i].value.native.MIN),
                                         MAX: parseFloat(doc.rows[i].value.native.MAX)
                                     };
+                                    if (units[_id].max === 99) units[id].max = 100;
                                 }
                             }
                             _states[id] = _states[id] || [];
@@ -1300,13 +1304,17 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
+                            if ((units[id] === '100%' || units[id] === '%') &&
+                                doc.rows[i].value.native.MIN !== undefined &&
+                                typeof doc.rows[i].value.native.MIN === 'number') {
                                 units[id] = {
                                     UNIT: '%',
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
                                     MAX: parseFloat(doc.rows[i].value.native.MAX)
                                 };
+                                if (units[id].max === 99) units[id].max = 100;
                             }
+
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
@@ -1340,12 +1348,15 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
+                            if ((units[id] === '100%' || units[id] === '%') &&
+                                doc.rows[i].value.native.MIN !== undefined &&
+                                typeof doc.rows[i].value.native.MIN === 'number') {
                                 units[id] = {
                                     UNIT: '%',
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
                                     MAX: parseFloat(doc.rows[i].value.native.MAX)
                                 };
+                                if (units[id].max === 99) units[id].max = 100;
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
@@ -1380,12 +1391,15 @@ function getDevices(callback) {
                             var last = parts.pop();
                             var id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if (units[id] === '100%' && doc.rows[i].value.native.MIN !== undefined && typeof doc.rows[i].value.native.MIN === 'number') {
+                            if ((units[id] === '100%' || units[id] === '%') &&
+                                doc.rows[i].value.native.MIN !== undefined &&
+                                typeof doc.rows[i].value.native.MIN === 'number') {
                                 units[id] = {
                                     UNIT: '%',
                                     MIN: parseFloat(doc.rows[i].value.native.MIN),
                                     MAX: parseFloat(doc.rows[i].value.native.MAX)
                                 };
+                                if (units[id].max === 99) units[id].max = 100;
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
