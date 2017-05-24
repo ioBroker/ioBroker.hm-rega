@@ -1124,9 +1124,11 @@ function getDatapoints(callback) {
 
             // convert dimmer and blinds
             if (typeof units[id] === 'object') {
-                data[dp] = Math.round(((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100) / 100;
+                data[dp] = ((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100;
+                // round to xx.yy
+                data[dp] = Math.round(data[dp] * 100) / 100;
             } else
-            if (units[id] === '100%' || (units[id] === '%' && (!units[id].MAX || units[id].MAX === 1))) {
+            if (units[id] === '100%' || units[id] === '%') {
                 data[dp] = parseFloat(data[dp]) * 100;
             }
 
@@ -1314,7 +1316,6 @@ function getDevices(callback) {
                                 };
                                 if (units[id].MAX === 99) units[id].MAX = 100;
                             }
-
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
