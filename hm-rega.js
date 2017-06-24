@@ -1214,7 +1214,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
         }
 
         function _queue() {
-            if (objs.length > 1) {
+            if (objs.length > 0) {
                 var obj = objs.pop();
                 adapter.log.info('renamed ' + obj._id + ' to "' + obj.common.name + '"');
                 adapter.extendForeignObject(obj._id, obj, function () {
