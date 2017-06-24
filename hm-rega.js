@@ -1207,7 +1207,8 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                 if (_states[id]) {
                     for (var s in _states[id]) {
                         if (!_states[id].hasOwnProperty(s)) continue;
-                        if (!_states[id][s]) objs.push({_id: id + '.' + s, common: {name: name + '.' + s}});
+                        var stateName = name + '.' + s;
+                        if (!_states[id][s] || _states[id][s] !== stateName) objs.push({_id: id + '.' + s, common: {name: stateName}});
                     }
                 }
             }
