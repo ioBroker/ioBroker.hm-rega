@@ -1,9 +1,14 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.4.8",
+        "version": "1.5.0",
         "news": {
-		    "1.4.8": {
+            "1.5.0": {
+                "en": "Also update names of states when syncing with CCU",
+                "de": "Bei der Synchronisation mit der CCU werden auch State-Namen aktualisiert",
+                "ru": "Also update names of states when syncing with CCU"
+            },
+            "1.4.8": {
                 "en": "Fix values conversion for CUxD",
                 "de": "Korrigiere die Kalkulation von CUxD Werten",
                 "ru": "Fix values conversion for CUxD"
