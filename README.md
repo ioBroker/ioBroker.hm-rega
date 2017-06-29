@@ -24,6 +24,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 
 ## Changelog
+
+### 1.5.0 (2017-06-29)
+* (Apollon77) Also update names of states when syncing with CCU
+
 ### 1.4.8 (2017-05-24)
 * (bluefox) Fix values conversion for CUxD
 
