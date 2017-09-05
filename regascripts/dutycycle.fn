@@ -4,7 +4,7 @@ string index;
 real count = 0;
 string stderr;
 string stdout;
-system.Exec("echo 'load tclrpc.so; puts [xmlrpc http://127.0.0.1:2001/ listBidcosInterfaces ]'|tclsh ", &stdout, &stderr);
+system.Exec("/bin/sh -c '" # 'echo "load tclrpc.so; puts [xmlrpc http://127.0.0.1:2001/ listBidcosInterfaces ]" |tclsh' # "'", &stdout, &stderr);
 stdout = stdout.Replace("{","").Replace("}","").Replace("\n","");
 foreach(index, stdout.Split(" ")) {
 	count = count + 1;

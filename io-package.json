@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.6.1",
+        "version": "1.6.2",
         "news": {
+			"1.6.2": {
+                "en": "dutycycle.fn script changed for better compatiblity without ReGaHss Beta version",
+                "de": "dutycycle.fn Skript umgebaut damit ohne aktuelle Beta ReGaHss funktioniert",
+                "ru": "dutycycle.fn script changed for better compatiblity without ReGaHss Beta version"
+            },
 			"1.6.1": {
                 "en": "Error in script file fixed",
                 "de": "Fehler in Skript-Datei behoben",

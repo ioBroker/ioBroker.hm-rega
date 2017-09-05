@@ -503,27 +503,36 @@ function pollDutyCycle() {
             return;
         }
 		
-        for (var dp in data) {
+        var id;
+		for (var dp in data) {
 			if (!data.hasOwnProperty(dp)) {
 				continue;
 			}
-			var id = _unescape(data[dp].ADDRESS);
+			id = _unescape(data[dp].ADDRESS);
 			
 			//DUTY_CYCLE State:
-			updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
-			adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
+			if(data[dp].DUTY_CYCLE) {
+				updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
+				adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
+			}
 
 			//CONNECTED State:
-			updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
-			adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
+			if(data[dp].CONNECTED) {
+				updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
+				adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
+			}
 
 			//DEFAULT State:
-			updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
-			adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
+			if(data[dp].DEFAULT) {
+				updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
+				adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
+			}
 
 			//FIRMWARE_VERSION State:
-			updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
-			adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + data[dp].FIRMWARE_VERSION);
+			if(data[dp].FIRMWARE_VERSION) {
+				updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
+				adapter.log.info('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + data[dp].FIRMWARE_VERSION);
+			}
         }
     });
 }
@@ -1624,15 +1633,16 @@ function getDutyCycle(callback) {
                     adapter.extendForeignObject(obj._id, obj);
                 }
 
-				//DUTY_CYCLE State hinzufügen:
-                var stateDutycycle = {
+				//DUTY_CYCLE State:
+				if(data[dp].DUTY_CYCLE) {
+					var stateDutycycle = {
                     _id:  adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
                     type: 'state',
                     common: {
                         name:           adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
                         type:           'number',
                         read:           true,
-                        write:          true,
+                        write:          false,
                         role:           'value',
 						min:			0,
 						max:			100,
@@ -1649,17 +1659,19 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				addNewStateOrObject(stateDutycycle, data[dp].DUTY_CYCLE);
-
-				//CONNECTED State hinzufügen:
-                var stateConnected = {
+					addNewStateOrObject(stateDutycycle, data[dp].DUTY_CYCLE);
+				}
+				
+				//CONNECTED State:
+				if(data[dp].CONNECTED) {
+					var stateConnected = {
                     _id:  adapter.namespace + '.' + id + '.0.CONNECTED',
                     type: 'state',
                     common: {
                         name:           adapter.namespace + '.' + id + '.0.CONNECTED',
                         type:           'boolean',
                         read:           true,
-                        write:          true,
+                        write:          false,
                         role:           'indicator.connected',
 						desc:			'conected'
                     },
@@ -1670,17 +1682,19 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				addNewStateOrObject(stateConnected, data[dp].CONNECTED);
+					addNewStateOrObject(stateConnected, data[dp].CONNECTED);
+				}
 
-				//DEFAULT State hinzufügen:
-                var stateDefault = {
+				//DEFAULT State:
+				if(data[dp].DEFAULT) {
+					var stateDefault = {
                     _id:  adapter.namespace + '.' + id + '.0.DEFAULT',
                     type: 'state',
                     common: {
                         name:           adapter.namespace + '.' + id + '.0.DEFAULT',
                         type:           'boolean',
                         read:           true,
-                        write:          true,
+                        write:          false,
                         role:           'indicator',
 						desc:			'default'
                     },
@@ -1691,18 +1705,20 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				addNewStateOrObject(stateDefault, data[dp].DEFAULT);
+					addNewStateOrObject(stateDefault, data[dp].DEFAULT);
+				}
 
-				//FIRMWARE_VERSION State hinzufügen:
-                var stateFirmware = {
+				//FIRMWARE_VERSION State:
+				if(data[dp].FIRMWARE_VERSION) {
+					var stateFirmware = {
                     _id:  adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
                     type: 'state',
                     common: {
                         name:           adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
                         type:           'string',
                         read:           true,
-                        write:          true,
-                        role:           'indicator',
+                        write:          false,
+                        role:           'text',
 						desc:			'firmeware_version'
                     },
                     native: {
@@ -1712,7 +1728,8 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				addNewStateOrObject(stateFirmware, data[dp].FIRMWARE_VERSION);
+					addNewStateOrObject(stateFirmware, data[dp].FIRMWARE_VERSION);
+				}
 			}
 
             adapter.log.info('added/updated ' + count + ' objects');
