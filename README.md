@@ -25,7 +25,7 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
-### 1.5.1 (2017-06-29)
+### 1.6.0 (2017-09-05)
 * (AlGu1) Read DutyCycle and other params from listBidcosInterfaces
 
 ### 1.5.0 (2017-06-29)

@@ -510,16 +510,16 @@ function pollDutyCycle() {
 			id = _unescape(data[dp].ADDRESS);
 
 			//DUTY_CYCLE State:
-			UpdateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
+			updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
 
 			//CONNECTED State:
-			UpdateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
+			updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
 
 			//DEFAULT State:
-			UpdateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
+			updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
 
 			//FIRMWARE_VERSION State:
-			UpdateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
+			updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
         }
     });
 }
@@ -1645,7 +1645,7 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				AddNewStateOrObject(stateDutycycle, data[dp].DUTY_CYCLE);
+				addNewStateOrObject(stateDutycycle, data[dp].DUTY_CYCLE);
 
 				//CONNECTED State hinzufügen:
                 var stateConnected = {
@@ -1666,7 +1666,7 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				AddNewStateOrObject(stateConnected, data[dp].CONNECTED);
+				addNewStateOrObject(stateConnected, data[dp].CONNECTED);
 
 				//DEFAULT State hinzufügen:
                 var stateDefault = {
@@ -1687,7 +1687,7 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				AddNewStateOrObject(stateDefault, data[dp].DEFAULT);
+				addNewStateOrObject(stateDefault, data[dp].DEFAULT);
 
 				//FIRMWARE_VERSION State hinzufügen:
                 var stateFirmware = {
@@ -1708,7 +1708,7 @@ function getDutyCycle(callback) {
 						CONTROL:		'NONE'
                     }
                 };
-				AddNewStateOrObject(stateFirmware, data[dp].FIRMWARE_VERSION);
+				addNewStateOrObject(stateFirmware, data[dp].FIRMWARE_VERSION);
 			}
 
             adapter.log.info('added/updated ' + count + ' objects');
@@ -1726,7 +1726,7 @@ function getDutyCycle(callback) {
     });
 }
 
-function AddNewStateOrObject(obj, val) {
+function addNewStateOrObject(obj, val) {
 	if (!objects[obj._id]) {
 		objects[obj._id] = true;
 		adapter.extendForeignObject(obj._id, obj);
@@ -1741,7 +1741,7 @@ function AddNewStateOrObject(obj, val) {
 	}
 }
 
-function UpdateNewState(fullId, val) {
+function updateNewState(fullId, val) {
 	if (typeof val === 'string') {
 		val = _unescape(val);
 	}
