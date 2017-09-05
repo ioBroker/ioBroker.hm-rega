@@ -1,11 +1,16 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.6.0",
+        "version": "1.6.1",
         "news": {
+			"1.6.1": {
+                "en": "Error in script file fixed",
+                "de": "Fehler in Skript-Datei behoben",
+                "ru": "Error in script file fixed"
+            },
 			"1.6.0": {
                 "en": "Read DutyCycle and other params from listBidcosInterfaces",
-                "de": "Auslesen des DutyCycle und weiterer Paramater des listBidcosInterfaces ",
+                "de": "Auslesen des DutyCycle und weiterer Paramater des listBidcosInterfaces",
                 "ru": "Read DutyCycle and other params from listBidcosInterfaces"
             },
             "1.5.0": {
