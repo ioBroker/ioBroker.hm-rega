@@ -507,19 +507,23 @@ function pollDutyCycle() {
 			if (!data.hasOwnProperty(dp)) {
 				continue;
 			}
-			id = _unescape(data[dp].ADDRESS);
-
+			var id = _unescape(data[dp].ADDRESS);
+			
 			//DUTY_CYCLE State:
 			updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
+			adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
 
 			//CONNECTED State:
 			updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
+			adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
 
 			//DEFAULT State:
 			updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
+			adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
 
 			//FIRMWARE_VERSION State:
 			updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
+			adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + data[dp].FIRMWARE_VERSION);
         }
     });
 }
@@ -1713,11 +1717,11 @@ function getDutyCycle(callback) {
 
             adapter.log.info('added/updated ' + count + ' objects');
 
-            if (adapter.config.polling && adapter.config.pollingintervaldc > 0) {
-                if (!pollingintervaldc && adapter.config.syncdutycycle) {
-                    pollingintervaldc = setinterval(function () {
-                        if (adapter.config.syncdutycycle) polldutycycle();
-                    }, adapter.config.pollingintervaldc * 1000);
+            if (adapter.config.syncDutyCycle && adapter.config.pollingIntervalDC > 0) {
+                if (!pollingIntervalDC) {
+                    pollingIntervalDC = setInterval(function () {
+                        if (adapter.config.syncDutyCycle) pollDutyCycle();
+                    }, adapter.config.pollingIntervalDC * 1000);
                 }
             }
 
