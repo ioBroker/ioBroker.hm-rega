@@ -1,4 +1,4 @@
-!# datapoints.fn 1.8
+!# datapoints.fn 1.9
 !#
 !# Dieses Homematic-Script gibt eine Liste aller Datenpunkte (ausser WORKING/DIRECTION) als JSON String aus
 !#
@@ -11,6 +11,7 @@ string sDPId;
 string sValue;
 string sChnId;
 string sDPId;
+integer iDPNameIndex;
 boolean dpFirst = true;
 Write('{');
 foreach (sDevId, root.Devices().EnumUsedIDs()) {
@@ -23,35 +24,37 @@ foreach (sDevId, root.Devices().EnumUsedIDs()) {
                 object oDP = dom.GetObject(sDPId);
                 if (oDP) {
                     if (oDP.TypeName() != "VARDP") {
-                        if (dpFirst) {
-                          dpFirst = false;
-                        } else {
-                          WriteLine(',');
-                        }
-                        string sValueType = oDP.ValueType();
-                        Write('"');
-                        WriteURL(oDP.Name());
-                        Write('":');
-                        if (sValueType == 20) {
-                            Write('"');
-                            WriteURL(oDP.Value());
-                            Write('"');
-                        } else {
-                            sValue = oDP.Value();
-                            if (sValueType == 2) {
-                                if (sValue) {
-                                    Write("true");
-                                } else {
-                                    Write("false");
-                                }
-                            } else {
-                               if (sValue == "") {
-                                    Write("0");
-                               } else {
-                                    Write(sValue);
-                               }
-                            }
-                        }
+						if(((oDP.Name().Find("7.DECISION_VALUE")) < 0) && ((oDP.Name().Find("1.GAS_")) < 0) && ((oDP.Name().Find("IEC_")) < 0)) {
+							if (dpFirst) {
+							dpFirst = false;
+							} else {
+							WriteLine(',');
+							}
+							string sValueType = oDP.ValueType();
+							Write('"');
+							WriteURL(oDP.Name());
+							Write('":');
+							if (sValueType == 20) {
+								Write('"');
+								WriteURL(oDP.Value());
+								Write('"');
+							} else {
+								sValue = oDP.Value();
+								if (sValueType == 2) {
+									if (sValue) {
+										Write("true");
+									} else {
+										Write("false");
+									}
+								} else {
+								if (sValue == "") {
+										Write("0");
+								} else {
+										Write(sValue);
+								}
+								}
+							}
+						}
                     }
                 }
             }
