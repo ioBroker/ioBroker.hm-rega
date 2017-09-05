@@ -46,6 +46,7 @@
         "interval (s)":         {"en": "interval (s)",          "de": "Intervalle (s)", "ru": "Интервал (с)"},
         "trigger":              {"en": "trigger",               "de": "Trigger",        "ru": "Триггер"},
         "Sync":                 {"en": "Synchronize",           "de": "Synchronisiere", "ru": "Синхронизация"},
+        "Sync dutycycle":       {"en": "DutyCycle",             "de": "DutyCycle",      "ru": "DutyCycle"},
         "Sync variables":       {"en": "variables",             "de": "Variablen",      "ru": "переменных"},
         "Sync programs":        {"en": "programs",              "de": "Programme",      "ru": "программ"},
         "Sync names":           {"en": "names",                 "de": "Namen",          "ru": "имён"},
@@ -83,15 +84,16 @@
     }
 
     function enableFields() {
-        $('#rfdAdapter').prop('disabled',      !$('#rfdEnabled').prop('checked'));
-        $('#hs485dAdapter').prop('disabled',   !$('#hs485dEnabled').prop('checked'));
-        $('#cuxdAdapter').prop('disabled',     !$('#cuxdEnabled').prop('checked'));
-        $('#hmipAdapter').prop('disabled',     !$('#hmipEnabled').prop('checked'));
+        $('#rfdAdapter').prop('disabled',      		!$('#rfdEnabled').prop('checked'));
+        $('#hs485dAdapter').prop('disabled',   		!$('#hs485dEnabled').prop('checked'));
+        $('#cuxdAdapter').prop('disabled',     		!$('#cuxdEnabled').prop('checked'));
+        $('#hmipAdapter').prop('disabled',     		!$('#hmipEnabled').prop('checked'));
 
-        $('#pollingInterval').prop('disabled', !$('#polling').prop('checked'));
-        $('#enumFavorites').prop('disabled',   !$('#syncFavorites').prop('checked'));
-        $('#enumRooms').prop('disabled',       !$('#syncRooms').prop('checked'));
-        $('#enumFunctions').prop('disabled',   !$('#syncFunctions').prop('checked'));
+        $('#pollingIntervalDC').prop('disabled', 	!$('#syncDutyCycle').prop('checked'));
+        $('#pollingInterval').prop('disabled', 		!$('#polling').prop('checked'));
+        $('#enumFavorites').prop('disabled',   		!$('#syncFavorites').prop('checked'));
+        $('#enumRooms').prop('disabled',       		!$('#syncRooms').prop('checked'));
+        $('#enumFunctions').prop('disabled',   		!$('#syncFunctions').prop('checked'));
     }
 
     function setValue(id, value, onChange) {
@@ -311,6 +313,14 @@
             <td><input type="text" size="30" id="pollingTrigger" class="value"></td>
         </tr>
         <tr style="height: 10px; padding-top: 10px" class="ui-widget-header"><td colspan="5" class="translate" style="padding-left: 20px">Sync</td></tr>
+        <tr>
+            <td class="translate">Sync dutycycle</td>
+            <td class="translate">enabled</td>
+            <td><input type="checkbox" id="syncDutyCycle" value="true" class="value"></td>
+			<td class="translate">interval (s)</td>
+            <td><input type="text" size="30" id="pollingIntervalDC" class="value number"></td>
+
+        </tr>
         <tr>
             <td class="translate">Sync variables</td>
             <td class="translate">enabled</td>

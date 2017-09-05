@@ -96,6 +96,7 @@ var rega;
 var ccuReachable;
 var ccuRegaUp;
 var pollingInterval;
+var pollingIntervalDC;
 var pollingTrigger;
 var checkInterval   = {};
 var functionQueue   = [];
@@ -422,6 +423,7 @@ function main() {
 
                     functionQueue.push(getDatapoints);
 
+                    if (adapter.config.syncDutyCycle) functionQueue.push(getDutyCycle);
                     if (adapter.config.syncVariables) functionQueue.push(getVariables);
                     if (adapter.config.syncPrograms)  functionQueue.push(getPrograms);
                     if (adapter.config.syncNames)     functionQueue.push(getDevices);
@@ -484,6 +486,40 @@ function pollVariables() {
                 states[fullId] = {val: val, ack: true};
                 adapter.setForeignState(fullId, val, true);
             }
+        }
+    });
+}
+
+function pollDutyCycle() {
+	rega.runScriptFile('dutycycle', function (data) {
+        if (!data){
+			return;
+		}
+		
+        try {
+            data = JSON.parse(data.replace(/\n/gm, ''));
+        } catch (e) {
+            adapter.log.error('Cannot parse answer for dutycycle: ' + data);
+            return;
+        }
+		
+        for (var dp in data) {
+			if (!data.hasOwnProperty(dp)) {
+				continue;
+			}
+			id = _unescape(data[dp].ADDRESS);
+
+			//DUTY_CYCLE State:
+			UpdateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
+
+			//CONNECTED State:
+			UpdateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
+
+			//DEFAULT State:
+			UpdateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
+
+			//FIRMWARE_VERSION State:
+			UpdateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
         }
     });
 }
@@ -1548,13 +1584,183 @@ function getVariables(callback) {
     });
 }
 
+function getDutyCycle(callback) {
+    adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
+        rega.runScriptFile('dutycycle', function (data) {
+            try {
+                data = JSON.parse(data.replace(/\n/gm, ''));
+            } catch (e) {
+                adapter.log.error('Cannot parse answer for dutycycle: ' + data);
+                return;
+            }
+            var count = 0;
+            var id;
+
+            for (var dp in data) {
+                if (!data.hasOwnProperty(dp)) {
+					continue;
+				}
+                id = _unescape(data[dp].ADDRESS);
+                count += 1;
+
+                var obj = {
+                    _id:  adapter.namespace + '.' + id,
+                    type: 'device',
+                    common: {
+                        name:           _unescape(data[dp].TYPE)
+                    },
+                    native: {
+                        ADDRESS:        _unescape(data[dp].ADDRESS),
+                        TYPE:      		_unescape(data[dp].TYPE)
+                    }
+                };
+				
+                if (!objects[obj._id]) {
+                    objects[obj._id] = true;
+                    adapter.extendForeignObject(obj._id, obj);
+                }
+
+				//DUTY_CYCLE State hinzufügen:
+                var stateDutycycle = {
+                    _id:  adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
+                        type:           'number',
+                        read:           true,
+                        write:          true,
+                        role:           'value',
+						min:			0,
+						max:			100,
+						unit:			'%',
+						desc:			'Dutycycle'
+                    },
+                    native: {
+                        ID:           	'DUTYCYCLE',
+                        TYPE:       	'INTEGER',
+                        MIN: 		    0,
+                        MAX:       		100,
+                        UNIT:      		'%',
+						DEFAULT:		0,
+						CONTROL:		'NONE'
+                    }
+                };
+				AddNewStateOrObject(stateDutycycle, data[dp].DUTY_CYCLE);
+
+				//CONNECTED State hinzufügen:
+                var stateConnected = {
+                    _id:  adapter.namespace + '.' + id + '.0.CONNECTED',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.CONNECTED',
+                        type:           'boolean',
+                        read:           true,
+                        write:          true,
+                        role:           'indicator.connected',
+						desc:			'conected'
+                    },
+                    native: {
+                        ID:           	'CONNECTED',
+                        TYPE:       	'BOOLEAN',
+						DEFAULT:		false,
+						CONTROL:		'NONE'
+                    }
+                };
+				AddNewStateOrObject(stateConnected, data[dp].CONNECTED);
+
+				//DEFAULT State hinzufügen:
+                var stateDefault = {
+                    _id:  adapter.namespace + '.' + id + '.0.DEFAULT',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.DEFAULT',
+                        type:           'boolean',
+                        read:           true,
+                        write:          true,
+                        role:           'indicator',
+						desc:			'default'
+                    },
+                    native: {
+                        ID:           	'DEFAULT',
+                        TYPE:       	'BOOLEAN',
+						DEFAULT:		false,
+						CONTROL:		'NONE'
+                    }
+                };
+				AddNewStateOrObject(stateDefault, data[dp].DEFAULT);
+
+				//FIRMWARE_VERSION State hinzufügen:
+                var stateFirmware = {
+                    _id:  adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                        type:           'string',
+                        read:           true,
+                        write:          true,
+                        role:           'indicator',
+						desc:			'firmeware_version'
+                    },
+                    native: {
+                        ID:           	'FIRMWARE_VERSION',
+                        TYPE:       	'STRING',
+						DEFAULT:		'',
+						CONTROL:		'NONE'
+                    }
+                };
+				AddNewStateOrObject(stateFirmware, data[dp].FIRMWARE_VERSION);
+			}
+
+            adapter.log.info('added/updated ' + count + ' objects');
+
+            if (adapter.config.polling && adapter.config.pollingintervaldc > 0) {
+                if (!pollingintervaldc && adapter.config.syncdutycycle) {
+                    pollingintervaldc = setinterval(function () {
+                        if (adapter.config.syncdutycycle) polldutycycle();
+                    }, adapter.config.pollingintervaldc * 1000);
+                }
+            }
+
+            if (typeof callback === 'function') callback();
+        });
+    });
+}
+
+function AddNewStateOrObject(obj, val) {
+	if (!objects[obj._id]) {
+		objects[obj._id] = true;
+		adapter.extendForeignObject(obj._id, obj);
+	}
+
+	if (typeof val === 'string'){
+		val = _unescape(val);
+	}
+	if (!states[obj._id] || !states[obj._id].ack || states[obj._id].val !== val) {
+		states[obj._id] = {val: val, ack: true};
+		adapter.setForeignState(obj._id, states[obj._id]);
+	}
+}
+
+function UpdateNewState(fullId, val) {
+	if (typeof val === 'string') {
+		val = _unescape(val);
+	}
+	if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
+		states[fullId] = {val: val, ack: true};
+		adapter.setForeignState(fullId, val, true);
+	}
+}
+
 var stopCount = 0;
 function stop(callback) {
     adapter.setState('info.connection',   false, true);
     adapter.setState('info.ccuReachable', false, true);
     adapter.setState('info.ccuRegaUp',    false, true);
 
-    if (!stopCount) clearInterval(pollingInterval);
+    if (!stopCount) {
+		clearInterval(pollingInterval);
+		clearInterval(pollingIntervalDC);
+	}
     for (var id in checkInterval) {
         if (!checkInterval.hasOwnProperty(id)) continue;
         clearInterval(checkInterval[id]);
