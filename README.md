@@ -26,7 +26,7 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ## Changelog
 
 ### 1.6.3 (2017-09-06)
-* (AlGu1) Read Values from CCU in raw format and create JSON string and object in adapter
+* (AlGu1) Read values from CCU in raw format and create JSON string and object in adapter
 
 ### 1.6.2 (2017-09-05)
 * (AlGu1) dutycycle.fn script changed for better compatiblity without ReGaHss Beta version
