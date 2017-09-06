@@ -497,7 +497,7 @@ function pollDutyCycle() {
 		}
 		
         try {
-            data = JSON.parse(data.replace(/\n/gm, ''));
+            data = JSON.parse(convertDataToJSON(data));
         } catch (e) {
             adapter.log.error('Cannot parse answer for dutycycle: ' + data);
             return;
@@ -1601,7 +1601,7 @@ function getDutyCycle(callback) {
     adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
         rega.runScriptFile('dutycycle', function (data) {
             try {
-                data = JSON.parse(data.replace(/\n/gm, ''));
+				data = JSON.parse(convertDataToJSON(data));
             } catch (e) {
                 adapter.log.error('Cannot parse answer for dutycycle: ' + data);
                 return;
@@ -1770,6 +1770,32 @@ function updateNewState(fullId, val) {
 		states[fullId] = {val: val, ack: true};
 		adapter.setForeignState(fullId, val, true);
 	}
+}
+
+function convertDataToJSON(data) {
+	var count = 0;
+	var returnValue = "";
+	data = data.replace(/[{}]/g, '');
+	data = data.replace(/\r/gm, '');
+	data = data.replace(/\n/gm, '');
+	data.split(" ").forEach(function (item) {
+		if(item == "ADDRESS") {
+			returnValue = returnValue + '}, {"' + item;
+		} else {
+			returnValue = returnValue + '"' + item;
+		}
+		if(count % 2 == 0) {
+			returnValue = returnValue + '":';
+		}
+		else {
+			returnValue = returnValue + '",';
+		}
+		count++;
+	});
+	returnValue = returnValue.substring(3, returnValue.length);
+	returnValue = returnValue.substring(0, returnValue.length-1);
+	returnValue = '[' + returnValue.replace(',}', '}') + '}]';
+	return returnValue;
 }
 
 var stopCount = 0;

@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.6.2",
+        "version": "1.6.3",
         "news": {
+			"1.6.3": {
+                "en": "Read Values from CCU in raw format and create JSON string and object in adapter",
+                "de": "Auslesen der Werte von der CCU ohne Umwandlung und das Formatieren in JSON in den Adapter verlagert",
+                "ru": "Read Values from CCU in raw format and create JSON string and object in adapter"
+            },
 			"1.6.2": {
                 "en": "dutycycle.fn script changed for better compatiblity without ReGaHss Beta version",
                 "de": "dutycycle.fn Skript umgebaut damit ohne aktuelle Beta ReGaHss funktioniert",
