@@ -25,6 +25,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 1.6.5 (2017-09-10)
+* (AlGu1) Change adapter logging of new values to debug
+
 ### 1.6.4 (2017-09-10)
 * (AlGu1) Config Settings changed to set defaults after update adapter
 

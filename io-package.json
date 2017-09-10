@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.6.4",
+        "version": "1.6.5",
         "news": {
+			"1.6.5": {
+                "en": "Change adapter logging of new values to debug",
+                "de": "Adapter Logging der neuen Werte auf debug gestellt",
+                "ru": "Change adapter logging of new values to debug"
+            },
 			"1.6.4": {
                 "en": "Config Settings changed to set defaults after update adapter",
                 "de": "Konfigurationseinstellungen überarbeitet um die Default-Werte nach einem Adapter-Update zu setzen",
