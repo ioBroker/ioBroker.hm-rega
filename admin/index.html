@@ -54,6 +54,11 @@
         "Sync rooms":           {"en": "rooms",                 "de": "Räume",          "ru": "комнат"},
         "Main settings":        {"en": "Main settings",         "de": "Haupteinstellungen", "ru": "Основные настройки"}
     };
+	
+	var adapterDefaults = {
+		"syncDutyCycle": false,
+		"pollingIntervalDC": ''
+	};
     var instances = null;
 
     function fillInstances(id, arr, ip, val, type, preset) {
@@ -127,7 +132,13 @@
     }
 
     function load(settings, onChange) {
-        for (var key in settings) {
+        for (var defaultKey in adapterDefaults) {
+            if(settings[defaultKey] == null) {
+				settings[defaultKey] = adapterDefaults[defaultKey];
+			}
+        }
+		
+		for (var key in settings) {
             if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
         }
 
@@ -153,7 +164,8 @@
             });
         });
     }
-    function getSettings() {
+    
+	function getSettings() {
         var obj = {};
         $('.value').each(function () {
             var $this = $(this);

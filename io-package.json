@@ -3,6 +3,11 @@
         "name":                     "hm-rega",
         "version": "1.6.3",
         "news": {
+			"1.6.4": {
+                "en": "Config Settings changed to set defaults after update adapter",
+                "de": "Konfigurationseinstellungen überarbeitet um die Default-Werte nach einem Adapter-Update zu setzen",
+                "ru": "Config Settings changed to set defaults after update adapter"
+            },
 			"1.6.3": {
                 "en": "Read values from CCU in raw format and create JSON string and object in adapter",
                 "de": "Auslesen der Werte von der CCU ohne Umwandlung und das Formatieren in JSON in den Adapter verlagert",
