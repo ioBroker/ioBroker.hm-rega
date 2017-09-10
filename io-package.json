@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.6.3",
+        "version": "1.6.4",
         "news": {
 			"1.6.4": {
                 "en": "Config Settings changed to set defaults after update adapter",
