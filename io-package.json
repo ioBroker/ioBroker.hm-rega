@@ -1,8 +1,13 @@
 {
     "common": {
         "name":                     "hm-rega",
-        "version": "1.5.0",
+        "version": "1.6.5",
         "news": {
+			"1.6.5": {
+                "en": "Read DutyCycle and other params from listBidcosInterfaces\nChange adapter logging of new values to debug\nConfig Settings changed to set defaults after update adapter",
+                "de": "Auslesen des DutyCycle und weiterer Paramater des listBidcosInterfaces\nAdapter Logging der neuen Werte auf debug gestellt\nKonfigurationseinstellungen überarbeitet um die Default-Werte nach einem Adapter-Update zu setzen",
+                "ru": "Read DutyCycle and other params from listBidcosInterfaces\nChange adapter logging of new values to debug\nConfig Settings changed to set defaults after update adapter"
+            },
             "1.5.0": {
                 "en": "Also update names of states when syncing with CCU",
                 "de": "Bei der Synchronisation mit der CCU werden auch State-Namen aktualisiert",

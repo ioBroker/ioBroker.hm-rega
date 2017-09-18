@@ -25,6 +25,24 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 1.6.5 (2017-09-10)
+* (AlGu1) Change adapter logging of new values to debug
+
+### 1.6.4 (2017-09-10)
+* (AlGu1) Config Settings changed to set defaults after update adapter
+
+### 1.6.3 (2017-09-06)
+* (AlGu1) Read values from CCU in raw format and create JSON string and object in adapter
+
+### 1.6.2 (2017-09-05)
+* (AlGu1) dutycycle.fn script changed for better compatiblity without ReGaHss Beta version
+
+### 1.6.1 (2017-09-05)
+* (AlGu1) Error in script file fixed
+
+### 1.6.0 (2017-09-05)
+* (AlGu1) Read DutyCycle and other params from listBidcosInterfaces
+
 ### 1.5.0 (2017-06-29)
 * (Apollon77) Also update names of states when syncing with CCU
 

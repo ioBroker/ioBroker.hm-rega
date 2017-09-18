@@ -96,6 +96,7 @@ var rega;
 var ccuReachable;
 var ccuRegaUp;
 var pollingInterval;
+var pollingIntervalDC;
 var pollingTrigger;
 var checkInterval   = {};
 var functionQueue   = [];
@@ -422,6 +423,7 @@ function main() {
 
                     functionQueue.push(getDatapoints);
 
+                    if (adapter.config.syncDutyCycle) functionQueue.push(getDutyCycle);
                     if (adapter.config.syncVariables) functionQueue.push(getVariables);
                     if (adapter.config.syncPrograms)  functionQueue.push(getPrograms);
                     if (adapter.config.syncNames)     functionQueue.push(getDevices);
@@ -484,6 +486,53 @@ function pollVariables() {
                 states[fullId] = {val: val, ack: true};
                 adapter.setForeignState(fullId, val, true);
             }
+        }
+    });
+}
+
+function pollDutyCycle() {
+	rega.runScriptFile('dutycycle', function (data) {
+        if (!data){
+			return;
+		}
+		
+        try {
+            data = JSON.parse(convertDataToJSON(data));
+        } catch (e) {
+            adapter.log.error('Cannot parse answer for dutycycle: ' + data);
+            return;
+        }
+		
+        var id;
+		for (var dp in data) {
+			if (!data.hasOwnProperty(dp)) {
+				continue;
+			}
+			id = _unescape(data[dp].ADDRESS);
+			
+			//DUTY_CYCLE State:
+			if(data[dp].DUTY_CYCLE) {
+				updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
+				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
+			}
+
+			//CONNECTED State:
+			if(data[dp].CONNECTED) {
+				updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
+				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
+			}
+
+			//DEFAULT State:
+			if(data[dp].DEFAULT) {
+				updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
+				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
+			}
+
+			//FIRMWARE_VERSION State:
+			if(data[dp].FIRMWARE_VERSION) {
+				updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
+				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + data[dp].FIRMWARE_VERSION);
+			}
         }
     });
 }
@@ -1548,13 +1597,217 @@ function getVariables(callback) {
     });
 }
 
+function getDutyCycle(callback) {
+    adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
+        rega.runScriptFile('dutycycle', function (data) {
+            try {
+				data = JSON.parse(convertDataToJSON(data));
+            } catch (e) {
+                adapter.log.error('Cannot parse answer for dutycycle: ' + data);
+                return;
+            }
+            var count = 0;
+            var id;
+
+            for (var dp in data) {
+                if (!data.hasOwnProperty(dp)) {
+					continue;
+				}
+                id = _unescape(data[dp].ADDRESS);
+                count += 1;
+
+                var obj = {
+                    _id:  adapter.namespace + '.' + id,
+                    type: 'device',
+                    common: {
+                        name:           _unescape(data[dp].TYPE)
+                    },
+                    native: {
+                        ADDRESS:        _unescape(data[dp].ADDRESS),
+                        TYPE:      		_unescape(data[dp].TYPE)
+                    }
+                };
+				
+                if (!objects[obj._id]) {
+                    objects[obj._id] = true;
+                    adapter.extendForeignObject(obj._id, obj);
+                }
+
+				//DUTY_CYCLE State:
+				if(data[dp].DUTY_CYCLE) {
+					var stateDutycycle = {
+                    _id:  adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
+                        type:           'number',
+                        read:           true,
+                        write:          false,
+                        role:           'value',
+						min:			0,
+						max:			100,
+						unit:			'%',
+						desc:			'Dutycycle'
+                    },
+                    native: {
+                        ID:           	'DUTYCYCLE',
+                        TYPE:       	'INTEGER',
+                        MIN: 		    0,
+                        MAX:       		100,
+                        UNIT:      		'%',
+						DEFAULT:		0,
+						CONTROL:		'NONE'
+                    }
+                };
+					addNewStateOrObject(stateDutycycle, data[dp].DUTY_CYCLE);
+				}
+				
+				//CONNECTED State:
+				if(data[dp].CONNECTED) {
+					var stateConnected = {
+                    _id:  adapter.namespace + '.' + id + '.0.CONNECTED',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.CONNECTED',
+                        type:           'boolean',
+                        read:           true,
+                        write:          false,
+                        role:           'indicator.connected',
+						desc:			'conected'
+                    },
+                    native: {
+                        ID:           	'CONNECTED',
+                        TYPE:       	'BOOLEAN',
+						DEFAULT:		false,
+						CONTROL:		'NONE'
+                    }
+                };
+					addNewStateOrObject(stateConnected, data[dp].CONNECTED);
+				}
+
+				//DEFAULT State:
+				if(data[dp].DEFAULT) {
+					var stateDefault = {
+                    _id:  adapter.namespace + '.' + id + '.0.DEFAULT',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.DEFAULT',
+                        type:           'boolean',
+                        read:           true,
+                        write:          false,
+                        role:           'indicator',
+						desc:			'default'
+                    },
+                    native: {
+                        ID:           	'DEFAULT',
+                        TYPE:       	'BOOLEAN',
+						DEFAULT:		false,
+						CONTROL:		'NONE'
+                    }
+                };
+					addNewStateOrObject(stateDefault, data[dp].DEFAULT);
+				}
+
+				//FIRMWARE_VERSION State:
+				if(data[dp].FIRMWARE_VERSION) {
+					var stateFirmware = {
+                    _id:  adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                    type: 'state',
+                    common: {
+                        name:           adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                        type:           'string',
+                        read:           true,
+                        write:          false,
+                        role:           'text',
+						desc:			'firmeware_version'
+                    },
+                    native: {
+                        ID:           	'FIRMWARE_VERSION',
+                        TYPE:       	'STRING',
+						DEFAULT:		'',
+						CONTROL:		'NONE'
+                    }
+                };
+					addNewStateOrObject(stateFirmware, data[dp].FIRMWARE_VERSION);
+				}
+			}
+
+            adapter.log.info('added/updated ' + count + ' objects');
+
+            if (adapter.config.syncDutyCycle && adapter.config.pollingIntervalDC > 0) {
+                if (!pollingIntervalDC) {
+                    pollingIntervalDC = setInterval(function () {
+                        if (adapter.config.syncDutyCycle) pollDutyCycle();
+                    }, adapter.config.pollingIntervalDC * 1000);
+                }
+            }
+
+            if (typeof callback === 'function') callback();
+        });
+    });
+}
+
+function addNewStateOrObject(obj, val) {
+	if (!objects[obj._id]) {
+		objects[obj._id] = true;
+		adapter.extendForeignObject(obj._id, obj);
+	}
+
+	if (typeof val === 'string'){
+		val = _unescape(val);
+	}
+	if (!states[obj._id] || !states[obj._id].ack || states[obj._id].val !== val) {
+		states[obj._id] = {val: val, ack: true};
+		adapter.setForeignState(obj._id, states[obj._id]);
+	}
+}
+
+function updateNewState(fullId, val) {
+	if (typeof val === 'string') {
+		val = _unescape(val);
+	}
+	if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
+		states[fullId] = {val: val, ack: true};
+		adapter.setForeignState(fullId, val, true);
+	}
+}
+
+function convertDataToJSON(data) {
+	var count = 0;
+	var returnValue = "";
+	data = data.replace(/[{}]/g, '');
+	data = data.replace(/\r/gm, '');
+	data = data.replace(/\n/gm, '');
+	data.split(" ").forEach(function (item) {
+		if(item == "ADDRESS") {
+			returnValue = returnValue + '}, {"' + item;
+		} else {
+			returnValue = returnValue + '"' + item;
+		}
+		if(count % 2 == 0) {
+			returnValue = returnValue + '":';
+		}
+		else {
+			returnValue = returnValue + '",';
+		}
+		count++;
+	});
+	returnValue = returnValue.substring(3, returnValue.length);
+	returnValue = returnValue.substring(0, returnValue.length-1);
+	returnValue = '[' + returnValue.replace(',}', '}') + '}]';
+	return returnValue;
+}
+
 var stopCount = 0;
 function stop(callback) {
     adapter.setState('info.connection',   false, true);
     adapter.setState('info.ccuReachable', false, true);
     adapter.setState('info.ccuRegaUp',    false, true);
 
-    if (!stopCount) clearInterval(pollingInterval);
+    if (!stopCount) {
+		clearInterval(pollingInterval);
+		clearInterval(pollingIntervalDC);
+	}
     for (var id in checkInterval) {
         if (!checkInterval.hasOwnProperty(id)) continue;
         clearInterval(checkInterval[id]);
