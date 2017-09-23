@@ -25,6 +25,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Changelog
 
+### 1.6.6 (2017-09-23)
+* (AlGu1) Fix error if Lan Interfaces exits
+
 ### 1.6.5 (2017-09-10)
 * (AlGu1) Change adapter logging of new values to debug
 
