@@ -1773,28 +1773,39 @@ function updateNewState(fullId, val) {
 }
 
 function convertDataToJSON(data) {
-	var count = 0;
-	var returnValue = "";
-	data = data.replace(/[{}]/g, '');
 	data = data.replace(/\r/gm, '');
 	data = data.replace(/\n/gm, '');
-	data.split(" ").forEach(function (item) {
-		if(item == "ADDRESS") {
-			returnValue = returnValue + '}, {"' + item;
-		} else {
-			returnValue = returnValue + '"' + item;
+	data = data.replace(/{/g, '');
+	data = data.replace(/}/g, '');
+	var jsonArray = new Array();
+	data.split("ADDRESS").forEach(function (item) {
+		if(item != null && item != "") {
+			var jsonObj = new Object();
+			
+			var splitter = item.split('CONNECTED');
+			jsonObj.ADDRESS = splitter[0].trim();
+
+			splitter = splitter[1].split('DEFAULT');
+			jsonObj.CONNECTED = splitter[0].trim();
+		
+			splitter = splitter[1].split('DESCRIPTION');
+			jsonObj.DEFAULT = splitter[0].trim();
+
+			splitter = splitter[1].split('DUTY_CYCLE');
+			jsonObj.DESCRIPTION = splitter[0].trim();
+
+			splitter = splitter[1].split('FIRMWARE_VERSION');
+			jsonObj.DUTY_CYCLE = splitter[0].trim();
+
+			splitter = splitter[1].split('TYPE');
+			jsonObj.FIRMWARE_VERSION = splitter[0].trim();
+
+			jsonObj.TYPE = splitter[1].trim();
+
+			jsonArray.push(jsonObj);
 		}
-		if(count % 2 == 0) {
-			returnValue = returnValue + '":';
-		}
-		else {
-			returnValue = returnValue + '",';
-		}
-		count++;
 	});
-	returnValue = returnValue.substring(3, returnValue.length);
-	returnValue = returnValue.substring(0, returnValue.length-1);
-	returnValue = '[' + returnValue.replace(',}', '}') + '}]';
+	var returnValue = JSON.stringify(jsonArray);
 	return returnValue;
 }
 
