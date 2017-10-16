@@ -1,14 +1,14 @@
 {
     "common": {
-        "name":                     "hm-rega",
+        "name": "hm-rega",
         "version": "1.6.6",
         "news": {
-			"1.6.6": {
+            "1.6.6": {
                 "en": "Fix error if Lan Interfaces exits",
                 "de": "Fehler behoben wenn Lan Interfaces vorhanden sind",
                 "ru": "Fix error if Lan Interfaces exits"
             },
-			"1.6.5": {
+            "1.6.5": {
                 "en": "Read DutyCycle and other params from listBidcosInterfaces\nChange adapter logging of new values to debug\nConfig Settings changed to set defaults after update adapter",
                 "de": "Auslesen des DutyCycle und weiterer Paramater des listBidcosInterfaces\nAdapter Logging der neuen Werte auf debug gestellt\nKonfigurationseinstellungen überarbeitet um die Default-Werte nach einem Adapter-Update zu setzen",
                 "ru": "Read DutyCycle and other params from listBidcosInterfaces\nChange adapter logging of new values to debug\nConfig Settings changed to set defaults after update adapter"
@@ -53,7 +53,7 @@
                 "de": "Zustände nur bei der Änderung updaten",
                 "ru": "Обновлять состояния только, если изменились"
             },
-			"1.2.1": {
+            "1.2.1": {
                 "en": "fix initial read of states",
                 "de": "fix initial read of states",
                 "ru": "fix initial read of states"
@@ -69,11 +69,11 @@
                 "ru": "fix min/max for variables"
             }
         },
-        "title":                    "HomeMatic ReGaHSS",
+        "title": "HomeMatic ReGaHSS",
         "desc": {
-            "en":                   "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
-            "de":                   "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
-            "ru":                   "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker"
+            "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
+            "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
+            "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker"
         },
         "dependencies": [
             "hm-rpc"
@@ -82,41 +82,47 @@
             "hobbyquaker <hq@ccu.io>",
             "bluefox <dogafox@gmail.com>"
         ],
-        "license":                  "MIT",
-        "mode":                     "daemon",
-        "platform":                 "Javascript/Node.js",
-        "loglevel":                 "info",
-        "readme":                   "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
-        "icon":                     "homematic.png",
-        "extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
-        "keywords":                 ["homematic", "eq3", "regahss", "ccu1", "ccu2"],
-        "localLink":                "http://%homematicAddress%",
-        "type":                     "hardware"
+        "license": "MIT",
+        "mode": "daemon",
+        "platform": "Javascript/Node.js",
+        "loglevel": "info",
+        "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
+        "icon": "homematic.png",
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
+        "keywords": [
+            "homematic",
+            "eq3",
+            "regahss",
+            "ccu1",
+            "ccu2"
+        ],
+        "localLink": "http://%homematicAddress%",
+        "type": "iot-systems"
     },
     "native": {
-        "homematicAddress":         "192.168.0.100",
-        "homematicPort":            8181,
-        "reconnectionInterval":     30,
-        "polling":                  true,
-        "pollingInterval":          30,
-        "pollingTrigger":           "BidCoS-RF.50.PRESS_SHORT",
-        "rfdEnabled":               true,
-        "rfdAdapter":               "hm-rpc.0",
-        "hs485denabled":            false,
-        "hs485dAdapter":            "hm-rpc.1",
-        "cuxdEnabled":              false,
-        "cuxdAdapter":              "hm-rpc.2",
-        "hmipEnabled":              false,
-        "hmipAdapter":              "hm-rpc.3",
-        "syncVariables":            true,
-        "syncPrograms":             true,
-        "syncNames":                true,
-        "syncRooms":                true,
-        "enumRooms":                "enum.rooms",
-        "syncFunctions":            true,
-        "enumFunctions":            "enum.functions",
-        "syncFavorites":            true,
-        "enumFavorites":            "enum.favorites"
+        "homematicAddress": "192.168.0.100",
+        "homematicPort": 8181,
+        "reconnectionInterval": 30,
+        "polling": true,
+        "pollingInterval": 30,
+        "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
+        "rfdEnabled": true,
+        "rfdAdapter": "hm-rpc.0",
+        "hs485denabled": false,
+        "hs485dAdapter": "hm-rpc.1",
+        "cuxdEnabled": false,
+        "cuxdAdapter": "hm-rpc.2",
+        "hmipEnabled": false,
+        "hmipAdapter": "hm-rpc.3",
+        "syncVariables": true,
+        "syncPrograms": true,
+        "syncNames": true,
+        "syncRooms": true,
+        "enumRooms": "enum.rooms",
+        "syncFunctions": true,
+        "enumFunctions": "enum.functions",
+        "syncFavorites": true,
+        "enumFavorites": "enum.favorites"
     },
     "objects": [
         {
@@ -134,7 +140,7 @@
     ],
     "instanceObjects": [
         {
-            "_id":  "info",
+            "_id": "info",
             "type": "channel",
             "common": {
                 "name": "Information"
@@ -142,41 +148,41 @@
             "native": {}
         },
         {
-            "_id":  "info.connection",
+            "_id": "info.connection",
             "type": "state",
             "common": {
-                "role":  "indicator.connected",
-                "name":  "If connected to CCU",
-                "type":  "boolean",
-                "read":  true,
+                "role": "indicator.connected",
+                "name": "If connected to CCU",
+                "type": "boolean",
+                "read": true,
                 "write": false,
-                "def":   false
+                "def": false
             },
             "native": {}
         },
         {
-            "_id":  "info.ccuReachable",
+            "_id": "info.ccuReachable",
             "type": "state",
             "common": {
-                "role":  "indicator.connected",
-                "name":  "If connected to CCU on IP layer",
-                "type":  "boolean",
-                "read":  true,
+                "role": "indicator.connected",
+                "name": "If connected to CCU on IP layer",
+                "type": "boolean",
+                "read": true,
                 "write": false,
-                "def":   false
+                "def": false
             },
             "native": {}
         },
         {
-            "_id":  "info.ccuRegaUp",
+            "_id": "info.ccuRegaUp",
             "type": "state",
             "common": {
-                "role":  "indicator.connected",
-                "name":  "If rega is UP",
-                "type":  "boolean",
-                "read":  true,
+                "role": "indicator.connected",
+                "name": "If rega is UP",
+                "type": "boolean",
+                "read": true,
                 "write": false,
-                "def":   false
+                "def": false
             },
             "native": {}
         }
