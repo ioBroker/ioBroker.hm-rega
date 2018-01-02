@@ -5,7 +5,7 @@ var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 
 var afterReconnect = null;
 
-var adapter = utils.adapter({
+var adapter = utils.Adapter({
 
     name: 'hm-rega',
 
