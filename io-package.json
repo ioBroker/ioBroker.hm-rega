@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "1.6.6",
+        "version": "1.7.0",
         "news": {
+            "1.7.0": {
+                "en": "Ready for Admin3",
+                "de": "Bereit für Admin3",
+                "ru": "Готово для Admin3",
+                "pt": "Pronto para Admin3",
+                "nl": "Klaar voor Admin3",
+                "fr": "Prêt pour Admin3",
+                "it": "Pronto per Admin3",
+                "es": "Listo para Admin3",
+                "pl": "Gotowy na Admin3"
+            },
             "1.6.6": {
                 "en": "Fix error if Lan Interfaces exits",
                 "de": "Fehler behoben wenn Lan Interfaces vorhanden sind",
@@ -73,7 +84,13 @@
         "desc": {
             "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
             "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
-            "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker"
+            "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker",
+            "pt": "Conecta o HomeMatic CCU \"Layer Lógica\" (\"ReGaHSS\") para ioBroker",
+            "nl": "Verbindt HomeMatic CCU \"Logic Layer\" (\"ReGaHSS \") met ioBroker",
+            "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
+            "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
+            "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
+            "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker"
         },
         "dependencies": [
             "hm-rpc"
@@ -86,6 +103,7 @@
         "mode": "daemon",
         "platform": "Javascript/Node.js",
         "loglevel": "info",
+        "materialize": true,
         "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
         "icon": "homematic.png",
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",

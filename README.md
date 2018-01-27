@@ -7,23 +7,29 @@
 
 [![NPM](https://nodei.co/npm/iobroker.hm-rega.png?downloads=true)](https://nodei.co/npm/iobroker.hm-rega/)
 
-Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker
+Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker.
 
 ## Purpose
-
 This Adapter can keep HomeMatic-CCU-Variables in sync with ioBroker and offers the possibility to start
 HomeMatic-CCU-Programs from ioBroker. Furthermore this adapter can be seen as a migration-helper, you can sync
 device/channel-names, rooms, functions and favorites from the CCU to ioBroker (this is one way only, changes on ioBroker
 side will be overwritten when synced again - so deactivate this features after the first sync).
 
 ## Install
-
 This adapter needs one (ore more) already installed and initialized hm-rpc adapter to work.
 
-### Configuration
+## Configuration
 
+
+
+## Todo
+* set connected state
+* sync enums
+* special script-device to run arbitrary regascripts
 
 ## Changelog
+### 1.7.0 (2018-01-26)
+* (bluefox) Ready for Admin3
 
 ### 1.6.6 (2017-09-23)
 * (AlGu1) Fix error if Lan Interfaces exits
@@ -173,17 +179,13 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 * (hobbyquaker) Fix common.name attribute
 
-## Todo
-
-* set connected state
-* sync enums
-* special script-device to run arbitrary regascripts
-
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2017 hobbyquaker, bluefox
+Copyright (c) 2014-2018 bluefox <dogafox@gmail.com>
+
+Copyright (c) 2014 hobbyquaker
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

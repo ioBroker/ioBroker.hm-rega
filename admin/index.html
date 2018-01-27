@@ -1,5 +1,5 @@
 <html>
-
+<head>
 
 <link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
 <script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 <script type="text/javascript" src="../../js/translate.js"></script>
 <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
 
 <style type="text/css">
     #config tr {
@@ -18,8 +19,6 @@
         padding-left: 10px;
     }
 </style>
-
-<script type="text/javascript" src="words.js"></script>
 
 <script type="text/javascript">
 	var adapterDefaults = {
@@ -32,8 +31,8 @@
         var $sel = $('#' + id);
         $sel.html('<option value="">' + _('none') + '</option>');
         for (var i = 0; i < arr.length; i++) {
-            if (!arr[i].native || !arr[i].native.homematicAddress || arr[i].native.homematicAddress != ip) continue;
-            if (arr[i].native.daemon != type && arr[i].native.type != type) continue;
+            if (!arr[i].native || !arr[i].native.homematicAddress || arr[i].native.homematicAddress !== ip) continue;
+            if (arr[i].native.daemon !== type && arr[i].native.type !== type) continue;
             var _id = arr[i]._id.replace('system.adapter.', '');
 
             // Take first value
@@ -230,7 +229,8 @@
         callback(obj);
     }
 </script>
-
+</head>
+<body>
 <div id="adapter-container">
     <table><tr><td><img src="homematic.png" width="64" height="64"></td><td><h3 class="translate">Homematic Rega-Logic adapter settings</h3>
         <p class="translate" style="font-size: 10px; padding-left: 15px">Setup first according rpc adapter!</p>
@@ -342,5 +342,5 @@
     </table>
 
 </div>
-
+</body>
 </html>
