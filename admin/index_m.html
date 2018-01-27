@@ -1,0 +1,436 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- Materialze style -->
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    <script type="text/javascript" src="words.js"></script>
+    
+    <script type="text/javascript">
+        var adapterDefaults = {
+            syncDutyCycle: false,
+            pollingIntervalDC: ''
+        };
+        var instances = null;
+
+        function fillInstances(id, arr, ip, val, type, preset) {
+            var $sel = $('#' + id);
+            $sel.html('<option value="">' + _('none') + '</option>');
+            for (var i = 0; i < arr.length; i++) {
+                if (!arr[i].native || !arr[i].native.homematicAddress || arr[i].native.homematicAddress !== ip) continue;
+                if (arr[i].native.daemon !== type && arr[i].native.type !== type) continue;
+                var _id = arr[i]._id.replace('system.adapter.', '');
+
+                // Take first value
+                if (!val && preset) val = _id;
+
+                $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _id + '</option>');
+            }
+            $sel.select();
+        }
+
+        function fillIpAddress(id, arr, val) {
+            var $sel = $('#' + id);
+            $sel.html('<option value="">' + _('none') + '</option>');
+            var _id;
+            for (var i = 0; i < arr.length; i++) {
+                if (!arr[i].native || !arr[i].native.homematicAddress) continue;
+
+                _id = arr[i].native.homematicAddress;
+                $sel.append('<option value="' + _id + '"' + ((_id === val) ? ' selected' : '') + '>' + _id + '</option>');
+            }
+            $sel.select();
+        }
+
+        function enableFields() {
+            if ($('#rfdEnabled').prop('checked')) {
+                $('#rfdAdapter').removeClass('disabled');
+            } else {
+                $('#rfdAdapter').addClass('disabled');
+            }
+            if ($('#hs485dEnabled').prop('checked')) {
+                $('#hs485dAdapter').removeClass('disabled');
+            } else {
+                $('#hs485dAdapter').addClass('disabled');
+            }
+            if ($('#cuxdEnabled').prop('checked')) {
+                $('#cuxdAdapter').removeClass('disabled');
+            } else {
+                $('#cuxdAdapter').addClass('disabled');
+            }
+            if ($('#hmipEnabled').prop('checked')) {
+                $('#hmipAdapter').removeClass('disabled');
+            } else {
+                $('#hmipAdapter').addClass('disabled');
+            }
+
+
+            if ($('#syncDutyCycle').prop('checked')) {
+                $('#pollingIntervalDC').removeClass('disabled');
+            } else {
+                $('#pollingIntervalDC').addClass('disabled');
+            }
+            if ($('#polling').prop('checked')) {
+                $('#pollingInterval').removeClass('disabled');
+            } else {
+                $('#pollingInterval').addClass('disabled');
+            }
+            if ($('#syncFavorites').prop('checked')) {
+                $('#enumFavorites').removeClass('disabled');
+            } else {
+                $('#enumFavorites').addClass('disabled');
+            }
+            if ($('#syncRooms').prop('checked')) {
+                $('#enumRooms').removeClass('disabled');
+            } else {
+                $('#enumRooms').addClass('disabled');
+            }
+            if ($('#syncFunctions').prop('checked')) {
+                $('#enumFunctions').removeClass('disabled');
+            } else {
+                $('#enumFunctions').addClass('disabled');
+            }
+        }
+
+        function setValue(id, value, onChange) {
+            var $value = $('#' + id + '.value');
+            if ($value.attr('type') === 'checkbox') {
+                $value.prop('checked', value).change(function() {
+                    onChange();
+                    enableFields();
+                });
+            } else {
+                $value.val(value).on('change', function() {
+                    onChange();
+                }).on('keyup', function() {
+                    onChange();
+                    // Check that only numbers entered
+                    if ($(this).hasClass('number')) {
+                        var val = $(this).val();
+                        if (val) {
+                            var newVal = '';
+                            for (var i = 0; i < val.length; i++) {
+                                if (val[i] >= '0' && val[i] <= '9') {
+                                    newVal += val[i];
+                                }
+                            }
+
+                            if (val != newVal) $(this).val(newVal);
+                        }
+                    }
+                });
+            }
+        }
+
+        function load(settings, onChange) {
+            for (var defaultKey in adapterDefaults) {
+                if (settings[defaultKey] === null || settings[defaultKey] === undefined) {
+                    settings[defaultKey] = adapterDefaults[defaultKey];
+                }
+            }
+
+            for (var key in settings) {
+                if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
+            }
+
+            onChange(false);
+
+            getAdapterInstances('hm-rpc', function (arr) {
+                instances = arr;
+                if (instances && instances.length) {
+                    $('.hm-rpc-notice').hide();
+                }
+                fillIpAddress('homematicAddress', arr, settings['homematicAddress']);
+
+                fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],    'rfd');
+                fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
+                fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],   'CUxD');
+                fillInstances('hmipAdapter',      arr, settings['homematicAddress'], settings['hmipAdapter'],   'HMIP');
+                enableFields();
+
+                $('#homematicAddress').on('change', function () {
+                    var ip = $(this).val();
+                    fillInstances('rfdAdapter',       arr, ip, settings['rfdAdapter'],    'rfd',    true);
+                    fillInstances('hs485dAdapter',    arr, ip, settings['hs485dAdapter'], 'hs485d', true);
+                    fillInstances('cuxdAdapter',      arr, ip, settings['cuxdAdapter'],   'CUxD',   true);
+                    fillInstances('hmipAdapter',      arr, ip, settings['hmipAdapter'],   'HMIP',   true);
+                });
+            });
+        }
+
+        function getSettings() {
+            var obj = {};
+            $('.value').each(function () {
+                var $this = $(this);
+                var id = $this.attr('id');
+
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                } else {
+                    obj[$this.attr('id')] = $this.val();
+                }
+            });
+            return obj;
+        }
+
+        function save(callback) {
+            var obj = getSettings();
+
+            if (obj.hmipEnabled) {
+                if (!obj.hmipAdapter) {
+                    showError(_('Please select rpc adapter for enabled service or install one first.'));
+                    return;
+                }
+
+                if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter === obj.hmipAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                } else
+                if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter === obj.hmipAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.cuxdEnabled && obj.cuxdAdapter && obj.cuxdAdapter === obj.hmipAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+            }
+            if (obj.cuxdEnabled) {
+                if (!obj.cuxdAdapter) {
+                    showError(_('Please select rpc adapter for enabled service or install one first.'));
+                    return;
+                }
+
+                if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter === obj.cuxdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                } else
+                if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter === obj.cuxdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter === obj.cuxdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+            }
+            if (obj.rfdEnabled) {
+                if (!obj.rfdAdapter) {
+                    showError(_('Please select rpc adapter for enabled service or install one first.'));
+                    return;
+                }
+
+                if (obj.cuxdEnabled && obj.cuxdAdapter && obj.cuxdAdapter === obj.rfdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                } else
+                if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter === obj.rfdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter === obj.rfdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+            }
+            if (obj.hs485dAdapter) {
+                if (!obj.hs485dAdapter) {
+                    showError(_('Please select rpc adapter for enabled service or install one first.'));
+                    return;
+                }
+
+                if (obj.cuxdEnabled && obj.cuxdAdapter && obj.cuxdAdapter === obj.hs485dAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                } else
+                if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter === obj.hs485dAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter === obj.hs485Adapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+            }
+
+            callback(obj);
+        }
+    </script>
+    <style>
+        .hm-rpc-notice {
+            font-weight: bold;
+            color: #ff4d00;
+        }
+    </style>
+</head>
+<body>
+<div class="m adapter-container">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s5 m4"><a href="#tab-main" class="translate active">Main settings</a></li>
+                <li class="tab col s5 m4"><a href="#tab-sync" class="translate">Sync</a></li>
+            </ul>
+        </div>
+        <div id="tab-main"    class="col s12 page">
+            <div class="row">
+                <div class="col s12 m4 l2">
+                    <img src="homematic.png" class="logo">
+                </div>
+                <div class="col s12 m8 l10 hm-rpc-notice">
+                    <p class="translate" style="font-size: 10px; padding-left: 15px">Setup first according rpc adapter!</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8 l4">
+                    <select id="homematicAddress" class="value"></select>
+                    <label class="translate" for="homematicAddress">HomeMatic CCU Address</label>
+                </div>
+                <div class="col s12 m4 l2">
+                    <input id="reconnectionInterval" class="value" type="number" min="5" max="600"/>
+                    <label class="translate" for="reconnectionInterval">Reconnection interval(s)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">rfd</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="rfdEnabled" class="value"/>
+                    <span class="translate" for="rfdEnabled">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <select id="rfdAdapter" class="value"></select>
+                    <label class="translate" for="rfdAdapter">hm-rpc instance</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">hs485d (Wired)</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="hs485dEnabled" class="value"/>
+                    <span class="translate" for="hs485dEnabled">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <select id="hs485dAdapter" class="value"></select>
+                    <label class="translate" for="hs485dAdapter">hm-rpc instance</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">CUxD</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="cuxdEnabled" class="value"/>
+                    <span class="translate" for="cuxdEnabled">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <select id="cuxdAdapter" class="value"></select>
+                    <label class="translate" for="cuxdAdapter">hm-rpc instance</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">HomeMatic IP</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="hmipEnabled" class="value"/>
+                    <span class="translate" for="hmipEnabled">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <select id="hmipAdapter" class="value"></select>
+                    <label class="translate" for="hmipAdapter">hm-rpc instance</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate">Polling</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="polling" class="value"/>
+                    <span class="translate" for="polling">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <input id="pollingInterval" class="value" min="10" type="number" />
+                    <label class="translate" for="pollingInterval">interval (s)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s8 m4">
+                    <input type="text" id="pollingTrigger" class="value" />
+                    <label class="translate" for="pollingTrigger">trigger</label>
+                </div>
+            </div>
+        </div>
+        <div id="tab-sync"    class="col s12 page">
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">Sync dutycycle</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="syncDutyCycle" class="value"/>
+                    <span class="translate" for="syncDutyCycle">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <input id="pollingIntervalDC" class="value" type="number">
+                    <label class="translate" for="pollingIntervalDC">interval (s)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">Sync variables</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="syncVariables" class="value"/>
+                    <span class="translate" for="syncVariables">enabled</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">Sync programs</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="syncPrograms" class="value"/>
+                    <span class="translate" for="syncPrograms">enabled</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">Sync names</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="syncNames" class="value"/>
+                    <span class="translate" for="syncNames">enabled</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">Sync favorites</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="syncFavorites" class="value"/>
+                    <span class="translate" for="syncFavorites">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <input id="enumFavorites" class="value" />
+                    <label class="translate" for="enumFavorites">enum</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">Sync rooms</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="syncRooms" class="value"/>
+                    <span class="translate" for="syncRooms">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <input id="enumRooms" class="value" />
+                    <label class="translate" for="enumRooms">enum</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title">Sync functions</div>
+                <div class="col s4 m2">
+                    <input type="checkbox" id="syncFunctions" class="value"/>
+                    <span class="translate" for="syncFunctions">enabled</span>
+                </div>
+                <div class="col s4 m2">
+                    <input id="enumFunctions" class="value" />
+                    <label class="translate" for="enumFunctions">enum</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
