@@ -28,6 +28,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 * special script-device to run arbitrary regascripts
 
 ## Changelog
+### 1.7.1 (2018-06-25)
+* (bluefox) Forbidden characters were replaced
+
 ### 1.7.0 (2018-01-26)
 * (bluefox) Ready for Admin3
 

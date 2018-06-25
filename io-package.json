@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "1.7.0",
+        "version": "1.7.1",
         "news": {
+            "1.7.1": {
+                "en": "Forbidden characters were replaced",
+                "de": "Verbotene Zeichen wurden ersetzt",
+                "ru": "Запрещенные символы были заменены",
+                "pt": "Caracteres proibidos foram substituídos",
+                "nl": "Verboden karakters werden vervangen",
+                "fr": "Les caractères interdits ont été remplacés",
+                "it": "I personaggi proibiti sono stati sostituiti",
+                "es": "Los personajes prohibidos fueron reemplazados",
+                "pl": "Zabronione postacie zostały zastąpione"
+            },
             "1.7.0": {
                 "en": "Ready for Admin3",
                 "de": "Bereit für Admin3",

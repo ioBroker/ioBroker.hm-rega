@@ -1,11 +1,13 @@
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
 'use strict';
-var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
+const utils = require(__dirname + '/lib/utils'); // Get common adapter utils
+const words = require('./lib/enumNames');
 
-var afterReconnect = null;
+let afterReconnect = null;
+const FORBIDDEN_CHARS = /[\]\[*,;'"`<>\\?]/g;
 
-var adapter = utils.Adapter({
+const adapter = utils.Adapter({
 
     name: 'hm-rega',
 
@@ -58,7 +60,7 @@ var adapter = utils.Adapter({
         } else {
             adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
-            var rid = id.split('.');
+            const rid = id.split('.');
             if (rid[3] === 'ProgramExecute') {
                 if (state.val) {
                     adapter.log.debug('ProgramExecute ' + rid[2]);
@@ -92,18 +94,18 @@ var adapter = utils.Adapter({
     }
 });
 
-var rega;
-var ccuReachable;
-var ccuRegaUp;
-var pollingInterval;
-var pollingIntervalDC;
-var pollingTrigger;
-var checkInterval   = {};
-var functionQueue   = [];
-var units           = {};
-var states          = {};
-var objects         = {};
-var chars = [
+let rega;
+let ccuReachable;
+let ccuRegaUp;
+let pollingInterval;
+let pollingIntervalDC;
+let pollingTrigger;
+const checkInterval   = {};
+const functionQueue   = [];
+let units             = {};
+const states          = {};
+const objects         = {};
+const chars = [
     {regex: /%C4/g,     replace: 'Ä'},
     {regex: /%D6/g,     replace: 'Ö'},
     {regex: /%DC/g,     replace: 'Ü'},
@@ -298,7 +300,7 @@ var chars = [
 function _unescape(text) {
     if (typeof text !== 'string') return text;
     if (!text) return '';
-    for (var c = 0; c < chars.length; c++) {
+    for (let c = 0; c < chars.length; c++) {
         text = text.replace(chars[c].regex, chars[c].replace);
     }
     try {
@@ -312,14 +314,14 @@ function _unescape(text) {
 function checkInit(id) {
     adapter.getForeignObject('system.adapter.' + id, function (err, obj) {
         if (obj && obj.native.checkInit && obj.native.checkInitTrigger) {
-            var interval = parseInt(obj.native.checkInitInterval, 10);
+            const interval = parseInt(obj.native.checkInitInterval, 10);
 
             // Fix error in config
             if (obj.native.checkInitTrigger === 'BidCos-RF:50.PRESS_LONG') {
                 obj.native.checkInitTrigger = 'BidCos-RF.BidCoS-RF:50.PRESS_LONG';
             }
 
-            var _id = obj.native.checkInitTrigger;
+            const _id = obj.native.checkInitTrigger;
             if (!checkInterval[id]) {
                 checkInterval[id] = setInterval(function () {
                     if (rega) {
@@ -337,7 +339,7 @@ function main() {
     adapter.config.reconnectionInterval = parseInt(adapter.config.reconnectionInterval, 10) || 30;
 
     if (adapter.config.pollingTrigger) {
-        adapter.config.pollingTrigger = adapter.config.pollingTrigger.replace(':', '.');
+        adapter.config.pollingTrigger = adapter.config.pollingTrigger.replace(':', '.').replace(FORBIDDEN_CHARS, '_');
         if (adapter.config.pollingTrigger.match(/^BidCoS-RF/)) {
             pollingTrigger = adapter.config.rfdAdapter + '.' + adapter.config.pollingTrigger;
         } else {
@@ -373,7 +375,7 @@ function main() {
         checkInit(adapter.config.rfdAdapter);
     }
 
-    var Rega = require(__dirname + '/lib/rega.js');
+    const Rega = require(__dirname + '/lib/rega.js');
 
     rega = new Rega({
         ccuIp:  adapter.config.homematicAddress,
@@ -442,7 +444,7 @@ function main() {
 
 function queue() {
     if (functionQueue.length > 0) {
-        var fn = functionQueue.pop();
+        const fn = functionQueue.pop();
         fn(queue);
     }
 }
@@ -457,14 +459,16 @@ function pollVariables() {
             adapter.log.error('Cannot parse answer for polling: ' + data);
             return;
         }
-        for (var id in data) {
+        for (let id in data) {
             if (!data.hasOwnProperty(id)) continue;
 
-            var val = data[id][0];
+            let val = data[id][0];
 
-            if (typeof val === 'string') val = _unescape(val);
+            if (typeof val === 'string') {
+                val = _unescape(val);
+            }
 
-            id = _unescape(id);
+            id = _unescape(id).replace(FORBIDDEN_CHARS, '_');
 
             if (id === '40') {
                 id = 'alarms';
@@ -473,7 +477,7 @@ function pollVariables() {
                 // If number of alarms changed
                 id = 'maintenance';
             }
-            var fullId = adapter.namespace + '.' + id;
+            const fullId = adapter.namespace + '.' + id;
 
             if (id === 'maintenance') {
                 if (!states[fullId] || states[fullId].val !== val) setTimeout(pollServiceMsgs, 1000);
@@ -502,34 +506,34 @@ function pollDutyCycle() {
             adapter.log.error('Cannot parse answer for dutycycle: ' + data);
             return;
         }
-		
-        var id;
-		for (var dp in data) {
+
+        let id;
+		for (const dp in data) {
 			if (!data.hasOwnProperty(dp)) {
 				continue;
 			}
-			id = _unescape(data[dp].ADDRESS);
+			id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
 			
 			//DUTY_CYCLE State:
-			if(data[dp].DUTY_CYCLE) {
+			if (data[dp].DUTY_CYCLE) {
 				updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
 				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
 			}
 
 			//CONNECTED State:
-			if(data[dp].CONNECTED) {
+			if (data[dp].CONNECTED) {
 				updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
 				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
 			}
 
 			//DEFAULT State:
-			if(data[dp].DEFAULT) {
+			if (data[dp].DEFAULT) {
 				updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
 				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
 			}
 
 			//FIRMWARE_VERSION State:
-			if(data[dp].FIRMWARE_VERSION) {
+			if (data[dp].FIRMWARE_VERSION) {
 				updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
 				adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + data[dp].FIRMWARE_VERSION);
 			}
@@ -546,13 +550,13 @@ function pollPrograms() {
             adapter.log.error('Cannot parse answer for programs: ' + data);
             return;
         }
-        for (var dp in data) {
+        for (const dp in data) {
             if (!data.hasOwnProperty(dp)) continue;
 
-            var id = _unescape(dp);
-            var val = data[dp].Active;
+            const id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
+            const val = data[dp].Active;
 
-            var fullId = adapter.namespace + '.' + id + '.Active';
+            const fullId = adapter.namespace + '.' + id + '.Active';
             if (!states[fullId]     ||
                 !states[fullId].ack ||
                 states[fullId].val !== val
@@ -577,14 +581,14 @@ function pollServiceMsgs() {
             adapter.log.error('Cannot parse answer for alarms: ' + data);
             return;
         }
-        for (var dp in data) {
+        for (const dp in data) {
             if (!data.hasOwnProperty(dp)) continue;
 
-            var id = _unescape(data[dp].Name);
+            let id = _unescape(data[dp].Name);
             if (id.match(/^AL-/)) id = id.substring(3);
-            id = adapter.config.rfdAdapter + '.' + id.replace(':', '.') + '_ALARM';
+            id = adapter.config.rfdAdapter + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
 
-            var state = {
+            const state = {
                 val:    !!data[dp].AlState,
                 ack:    true,
                 lc:     new Date(data[dp].AlOccurrenceTime),
@@ -630,16 +634,16 @@ function getServiceMsgs() {
             adapter.log.error('Cannot parse answer for alarms: ' + data);
             return;
         }
-        for (var dp in data) {
+        for (const dp in data) {
             if (!data.hasOwnProperty(dp)) continue;
 
-            var name = _unescape(data[dp].Name);
-            var id = name;
+            const name = _unescape(data[dp].Name);
+            let id = name;
             if (id.match(/^AL-/)) id = id.substring(3);
 
-            id = adapter.config.rfdAdapter + '.' + id.replace(':', '.') + '_ALARM';
+            id = adapter.config.rfdAdapter + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
 
-            var state = {
+            const state = {
                 val: !!data[dp].AlState,
                 ack: true,
                 lc:  new Date(data[dp].AlOccurrenceTime),
@@ -687,11 +691,11 @@ function getServiceMsgs() {
 function getPrograms(callback) {
     adapter.objects.getObjectView('hm-rega', 'programs', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
 
-        var response = [];
+        const response = [];
 
         if (!err && doc) {
-            for (var i = 0; i < doc.rows.length; i++) {
-                var id = doc.rows[i].value._id.split('.');
+            for (let i = 0; i < doc.rows.length; i++) {
+                let id = doc.rows[i].value._id.split('.');
                 id = id[id.length - 1];
                 response.push(id);
             }
@@ -707,14 +711,14 @@ function getPrograms(callback) {
                 adapter.log.error('Cannot parse answer for programs: ' + data);
                 return;
             }
-            var count = 0;
-            var id;
-            for (var dp in data) {
+            let count = 0;
+            let id;
+            for (const dp in data) {
                 if (!data.hasOwnProperty(dp)) continue;
 
-                id = _unescape(dp);
+                id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
                 count += 1;
-                var fullId = adapter.namespace + '.' + id;
+                let fullId = adapter.namespace + '.' + id;
                 if (!objects[fullId]) {
                     objects[fullId] = true;
                     adapter.setForeignObject(fullId, {
@@ -731,7 +735,7 @@ function getPrograms(callback) {
                     });
                 }
 
-                var val = data[dp].Active;
+                const val = data[dp].Active;
 
                 fullId = adapter.namespace + '.' + id + '.ProgramExecute';
 
@@ -791,7 +795,7 @@ function getPrograms(callback) {
 
             adapter.log.info('added/updated ' + count + ' programs');
 
-            for (var i = 0; i < response.length; i++) {
+            for (let i = 0; i < response.length; i++) {
                 adapter.delObject(response[i]);
             }
             adapter.log.info('deleted ' + response.length + ' programs');
@@ -802,22 +806,22 @@ function getPrograms(callback) {
 }
 
 function getFunctions(callback) {
-    rega.runScriptFile('functions', function (data) {
+    rega.runScriptFile('functions', data => {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for functions: ' + data);
             return;
         }
-        for (var regaId in data) {
+        for (const regaId in data) {
             if (!data.hasOwnProperty(regaId)) continue;
 
-            var members = [];
+            const members = [];
 
-            var memberObjs = data[regaId].Channels;
+            const memberObjs = data[regaId].Channels;
 
-            var id;
-            for (var i = 0; i < memberObjs.length; i++) {
+            let id;
+            for (let i = 0; i < memberObjs.length; i++) {
                 switch (memberObjs[i].Interface) {
                     case 'BidCos-RF':
                         if (!adapter.config.rfdEnabled) continue;
@@ -843,17 +847,18 @@ function getFunctions(callback) {
                         continue;
 
                 }
-                id = id + memberObjs[i].Address.replace(':', '.');
+                id = id + memberObjs[i].Address.replace(':', '.').replace(FORBIDDEN_CHARS, '_');
                 members.push(id);
             }
 
-            var name = _unescape(data[regaId].Name);
-            var desc = _unescape(data[regaId].EnumInfo);
-            var obj = {
+            const name = _unescape(data[regaId].Name);
+            const desc = _unescape(data[regaId].EnumInfo);
+            const obj = {
+                _id: adapter.config.enumFunctions + '.' + (words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name),
                 desc: desc,
                 type: 'enum',
                 common: {
-                    name:    name,
+                    name:    words[name] || name,
                     members: members
                 },
                 native: {
@@ -864,15 +869,15 @@ function getFunctions(callback) {
             };
 
             (function (newObj) {
-                adapter.getForeignObject(adapter.config.enumFunctions + '.' + newObj.common.name, function (err, obj) {
-                    var changed = false;
+                adapter.getForeignObject(newObj._id, (err, obj) => {
+                    let changed = false;
                     if (!obj) {
                         obj = newObj;
                         changed = true;
                     } else {
                         obj.common = obj.common || {};
                         obj.common.members = obj.common.members || [];
-                        for (var m = 0; m < newObj.common.members.length; m++) {
+                        for (let m = 0; m < newObj.common.members.length; m++) {
                             if (obj.common.members.indexOf(newObj.common.members[m]) === -1) {
                                 changed = true;
                                 obj.common.members.push(newObj.common.members[m]);
@@ -888,7 +893,7 @@ function getFunctions(callback) {
 
         adapter.log.info('added/updated functions to ' + adapter.config.enumFunctions);
 
-        adapter.getForeignObject(adapter.config.enumFunctions, function (err, obj) {
+        adapter.getForeignObject(adapter.config.enumFunctions, (err, obj) => {
             if (!obj || err) {
                 adapter.setForeignObject(adapter.config.enumFunctions, {
                     type: 'enum',
@@ -908,22 +913,22 @@ function getFunctions(callback) {
 }
 
 function getRooms(callback) {
-    rega.runScriptFile('rooms', function (data) {
+    rega.runScriptFile('rooms', data => {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for rooms: ' + data);
             return;
         }
-        for (var regaId in data) {
+        for (const regaId in data) {
             if (!data.hasOwnProperty(regaId)) continue;
 
-            var members = [];
+            const members = [];
 
-            var memberObjs = data[regaId].Channels;
+            const memberObjs = data[regaId].Channels;
 
-            var id;
-            for (var i = 0; i < memberObjs.length; i++) {
+            let id;
+            for (let i = 0; i < memberObjs.length; i++) {
                 switch (memberObjs[i].Interface) {
                     case 'BidCos-RF':
                         id = adapter.config.rfdAdapter + '.';
@@ -949,16 +954,17 @@ function getRooms(callback) {
                         continue;
 
                 }
-                id = id + _unescape(memberObjs[i].Address).replace(':', '.');
+                id = id + _unescape(memberObjs[i].Address).replace(':', '.').replace(FORBIDDEN_CHARS, '_');
                 members.push(id);
             }
 
-            var name = _unescape(data[regaId].Name);
-            var desc = _unescape(data[regaId].EnumInfo);
-            var obj = {
+            const name = _unescape(data[regaId].Name);
+            const desc = _unescape(data[regaId].EnumInfo);
+            const obj = {
+                _id: adapter.config.enumRooms + '.' + (words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name),
                 type: 'enum',
                 common: {
-                    name: name,
+                    name: words[name] || name,
                     desc: desc,
                     members: members
                 },
@@ -970,15 +976,15 @@ function getRooms(callback) {
             };
 
             (function (newObj) {
-                adapter.getForeignObject(adapter.config.enumRooms + '.' + newObj.common.name, function (err, obj) {
-                    var changed = false;
+                adapter.getForeignObject(newObj._id, (err, obj) => {
+                    let changed = false;
                     if (!obj) {
                         obj = newObj;
                         changed = true;
                     } else {
                         obj.common = obj.common || {};
                         obj.common.members = obj.common.members || [];
-                        for (var m = 0; m < newObj.common.members.length; m++) {
+                        for (let m = 0; m < newObj.common.members.length; m++) {
                             if (obj.common.members.indexOf(newObj.common.members[m]) === -1) {
                                 changed = true;
                                 obj.common.members.push(newObj.common.members[m]);
@@ -994,7 +1000,7 @@ function getRooms(callback) {
 
         adapter.log.info('added/updated rooms to ' + adapter.config.enumRooms);
 
-        adapter.getForeignObject(adapter.config.enumRooms, function (err, obj) {
+        adapter.getForeignObject(adapter.config.enumRooms, (err, obj) => {
             if (!obj || err) {
                 adapter.setForeignObject(adapter.config.enumRooms, {
                     type: 'enum',
@@ -1014,14 +1020,13 @@ function getRooms(callback) {
 }
 
 function getFavorites(callback) {
-    rega.runScriptFile('favorites', function (data) {
+    rega.runScriptFile('favorites', data => {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error('Cannot parse answer for favorites: ' + data);
             return;
         }
-        var favorites = {};
 
         adapter.setForeignObject(adapter.config.enumFavorites, {
             type: 'enum',
@@ -1031,12 +1036,12 @@ function getFavorites(callback) {
             native: {}
         });
 
-        var c = 0;
+        let c = 0;
 
-        for (var user in data) {
+        for (let user in data) {
             if (!data.hasOwnProperty(user)) continue;
 
-            user = _unescape(user);
+            user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
             adapter.setForeignObject(adapter.config.enumFavorites + '.' + user, {
                 type: 'enum',
                 common: {
@@ -1046,16 +1051,16 @@ function getFavorites(callback) {
             });
 
 
-            for (var fav in data[user]) {
+            for (const fav in data[user]) {
                 if (!data[user].hasOwnProperty(fav)) continue;
 
-                var channels = data[user][fav].Channels;
-                var members = [];
-                for (var i = 0; i < channels.length; i++) {
+                const channels = data[user][fav].Channels;
+                const members = [];
+                for (let i = 0; i < channels.length; i++) {
                     if (typeof channels[i] === 'number') {
                         members.push(adapter.namespace + '.' + channels[i]);
                     } else {
-                        var id;
+                        let id;
                         switch (channels[i].Interface) {
                             case 'BidCos-RF':
                                 id = adapter.config.rfdAdapter + '.';
@@ -1077,12 +1082,12 @@ function getFavorites(callback) {
                                 continue;
 
                         }
-                        id = id + _unescape(channels[i].Address).replace(':', '.');
+                        id = id + _unescape(channels[i].Address).replace(':', '.').replace(FORBIDDEN_CHARS, '_');
                         members.push(id);
                     }
                 }
                 c += 1;
-                var obj = {
+                const obj = {
                     type: 'enum',
                     common: {
                         name: fav,
@@ -1097,14 +1102,14 @@ function getFavorites(callback) {
 
                 (function (newObj) {
                     adapter.getForeignObject(adapter.config.enumFavorites + '.' + newObj.native.user + '.' + newObj.common.name, function (err, obj) {
-                        var changed = false;
+                        let changed = false;
                         if (!obj) {
                             obj = newObj;
                             changed = true;
                         } else {
                             obj.common = obj.common || {};
                             obj.common.members = obj.common.members || [];
-                            for (var m = 0; m < newObj.common.members.length; m++) {
+                            for (let m = 0; m < newObj.common.members.length; m++) {
                                 if (obj.common.members.indexOf(newObj.common.members[m]) === -1) {
                                     changed = true;
                                     obj.common.members.push(newObj.common.members[m]);
@@ -1136,15 +1141,15 @@ function getDatapoints(callback) {
             adapter.log.error('Cannot parse answer for datapoints: ' + data);
             return;
         }
-        for (var dp in data) {
+        for (const dp in data) {
             if (!data.hasOwnProperty(dp)) continue;
             //dp = _unescape(dp);
-            //var tmp = dp.split('.');
-            var tmp = (_unescape(dp)).split('.');
+            //const tmp = dp.split('.');
+            const tmp = _unescape(dp).replace(FORBIDDEN_CHARS, '_').split('.');
 
 
             if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') continue;
-            var id;
+            let id;
             switch (tmp[0]) {
                 case 'BidCos-RF':
                     if (!adapter.config.rfdEnabled) continue;
@@ -1169,7 +1174,7 @@ function getDatapoints(callback) {
                 default:
                     continue;
             }
-            id += tmp[1].replace(':', '.') + '.' + tmp[2];
+            id += tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '.' + tmp[2].replace(FORBIDDEN_CHARS, '_');
 
             // convert dimmer and blinds
             if (typeof units[id] === 'object') {
@@ -1181,7 +1186,7 @@ function getDatapoints(callback) {
                 data[dp] = parseFloat(data[dp]) * 100;
             }
 
-            var state = {val: data[dp], ack: true};
+            const state = {val: data[dp], ack: true};
 
             if (!states[id] ||
                 states[id].val !== state.val ||
@@ -1206,9 +1211,9 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             adapter.log.error('Cannot parse answer for devices: ' + data);
             return;
         }
-        var objs = [];
-        var id;
-        for (var addr in data) {
+        const objs = [];
+        let id;
+        for (const addr in data) {
             if (!data.hasOwnProperty(addr)) continue;
 
             switch (data[addr].Interface) {
@@ -1236,9 +1241,9 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                     continue;
             }
 
-            id += _unescape(addr).replace(':', '.');
-            var name = _unescape(data[addr].Name);
-            if (addr.indexOf(':') == -1) {
+            id += _unescape(addr).replace(':', '.').replace(FORBIDDEN_CHARS, '_');
+            const name = _unescape(data[addr].Name);
+            if (addr.indexOf(':') === -1) {
                 // device
                 if (devices[id] === undefined || devices[id] !== name) {
                     objs.push({_id: id, common: {name: name}});
@@ -1248,15 +1253,15 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                 if (channels[id] === undefined || channels[id] !== name) {
                     objs.push({_id: id, common: {name: name}});
                 } else if (!channels[id]) {
-                    var dev  = id.split('.');
-                    var last = dev.pop();
+                    let dev  = id.split('.');
+                    const last = dev.pop();
                     dev = dev.join('.');
                     if (devices[dev]) objs.push({_id: id, common: {name: devices[dev] + '.' + last}});
                 }
                 if (_states[id]) {
-                    for (var s in _states[id]) {
+                    for (const s in _states[id]) {
                         if (!_states[id].hasOwnProperty(s)) continue;
-                        var stateName = name + '.' + s;
+                        const stateName = name + '.' + s;
                         if (!_states[id][s] || _states[id][s] !== stateName) objs.push({_id: id + '.' + s, common: {name: stateName}});
                     }
                 }
@@ -1265,7 +1270,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
 
         function _queue() {
             if (objs.length > 0) {
-                var obj = objs.pop();
+                const obj = objs.pop();
                 adapter.log.info('renamed ' + obj._id + ' to "' + obj.common.name + '"');
                 adapter.extendForeignObject(obj._id, obj, function () {
                     setTimeout(_queue, 0);
@@ -1280,36 +1285,36 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
 }
 
 function getDevices(callback) {
-    var count    = 0;
-    var channels = {};
-    var devices  = {};
-    var _states  = {};
-    var someEnabled = false;
+    let count      = 0;
+    const channels = {};
+    const devices  = {};
+    const _states  = {};
+    let someEnabled = false;
 
     if (adapter.config.rfdEnabled) {
         someEnabled = true;
         count++;
         adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
-                for (var i = 0; i < doc.rows.length; i++) {
+                for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
                 }
             }
             adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
                 if (doc && doc.rows) {
-                    for (var i = 0; i < doc.rows.length; i++) {
+                    for (let i = 0; i < doc.rows.length; i++) {
                         channels[doc.rows[i].id] = doc.rows[i].value.common.name;
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
                         units = units || {};
-                        for (var i = 0; i < doc.rows.length; i++) {
-                            var parts = doc.rows[i].id.split('.');
-                            var last  = parts.pop();
-                            var id    = parts.join('.');
+                        for (let i = 0; i < doc.rows.length; i++) {
+                            const parts = doc.rows[i].id.split('.');
+                            const last  = parts.pop();
+                            const id    = parts.join('.');
                             if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
-                                var _id = doc.rows[i].id;
+                                const _id = doc.rows[i].id;
                                 units[_id] = _unescape(doc.rows[i].value.native.UNIT);
                                 if ((units[_id] === '100%' || units[_id] === '%') &&
                                     doc.rows[i].value.native.MIN !== undefined &&
@@ -1338,23 +1343,23 @@ function getDevices(callback) {
         count++;
         adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
-                for (var i = 0; i < doc.rows.length; i++) {
+                for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
                 }
             }
             adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
                 if (doc && doc.rows) {
-                    for (var i = 0; i < doc.rows.length; i++) {
+                    for (let i = 0; i < doc.rows.length; i++) {
                         channels[doc.rows[i].id] = doc.rows[i].value.common.name;
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
                         units = units || {};
-                        for (var i = 0; i < doc.rows.length; i++) {
-                            var parts = doc.rows[i].id.split('.');
-                            var last = parts.pop();
-                            var id = parts.join('.');
+                        for (let i = 0; i < doc.rows.length; i++) {
+                            const parts = doc.rows[i].id.split('.');
+                            const last = parts.pop();
+                            const id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
                             if ((units[id] === '100%' || units[id] === '%') &&
                                 doc.rows[i].value.native.MIN !== undefined &&
@@ -1381,23 +1386,23 @@ function getDevices(callback) {
         count++;
         adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
-                for (var i = 0; i < doc.rows.length; i++) {
+                for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
                 }
             }
             adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
                 if (doc && doc.rows) {
-                    for (var i = 0; i < doc.rows.length; i++) {
+                    for (let i = 0; i < doc.rows.length; i++) {
                         channels[doc.rows[i].id] = doc.rows[i].value.common.name;
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
                         units = units || {};
-                        for (var i = 0; i < doc.rows.length; i++) {
-                            var parts = doc.rows[i].id.split('.');
-                            var last = parts.pop();
-                            var id = parts.join('.');
+                        for (let i = 0; i < doc.rows.length; i++) {
+                            const parts = doc.rows[i].id.split('.');
+                            const last = parts.pop();
+                            const id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
                             if ((units[id] === '100%' || units[id] === '%') &&
                                 doc.rows[i].value.native.MIN !== undefined &&
@@ -1424,23 +1429,23 @@ function getDevices(callback) {
         count++;
         adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
-                for (var i = 0; i < doc.rows.length; i++) {
+                for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
                 }
             }
             adapter.objects.getObjectView('system', 'channel', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
                 if (doc && doc.rows) {
-                    for (var i = 0; i < doc.rows.length; i++) {
+                    for (let i = 0; i < doc.rows.length; i++) {
                         channels[doc.rows[i].id] = doc.rows[i].value.common.name;
                     }
                 }
                 adapter.objects.getObjectView('system', 'state', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
                     if (doc && doc.rows) {
                         units = units || {};
-                        for (var i = 0; i < doc.rows.length; i++) {
-                            var parts = doc.rows[i].id.split('.');
-                            var last = parts.pop();
-                            var id = parts.join('.');
+                        for (let i = 0; i < doc.rows.length; i++) {
+                            const parts = doc.rows[i].id.split('.');
+                            const last = parts.pop();
+                            const id = parts.join('.');
                             units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
                             if ((units[id] === '100%' || units[id] === '%') &&
                                 doc.rows[i].value.native.MIN !== undefined &&
@@ -1467,7 +1472,7 @@ function getDevices(callback) {
 }
 
 function getVariables(callback) {
-    var commonTypes = {
+    const commonTypes = {
         2:  'boolean',
         4:  'number',
         16: 'number',
@@ -1475,11 +1480,11 @@ function getVariables(callback) {
     };
 
     adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
-        var response = [];
+        const response = [];
 
         if (!err && doc) {
-            for (var i = 0; i < doc.rows.length; i++) {
-                var id = doc.rows[i].value._id.split('.');
+            for (let i = 0; i < doc.rows.length; i++) {
+                let id = doc.rows[i].value._id.split('.');
                 id = id[id.length - 1];
                 response.push(id);
             }
@@ -1495,18 +1500,18 @@ function getVariables(callback) {
                 adapter.log.error('Cannot parse answer for variables: ' + data);
                 return;
             }
-            var count = 0;
-            var i;
-            var id;
+            let count = 0;
+            let i;
+            let id;
 
-            for (var dp in data) {
+            for (const dp in data) {
                 if (!data.hasOwnProperty(dp)) continue;
-                id = _unescape(dp);
+                id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
                 count += 1;
 
-                var role = 'state';
+                const role = 'state';
 
-                var obj = {
+                const obj = {
                     _id:  adapter.namespace + '.' + id,
                     type: 'state',
                     common: {
@@ -1534,7 +1539,7 @@ function getVariables(callback) {
                 if (data[dp].DPInfo)    obj.common.desc = obj.native.DPInfo;
 
                 if (data[dp].ValueList) {
-                    var statesArr = _unescape(data[dp].ValueList).split(';');
+                    const statesArr = _unescape(data[dp].ValueList).split(';');
                     obj.common.states = {};
                     for (i = 0; i < statesArr.length; i++) {
                         obj.common.states[i] = statesArr[i];
@@ -1545,7 +1550,7 @@ function getVariables(callback) {
                     }
 
                 }
-                var val = data[dp].Value;
+                let val = data[dp].Value;
 
                 if (typeof val === 'string') val = _unescape(val);
 
@@ -1558,7 +1563,7 @@ function getVariables(callback) {
                     obj.role = 'indicator.' + id;
                     obj._id = adapter.namespace + '.' + id;
                 }
-                var fullId = obj._id;
+                const fullId = obj._id;
 
                 if (!objects[fullId]) {
                     objects[fullId] = true;
@@ -1606,17 +1611,17 @@ function getDutyCycle(callback) {
                 adapter.log.error('Cannot parse answer for dutycycle: ' + data);
                 return;
             }
-            var count = 0;
-            var id;
+            let count = 0;
+            let id;
 
-            for (var dp in data) {
+            for (const dp in data) {
                 if (!data.hasOwnProperty(dp)) {
 					continue;
 				}
-                id = _unescape(data[dp].ADDRESS);
+                id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
                 count += 1;
 
-                var obj = {
+                const obj = {
                     _id:  adapter.namespace + '.' + id,
                     type: 'device',
                     common: {
@@ -1635,7 +1640,7 @@ function getDutyCycle(callback) {
 
 				//DUTY_CYCLE State:
 				if(data[dp].DUTY_CYCLE) {
-					var stateDutycycle = {
+					const stateDutycycle = {
                     _id:  adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
                     type: 'state',
                     common: {
@@ -1664,7 +1669,7 @@ function getDutyCycle(callback) {
 				
 				//CONNECTED State:
 				if(data[dp].CONNECTED) {
-					var stateConnected = {
+					const stateConnected = {
                     _id:  adapter.namespace + '.' + id + '.0.CONNECTED',
                     type: 'state',
                     common: {
@@ -1687,7 +1692,7 @@ function getDutyCycle(callback) {
 
 				//DEFAULT State:
 				if(data[dp].DEFAULT) {
-					var stateDefault = {
+					const stateDefault = {
                     _id:  adapter.namespace + '.' + id + '.0.DEFAULT',
                     type: 'state',
                     common: {
@@ -1710,7 +1715,7 @@ function getDutyCycle(callback) {
 
 				//FIRMWARE_VERSION State:
 				if(data[dp].FIRMWARE_VERSION) {
-					var stateFirmware = {
+					const stateFirmware = {
                     _id:  adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
                     type: 'state',
                     common: {
@@ -1777,12 +1782,12 @@ function convertDataToJSON(data) {
 	data = data.replace(/\n/gm, '');
 	data = data.replace(/{/g, '');
 	data = data.replace(/}/g, '');
-	var jsonArray = new Array();
-	data.split("ADDRESS").forEach(function (item) {
-		if(item != null && item != "") {
-			var jsonObj = new Object();
-			
-			var splitter = item.split('CONNECTED');
+	const jsonArray = new Array();
+	data.split('ADDRESS').forEach(item => {
+		if (item !== null && item !== '' && item !== undefined) {
+			const jsonObj = new Object();
+
+            let splitter = item.split('CONNECTED');
 			jsonObj.ADDRESS = splitter[0].trim();
 
 			splitter = splitter[1].split('DEFAULT');
@@ -1805,11 +1810,10 @@ function convertDataToJSON(data) {
 			jsonArray.push(jsonObj);
 		}
 	});
-	var returnValue = JSON.stringify(jsonArray);
-	return returnValue;
+	return JSON.stringify(jsonArray);
 }
 
-var stopCount = 0;
+let stopCount = 0;
 function stop(callback) {
     adapter.setState('info.connection',   false, true);
     adapter.setState('info.ccuReachable', false, true);
@@ -1819,7 +1823,7 @@ function stop(callback) {
 		clearInterval(pollingInterval);
 		clearInterval(pollingIntervalDC);
 	}
-    for (var id in checkInterval) {
+    for (const id in checkInterval) {
         if (!checkInterval.hasOwnProperty(id)) continue;
         clearInterval(checkInterval[id]);
     }
