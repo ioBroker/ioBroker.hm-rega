@@ -102,7 +102,7 @@
         function setValue(id, value, onChange) {
             var $value = $('#' + id + '.value');
             if ($value.attr('type') === 'checkbox') {
-                $value.prop('checked', value).change(function() {
+                $value.prop('checked', value).on('change', function() {
                     onChange();
                     enableFields();
                 });
@@ -268,6 +268,16 @@
             font-weight: bold;
             color: #ff4d00;
         }
+        .hm-title {
+            margin: 1em 0;
+            line-height: 57px;
+            padding-top: 20px;
+        }
+        .hm-checkbox {
+            margin: 1em 0;
+            padding: 1.2em 0 1.2em 35px !important;
+
+        }
     </style>
 </head>
 <body>
@@ -289,55 +299,55 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col s12 m8 l4">
+                <div class="input-field col s12 m8 l4">
                     <select id="homematicAddress" class="value"></select>
                     <label class="translate" for="homematicAddress">HomeMatic CCU Address</label>
                 </div>
-                <div class="col s12 m4 l2">
+                <div class="input-field col s12 m4 l2">
                     <input id="reconnectionInterval" class="value" type="number" min="5" max="600"/>
                     <label class="translate" for="reconnectionInterval">Reconnection interval(s)</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">rfd</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">rfd</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="rfdEnabled" class="value"/>
                     <span class="translate" for="rfdEnabled">enabled</span>
                 </div>
-                <div class="col s4 m2">
+                <div class="input-field col s4 m2">
                     <select id="rfdAdapter" class="value"></select>
                     <label class="translate" for="rfdAdapter">hm-rpc instance</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">hs485d (Wired)</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">hs485d (Wired)</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="hs485dEnabled" class="value"/>
                     <span class="translate" for="hs485dEnabled">enabled</span>
                 </div>
-                <div class="col s4 m2">
+                <div class="input-field col s4 m2">
                     <select id="hs485dAdapter" class="value"></select>
                     <label class="translate" for="hs485dAdapter">hm-rpc instance</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">CUxD</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">CUxD</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="cuxdEnabled" class="value"/>
                     <span class="translate" for="cuxdEnabled">enabled</span>
                 </div>
-                <div class="col s4 m2">
+                <div class="input-field col s4 m2">
                     <select id="cuxdAdapter" class="value"></select>
                     <label class="translate" for="cuxdAdapter">hm-rpc instance</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">HomeMatic IP</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">HomeMatic IP</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="hmipEnabled" class="value"/>
                     <span class="translate" for="hmipEnabled">enabled</span>
                 </div>
-                <div class="col s4 m2">
+                <div class="input-field col s4 m2">
                     <select id="hmipAdapter" class="value"></select>
                     <label class="translate" for="hmipAdapter">hm-rpc instance</label>
                 </div>
@@ -346,18 +356,18 @@
                 <div class="col s4">&nbsp;</div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate">Polling</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate hm-title">Polling</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="polling" class="value"/>
                     <span class="translate" for="polling">enabled</span>
                 </div>
-                <div class="col s4 m2">
+                <div class="input-field col s4 m2">
                     <input id="pollingInterval" class="value" min="10" type="number" />
                     <label class="translate" for="pollingInterval">interval (s)</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s8 m4">
+                <div class="input-field col s8 m4">
                     <input type="text" id="pollingTrigger" class="value" />
                     <label class="translate" for="pollingTrigger">trigger</label>
                 </div>
@@ -365,67 +375,67 @@
         </div>
         <div id="tab-sync"    class="col s12 page">
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">Sync dutycycle</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">Sync dutycycle</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncDutyCycle" class="value"/>
                     <span class="translate" for="syncDutyCycle">enabled</span>
                 </div>
-                <div class="col s4 m2">
+                <div class="input-field col s4 m2">
                     <input id="pollingIntervalDC" class="value" type="number">
                     <label class="translate" for="pollingIntervalDC">interval (s)</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">Sync variables</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">Sync variables</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncVariables" class="value"/>
                     <span class="translate" for="syncVariables">enabled</span>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">Sync programs</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">Sync programs</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncPrograms" class="value"/>
                     <span class="translate" for="syncPrograms">enabled</span>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">Sync names</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">Sync names</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncNames" class="value"/>
                     <span class="translate" for="syncNames">enabled</span>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">Sync favorites</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">Sync favorites</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncFavorites" class="value"/>
                     <span class="translate" for="syncFavorites">enabled</span>
                 </div>
-                <div class="col s4 m2">
-                    <input id="enumFavorites" class="value" />
+                <div class="input-field col s4 m2">
+                    <input id="enumFavorites" type="text" class="value" />
                     <label class="translate" for="enumFavorites">enum</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">Sync rooms</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">Sync rooms</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncRooms" class="value"/>
                     <span class="translate" for="syncRooms">enabled</span>
                 </div>
-                <div class="col s4 m2">
-                    <input id="enumRooms" class="value" />
+                <div class="input-field col s4 m2">
+                    <input id="enumRooms" type="text" class="value" />
                     <label class="translate" for="enumRooms">enum</label>
                 </div>
             </div>
             <div class="row">
-                <div class="col s4 m2 translate daemon-title">Sync functions</div>
-                <div class="col s4 m2">
+                <div class="col s4 m2 translate daemon-title hm-title">Sync functions</div>
+                <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncFunctions" class="value"/>
                     <span class="translate" for="syncFunctions">enabled</span>
                 </div>
-                <div class="col s4 m2">
-                    <input id="enumFunctions" class="value" />
+                <div class="input-field col s4 m2">
+                    <input id="enumFunctions" type="text" class="value" />
                     <label class="translate" for="enumFunctions">enum</label>
                 </div>
             </div>

@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "1.7.1",
+        "version": "1.7.2",
         "news": {
+            "1.7.2": {
+                "en": "Configuration dialog was corrected",
+                "de": "Konfigurationsdialog wurde korrigiert",
+                "ru": "Диалог конфигурации был исправлен",
+                "pt": "A caixa de diálogo de configuração foi corrigida",
+                "nl": "Configuratiedialoog is gecorrigeerd",
+                "fr": "La boîte de dialogue de configuration a été corrigée",
+                "it": "La finestra di configurazione è stata corretta",
+                "es": "Se corrigió el diálogo de configuración",
+                "pl": "Okno dialogowe konfiguracji zostało poprawione"
+            },
             "1.7.1": {
                 "en": "Forbidden characters were replaced",
                 "de": "Verbotene Zeichen wurden ersetzt",

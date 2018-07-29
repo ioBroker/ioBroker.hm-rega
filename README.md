@@ -20,14 +20,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 ## Configuration
 
-
-
-## Todo
-* set connected state
-* sync enums
-* special script-device to run arbitrary regascripts
-
 ## Changelog
+### 1.7.2 (2018-07-29)
+* (bluefox) Configuration dialog was corrected
+
 ### 1.7.1 (2018-06-25)
 * (bluefox) Forbidden characters were replaced
 
@@ -171,15 +167,12 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 * (hobbyquaker) add settings ui
 
 ### 0.1.3
-
 * (hobbyquaker) common.children vs children
 
 ### 0.1.2
-
 * (hobbyquaker) Fix common.children in getPrograms
 
 ### 0.1.1
-
 * (hobbyquaker) Fix common.name attribute
 
 ## License
