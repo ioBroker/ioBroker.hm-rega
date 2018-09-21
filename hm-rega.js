@@ -27,7 +27,7 @@ const adapter = utils.Adapter({
         } else
         // Read devices anew if hm-rpc updated the list of devices
         if (id === adapter.config.rfdAdapter    + '.updated' ||
-			id === adapter.config.virtualDevicesAdapter    + '.updated' ||
+            id === adapter.config.virtualDevicesAdapter    + '.updated' ||
             id === adapter.config.cuxdAdapter   + '.updated' ||
             id === adapter.config.hmipAdapter   + '.updated' ||
             id === adapter.config.hs485dAdapter + '.updated') {
@@ -40,7 +40,7 @@ const adapter = utils.Adapter({
             }
         } else
         if (id === adapter.config.rfdAdapter    + '.info.connection' ||
-			id === adapter.config.virtualDevicesAdapter    + '.info.connection' ||
+            id === adapter.config.virtualDevicesAdapter    + '.info.connection' ||
             id === adapter.config.cuxdAdapter   + '.info.connection' ||
             id === adapter.config.hmipAdapter   + '.info.connection' ||
             id === adapter.config.hs485dAdapter + '.info.connection') {
@@ -376,7 +376,7 @@ function main() {
         adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.info.connection');
         checkInit(adapter.config.rfdAdapter);
     }
-	if (adapter.config.virtualDevicesAdapter && adapter.config.virtualDevicesEnabled) {
+    if (adapter.config.virtualDevicesAdapter && adapter.config.virtualDevicesEnabled) {
         adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter    + '.updated');
         adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter    + '.info.connection');
         checkInit(adapter.config.rfdAdapter);
@@ -849,8 +849,8 @@ function getFunctions(callback) {
                         if (!adapter.config.hmipEnabled) continue;
                         id = adapter.config.hmipAdapter + '.';
                         break;
-					
-					case 'VirtualDevices':
+
+                    case 'VirtualDevices':
                         if (!adapter.config.virtualDevicesEnabled) continue;
                         id = adapter.config.virtualDevicesAdapter + '.';
                         break;
@@ -961,10 +961,10 @@ function getRooms(callback) {
                         id = adapter.config.hmipAdapter + '.';
                         if (!adapter.config.hmipAdapter) continue;
                         break;
-					
-					case 'VirtualDevices':
+
+                    case 'VirtualDevices':
                         id = adapter.config.virtualDevicesAdapter + '.';
-						if (!adapter.config.virtualDevicesEnabled) continue;
+                        if (!adapter.config.virtualDevicesEnabled) continue;
                         break;
 
                     default:
@@ -1095,10 +1095,10 @@ function getFavorites(callback) {
                                 id = adapter.config.hmipAdapter + '.';
                                 if (!adapter.config.hmipAdapter) continue;
                                 break;
-							case 'VirtualDevices':
-                        		id = adapter.config.virtualDevicesAdapter + '.';
-								if (!adapter.config.virtualDevicesEnabled) continue;
-								break;
+                            case 'VirtualDevices':
+                                id = adapter.config.virtualDevicesAdapter + '.';
+                                if (!adapter.config.virtualDevicesEnabled) continue;
+                                break;
                             default:
                                 continue;
 
@@ -1191,9 +1191,9 @@ function getDatapoints(callback) {
                     if (!adapter.config.hmipEnabled) continue;
                     id = adapter.config.hmipAdapter + '.';
                     break;
-				
-				case 'VirtualDevices':
-					if (!adapter.config.virtualDevicesEnabled) continue;
+
+                case 'VirtualDevices':
+                    if (!adapter.config.virtualDevicesEnabled) continue;
                     id = adapter.config.virtualDevicesAdapter + '.';
                     break;
 
@@ -1262,9 +1262,9 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                     if (!adapter.config.hmipEnabled) continue;
                     id = adapter.config.hmipAdapter + '.';
                     break;
-				
-				case 'VirtualDevices':
-					if (!adapter.config.virtualDevicesEnabled) continue;
+
+                case 'VirtualDevices':
+                    if (!adapter.config.virtualDevicesEnabled) continue;
                     id = adapter.config.virtualDevicesAdapter + '.';
                     break;
 

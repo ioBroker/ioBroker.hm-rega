@@ -56,7 +56,7 @@
 
     function enableFields() {
         $('#rfdAdapter').prop('disabled',      		!$('#rfdEnabled').prop('checked'));
-		$('#virtualDevicesAdapter').prop('disabled',      		!$('#virtualDevicesEnabled').prop('checked'));
+        $('#virtualDevicesAdapter').prop('disabled', !$('#virtualDevicesEnabled').prop('checked'));
         $('#hs485dAdapter').prop('disabled',   		!$('#hs485dEnabled').prop('checked'));
         $('#cuxdAdapter').prop('disabled',     		!$('#cuxdEnabled').prop('checked'));
         $('#hmipAdapter').prop('disabled',     		!$('#hmipEnabled').prop('checked'));
@@ -116,7 +116,7 @@
             fillIpAddress('homematicAddress', arr, settings['homematicAddress']);
 
             fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],    'rfd');
-			fillInstances('virtualDevicesAdapter', arr, settings['homematicAddress'], settings['virtualDevicesAdapter'],    'virtual-devices');
+            fillInstances('virtualDevicesAdapter', arr, settings['homematicAddress'], settings['virtualDevicesAdapter'],    'virtual-devices');
             fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
             fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],   'CUxD');
             fillInstances('hmipAdapter',      arr, settings['homematicAddress'], settings['hmipAdapter'],   'HMIP');
@@ -125,7 +125,7 @@
             $('#homematicAddress').change(function () {
                 var ip = $(this).val();
                 fillInstances('rfdAdapter',       arr, ip, settings['rfdAdapter'],    'rfd',    true);
-				fillInstances('virtualDevicesAdapter', arr, ip, settings['virtualDevicesAdapter'],    'virtual-devices',    true);
+                fillInstances('virtualDevicesAdapter', arr, ip, settings['virtualDevicesAdapter'],    'virtual-devices',    true);
                 fillInstances('hs485dAdapter',    arr, ip, settings['hs485dAdapter'], 'hs485d', true);
                 fillInstances('cuxdAdapter',      arr, ip, settings['cuxdAdapter'],   'CUxD',   true);
                 fillInstances('hmipAdapter',      arr, ip, settings['hmipAdapter'],   'HMIP',   true);
@@ -170,7 +170,7 @@
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
-			if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.hmipAdapter) {
+            if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.hmipAdapter) {
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
@@ -193,7 +193,7 @@
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
-			if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.cuxdAdapter) {
+            if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.cuxdAdapter) {
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
@@ -216,7 +216,7 @@
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
-			if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.rfdAdapter) {
+            if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.rfdAdapter) {
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
@@ -239,12 +239,12 @@
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
-			if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.rfdAdapter) {
+            if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter == obj.rfdAdapter) {
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
         }
-		if (obj.virtualDevicesEnabled) {
+        if (obj.virtualDevicesEnabled) {
             if (!obj.virtualDevicesAdapter) {
                 alert(_('Please select rpc adapter for enabled service or install one first.'));
                 return;
@@ -262,7 +262,7 @@
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
-			if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter == obj.virtualDevicesAdapter) {
+            if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter == obj.virtualDevicesAdapter) {
                 alert(_('Cannot use one adapter instance for more than one service.'));
                 return;
             }
@@ -317,7 +317,7 @@
             <td class="translate">hm-rpc instance</td>
             <td><select id="hmipAdapter" class="value"></select></td>
         </tr>
-		<tr>
+        <tr>
             <td class="translate">rfd-groups</td>
             <td class="translate">enabled</td>
             <td><input type="checkbox" id="virtualDevicesEnabled" value="true" class="value"></td>
