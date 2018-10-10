@@ -16,6 +16,7 @@ systemDictionary = {
     "HomeMatic CCU Address": {"en": "HomeMatic CCU Address", "de": "HomeMatic CCU Adresse", "ru": "Адрес HomeMatic CCU"},
     "Reconnection interval(s)": {"en": "Reconnection interval(s)",          "de": "Wiederverbindungsintervall (s)", "ru": "Интервал попытки соединения (с)"},
     "rfd":                  {"en": "rfd",                   "de": "rfd",            "ru": "rfd"},
+    "Virtual Devices":      {"en": "Virtual Devices",       "de": "Virtual Devices","ru": "Virtual Devices"},
     "hm-rpc instance":      {"en": "hm-rpc instance",       "de": "hm-rpc Instanz", "ru": "Инстанция hm-rpc"},
     "hs485d (Wired)":       {"en": "hs485d (Wired)",        "de": "hs485d (Wired)", "ru": "hs485d (Wired)"},
     "CUxD":                 {"en": "CUxD",                  "de": "CUxD",           "ru": "CUxD"},

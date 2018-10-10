@@ -55,6 +55,11 @@
             } else {
                 $('#rfdAdapter').addClass('disabled');
             }
+            if ($('#virtualDevicesEnabled').prop('checked')) {
+                $('#virtualDevicesAdapter').removeClass('disabled');
+            } else {
+                $('#virtualDevicesAdapter').addClass('disabled');
+            }
             if ($('#hs485dEnabled').prop('checked')) {
                 $('#hs485dAdapter').removeClass('disabled');
             } else {
@@ -150,6 +155,7 @@
                 fillIpAddress('homematicAddress', arr, settings['homematicAddress']);
 
                 fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],    'rfd');
+                fillInstances('virtualDevicesAdapter', arr, settings['homematicAddress'], settings['virtualDevicesAdapter'], 'virtual-devices');
                 fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
                 fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],   'CUxD');
                 fillInstances('hmipAdapter',      arr, settings['homematicAddress'], settings['hmipAdapter'],   'HMIP');
@@ -158,6 +164,7 @@
                 $('#homematicAddress').on('change', function () {
                     var ip = $(this).val();
                     fillInstances('rfdAdapter',       arr, ip, settings['rfdAdapter'],    'rfd',    true);
+                    fillInstances('virtualDevicesAdapter', arr, ip, settings['virtualDevicesAdapter'], 'virtual-devices', true);
                     fillInstances('hs485dAdapter',    arr, ip, settings['hs485dAdapter'], 'hs485d', true);
                     fillInstances('cuxdAdapter',      arr, ip, settings['cuxdAdapter'],   'CUxD',   true);
                     fillInstances('hmipAdapter',      arr, ip, settings['hmipAdapter'],   'HMIP',   true);
@@ -201,6 +208,10 @@
                     showError(_('Cannot use one adapter instance for more than one service.'));
                     return;
                 }
+                if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter === obj.hmipAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
             }
             if (obj.cuxdEnabled) {
                 if (!obj.cuxdAdapter) {
@@ -217,6 +228,10 @@
                     return;
                 }
                 if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter === obj.cuxdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter === obj.cuxdAdapter) {
                     showError(_('Cannot use one adapter instance for more than one service.'));
                     return;
                 }
@@ -239,6 +254,10 @@
                     showError(_('Cannot use one adapter instance for more than one service.'));
                     return;
                 }
+                if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter === obj.rfdAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
             }
             if (obj.hs485dAdapter) {
                 if (!obj.hs485dAdapter) {
@@ -255,6 +274,33 @@
                     return;
                 }
                 if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter === obj.hs485Adapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.virtualDevicesEnabled && obj.virtualDevicesAdapter && obj.virtualDevicesAdapter === obj.hs485Adapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+            }
+            if (obj.virtualDevicesEnabled) {
+                if (!obj.virtualDevicesAdapter) {
+                    showError(_('Please select rpc adapter for enabled service or install one first.'));
+                    return;
+                }
+
+                if (obj.cuxdEnabled && obj.cuxdAdapter && obj.cuxdAdapter === obj.virtualDevicesAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                } else
+                if (obj.hs485dEnabled && obj.hs485dAdapter && obj.hs485dAdapter === obj.virtualDevicesAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.hmipEnabled && obj.hmipAdapter && obj.hmipAdapter === obj.virtualDevicesAdapter) {
+                    showError(_('Cannot use one adapter instance for more than one service.'));
+                    return;
+                }
+                if (obj.rfdEnabled && obj.rfdAdapter && obj.rfdAdapter === obj.virtualDevicesAdapter) {
                     showError(_('Cannot use one adapter instance for more than one service.'));
                     return;
                 }
@@ -350,6 +396,17 @@
                 <div class="input-field col s4 m2">
                     <select id="hmipAdapter" class="value"></select>
                     <label class="translate" for="hmipAdapter">hm-rpc instance</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4 m2 translate daemon-title hm-title">Virtual Devices</div>
+                <div class="input-field col s4 m2 hm-checkbox">
+                    <input type="checkbox" id="virtualDevicesEnabled" class="value"/>
+                    <span class="translate" for="virtualDevicesEnabled">enabled</span>
+                </div>
+                <div class="input-field col s4 m2">
+                    <select id="virtualDevicesAdapter" class="value"></select>
+                    <label class="translate" for="virtualDevicesAdapter">hm-rpc instance</label>
                 </div>
             </div>
             <div class="row">

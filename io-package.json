@@ -154,6 +154,8 @@
         "cuxdAdapter": "hm-rpc.2",
         "hmipEnabled": false,
         "hmipAdapter": "hm-rpc.3",
+        "virtualDevicesEnabled": false,
+        "virtualDevicesAdapter": "hm-rpc.4",
         "syncVariables": true,
         "syncPrograms": true,
         "syncNames": true,
