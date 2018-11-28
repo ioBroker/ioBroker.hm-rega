@@ -161,9 +161,13 @@
                     }
                 }
 
+                if (settings.username === undefined) settings.username = '';
+                if (settings.password === undefined) settings.password = '';
+                if (settings.useHttps === undefined) settings.useHttps = false;
+
                 for (var key in settings) {
-                    if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
-                }
+                  if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
+                } // endFor
 
                 onChange(false);
 
