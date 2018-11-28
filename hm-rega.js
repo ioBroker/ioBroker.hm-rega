@@ -4,10 +4,10 @@
 const utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 const words = require('./lib/enumNames');
 const crypto = require(__dirname + '/lib/crypto'); // get cryptography functions
+const Rega = require(__dirname + '/lib/rega.js');
 
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\]\[*,;'"`<>\\?]/g;
-
 const adapter = utils.Adapter({
 
     name: 'hm-rega',
@@ -394,8 +394,6 @@ function main() {
     if (adapter.config.useHttps) {
         adapter.config.homematicPort = 48181;
     }
-
-    const Rega = require(__dirname + '/lib/rega.js');
 
     rega = new Rega({
         ccuIp:  adapter.config.homematicAddress,
