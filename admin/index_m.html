@@ -19,6 +19,23 @@
             pollingIntervalDC: ''
         };
         var instances = null;
+        var secret;
+
+        function encrypt(key, value) {
+            var result = '';
+            for (var i = 0; i < value.length; ++i) {
+                result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
+            }
+            return result;
+        }
+
+        function decrypt(key, value) {
+            var result = '';
+            for (var i = 0; i < value.length; ++i) {
+                result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
+            }
+            return result;
+        }
 
         function fillInstances(id, arr, ip, val, type, preset) {
             var $sel = $('#' + id);
@@ -112,6 +129,7 @@
                     enableFields();
                 });
             } else {
+                value = $value.data('crypt') && value ? decrypt(secret, value) : value;
                 $value.val(value).on('change', function() {
                     onChange();
                 }).on('keyup', function() {
@@ -135,39 +153,64 @@
         }
 
         function load(settings, onChange) {
-            for (var defaultKey in adapterDefaults) {
-                if (settings[defaultKey] === null || settings[defaultKey] === undefined) {
-                    settings[defaultKey] = adapterDefaults[defaultKey];
+            socket.emit('getObject', 'system.config', function (err, obj) {
+                secret = (obj.native ? obj.native.secret : '') || 'Zgfr56gFe87jJOM';
+                for (var defaultKey in adapterDefaults) {
+                    if (settings[defaultKey] === null || settings[defaultKey] === undefined) {
+                        settings[defaultKey] = adapterDefaults[defaultKey];
+                    }
                 }
-            }
 
-            for (var key in settings) {
-                if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
-            }
-
-            onChange(false);
-
-            getAdapterInstances('hm-rpc', function (arr) {
-                instances = arr;
-                if (instances && instances.length) {
-                    $('.hm-rpc-notice').hide();
+                for (var key in settings) {
+                    if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
                 }
-                fillIpAddress('homematicAddress', arr, settings['homematicAddress']);
 
-                fillInstances('rfdAdapter',       arr, settings['homematicAddress'], settings['rfdAdapter'],    'rfd');
-                fillInstances('virtualDevicesAdapter', arr, settings['homematicAddress'], settings['virtualDevicesAdapter'], 'virtual-devices');
-                fillInstances('hs485dAdapter',    arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
-                fillInstances('cuxdAdapter',      arr, settings['homematicAddress'], settings['cuxdAdapter'],   'CUxD');
-                fillInstances('hmipAdapter',      arr, settings['homematicAddress'], settings['hmipAdapter'],   'HMIP');
-                enableFields();
+                onChange(false);
 
-                $('#homematicAddress').on('change', function () {
-                    var ip = $(this).val();
-                    fillInstances('rfdAdapter',       arr, ip, settings['rfdAdapter'],    'rfd',    true);
-                    fillInstances('virtualDevicesAdapter', arr, ip, settings['virtualDevicesAdapter'], 'virtual-devices', true);
-                    fillInstances('hs485dAdapter',    arr, ip, settings['hs485dAdapter'], 'hs485d', true);
-                    fillInstances('cuxdAdapter',      arr, ip, settings['cuxdAdapter'],   'CUxD',   true);
-                    fillInstances('hmipAdapter',      arr, ip, settings['hmipAdapter'],   'HMIP',   true);
+                getAdapterInstances('hm-rpc', function (arr) {
+                    instances = arr;
+                    if (instances && instances.length) {
+                        $('.hm-rpc-notice').hide();
+                    }
+                    fillIpAddress('homematicAddress', arr, settings['homematicAddress']);
+
+                    fillInstances('rfdAdapter', arr, settings['homematicAddress'], settings['rfdAdapter'], 'rfd');
+                    fillInstances('virtualDevicesAdapter', arr, settings['homematicAddress'], settings['virtualDevicesAdapter'], 'virtual-devices');
+                    fillInstances('hs485dAdapter', arr, settings['homematicAddress'], settings['hs485dAdapter'], 'hs485d');
+                    fillInstances('cuxdAdapter', arr, settings['homematicAddress'], settings['cuxdAdapter'], 'CUxD');
+                    fillInstances('hmipAdapter', arr, settings['homematicAddress'], settings['hmipAdapter'], 'HMIP');
+                    enableFields();
+
+                    $('#homematicAddress').on('change', function () {
+                        var ip = $(this).val();
+                        fillInstances('rfdAdapter', arr, ip, settings['rfdAdapter'], 'rfd', true);
+                        fillInstances('virtualDevicesAdapter', arr, ip, settings['virtualDevicesAdapter'], 'virtual-devices', true);
+                        fillInstances('hs485dAdapter', arr, ip, settings['hs485dAdapter'], 'hs485d', true);
+                        fillInstances('cuxdAdapter', arr, ip, settings['cuxdAdapter'], 'CUxD', true);
+                        fillInstances('hmipAdapter', arr, ip, settings['hmipAdapter'], 'HMIP', true);
+                    });
+
+                    var $useHttps = $('#useHttps');
+                    var $password = $('#password');
+                    var $username = $('#username');
+
+                    if ($useHttps.prop('checked')) {
+                        $password.prop('disabled', false);
+                        $username.prop('disabled', false);
+                    } else {
+                        $password.prop('disabled', true);
+                        $username.prop('disabled', true);
+                    } // endElse
+
+                    $useHttps.change(function () {
+                        if ($(this).prop('checked')) {
+                            $password.prop('disabled', false);
+                            $username.prop('disabled', false);
+                        } else {
+                            $password.prop('disabled', true);
+                            $username.prop('disabled', true);
+                        }
+                    });
                 });
             });
         }
@@ -181,8 +224,8 @@
                 if ($this.attr('type') === 'checkbox') {
                     obj[$this.attr('id')] = $this.prop('checked');
                 } else {
-                    obj[$this.attr('id')] = $this.val();
-                }
+                    obj[$this.attr('id')] = $this.data('crypt') && $this.val() ? encrypt(secret, $this.val()) : $this.val();
+                } // endElse
             });
             return obj;
         }
@@ -333,6 +376,7 @@
             <ul class="tabs">
                 <li class="tab col s5 m4"><a href="#tab-main" class="translate active">Main settings</a></li>
                 <li class="tab col s5 m4"><a href="#tab-sync" class="translate">Sync</a></li>
+                <li class="tab col s5 m4"><a href="#tab-advanced" class="translate">Additional settings</a></li>
             </ul>
         </div>
         <div id="tab-main"    class="col s12 page">
@@ -495,6 +539,24 @@
                     <input id="enumFunctions" type="text" class="value" />
                     <label class="translate" for="enumFunctions">enum</label>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="tab-advanced"    class="col s12 page">
+        <div class="row">
+            <div class="input field col s12">
+                <input type="checkbox" id="useHttps" class="value"/>
+                <span for="useHttps"  class="translate">Use https</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 m6 l4">
+                <input class="value" id="username" data-crypt="1" type="text" disabled>
+                <label for="username" class="translate">Username</label>
+            </div>
+            <div class="input-field col s12 m6 l4">
+                <input class="value" id="password" data-crypt="1" type="password" disabled>
+                <label for="password" class="translate">Password</label>
             </div>
         </div>
     </div>
