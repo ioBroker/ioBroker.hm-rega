@@ -21,6 +21,12 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ## Configuration
 
 ## Changelog
+### 2.0.0 (2018-11-28)
+* (foxriver76) Https checkbox added
+* (foxriver76) Https can be used instead of http
+* (foxriver76) Added possibility to authenticate on API
+* (foxriver76) de- and encryption added
+
 ### 1.7.2 (2018-07-29)
 * (bluefox) Configuration dialog was corrected
 

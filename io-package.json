@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "1.7.2",
+        "version": "2.0.0",
         "news": {
+            "2.0.0": {
+                "en": "Added possibility to use https and authentication",
+                "de": "Möglichkeit hinzugefügt https und Authentifizierung zu nutzen",
+                "ru": "Добавлена ​​возможность использования https и аутентификации",
+                "pt": "Adicionado possibilidade de usar https e autenticação",
+                "nl": "Mogelijkheid toegevoegd om https en authenticatie te gebruiken",
+                "fr": "Ajout de la possibilité d'utiliser https et l'authentification",
+                "it": "Aggiunta la possibilità di utilizzare https e autenticazione",
+                "es": "Posibilidad añadida de usar https y autenticación.",
+                "pl": "Dodano możliwość korzystania z https i uwierzytelniania"
+            },
             "1.7.2": {
                 "en": "Configuration dialog was corrected",
                 "de": "Konfigurationsdialog wurde korrigiert",
@@ -164,7 +175,10 @@
         "syncFunctions": true,
         "enumFunctions": "enum.functions",
         "syncFavorites": true,
-        "enumFavorites": "enum.favorites"
+        "enumFavorites": "enum.favorites",
+        "username": "",
+        "password": "",
+        "useHttps": false
     },
     "objects": [
         {

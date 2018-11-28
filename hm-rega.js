@@ -3,10 +3,11 @@
 'use strict';
 const utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 const words = require('./lib/enumNames');
+const crypto = require(__dirname + '/lib/crypto'); // get cryptography functions
+const Rega = require(__dirname + '/lib/rega.js');
 
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\]\[*,;'"`<>\\?]/g;
-
 const adapter = utils.Adapter({
 
     name: 'hm-rega',
@@ -92,7 +93,16 @@ const adapter = utils.Adapter({
     unload: stop,
 
     ready: function () {
-        main();
+        adapter.getForeignObject('system.config', (err, obj) => {
+            if (obj && obj.native && obj.native.secret) {
+                adapter.config.password = crypto.decrypt(obj.native.secret, adapter.config.password);
+                adapter.config.username = crypto.decrypt(obj.native.secret, adapter.config.username);
+            } else {
+                adapter.config.password = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.password);
+                adapter.config.username = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.username);
+            } // endElse
+            main();
+        });
     }
 });
 
@@ -381,14 +391,19 @@ function main() {
         adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter    + '.info.connection');
         checkInit(adapter.config.rfdAdapter);
     }
-
-    const Rega = require(__dirname + '/lib/rega.js');
+    if (adapter.config.useHttps) {
+        adapter.config.homematicPort = 48181;
+    }
 
     rega = new Rega({
         ccuIp:  adapter.config.homematicAddress,
         port:   adapter.config.homematicPort,
         reconnectionInterval: adapter.config.reconnectionInterval,
         logger: adapter.log,
+        secure: adapter.config.useHttps,
+        username: adapter.config.username,
+        password: adapter.config.password,
+
         ready:  function (err) {
 
             if (err === 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
