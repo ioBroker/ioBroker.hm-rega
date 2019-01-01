@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "news": {
+            "2.0.1": {
+                "en": "fix error that prevented setting umlauts to system variables in ioBroker",
+                "de": "Fehler behoben, der das Setzen von Umlauten auf Systemvariablen in ioBroker verhinderte",
+                "ru": "исправить ошибку, из-за которой в ioBroker не устанавливалось значение umlauts для системных переменных",
+                "pt": "Corrigir erro que impedia a definição de umlauts para variáveis ​​do sistema no ioBroker",
+                "nl": "fout verhelpen waardoor umlauts niet kon worden ingesteld op systeemvariabelen in ioBroker",
+                "fr": "correction d'une erreur qui empêchait de définir des trémas sur des variables système dans ioBroker",
+                "it": "correggere l'errore che impediva l'impostazione di umlaut alle variabili di sistema in ioBroker",
+                "es": "corrigió el error que impedía establecer diéresis a las variables del sistema en ioBroker",
+                "pl": "Napraw błąd, który uniemożliwiał ustawianie umlautów na zmienne systemowe w ioBroker"
+            },
             "2.0.0": {
                 "en": "Added possibility to use https and authentication",
                 "de": "Möglichkeit hinzugefügt https und Authentifizierung zu nutzen",

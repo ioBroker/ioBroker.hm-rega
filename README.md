@@ -21,6 +21,10 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ## Configuration
 
 ## Changelog
+### 2.0.1 (2019-01-01)
+* (foxriver76) fix error that prevented setting umlauts to system variables in ioBroker
+* (foxriver76) usage and application of eslint 
+
 ### 2.0.0 (2018-11-28)
 * (foxriver76) Https checkbox added
 * (foxriver76) Https can be used instead of http
