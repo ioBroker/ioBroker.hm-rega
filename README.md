@@ -179,7 +179,7 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2018 bluefox <dogafox@gmail.com>
+Copyright (c) 2014-2019 bluefox <dogafox@gmail.com>
 
 Copyright (c) 2014 hobbyquaker
 

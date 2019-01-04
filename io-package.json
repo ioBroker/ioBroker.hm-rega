@@ -128,6 +128,7 @@
         "materialize": true,
         "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
         "icon": "homematic.png",
+        "compact": true,
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
         "keywords": [
             "homematic",

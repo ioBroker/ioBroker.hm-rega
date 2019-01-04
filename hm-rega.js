@@ -1,98 +1,132 @@
-/* jshint -W097 */// jshint strict:false
-/*jslint node: true */
+/*
+ *
+ * Copyright (c) 2014-2019 bluefox <dogafox@gmail.com>
+ *
+ * Copyright (c) 2014 hobbyquaker
+ *
+ * The MIT License (MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+/* jshint -W097 */
+/* jshint strict: false */
+/* jslint node: true */
 'use strict';
-const utils = require(__dirname + '/lib/utils'); // Get common adapter utils
+const utils = require('./lib/utils'); // Get common adapter utils
 const words = require('./lib/enumNames');
+const adapterName = require('./package.json').name.split('.').pop();
 
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\]\[*,;'"`<>\\?]/g;
 
-const adapter = utils.Adapter({
+let adapter;
+function startAdapter(options) {
+    options = options || {};
 
-    name: 'hm-rega',
+    Object.assign(options, {
 
-    objectChange: function (id, obj) {
-        adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
-    },
+        name: adapterName,
 
-    stateChange: function (id, state) {
-        if (!state || state.ack) {
-            if (state && id === pollingTrigger) {
-                adapter.log.info('pollingTrigger');
-                if (adapter.config.syncVariables) pollVariables();
-            }
-        } else
-        if (id.match(/_ALARM$/)) {
-            setTimeout(acknowledgeAlarm, 100, id);
-        } else
-        // Read devices anew if hm-rpc updated the list of devices
-        if (id === adapter.config.rfdAdapter    + '.updated' ||
-            id === adapter.config.cuxdAdapter   + '.updated' ||
-            id === adapter.config.hmipAdapter   + '.updated' ||
-            id === adapter.config.hs485dAdapter + '.updated') {
-            if (state.val) {
-                setTimeout(function () {
-                    getDevices();
-                }, 1000);
-                // Reset flag
-                adapter.setForeignState(id, false, true);
-            }
-        } else
-        if (id === adapter.config.rfdAdapter    + '.info.connection' ||
-            id === adapter.config.cuxdAdapter   + '.info.connection' ||
-            id === adapter.config.hmipAdapter   + '.info.connection' ||
-            id === adapter.config.hs485dAdapter + '.info.connection') {
-            if (state.val) {
-                if (!afterReconnect) {
-                    adapter.log.debug('Connection of "' + id + '" detected. Read variables anew in 60 seconds');
-                    afterReconnect = setTimeout(function () {
-                        afterReconnect = null;
-                        if (adapter.config.syncVariables) getVariables();
-                    }, 60000);
+        objectChange: (id, obj) =>
+            adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj)),
+
+        stateChange: (id, state) => {
+            if (!state || state.ack) {
+                if (state && id === pollingTrigger) {
+                    adapter.log.info('pollingTrigger');
+                    if (adapter.config.syncVariables) pollVariables();
                 }
-            } else {
-                if (afterReconnect) {
-                    adapter.log.debug('Disonnection of "' + id + '" detected. Cancel read of variables');
-                    clearTimeout(afterReconnect);
-                    afterReconnect = null;
-                }
-            }
-        } else {
-            adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-
-            const rid = id.split('.');
-            if (rid[3] === 'ProgramExecute') {
+            } else
+            if (id.match(/_ALARM$/)) {
+                setTimeout(acknowledgeAlarm, 100, id);
+            } else
+            // Read devices anew if hm-rpc updated the list of devices
+            if (id === adapter.config.rfdAdapter    + '.updated' ||
+                id === adapter.config.cuxdAdapter   + '.updated' ||
+                id === adapter.config.hmipAdapter   + '.updated' ||
+                id === adapter.config.hs485dAdapter + '.updated') {
                 if (state.val) {
-                    adapter.log.debug('ProgramExecute ' + rid[2]);
-                    states[id] = {ack: false};
-                    rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
+                    setTimeout(function () {
+                        getDevices();
+                    }, 1000);
+                    // Reset flag
+                    adapter.setForeignState(id, false, true);
                 }
-            } else if (rid[3] === 'Active') {
-                adapter.log.debug('Active ' + rid[2] + ' ' + state.val);
-                states[id] = {ack: false};
-                rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
+            } else
+            if (id === adapter.config.rfdAdapter    + '.info.connection' ||
+                id === adapter.config.cuxdAdapter   + '.info.connection' ||
+                id === adapter.config.hmipAdapter   + '.info.connection' ||
+                id === adapter.config.hs485dAdapter + '.info.connection') {
+                if (state.val) {
+                    if (!afterReconnect) {
+                        adapter.log.debug('Connection of "' + id + '" detected. Read variables anew in 60 seconds');
+                        afterReconnect = setTimeout(function () {
+                            afterReconnect = null;
+                            if (adapter.config.syncVariables) getVariables();
+                        }, 60000);
+                    }
+                } else {
+                    if (afterReconnect) {
+                        adapter.log.debug('Disonnection of "' + id + '" detected. Cancel read of variables');
+                        clearTimeout(afterReconnect);
+                        afterReconnect = null;
+                    }
+                }
             } else {
-                if (rid[2] === 'alarms')      rid[2] = 40;
-                if (rid[2] === 'maintenance') rid[2] = 41;
+                adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
-                if (!states[id]) {
-                    if (!id.match(/\.updated$/)) adapter.log.warn('Got unexpected ID: ' + id);
-                    return;
+                const rid = id.split('.');
+                if (rid[3] === 'ProgramExecute') {
+                    if (state.val) {
+                        adapter.log.debug('ProgramExecute ' + rid[2]);
+                        states[id] = {ack: false};
+                        rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
+                    }
+                } else if (rid[3] === 'Active') {
+                    adapter.log.debug('Active ' + rid[2] + ' ' + state.val);
+                    states[id] = {ack: false};
+                    rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
+                } else {
+                    if (rid[2] === 'alarms')      rid[2] = 40;
+                    if (rid[2] === 'maintenance') rid[2] = 41;
+
+                    if (!states[id]) {
+                        if (!id.match(/\.updated$/)) adapter.log.warn('Got unexpected ID: ' + id);
+                        return;
+                    }
+
+                    adapter.log.debug('Set state ' + rid[2] + ': ' + state.val);
+                    states[id] = {ack: false};
+                    rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
                 }
-
-                adapter.log.debug('Set state ' + rid[2] + ': ' + state.val);
-                states[id] = {ack: false};
-                rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
             }
-        }
-    },
+        },
 
-    unload: stop,
+        unload: stop,
 
-    ready: function () {
-        main();
-    }
-});
+        ready: () => main()
+    });
+
+    adapter = new utils.Adapter(options);
+
+    return adapter;
+}
 
 let rega;
 let ccuReachable;
@@ -1835,4 +1869,12 @@ function stop(callback) {
         callback();
     }
     stopCount++;
+}
+
+// If started as allInOne/compact mode => return function to create instance
+if (typeof module !== undefined && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
 }
