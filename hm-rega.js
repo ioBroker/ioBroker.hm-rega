@@ -30,11 +30,12 @@
 'use strict';
 const utils = require('./lib/utils'); // Get common adapter utils
 const words = require('./lib/enumNames');
-const adapterName = require('./package.json').name.split('.').pop();
+const crypto = require(__dirname + '/lib/crypto'); // get cryptography functions
+const Rega = require(__dirname + '/lib/rega.js');
 
+const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\]\[*,;'"`<>\\?]/g;
-
 let adapter;
 function startAdapter(options) {
     options = options || {};
@@ -58,6 +59,7 @@ function startAdapter(options) {
             } else
             // Read devices anew if hm-rpc updated the list of devices
             if (id === adapter.config.rfdAdapter    + '.updated' ||
+            id === adapter.config.virtualDevicesAdapter    + '.updated' ||
                 id === adapter.config.cuxdAdapter   + '.updated' ||
                 id === adapter.config.hmipAdapter   + '.updated' ||
                 id === adapter.config.hs485dAdapter + '.updated') {
@@ -70,6 +72,7 @@ function startAdapter(options) {
                 }
             } else
             if (id === adapter.config.rfdAdapter    + '.info.connection' ||
+            id === adapter.config.virtualDevicesAdapter    + '.info.connection' ||
                 id === adapter.config.cuxdAdapter   + '.info.connection' ||
                 id === adapter.config.hmipAdapter   + '.info.connection' ||
                 id === adapter.config.hs485dAdapter + '.info.connection') {
@@ -120,7 +123,18 @@ function startAdapter(options) {
 
         unload: stop,
 
-        ready: () => main()
+    ready: () => {
+        adapter.getForeignObject('system.config', (err, obj) => {
+            if (obj && obj.native && obj.native.secret) {
+                adapter.config.password = crypto.decrypt(obj.native.secret, adapter.config.password);
+                adapter.config.username = crypto.decrypt(obj.native.secret, adapter.config.username);
+            } else {
+                adapter.config.password = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.password);
+                adapter.config.username = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.username);
+            } // endElse
+            main();
+        });
+    }
     });
 
     adapter = new utils.Adapter(options);
@@ -408,14 +422,24 @@ function main() {
         adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.info.connection');
         checkInit(adapter.config.rfdAdapter);
     }
-
-    const Rega = require(__dirname + '/lib/rega.js');
+    if (adapter.config.virtualDevicesAdapter && adapter.config.virtualDevicesEnabled) {
+        adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter    + '.updated');
+        adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter    + '.info.connection');
+        checkInit(adapter.config.rfdAdapter);
+    }
+    if (adapter.config.useHttps) {
+        adapter.config.homematicPort = 48181;
+    }
 
     rega = new Rega({
         ccuIp:  adapter.config.homematicAddress,
         port:   adapter.config.homematicPort,
         reconnectionInterval: adapter.config.reconnectionInterval,
         logger: adapter.log,
+        secure: adapter.config.useHttps,
+        username: adapter.config.username,
+        password: adapter.config.password,
+
         ready:  function (err) {
 
             if (err === 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
@@ -877,6 +901,11 @@ function getFunctions(callback) {
                         id = adapter.config.hmipAdapter + '.';
                         break;
 
+                    case 'VirtualDevices':
+                        if (!adapter.config.virtualDevicesEnabled) continue;
+                        id = adapter.config.virtualDevicesAdapter + '.';
+                        break;
+
                     default:
                         continue;
 
@@ -982,6 +1011,11 @@ function getRooms(callback) {
                     case 'HmIP-RF':
                         id = adapter.config.hmipAdapter + '.';
                         if (!adapter.config.hmipAdapter) continue;
+                        break;
+
+                    case 'VirtualDevices':
+                        id = adapter.config.virtualDevicesAdapter + '.';
+                        if (!adapter.config.virtualDevicesEnabled) continue;
                         break;
 
                     default:
@@ -1112,6 +1146,10 @@ function getFavorites(callback) {
                                 id = adapter.config.hmipAdapter + '.';
                                 if (!adapter.config.hmipAdapter) continue;
                                 break;
+                            case 'VirtualDevices':
+                                id = adapter.config.virtualDevicesAdapter + '.';
+                                if (!adapter.config.virtualDevicesEnabled) continue;
+                                break;
                             default:
                                 continue;
 
@@ -1205,6 +1243,11 @@ function getDatapoints(callback) {
                     id = adapter.config.hmipAdapter + '.';
                     break;
 
+                case 'VirtualDevices':
+                    if (!adapter.config.virtualDevicesEnabled) continue;
+                    id = adapter.config.virtualDevicesAdapter + '.';
+                    break;
+
                 default:
                     continue;
             }
@@ -1269,6 +1312,11 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                 case 'HmIP-RF':
                     if (!adapter.config.hmipEnabled) continue;
                     id = adapter.config.hmipAdapter + '.';
+                    break;
+
+                case 'VirtualDevices':
+                    if (!adapter.config.virtualDevicesEnabled) continue;
+                    id = adapter.config.virtualDevicesAdapter + '.';
                     break;
 
                 default:
@@ -1816,7 +1864,7 @@ function convertDataToJSON(data) {
 	data = data.replace(/\n/gm, '');
 	data = data.replace(/{/g, '');
 	data = data.replace(/}/g, '');
-	const jsonArray = new Array();
+    const jsonArray = [];
 	data.split('ADDRESS').forEach(item => {
 		if (item !== null && item !== '' && item !== undefined) {
 			const jsonObj = new Object();

@@ -1,8 +1,30 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "1.7.2",
+        "version": "2.0.1",
         "news": {
+            "2.0.1": {
+                "en": "fix error that prevented setting umlauts to system variables in ioBroker",
+                "de": "Fehler behoben, der das Setzen von Umlauten auf Systemvariablen in ioBroker verhinderte",
+                "ru": "исправить ошибку, из-за которой в ioBroker не устанавливалось значение umlauts для системных переменных",
+                "pt": "Corrigir erro que impedia a definição de umlauts para variáveis ​​do sistema no ioBroker",
+                "nl": "fout verhelpen waardoor umlauts niet kon worden ingesteld op systeemvariabelen in ioBroker",
+                "fr": "correction d'une erreur qui empêchait de définir des trémas sur des variables système dans ioBroker",
+                "it": "correggere l'errore che impediva l'impostazione di umlaut alle variabili di sistema in ioBroker",
+                "es": "corrigió el error que impedía establecer diéresis a las variables del sistema en ioBroker",
+                "pl": "Napraw błąd, który uniemożliwiał ustawianie umlautów na zmienne systemowe w ioBroker"
+            },
+            "2.0.0": {
+                "en": "Added possibility to use https and authentication",
+                "de": "Möglichkeit hinzugefügt https und Authentifizierung zu nutzen",
+                "ru": "Добавлена ​​возможность использования https и аутентификации",
+                "pt": "Adicionado possibilidade de usar https e autenticação",
+                "nl": "Mogelijkheid toegevoegd om https en authenticatie te gebruiken",
+                "fr": "Ajout de la possibilité d'utiliser https et l'authentification",
+                "it": "Aggiunta la possibilità di utilizzare https e autenticazione",
+                "es": "Posibilidad añadida de usar https y autenticación.",
+                "pl": "Dodano możliwość korzystania z https i uwierzytelniania"
+            },
             "1.7.2": {
                 "en": "Configuration dialog was corrected",
                 "de": "Konfigurationsdialog wurde korrigiert",
@@ -155,6 +177,8 @@
         "cuxdAdapter": "hm-rpc.2",
         "hmipEnabled": false,
         "hmipAdapter": "hm-rpc.3",
+        "virtualDevicesEnabled": false,
+        "virtualDevicesAdapter": "hm-rpc.4",
         "syncVariables": true,
         "syncPrograms": true,
         "syncNames": true,
@@ -163,7 +187,10 @@
         "syncFunctions": true,
         "enumFunctions": "enum.functions",
         "syncFavorites": true,
-        "enumFavorites": "enum.favorites"
+        "enumFavorites": "enum.favorites",
+        "username": "",
+        "password": "",
+        "useHttps": false
     },
     "objects": [
         {
