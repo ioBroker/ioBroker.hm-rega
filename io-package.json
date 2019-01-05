@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "news": {
+            "2.0.2": {
+                "en": "usage of adapter-core module",
+                "de": "Verwendung des Adapterkernmoduls",
+                "ru": "использование модуля ядра адаптера",
+                "pt": "uso do módulo do núcleo do adaptador",
+                "nl": "gebruik van adapter-core-module",
+                "fr": "utilisation du module adaptateur-core",
+                "it": "utilizzo del modulo adattatore-core",
+                "es": "uso del módulo de adaptador de núcleo",
+                "pl": "użycie modułu adapter-rdzeń"
+            },
             "2.0.1": {
                 "en": "fix error that prevented setting umlauts to system variables in ioBroker",
                 "de": "Fehler behoben, der das Setzen von Umlauten auf Systemvariablen in ioBroker verhinderte",
