@@ -21,8 +21,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ## Configuration
 
 ## Changelog
-### 2.0.2 (2019-01-05)
+### 2.1.0 (2019-01-07)
 * (foxriver76) usage of adapter-core
+* (bluefox) compact mode compatibility
 
 ### 2.0.1 (2019-01-01)
 * (foxriver76) fix error that prevented setting umlauts to system variables in ioBroker

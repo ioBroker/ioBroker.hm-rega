@@ -1,6 +1,6 @@
 {
   "name": "iobroker.hm-rega",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "engines": {
     "node": ">=6.0.0"
   },
@@ -34,7 +34,7 @@
     "iconv-lite": "^0.4.23",
     "extend": "^3.0.2",
     "request": "^2.87.0",
-    "@iobroker/adapter-core": "^1.0.2"
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

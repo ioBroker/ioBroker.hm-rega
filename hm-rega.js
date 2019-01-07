@@ -35,7 +35,7 @@ const Rega = require(__dirname + '/lib/rega.js');
 
 const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
-const FORBIDDEN_CHARS = /[\]\[*,;'"`<>\\?]/g;
+const FORBIDDEN_CHARS = /[\][*,;'"`<>\\?]/g;
 let adapter;
 function startAdapter(options) {
     options = options || {};
@@ -1920,7 +1920,7 @@ function stop(callback) {
 }
 
 // If started as allInOne/compact mode => return function to create instance
-if (typeof module !== 'undefined' && module.parent) {
+if (module && module.parent) {
     module.exports = startAdapter;
 } else {
     // or start the instance directly

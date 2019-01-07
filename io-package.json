@@ -1,18 +1,18 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.0.2",
+        "version": "2.1.0",
         "news": {
-            "2.0.2": {
-                "en": "usage of adapter-core module",
-                "de": "Verwendung des Adapterkernmoduls",
-                "ru": "использование модуля ядра адаптера",
-                "pt": "uso do módulo do núcleo do adaptador",
-                "nl": "gebruik van adapter-core-module",
-                "fr": "utilisation du module adaptateur-core",
-                "it": "utilizzo del modulo adattatore-core",
-                "es": "uso del módulo de adaptador de núcleo",
-                "pl": "użycie modułu adapter-rdzeń"
+            "2.1.0": {
+                "en": "usage of adapter-core module and comapct mode compatibility",
+                "de": "Verwendung des Adapterkernmoduls und Compact Mode Unterstützung",
+                "ru": "использование модуля ядра адаптера и совместимости в режиме карты",
+                "pt": "uso do módulo do núcleo do adaptador e compatibilidade do modo de comapct",
+                "nl": "gebruik van de adapter-kernmodule en compatibiliteit van de comapct-modus",
+                "fr": "utilisation du module adaptateur-core et compatibilité en mode comapct",
+                "it": "utilizzo del modulo adattatore-core e compatibilità della modalità comapct",
+                "es": "Uso del módulo de adaptador de núcleo y compatibilidad de modo comapct",
+                "pl": "wykorzystanie modułu adapter-core i kompatybilność w trybie comapct"
             },
             "2.0.1": {
                 "en": "fix error that prevented setting umlauts to system variables in ioBroker",
