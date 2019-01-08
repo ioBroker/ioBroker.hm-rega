@@ -21,6 +21,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ## Configuration
 
 ## Changelog
+### 2.1.1 (2019-01-08)
+* (foxriver76) fix duty cycle script
+
 ### 2.1.0 (2019-01-07)
 * (foxriver76) usage of adapter-core
 * (bluefox) compact mode compatibility

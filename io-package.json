@@ -1,8 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.0",
+        "version": "2.1.1",
         "news": {
+            "2.1.1": {
+                "en": "fix duty cycle script",
+                "de": "Duty Cycle Skript korrigiert",
+                "ru": "исправить сценарий рабочего цикла",
+                "pt": "corrigir o script do ciclo de serviço",
+                "nl": "fix duty cycle script",
+                "fr": "script de cycle de service fixe",
+                "it": "correggere lo script del ciclo di lavoro",
+                "es": "secuencia de comandos del ciclo de trabajo fijo",
+                "pl": "Popraw skrypt cyklu roboczego"
+            },
             "2.1.0": {
                 "en": "usage of adapter-core module and comapct mode compatibility",
                 "de": "Verwendung des Adapterkernmoduls und Compact Mode Unterstützung",
