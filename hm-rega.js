@@ -1367,7 +1367,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
 }
 
 function getDevices(callback) {
-    let count      = 0;
+    const promises = [];
     const channels = {};
     const devices  = {};
     const _states  = {};
@@ -1375,8 +1375,8 @@ function getDevices(callback) {
 
     if (adapter.config.rfdEnabled) {
         someEnabled = true;
-        count++;
-        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
+
+        promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
                 for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
@@ -1413,17 +1413,15 @@ function getDevices(callback) {
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
-                    if (!--count) {
-                        _getDevicesFromRega(devices, channels, _states, callback);
-                    }
                 });
             });
-        });
+        }));
     }
+
     if (adapter.config.hs485dEnabled) {
         someEnabled = true;
-        count++;
-        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
+
+        promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
                 for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
@@ -1457,16 +1455,14 @@ function getDevices(callback) {
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
-                    count--;
-                    if (!count) _getDevicesFromRega(devices, channels, _states, callback);
                 });
             });
-        });
+        }));
     }
     if (adapter.config.cuxdEnabled) {
         someEnabled = true;
-        count++;
-        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
+
+        promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
                 for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
@@ -1500,16 +1496,14 @@ function getDevices(callback) {
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
-                    count--;
-                    if (!count) _getDevicesFromRega(devices, channels, _states, callback);
                 });
             });
-        });
+        }));
     }
     if (adapter.config.hmipEnabled) {
         someEnabled = true;
-        count++;
-        adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
+
+        promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
                 for (let i = 0; i < doc.rows.length; i++) {
                     devices[doc.rows[i].id] = doc.rows[i].value.common.name;
@@ -1543,14 +1537,12 @@ function getDevices(callback) {
                             _states[id][last] = doc.rows[i].value.common.name;
                         }
                     }
-                    count--;
-                    if (!count) _getDevicesFromRega(devices, channels, _states, callback);
                 });
             });
-        });
+        }));
     }
 
-    if (!someEnabled && !count) _getDevicesFromRega(devices, channels, _states, callback);
+    Promise.all(promises).then(() => _getDevicesFromRega(devices, channels, _states, callback));
 }
 
 function getVariables(callback) {
