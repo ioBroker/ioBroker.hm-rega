@@ -1251,18 +1251,6 @@ function getDatapoints(callback) {
                     continue;
             }
             id += tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '.' + tmp[2].replace(FORBIDDEN_CHARS, '_');
-            if (id === 'hm-rpc.1.001158A99BB0B0.4.LEVEL') adapter.log.warn('good' + id + ' ' + units[id]); //test
-            /*try {
-                adapter.log.warn('yeah' + JSON.stringify(units[id])); //test
-            } catch (e) {
-                adapter.log.warn(units[id]);
-            }
-
-            try {
-                adapter.log.warn(JSON.stringify(data[dp])); //test
-            } catch (e) {
-                adapter.log.warn(data[dp]);
-            } */
 
             // convert dimmer and blinds
             if (typeof units[id] === 'object') {
