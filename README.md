@@ -21,8 +21,9 @@ This adapter needs one (ore more) already installed and initialized hm-rpc adapt
 ## Configuration
 
 ## Changelog
-### 2.1.1 (2019-01-08)
+### 2.1.2 (2019-01-10)
 * (foxriver76) fix duty cycle script
+* (foxriver76) fix bug where state units were ignored for all except rfd
 
 ### 2.1.0 (2019-01-07)
 * (foxriver76) usage of adapter-core

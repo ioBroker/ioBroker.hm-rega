@@ -1219,7 +1219,6 @@ function getDatapoints(callback) {
             //const tmp = dp.split('.');
             const tmp = _unescape(dp).replace(FORBIDDEN_CHARS, '_').split('.');
 
-
             if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') continue;
             let id;
             switch (tmp[0]) {
@@ -1252,14 +1251,25 @@ function getDatapoints(callback) {
                     continue;
             }
             id += tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '.' + tmp[2].replace(FORBIDDEN_CHARS, '_');
+            if (id === 'hm-rpc.1.001158A99BB0B0.4.LEVEL') adapter.log.warn('good' + id + ' ' + units[id]); //test
+            /*try {
+                adapter.log.warn('yeah' + JSON.stringify(units[id])); //test
+            } catch (e) {
+                adapter.log.warn(units[id]);
+            }
+
+            try {
+                adapter.log.warn(JSON.stringify(data[dp])); //test
+            } catch (e) {
+                adapter.log.warn(data[dp]);
+            } */
 
             // convert dimmer and blinds
             if (typeof units[id] === 'object') {
                 data[dp] = ((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100;
                 // round to xx.yy
                 data[dp] = Math.round(data[dp] * 100) / 100;
-            } else
-            if (units[id] === '100%' || units[id] === '%') {
+            } else if (units[id] === '100%' || units[id] === '%') {
                 data[dp] = parseFloat(data[dp]) * 100;
             }
 
@@ -1371,10 +1381,8 @@ function getDevices(callback) {
     const channels = {};
     const devices  = {};
     const _states  = {};
-    let someEnabled = false;
 
     if (adapter.config.rfdEnabled) {
-        someEnabled = true;
 
         promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.rfdAdapter + '.', endkey: adapter.config.rfdAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
@@ -1419,7 +1427,6 @@ function getDevices(callback) {
     }
 
     if (adapter.config.hs485dEnabled) {
-        someEnabled = true;
 
         promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hs485dAdapter + '.', endkey: adapter.config.hs485dAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
@@ -1438,18 +1445,21 @@ function getDevices(callback) {
                         units = units || {};
                         for (let i = 0; i < doc.rows.length; i++) {
                             const parts = doc.rows[i].id.split('.');
-                            const last = parts.pop();
-                            const id = parts.join('.');
-                            units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if ((units[id] === '100%' || units[id] === '%') &&
-                                doc.rows[i].value.native.MIN !== undefined &&
-                                typeof doc.rows[i].value.native.MIN === 'number') {
-                                units[id] = {
-                                    UNIT: '%',
-                                    MIN: parseFloat(doc.rows[i].value.native.MIN),
-                                    MAX: parseFloat(doc.rows[i].value.native.MAX)
-                                };
-                                if (units[id].MAX === 99) units[id].MAX = 100;
+                            const last  = parts.pop();
+                            const id    = parts.join('.');
+                            if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
+                                const _id = doc.rows[i].id;
+                                units[_id] = _unescape(doc.rows[i].value.native.UNIT);
+                                if ((units[_id] === '100%' || units[_id] === '%') &&
+                                    doc.rows[i].value.native.MIN !== undefined &&
+                                    typeof doc.rows[i].value.native.MIN === 'number') {
+                                    units[_id] = {
+                                        UNIT: '%',
+                                        MIN: parseFloat(doc.rows[i].value.native.MIN),
+                                        MAX: parseFloat(doc.rows[i].value.native.MAX)
+                                    };
+                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
+                                }
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
@@ -1460,7 +1470,6 @@ function getDevices(callback) {
         }));
     }
     if (adapter.config.cuxdEnabled) {
-        someEnabled = true;
 
         promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.cuxdAdapter + '.', endkey: adapter.config.cuxdAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
@@ -1479,18 +1488,21 @@ function getDevices(callback) {
                         units = units || {};
                         for (let i = 0; i < doc.rows.length; i++) {
                             const parts = doc.rows[i].id.split('.');
-                            const last = parts.pop();
-                            const id = parts.join('.');
-                            units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if ((units[id] === '100%' || units[id] === '%') &&
-                                doc.rows[i].value.native.MIN !== undefined &&
-                                typeof doc.rows[i].value.native.MIN === 'number') {
-                                units[id] = {
-                                    UNIT: '%',
-                                    MIN: parseFloat(doc.rows[i].value.native.MIN),
-                                    MAX: parseFloat(doc.rows[i].value.native.MAX)
-                                };
-                                if (units[id].MAX === 99) units[id].MAX = 100;
+                            const last  = parts.pop();
+                            const id    = parts.join('.');
+                            if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
+                                const _id = doc.rows[i].id;
+                                units[_id] = _unescape(doc.rows[i].value.native.UNIT);
+                                if ((units[_id] === '100%' || units[_id] === '%') &&
+                                    doc.rows[i].value.native.MIN !== undefined &&
+                                    typeof doc.rows[i].value.native.MIN === 'number') {
+                                    units[_id] = {
+                                        UNIT: '%',
+                                        MIN: parseFloat(doc.rows[i].value.native.MIN),
+                                        MAX: parseFloat(doc.rows[i].value.native.MAX)
+                                    };
+                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
+                                }
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;
@@ -1501,7 +1513,6 @@ function getDevices(callback) {
         }));
     }
     if (adapter.config.hmipEnabled) {
-        someEnabled = true;
 
         promises.push(adapter.objects.getObjectView('system', 'device', {startkey: adapter.config.hmipAdapter + '.', endkey: adapter.config.hmipAdapter + '.\u9999'}, function (err, doc) {
             if (doc && doc.rows) {
@@ -1520,18 +1531,21 @@ function getDevices(callback) {
                         units = units || {};
                         for (let i = 0; i < doc.rows.length; i++) {
                             const parts = doc.rows[i].id.split('.');
-                            const last = parts.pop();
-                            const id = parts.join('.');
-                            units[id] = doc.rows[i].value.native ? _unescape(doc.rows[i].value.native.UNIT) : undefined;
-                            if ((units[id] === '100%' || units[id] === '%') &&
-                                doc.rows[i].value.native.MIN !== undefined &&
-                                typeof doc.rows[i].value.native.MIN === 'number') {
-                                units[id] = {
-                                    UNIT: '%',
-                                    MIN: parseFloat(doc.rows[i].value.native.MIN),
-                                    MAX: parseFloat(doc.rows[i].value.native.MAX)
-                                };
-                                if (units[id].MAX === 99) units[id].MAX = 100;
+                            const last  = parts.pop();
+                            const id    = parts.join('.');
+                            if (doc.rows[i].value.native && doc.rows[i].value.native.UNIT) {
+                                const _id = doc.rows[i].id;
+                                units[_id] = _unescape(doc.rows[i].value.native.UNIT);
+                                if ((units[_id] === '100%' || units[_id] === '%') &&
+                                    doc.rows[i].value.native.MIN !== undefined &&
+                                    typeof doc.rows[i].value.native.MIN === 'number') {
+                                    units[_id] = {
+                                        UNIT: '%',
+                                        MIN: parseFloat(doc.rows[i].value.native.MIN),
+                                        MAX: parseFloat(doc.rows[i].value.native.MAX)
+                                    };
+                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
+                                }
                             }
                             _states[id] = _states[id] || [];
                             _states[id][last] = doc.rows[i].value.common.name;

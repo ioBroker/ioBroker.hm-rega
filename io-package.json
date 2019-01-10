@@ -1,18 +1,18 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.1",
+        "version": "2.1.2",
         "news": {
-            "2.1.1": {
-                "en": "fix duty cycle script",
-                "de": "Duty Cycle Skript korrigiert",
-                "ru": "исправить сценарий рабочего цикла",
-                "pt": "corrigir o script do ciclo de serviço",
-                "nl": "fix duty cycle script",
-                "fr": "script de cycle de service fixe",
-                "it": "correggere lo script del ciclo di lavoro",
-                "es": "secuencia de comandos del ciclo de trabajo fijo",
-                "pl": "Popraw skrypt cyklu roboczego"
+            "2.1.2": {
+                "en": "fix duty cycle script and fix bug where state units were ignored for all except rfd",
+                "de": "Korrektur des Arbeitszyklus-Skripts und Behebung eines Fehlers, bei dem Zustandseinheiten für alle außer rfd ignoriert wurden",
+                "ru": "исправить сценарий рабочего цикла и исправить ошибку, при которой государственные единицы игнорировались для всех, кроме rfd",
+                "pt": "Corrigir script de ciclo de serviço e corrigir bug onde unidades de estado foram ignoradas para todos, exceto rfd",
+                "nl": "fix duty cycle script en repareer bug waar staatseenheden werden genegeerd voor iedereen behalve rfd",
+                "fr": "correction du script de cycle de service et correction d'un bogue dans lequel les unités d'état étaient ignorées pour tous sauf RFD",
+                "it": "correggere lo script del duty cycle e correggere il bug in cui le unità di stato sono state ignorate per tutti tranne rfd",
+                "es": "corregir el script del ciclo de trabajo y corregir el error donde las unidades de estado se ignoraron para todos excepto rfd",
+                "pl": "naprawiono skrypt cyklu pracy i naprawiono błąd, w którym jednostki stanu były ignorowane dla wszystkich z wyjątkiem rfd"
             },
             "2.1.0": {
                 "en": "usage of adapter-core module and comapct mode compatibility",
