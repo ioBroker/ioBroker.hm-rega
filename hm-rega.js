@@ -151,8 +151,6 @@ let pollingTrigger;
 const checkInterval   = {};
 const functionQueue   = [];
 let units             = {};
-const states          = {};
-const objects         = {};
 const chars = [
     {regex: /%C4/g,     replace: 'Ä'},
     {regex: /%D6/g,     replace: 'Ö'},
@@ -344,6 +342,8 @@ const chars = [
      {regex: /%FE/g, replace: 'þ'},
      {regex: /%FF/g, replace: 'ÿ'}*/
 ];
+const states          = {};
+const objects         = {};
 
 function _unescape(text) {
     if (typeof text !== 'string') return text;
@@ -1215,8 +1215,6 @@ function getDatapoints(callback) {
         }
         for (const dp in data) {
             if (!data.hasOwnProperty(dp)) continue;
-            //dp = _unescape(dp);
-            //const tmp = dp.split('.');
             const tmp = _unescape(dp).replace(FORBIDDEN_CHARS, '_').split('.');
 
             if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') continue;
@@ -1261,7 +1259,7 @@ function getDatapoints(callback) {
                 data[dp] = parseFloat(data[dp]) * 100;
             }
 
-            const state = {val: data[dp], ack: true};
+            const state = {val: _unescape(data[dp]), ack: true};
 
             if (!states[id] ||
                 states[id].val !== state.val ||
