@@ -151,6 +151,8 @@ let pollingTrigger;
 const checkInterval   = {};
 const functionQueue   = [];
 let units             = {};
+const states          = {};
+const objects         = {};
 const chars = [
     {regex: /%C4/g,     replace: 'Ä'},
     {regex: /%D6/g,     replace: 'Ö'},
@@ -342,14 +344,12 @@ const chars = [
      {regex: /%FE/g, replace: 'þ'},
      {regex: /%FF/g, replace: 'ÿ'}*/
 ];
-const states          = {};
-const objects         = {};
 
 function _unescape(text) {
     if (typeof text !== 'string') return text;
     if (!text) return '';
-    for (let c = 0; c < chars.length; c++) {
-        text = text.replace(chars[c].regex, chars[c].replace);
+    for (const char of chars) {
+        text = text.replace(char.regex, char.replace);
     }
     try {
         return decodeURI(text);
