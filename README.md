@@ -15,8 +15,6 @@ HomeMatic-CCU-Programs from ioBroker. Furthermore this adapter can be seen as a 
 device/channel-names, rooms, functions and favorites from the CCU to ioBroker (this is one way only, changes on ioBroker
 side will be overwritten when synced again - so deactivate this features after the first sync).
 
-If you make changes on room assignments on your CCU
-
 ## Install
 This adapter needs one (ore more) already installed and initialized hm-rpc adapter to work.
 
