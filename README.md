@@ -10,15 +10,29 @@
 Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker.
 
 ## Purpose
-This Adapter can keep HomeMatic-CCU-Variables in sync with ioBroker and offers the possibility to start
-HomeMatic-CCU-Programs from ioBroker. Furthermore this adapter can be seen as a migration-helper, you can sync
-device/channel-names, rooms, functions and favorites from the CCU to ioBroker (this is one way only, changes on ioBroker
-side will be overwritten when synced again - so deactivate this features after the first sync).
+This Adapter keeps the HomeMatic CCU variables in sync with ioBroker and provides the possibility to start
+HomeMatic CCU programs from within ioBroker. Furthermore, this adapter can be used as a "migration helper": you can sync
+device/channel names, rooms, functions, and favorites from the CCU to ioBroker (this is one way only, changes in ioBroker
+will be overwritten once synced again – so deactivate this features after the first sync).
 
 ## Install
-This adapter needs one (ore more) already installed and initialized hm-rpc adapter to work.
+This adapter requires one (ore more) already installed and initialized hm-rpc adapter(s) to work.
 
 ## Configuration
+
+## FAQ
+
+#### I have a HomeMatic CCU2/CCU3, how can I add it to the adapter settings?
+Within the adapter settings, you add the IP address of your CCU2, then 
+* Activate "rfd" for regular HomeMatic devices, 
+* Activate "HomeMatic IP" if you use HomeMatic IP devices,
+* Activate "Virtual Devices" if you use Groups in HomeMatic (so if you combine e.g. multiple thermostats to a group)
+
+
+#### If I modify rooms, etc. in HomeMatic, the changes are not applied right away within ioBroker.
+Please reload the hm-rega adapter instance, e.g. by clicking on the reload icon of hm-rega.x (actions table) in the Instances tab.
+Afterwards, wait about 10-20 seconds and then check both the Enums tab and the Objects (enum.xxx -- make sure you enable the expert mode). If the changes do still not appear, restart ioBroker. Then the changes should be available in ioBroker.
+
 
 ## Changelog
 ### 2.1.3 (2019-01-14)
