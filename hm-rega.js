@@ -37,6 +37,7 @@ const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\][*,;'"`<>\\?]/g;
 let adapter;
+
 function startAdapter(options) {
     options = options || {};
 

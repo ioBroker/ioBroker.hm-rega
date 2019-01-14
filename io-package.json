@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.2",
+        "version": "2.1.3",
         "news": {
+            "2.1.3": {
+                "en": "also decode string values when setting foreign states and more translations",
+                "de": "String-Werte werden auch dekodiert, wenn adapterfremde Stati gesetzt werden, mehr Übersetzungen hinzugefügt",
+                "ru": "также декодировать строковые значения при установке иностранных состояний и других переводов",
+                "pt": "também decodifica valores de string ao definir estados estrangeiros e mais traduções",
+                "nl": "decodeer ook reekswaarden bij het instellen van buitenlandse staten en meer vertalingen",
+                "fr": "décode également les valeurs de chaîne lors de la définition d'états étrangers et de davantage de traductions",
+                "it": "decodifica anche i valori di stringa quando si impostano stati esterni e più traduzioni",
+                "es": "También decodifica valores de cadena al configurar estados extranjeros y más traducciones",
+                "pl": "także dekodować wartości łańcuchów podczas ustawiania stanów obcych i więcej tłumaczeń",
+                "zh-cn": "在设置外部状态和更多翻译时也会解码字符串值"
+            },
             "2.1.2": {
                 "en": "fix duty cycle script and fix bug where state units were ignored for all except rfd",
                 "de": "Korrektur des Arbeitszyklus-Skripts und Behebung eines Fehlers, bei dem Zustandseinheiten für alle außer rfd ignoriert wurden",
