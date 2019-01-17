@@ -87,7 +87,7 @@ function startAdapter(options) {
                     }
                 } else {
                     if (afterReconnect) {
-                        adapter.log.debug('Disonnection of "' + id + '" detected. Cancel read of variables');
+                        adapter.log.debug('Disconnection of "' + id + '" detected. Cancel read of variables');
                         clearTimeout(afterReconnect);
                         afterReconnect = null;
                     }
@@ -141,7 +141,7 @@ function startAdapter(options) {
     adapter = new utils.Adapter(options);
 
     return adapter;
-}
+} // endStartAdapter
 
 let rega;
 let ccuReachable;
@@ -509,7 +509,7 @@ function queue() {
 }
 
 function pollVariables() {
-    rega.runScriptFile('polling', function (data) {
+    rega.runScriptFile('polling', data => {
         if (!data) return;
 
         try {
@@ -522,6 +522,7 @@ function pollVariables() {
             if (!data.hasOwnProperty(id)) continue;
 
             let val = data[id][0];
+            const timestamp = data[id][1];
 
             if (typeof val === 'string') {
                 val = _unescape(val);
@@ -531,22 +532,16 @@ function pollVariables() {
 
             if (id === '40') {
                 id = 'alarms';
-            } else
-            if (id === '41') {
+            } else if (id === '41') {
                 // If number of alarms changed
                 id = 'maintenance';
             }
             const fullId = adapter.namespace + '.' + id;
 
-            if (id === 'maintenance') {
-                if (!states[fullId] || states[fullId].val !== val) setTimeout(pollServiceMsgs, 1000);
-            }
+            if ((id === 'maintenance') && (!states[fullId] || states[fullId].val !== val)) setTimeout(pollServiceMsgs, 1000);
 
-            if (!states[fullId]     ||
-                !states[fullId].ack ||
-                states[fullId].val !== val
-            ) {
-                states[fullId] = {val: val, ack: true};
+            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || (states[fullId].ts && states[fullId].ts !== timestamp)) {
+                states[fullId] = {val: val, ack: true, ts: timestamp};
                 adapter.setForeignState(fullId, val, true);
             }
         }
@@ -554,7 +549,7 @@ function pollVariables() {
 }
 
 function pollDutyCycle() {
-    rega.runScriptFile('dutycycle', function (data) {
+    rega.runScriptFile('dutycycle', data => {
         if (!data){
             return;
         }
@@ -601,7 +596,7 @@ function pollDutyCycle() {
 }
 
 function pollPrograms() {
-    rega.runScriptFile('programs', function (data) {
+    rega.runScriptFile('programs', data => {
         if (!data) return;
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
@@ -632,7 +627,7 @@ function pollServiceMsgs() {
 
     adapter.log.debug('polling service messages');
 
-    rega.runScriptFile('alarms', function (data) {
+    rega.runScriptFile('alarms', data => {
         if (!data) return;
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
@@ -685,7 +680,7 @@ function getServiceMsgs() {
 
     adapter.log.debug('create service messages');
 
-    rega.runScriptFile('alarms', function (data) {
+    rega.runScriptFile('alarms', data => {
         if (!data) return;
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
@@ -763,7 +758,7 @@ function getPrograms(callback) {
             adapter.log.info('got 0 programs');
         }
 
-        rega.runScriptFile('programs', function (data) {
+        rega.runScriptFile('programs', data => {
             try {
                 data = JSON.parse(data.replace(/\n/gm, ''));
             } catch (e) {
@@ -1206,7 +1201,7 @@ function getFavorites(callback) {
 
 function getDatapoints(callback) {
     adapter.log.info('request state values');
-    rega.runScriptFile('datapoints', function (data) {
+    rega.runScriptFile('datapoints', data => {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
@@ -1264,8 +1259,7 @@ function getDatapoints(callback) {
 
             if (!states[id] ||
                 states[id].val !== state.val ||
-                !states[id].ack
-            ) {
+                !states[id].ack) {
                 states[id] = state;
                 adapter.setForeignState(id, state);
             }
@@ -1278,7 +1272,7 @@ function getDatapoints(callback) {
 
 function _getDevicesFromRega(devices, channels, _states, callback) {
     // Get all devices channels and states
-    rega.runScriptFile('devices', function (data) {
+    rega.runScriptFile('devices', data => {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
@@ -1568,7 +1562,7 @@ function getVariables(callback) {
             adapter.log.info('got 0 variables');
         }
 
-        rega.runScriptFile('variables', function (data) {
+        rega.runScriptFile('variables', data => {
             try {
                 data = JSON.parse(data.replace(/\n/gm, ''));
             } catch (e) {
@@ -1576,7 +1570,6 @@ function getVariables(callback) {
                 return;
             }
             let count = 0;
-            let i;
             let id;
 
             for (const dp in data) {
@@ -1616,7 +1609,7 @@ function getVariables(callback) {
                 if (data[dp].ValueList) {
                     const statesArr = _unescape(data[dp].ValueList).split(';');
                     obj.common.states = {};
-                    for (i = 0; i < statesArr.length; i++) {
+                    for (const i in statesArr) {
                         obj.common.states[i] = statesArr[i];
                     }
                     if (data[dp].ValueSubType === 29) {
@@ -1657,8 +1650,8 @@ function getVariables(callback) {
 
             adapter.log.info('added/updated ' + count + ' variables');
 
-            for (i = 0; i < response.length; i++) {
-                adapter.delObject(response[i]);
+            for (const entry of response) {
+                adapter.delObject(entry);
             }
             adapter.log.info('deleted ' + response.length + ' variables');
 
@@ -1679,7 +1672,7 @@ function getVariables(callback) {
 
 function getDutyCycle(callback) {
     adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
-        rega.runScriptFile('dutycycle', function (data) {
+        rega.runScriptFile('dutycycle', (data) => {
             try {
                 data = JSON.parse(convertDataToJSON(data));
             } catch (e) {

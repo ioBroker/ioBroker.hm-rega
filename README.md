@@ -35,6 +35,9 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 
 
 ## Changelog
+### 2.1.4 (2019-01-17)
+* (foxriver76) update state when same value is set with another timestamp
+
 ### 2.1.3 (2019-01-14)
 * (foxriver76) also decode string values when setting foreign states
 * (foxriver76) add more translations

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.3",
+        "version": "2.1.4",
         "news": {
+            "2.1.4": {
+                "en": "update state when same value is set with another timestamp",
+                "de": "Aktualisiere State, wenn derselbe Wert mit einem anderen Zeitstempel gesetzt wird",
+                "ru": "состояние обновления, когда то же значение установлено с другой отметкой времени",
+                "pt": "estado de atualização quando o mesmo valor é definido com outro timestamp",
+                "nl": "update status wanneer dezelfde waarde is ingesteld met een andere tijdstempel",
+                "fr": "mise à jour de l'état lorsque la même valeur est définie avec un autre horodatage",
+                "it": "aggiorna lo stato quando lo stesso valore è impostato con un altro timestamp",
+                "es": "Estado de actualización cuando se establece el mismo valor con otra marca de tiempo",
+                "pl": "aktualizuj stan, gdy ta sama wartość jest ustawiona z innym znacznikiem czasu",
+                "zh-cn": "当使用另一个时间戳设置相同的值时更新状态"
+            },
             "2.1.3": {
                 "en": "also decode string values when setting foreign states and more translations",
                 "de": "String-Werte werden auch dekodiert, wenn adapterfremde Stati gesetzt werden, mehr Übersetzungen hinzugefügt",
