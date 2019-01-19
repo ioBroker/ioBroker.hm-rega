@@ -524,8 +524,6 @@ function pollVariables() {
             let val = data[id][0];
             const timestamp = data[id][1];
 
-            adapter.log.warn(id + '---' + val + ' -- ' + timestamp);//test
-
             if (typeof val === 'string') {
                 val = _unescape(val);
             }
@@ -539,8 +537,6 @@ function pollVariables() {
                 id = 'maintenance';
             }
             const fullId = adapter.namespace + '.' + id;
-
-            adapter.log.warn(JSON.stringify(states[fullId]));//test
 
             if ((id === 'maintenance') && (!states[fullId] || states[fullId].val !== val)) setTimeout(pollServiceMsgs, 1000);
 
