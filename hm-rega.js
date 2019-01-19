@@ -65,9 +65,7 @@ function startAdapter(options) {
                 id === adapter.config.hmipAdapter   + '.updated' ||
                 id === adapter.config.hs485dAdapter + '.updated') {
                 if (state.val) {
-                    setTimeout(function () {
-                        getDevices();
-                    }, 1000);
+                    setTimeout(() => getDevices(), 1000);
                     // Reset flag
                     adapter.setForeignState(id, false, true);
                 }
@@ -80,7 +78,7 @@ function startAdapter(options) {
                 if (state.val) {
                     if (!afterReconnect) {
                         adapter.log.debug('Connection of "' + id + '" detected. Read variables anew in 60 seconds');
-                        afterReconnect = setTimeout(function () {
+                        afterReconnect = setTimeout(() => {
                             afterReconnect = null;
                             if (adapter.config.syncVariables) getVariables();
                         }, 60000);
@@ -441,7 +439,7 @@ function main() {
         username: adapter.config.username,
         password: adapter.config.password,
 
-        ready:  function (err) {
+        ready:  (err) => {
 
             if (err === 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
 
@@ -493,9 +491,7 @@ function main() {
                     if (adapter.config.syncFavorites) functionQueue.push(getFavorites);
                 }
 
-                rega.checkTime(function () {
-                    setTimeout(queue, 0);
-                });
+                rega.checkTime(() => setTimeout(queue, 0));
             }
         }
     });
@@ -717,7 +713,7 @@ function getServiceMsgs() {
             // create object if not created
             if (!objects[id]) {
                 objects[id] = true;
-                adapter.getForeignObject(id, function (err, obj) {
+                adapter.getForeignObject(id, (err, obj) => {
                     if (err || !obj || obj.name !== name || !obj.native || obj.native.DP !== dp) {
                         adapter.setForeignObject(id, {
                             type: 'state',
@@ -1673,7 +1669,7 @@ function getVariables(callback) {
 }
 
 function getDutyCycle(callback) {
-    adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, function (err, doc) {
+    adapter.objects.getObjectView('hm-rega', 'variables', {startkey: 'hm-rega.' + adapter.instance + '.', endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, (err, doc) => {
         rega.runScriptFile('dutycycle', (data) => {
             try {
                 data = JSON.parse(convertDataToJSON(data));
@@ -1811,7 +1807,7 @@ function getDutyCycle(callback) {
 
             if (adapter.config.syncDutyCycle && adapter.config.pollingIntervalDC > 0) {
                 if (!pollingIntervalDC) {
-                    pollingIntervalDC = setInterval(function () {
+                    pollingIntervalDC = setInterval(() => {
                         if (adapter.config.syncDutyCycle) pollDutyCycle();
                     }, adapter.config.pollingIntervalDC * 1000);
                 }
