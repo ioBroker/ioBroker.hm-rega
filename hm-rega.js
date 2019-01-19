@@ -536,7 +536,7 @@ function pollVariables() {
 
             if ((id === 'maintenance') && (!states[fullId] || states[fullId].val !== val)) setTimeout(pollServiceMsgs, 1000);
 
-            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || states[fullId].ts !== timestamp) {
+            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || (states[fullId].ts  && states[fullId].ts !== timestamp)) {
                 states[fullId] = {val: val, ack: true, ts: timestamp};
                 adapter.setForeignState(fullId, val, true);
             }
