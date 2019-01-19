@@ -524,6 +524,8 @@ function pollVariables() {
             let val = data[id][0];
             const timestamp = data[id][1];
 
+            adapter.log.warn(id + '---' + val + ' -- ' + timestamp);//test
+
             if (typeof val === 'string') {
                 val = _unescape(val);
             }
@@ -538,9 +540,11 @@ function pollVariables() {
             }
             const fullId = adapter.namespace + '.' + id;
 
+            adapter.log.warn(JSON.stringify(states[fullId]));//test
+
             if ((id === 'maintenance') && (!states[fullId] || states[fullId].val !== val)) setTimeout(pollServiceMsgs, 1000);
 
-            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || (states[fullId].ts && states[fullId].ts !== timestamp)) {
+            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || states[fullId].ts !== timestamp) {
                 states[fullId] = {val: val, ack: true, ts: timestamp};
                 adapter.setForeignState(fullId, val, true);
             }
@@ -1345,7 +1349,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             if (objs.length > 0) {
                 const obj = objs.pop();
                 adapter.log.info('renamed ' + obj._id + ' to "' + obj.common.name + '"');
-                adapter.extendForeignObject(obj._id, obj, function () {
+                adapter.extendForeignObject(obj._id, obj, () => {
                     setTimeout(_queue, 0);
                 });
             } else {
@@ -1618,7 +1622,10 @@ function getVariables(callback) {
                     }
 
                 }
+
                 let val = data[dp].Value;
+                const timestamp = data[dp].Timestamp;
+
 
                 if (typeof val === 'string') val = _unescape(val);
 
@@ -1638,10 +1645,9 @@ function getVariables(callback) {
                     adapter.extendForeignObject(fullId, obj);
                 }
 
-                if (!states[fullId] ||
-                    !states[fullId].ack ||
-                    states[fullId].val !== val) {
-                    states[fullId] = {val: val, ack: true};
+                if (!states[fullId] || !states[fullId].ack ||
+                    states[fullId].val !== val || states[fullId].ts !== timestamp) {
+                    states[fullId] = {val: val, ack: true, ts: timestamp};
                     adapter.setForeignState(fullId, states[fullId]);
                 }
 
@@ -1882,6 +1888,7 @@ function convertDataToJSON(data) {
 }
 
 let stopCount = 0;
+
 function stop(callback) {
     adapter.setState('info.connection',   false, true);
     adapter.setState('info.ccuReachable', false, true);

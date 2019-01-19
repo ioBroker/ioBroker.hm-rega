@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.4",
+        "version": "2.1.5",
         "news": {
-            "2.1.4": {
+            "2.1.5": {
                 "en": "update state when same value is set with another timestamp",
                 "de": "Aktualisiere State, wenn derselbe Wert mit einem anderen Zeitstempel gesetzt wird",
                 "ru": "состояние обновления, когда то же значение установлено с другой отметкой времени",
