@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.6",
+        "version": "2.1.7",
         "news": {
+            "2.1.7": {
+                "en": "fixed the bug that all alarms of devices are in hm-rpc rfd instance or non existent if no rpc instance existed",
+                "de": "behebt den Fehler, dass alle Alarme von Geräten in der hm-rpc rfd-Instanz sind oder nicht vorhanden sind, wenn keine rpc-Instanz vorhanden ist",
+                "ru": "исправлена ​​ошибка, из-за которой все тревоги устройств были в экземпляре hm-rpc rfd или не существовали, если не было экземпляра rpc",
+                "pt": "Corrigido o erro de que todos os alarmes de dispositivos estão na instância hm-rpc rfd ou inexistentes se nenhuma instância de rpc existia",
+                "nl": "verholpen dat alle alarmen van apparaten zich in de instantie hm-rpc rfd bevinden of niet bestaan ​​als er geen rpc-instantie bestond",
+                "fr": "correction du bug selon lequel toutes les alarmes des périphériques sont dans l'instance hm-rpc ou rfd ou inexistantes si aucune instance rpc n'existait",
+                "it": "risolto il bug che tutti gli allarmi dei dispositivi sono in istanza hm-rpc rfd o non esistente se non esisteva un'istanza rpc",
+                "es": "solucionó el error de que todas las alarmas de los dispositivos están en la instancia de hm-rpc rfd o no existen si no existía una instancia de rpc",
+                "pl": "naprawiono błąd, że wszystkie alarmy urządzeń są w instancji hm-rpc rfd lub nie istnieją, jeśli nie istniała instancja rpc",
+                "zh-cn": "修复了设备的所有报警都在hm-rpc rfd实例中的错误，如果没有rpc实例则不存在"
+            },
             "2.1.6": {
                 "en": "update state when same value is set with another timestamp and fix duty cycle script again",
                 "de": "Aktualisierungsstatus, wenn derselbe Wert mit einem anderen Zeitstempel gesetzt wird und Duty Cycle-Skript erneut gefixt",

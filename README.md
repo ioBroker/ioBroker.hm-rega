@@ -35,6 +35,11 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 
 
 ## Changelog
+
+### 2.1.7 (2019-01-20)
+* (foxriver76) fixed the bug that all alarms of devices are in hm-rpc rfd instance 
+or non existent if no rpc instance existed
+
 ### 2.1.6 (2019-01-20)
 * (foxriver76) update state when same value is set with another timestamp
 * (foxriver76) revert duty cycle script
