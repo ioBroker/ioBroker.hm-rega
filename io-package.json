@@ -1,19 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.5",
+        "version": "2.1.6",
         "news": {
-            "2.1.5": {
-                "en": "update state when same value is set with another timestamp",
-                "de": "Aktualisiere State, wenn derselbe Wert mit einem anderen Zeitstempel gesetzt wird",
-                "ru": "состояние обновления, когда то же значение установлено с другой отметкой времени",
-                "pt": "estado de atualização quando o mesmo valor é definido com outro timestamp",
-                "nl": "update status wanneer dezelfde waarde is ingesteld met een andere tijdstempel",
-                "fr": "mise à jour de l'état lorsque la même valeur est définie avec un autre horodatage",
-                "it": "aggiorna lo stato quando lo stesso valore è impostato con un altro timestamp",
-                "es": "Estado de actualización cuando se establece el mismo valor con otra marca de tiempo",
-                "pl": "aktualizuj stan, gdy ta sama wartość jest ustawiona z innym znacznikiem czasu",
-                "zh-cn": "当使用另一个时间戳设置相同的值时更新状态"
+            "2.1.6": {
+                "en": "update state when same value is set with another timestamp and fix duty cycle script again",
+                "de": "Aktualisierungsstatus, wenn derselbe Wert mit einem anderen Zeitstempel gesetzt wird und Duty Cycle-Skript erneut gefixt",
+                "ru": "обновить состояние, когда то же значение установлено с другой отметкой времени, и снова исправить сценарий рабочего цикла",
+                "pt": "atualiza o estado quando o mesmo valor é definido com outro registro de data e hora e corrige o script de ciclo de serviço novamente",
+                "nl": "update status wanneer dezelfde waarde is ingesteld met een andere tijdstempel en fix duty cycle script opnieuw",
+                "fr": "mise à jour de l'état lorsque la même valeur est définie avec un autre horodatage et corrige le script de cycle de travail à nouveau",
+                "it": "aggiorna lo stato quando lo stesso valore è impostato con un altro timestamp e riparano nuovamente lo script del ciclo di lavoro",
+                "es": "actualizar el estado cuando se establezca el mismo valor con otra marca de hora y un script de ciclo de servicio de reparación",
+                "pl": "aktualizuje stan, gdy ta sama wartość jest ustawiona z innym znacznikiem czasu i ponownie ustawia skrypt cyklu roboczego",
+                "zh-cn": "当使用另一个时间戳设置相同的值并再次修复占空比脚本时更新状态"
             },
             "2.1.3": {
                 "en": "also decode string values when setting foreign states and more translations",
