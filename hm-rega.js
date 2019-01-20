@@ -348,6 +348,7 @@ function pollVariables() {
 
             if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || (states[fullId].ts  && states[fullId].ts !== timestamp)) {
                 states[fullId] = {val: val, ack: true, ts: timestamp};
+
                 adapter.setForeignState(fullId, val, true);
             }
         }
@@ -1365,7 +1366,7 @@ function getVariables(callback) {
 
         rega.runScriptFile('variables', data => {
             try {
-                data = JSON.parse(data.replace(/\n/gm, ''));
+                data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf/g, null));
             } catch (e) {
                 adapter.log.error('Cannot parse answer for variables: ' + data);
                 return;

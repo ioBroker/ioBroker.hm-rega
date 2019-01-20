@@ -38,6 +38,7 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 ### 2.1.6 (2019-01-20)
 * (foxriver76) update state when same value is set with another timestamp
 * (foxriver76) revert duty cycle script
+* (foxriver76) fix for parse errors on -inf values
 
 ### 2.1.3 (2019-01-14)
 * (foxriver76) also decode string values when setting foreign states
