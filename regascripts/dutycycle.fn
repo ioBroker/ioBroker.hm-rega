@@ -1,5 +1,5 @@
-!# dutycycle.fn 0.4
+!# dutycycle.fn 0.3
 string stderr;
 string stdout;
-system.Exec("/bin/sh -c '" # 'echo "load tclrpc.so; puts [xmlrpc http://127.0.0.1:32001/ listBidcosInterfaces ]" | tclsh' # "'", &stdout, &stderr);
+system.Exec("/bin/sh -c '" # 'echo "load tclrpc.so; puts [xmlrpc http://127.0.0.1:2001/ listBidcosInterfaces ]" | tclsh' # "'", &stdout, &stderr);
 WriteLine(stdout);
