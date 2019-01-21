@@ -1175,213 +1175,227 @@ function getDevices(callback) {
 
     if (adapter.config.rfdEnabled) {
 
-        promises.push(adapter.objects.getObjectView('system', 'device', {
-            startkey: adapter.config.rfdAdapter + '.',
-            endkey: adapter.config.rfdAdapter + '.\u9999'
-        }, (err, doc) => {
-            if (doc && doc.rows) {
-                for (const row of doc.rows) {
-                    devices[row.id] = row.value.common.name;
-                }
-            }
-            adapter.objects.getObjectView('system', 'channel', {
+        promises.push(new Promise(resolve => {
+            adapter.objects.getObjectView('system', 'device', {
                 startkey: adapter.config.rfdAdapter + '.',
                 endkey: adapter.config.rfdAdapter + '.\u9999'
             }, (err, doc) => {
                 if (doc && doc.rows) {
                     for (const row of doc.rows) {
-                        channels[row.id] = row.value.common.name;
+                        devices[row.id] = row.value.common.name;
                     }
                 }
-                adapter.objects.getObjectView('system', 'state', {
+                adapter.objects.getObjectView('system', 'channel', {
                     startkey: adapter.config.rfdAdapter + '.',
                     endkey: adapter.config.rfdAdapter + '.\u9999'
                 }, (err, doc) => {
                     if (doc && doc.rows) {
-                        units = units || {};
                         for (const row of doc.rows) {
-                            const parts = row.id.split('.');
-                            const last = parts.pop();
-                            const id = parts.join('.');
-                            if (row.value.native && row.value.native.UNIT) {
-                                const _id = row.id;
-                                units[_id] = _unescape(row.value.native.UNIT);
-                                if ((units[_id] === '100%' || units[_id] === '%') &&
-                                    row.value.native.MIN !== undefined &&
-                                    typeof row.value.native.MIN === 'number') {
-                                    units[_id] = {
-                                        UNIT: '%',
-                                        MIN: parseFloat(row.value.native.MIN),
-                                        MAX: parseFloat(row.value.native.MAX)
-                                    };
-                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
-                                }
-                            }
-                            _states[id] = _states[id] || [];
-                            _states[id][last] = row.value.common.name;
+                            channels[row.id] = row.value.common.name;
                         }
                     }
+                    adapter.objects.getObjectView('system', 'state', {
+                        startkey: adapter.config.rfdAdapter + '.',
+                        endkey: adapter.config.rfdAdapter + '.\u9999'
+                    }, (err, doc) => {
+                        if (doc && doc.rows) {
+                            units = units || {};
+                            for (const row of doc.rows) {
+                                const parts = row.id.split('.');
+                                const last = parts.pop();
+                                const id = parts.join('.');
+                                if (row.value.native && row.value.native.UNIT) {
+                                    const _id = row.id;
+                                    units[_id] = _unescape(row.value.native.UNIT);
+                                    if ((units[_id] === '100%' || units[_id] === '%') &&
+                                        row.value.native.MIN !== undefined &&
+                                        typeof row.value.native.MIN === 'number') {
+                                        units[_id] = {
+                                            UNIT: '%',
+                                            MIN: parseFloat(row.value.native.MIN),
+                                            MAX: parseFloat(row.value.native.MAX)
+                                        };
+                                        if (units[_id].MAX === 99) units[_id].MAX = 100;
+                                    }
+                                }
+                                _states[id] = _states[id] || [];
+                                _states[id][last] = row.value.common.name;
+                            }
+                        }
+                        resolve();
+                    });
                 });
             });
         }));
-    }
+    } // endIf
 
     if (adapter.config.hs485dEnabled) {
 
-        promises.push(adapter.objects.getObjectView('system', 'device', {
-            startkey: adapter.config.hs485dAdapter + '.',
-            endkey: adapter.config.hs485dAdapter + '.\u9999'
-        }, (err, doc) => {
-            if (doc && doc.rows) {
-                for (const row of doc.rows) {
-                    devices[row.id] = row.value.common.name;
-                }
-            }
-            adapter.objects.getObjectView('system', 'channel', {
+        promises.push(new Promise(resolve => {
+            adapter.objects.getObjectView('system', 'device', {
                 startkey: adapter.config.hs485dAdapter + '.',
                 endkey: adapter.config.hs485dAdapter + '.\u9999'
             }, (err, doc) => {
                 if (doc && doc.rows) {
                     for (const row of doc.rows) {
-                        channels[row.id] = row.value.common.name;
+                        devices[row.id] = row.value.common.name;
                     }
                 }
-                adapter.objects.getObjectView('system', 'state', {
+                adapter.objects.getObjectView('system', 'channel', {
                     startkey: adapter.config.hs485dAdapter + '.',
                     endkey: adapter.config.hs485dAdapter + '.\u9999'
                 }, (err, doc) => {
                     if (doc && doc.rows) {
-                        units = units || {};
                         for (const row of doc.rows) {
-                            const parts = row.id.split('.');
-                            const last = parts.pop();
-                            const id = parts.join('.');
-                            if (row.value.native && row.value.native.UNIT) {
-                                const _id = row.id;
-                                units[_id] = _unescape(row.value.native.UNIT);
-                                if ((units[_id] === '100%' || units[_id] === '%') &&
-                                    row.value.native.MIN !== undefined &&
-                                    typeof row.value.native.MIN === 'number') {
-                                    units[_id] = {
-                                        UNIT: '%',
-                                        MIN: parseFloat(row.value.native.MIN),
-                                        MAX: parseFloat(row.value.native.MAX)
-                                    };
-                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
-                                }
-                            }
-                            _states[id] = _states[id] || [];
-                            _states[id][last] = row.value.common.name;
+                            channels[row.id] = row.value.common.name;
                         }
                     }
+                    adapter.objects.getObjectView('system', 'state', {
+                        startkey: adapter.config.hs485dAdapter + '.',
+                        endkey: adapter.config.hs485dAdapter + '.\u9999'
+                    }, (err, doc) => {
+                        if (doc && doc.rows) {
+                            units = units || {};
+                            for (const row of doc.rows) {
+                                const parts = row.id.split('.');
+                                const last = parts.pop();
+                                const id = parts.join('.');
+                                if (row.value.native && row.value.native.UNIT) {
+                                    const _id = row.id;
+                                    units[_id] = _unescape(row.value.native.UNIT);
+                                    if ((units[_id] === '100%' || units[_id] === '%') &&
+                                        row.value.native.MIN !== undefined &&
+                                        typeof row.value.native.MIN === 'number') {
+                                        units[_id] = {
+                                            UNIT: '%',
+                                            MIN: parseFloat(row.value.native.MIN),
+                                            MAX: parseFloat(row.value.native.MAX)
+                                        };
+                                        if (units[_id].MAX === 99) units[_id].MAX = 100;
+                                    }
+                                }
+                                _states[id] = _states[id] || [];
+                                _states[id][last] = row.value.common.name;
+                            }
+                        }
+                        resolve();
+                    });
                 });
             });
         }));
-    }
+    } // endIf
+
     if (adapter.config.cuxdEnabled) {
 
-        promises.push(adapter.objects.getObjectView('system', 'device', {
-            startkey: adapter.config.cuxdAdapter + '.',
-            endkey: adapter.config.cuxdAdapter + '.\u9999'
-        }, (err, doc) => {
-            if (doc && doc.rows) {
-                for (const row of doc.rows) {
-                    devices[row.id] = row.value.common.name;
-                }
-            }
-            adapter.objects.getObjectView('system', 'channel', {
+        promises.push(new Promise(resolve => {
+            adapter.objects.getObjectView('system', 'device', {
                 startkey: adapter.config.cuxdAdapter + '.',
                 endkey: adapter.config.cuxdAdapter + '.\u9999'
             }, (err, doc) => {
                 if (doc && doc.rows) {
                     for (const row of doc.rows) {
-                        channels[row.id] = row.value.common.name;
+                        devices[row.id] = row.value.common.name;
                     }
                 }
-                adapter.objects.getObjectView('system', 'state', {
+                adapter.objects.getObjectView('system', 'channel', {
                     startkey: adapter.config.cuxdAdapter + '.',
                     endkey: adapter.config.cuxdAdapter + '.\u9999'
                 }, (err, doc) => {
                     if (doc && doc.rows) {
-                        units = units || {};
                         for (const row of doc.rows) {
-                            const parts = row.id.split('.');
-                            const last = parts.pop();
-                            const id = parts.join('.');
-                            if (row.value.native && row.value.native.UNIT) {
-                                const _id = row.id;
-                                units[_id] = _unescape(row.value.native.UNIT);
-                                if ((units[_id] === '100%' || units[_id] === '%') &&
-                                    row.value.native.MIN !== undefined &&
-                                    typeof row.value.native.MIN === 'number') {
-                                    units[_id] = {
-                                        UNIT: '%',
-                                        MIN: parseFloat(row.value.native.MIN),
-                                        MAX: parseFloat(row.value.native.MAX)
-                                    };
-                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
-                                }
-                            }
-                            _states[id] = _states[id] || [];
-                            _states[id][last] = row.value.common.name;
+                            channels[row.id] = row.value.common.name;
                         }
                     }
+                    adapter.objects.getObjectView('system', 'state', {
+                        startkey: adapter.config.cuxdAdapter + '.',
+                        endkey: adapter.config.cuxdAdapter + '.\u9999'
+                    }, (err, doc) => {
+                        if (doc && doc.rows) {
+                            units = units || {};
+                            for (const row of doc.rows) {
+                                const parts = row.id.split('.');
+                                const last = parts.pop();
+                                const id = parts.join('.');
+                                if (row.value.native && row.value.native.UNIT) {
+                                    const _id = row.id;
+                                    units[_id] = _unescape(row.value.native.UNIT);
+                                    if ((units[_id] === '100%' || units[_id] === '%') &&
+                                        row.value.native.MIN !== undefined &&
+                                        typeof row.value.native.MIN === 'number') {
+                                        units[_id] = {
+                                            UNIT: '%',
+                                            MIN: parseFloat(row.value.native.MIN),
+                                            MAX: parseFloat(row.value.native.MAX)
+                                        };
+                                        if (units[_id].MAX === 99) units[_id].MAX = 100;
+                                    }
+                                }
+                                _states[id] = _states[id] || [];
+                                _states[id][last] = row.value.common.name;
+                            }
+                        }
+                        resolve();
+                    });
                 });
             });
         }));
-    }
+    } // endIf
+
     if (adapter.config.hmipEnabled) {
 
-        promises.push(adapter.objects.getObjectView('system', 'device', {
-            startkey: adapter.config.hmipAdapter + '.',
-            endkey: adapter.config.hmipAdapter + '.\u9999'
-        }, (err, doc) => {
-            if (doc && doc.rows) {
-                for (const row of doc.rows) {
-                    devices[row.id] = row.value.common.name;
-                }
-            }
-            adapter.objects.getObjectView('system', 'channel', {
+        promises.push(new Promise(resolve => {
+            adapter.objects.getObjectView('system', 'device', {
                 startkey: adapter.config.hmipAdapter + '.',
                 endkey: adapter.config.hmipAdapter + '.\u9999'
             }, (err, doc) => {
                 if (doc && doc.rows) {
                     for (const row of doc.rows) {
-                        channels[row.id] = row.value.common.name;
+                        devices[row.id] = row.value.common.name;
                     }
                 }
-                adapter.objects.getObjectView('system', 'state', {
+                adapter.objects.getObjectView('system', 'channel', {
                     startkey: adapter.config.hmipAdapter + '.',
                     endkey: adapter.config.hmipAdapter + '.\u9999'
                 }, (err, doc) => {
                     if (doc && doc.rows) {
-                        units = units || {};
                         for (const row of doc.rows) {
-                            const parts = row.id.split('.');
-                            const last = parts.pop();
-                            const id = parts.join('.');
-                            if (row.value.native && row.value.native.UNIT) {
-                                const _id = row.id;
-                                units[_id] = _unescape(row.value.native.UNIT);
-                                if ((units[_id] === '100%' || units[_id] === '%') &&
-                                    row.value.native.MIN !== undefined &&
-                                    typeof row.value.native.MIN === 'number') {
-                                    units[_id] = {
-                                        UNIT: '%',
-                                        MIN: parseFloat(row.value.native.MIN),
-                                        MAX: parseFloat(row.value.native.MAX)
-                                    };
-                                    if (units[_id].MAX === 99) units[_id].MAX = 100;
-                                }
-                            }
-                            _states[id] = _states[id] || [];
-                            _states[id][last] = row.value.common.name;
+                            channels[row.id] = row.value.common.name;
                         }
                     }
+                    adapter.objects.getObjectView('system', 'state', {
+                        startkey: adapter.config.hmipAdapter + '.',
+                        endkey: adapter.config.hmipAdapter + '.\u9999'
+                    }, (err, doc) => {
+                        if (doc && doc.rows) {
+                            units = units || {};
+                            for (const row of doc.rows) {
+                                const parts = row.id.split('.');
+                                const last = parts.pop();
+                                const id = parts.join('.');
+                                if (row.value.native && row.value.native.UNIT) {
+                                    const _id = row.id;
+                                    units[_id] = _unescape(row.value.native.UNIT);
+                                    if ((units[_id] === '100%' || units[_id] === '%') &&
+                                        row.value.native.MIN !== undefined &&
+                                        typeof row.value.native.MIN === 'number') {
+                                        units[_id] = {
+                                            UNIT: '%',
+                                            MIN: parseFloat(row.value.native.MIN),
+                                            MAX: parseFloat(row.value.native.MAX)
+                                        };
+                                        if (units[_id].MAX === 99) units[_id].MAX = 100;
+                                    }
+                                }
+                                _states[id] = _states[id] || [];
+                                _states[id][last] = row.value.common.name;
+                            }
+                        }
+                        resolve();
+                    });
                 });
             });
         }));
-    }
+    } // endIf
 
     Promise.all(promises).then(() => _getDevicesFromRega(devices, channels, _states, callback));
 }

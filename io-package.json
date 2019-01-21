@@ -4,16 +4,16 @@
         "version": "2.1.7",
         "news": {
             "2.1.7": {
-                "en": "fixed the bug that all alarms of devices are in hm-rpc rfd instance or non existent if no rpc instance existed",
-                "de": "behebt den Fehler, dass alle Alarme von Geräten in der hm-rpc rfd-Instanz sind oder nicht vorhanden sind, wenn keine rpc-Instanz vorhanden ist",
-                "ru": "исправлена ​​ошибка, из-за которой все тревоги устройств были в экземпляре hm-rpc rfd или не существовали, если не было экземпляра rpc",
-                "pt": "Corrigido o erro de que todos os alarmes de dispositivos estão na instância hm-rpc rfd ou inexistentes se nenhuma instância de rpc existia",
-                "nl": "verholpen dat alle alarmen van apparaten zich in de instantie hm-rpc rfd bevinden of niet bestaan ​​als er geen rpc-instantie bestond",
-                "fr": "correction du bug selon lequel toutes les alarmes des périphériques sont dans l'instance hm-rpc ou rfd ou inexistantes si aucune instance rpc n'existait",
-                "it": "risolto il bug che tutti gli allarmi dei dispositivi sono in istanza hm-rpc rfd o non esistente se non esisteva un'istanza rpc",
-                "es": "solucionó el error de que todas las alarmas de los dispositivos están en la instancia de hm-rpc rfd o no existen si no existía una instancia de rpc",
-                "pl": "naprawiono błąd, że wszystkie alarmy urządzeń są w instancji hm-rpc rfd lub nie istnieją, jeśli nie istniała instancja rpc",
-                "zh-cn": "修复了设备的所有报警都在hm-rpc rfd实例中的错误，如果没有rpc实例则不存在"
+                "en": "fixed the bug that all alarms of devices are in hm-rpc rfd instance or non existent if no rpc instance existed and fix bug where datapoints were not named",
+                "de": "behebt den Fehler, dass alle Alarme von Geräten in der hm-rpc rfd-Instanz sind oder nicht vorhanden sind, wenn keine rpc-Instanz vorhanden ist, und Fehler behoben, bei dem keine Datenpunkte benannt wurden",
+                "ru": "исправлена ​​ошибка, при которой все сигналы устройств присутствуют в экземпляре hm-rpc rfd или не существует, если не было экземпляра rpc, и исправлена ​​ошибка, когда точки данных не назывались",
+                "pt": "Corrigido o erro de que todos os alarmes de dispositivos estão em hm-rpc rfd instance ou inexistentes se não existisse uma instância de rpc e consertasse um bug onde os datapoints não foram nomeados",
+                "nl": "de bug opgelost dat alle alarmen van apparaten zich in hm-rpc rfd-instantie bevinden of niet bestaan ​​als er geen rpc-instantie bestond en bug repareerde waar datapunten niet werden genoemd",
+                "fr": "correction du bug que toutes les alarmes des périphériques sont dans l'instance hm-rpc ou rfd ou inexistante si aucune instance rpc n'existait et correction d'un bogue dans lequel les points de données n'étaient pas nommés",
+                "it": "risolto il bug che tutti gli allarmi dei dispositivi sono in istanza hm-rpc rfd o inesistenti se non esisteva un'istanza rpc e corregge bug in cui i datapoints non erano stati nominati",
+                "es": "corrigió el error de que todas las alarmas de los dispositivos están en la instancia de hm-rpc rfd o no existen si no existía la instancia de rpc y corrige el error donde no se nombraban puntos de datos",
+                "pl": "naprawiono błąd, że wszystkie alarmy urządzeń są w instancji hm-rpc rfd lub nie istnieją, jeśli nie istniała instancja rpc i naprawiono błąd, w którym punkty danych nie były nazwane",
+                "zh-cn": "修复了设备的所有报警都在hm-rpc rfd实例中的错误，如果没有rpc实例则不存在，修复数据点未命名的错误"
             },
             "2.1.6": {
                 "en": "update state when same value is set with another timestamp and fix duty cycle script again",
