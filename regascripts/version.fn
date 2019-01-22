@@ -1,0 +1,12 @@
+!# version.fn 0.1
+!#
+!# Dieses Script gibt die FW-Versionsnummer der CCU als String zurück
+!#
+!# foxriver76
+!#
+string stderr;
+string stdout;
+system.Exec('cat /VERSION | grep VERSION | tr -d VERSION=', &stdout, &stderr);
+WriteLine(stdout);
+
+

@@ -35,6 +35,9 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 
 
 ## Changelog
+### 2.1.8 (2019-01-22)
+* (foxriver76) from now on we are displaying the firmware version instead of coprocessor fw version
+* (foxriver76) we are making sure to prevent a CCU3 being exposed as a CCU2
 
 ### 2.1.7 (2019-01-21)
 * (foxriver76) fixed the bug that all alarms of devices are in hm-rpc rfd instance 

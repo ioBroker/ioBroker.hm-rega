@@ -1,19 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.7",
+        "version": "2.1.8",
         "news": {
-            "2.1.7": {
-                "en": "fixed the bug that all alarms of devices are in hm-rpc rfd instance or non existent if no rpc instance existed and fix bug where datapoints were not named",
-                "de": "behebt den Fehler, dass alle Alarme von Geräten in der hm-rpc rfd-Instanz sind oder nicht vorhanden sind, wenn keine rpc-Instanz vorhanden ist, und Fehler behoben, bei dem keine Datenpunkte benannt wurden",
-                "ru": "исправлена ​​ошибка, при которой все сигналы устройств присутствуют в экземпляре hm-rpc rfd или не существует, если не было экземпляра rpc, и исправлена ​​ошибка, когда точки данных не назывались",
-                "pt": "Corrigido o erro de que todos os alarmes de dispositivos estão em hm-rpc rfd instance ou inexistentes se não existisse uma instância de rpc e consertasse um bug onde os datapoints não foram nomeados",
-                "nl": "de bug opgelost dat alle alarmen van apparaten zich in hm-rpc rfd-instantie bevinden of niet bestaan ​​als er geen rpc-instantie bestond en bug repareerde waar datapunten niet werden genoemd",
-                "fr": "correction du bug que toutes les alarmes des périphériques sont dans l'instance hm-rpc ou rfd ou inexistante si aucune instance rpc n'existait et correction d'un bogue dans lequel les points de données n'étaient pas nommés",
-                "it": "risolto il bug che tutti gli allarmi dei dispositivi sono in istanza hm-rpc rfd o inesistenti se non esisteva un'istanza rpc e corregge bug in cui i datapoints non erano stati nominati",
-                "es": "corrigió el error de que todas las alarmas de los dispositivos están en la instancia de hm-rpc rfd o no existen si no existía la instancia de rpc y corrige el error donde no se nombraban puntos de datos",
-                "pl": "naprawiono błąd, że wszystkie alarmy urządzeń są w instancji hm-rpc rfd lub nie istnieją, jeśli nie istniała instancja rpc i naprawiono błąd, w którym punkty danych nie były nazwane",
-                "zh-cn": "修复了设备的所有报警都在hm-rpc rfd实例中的错误，如果没有rpc实例则不存在，修复数据点未命名的错误"
+            "2.1.8": {
+                "en": "from now on we are displaying the firmware version instead of coprocessor fw version, we are making sure to prevent a CCU3 being exposed as a CCU2",
+                "de": "Ab jetzt wird die Firmware-Version anstelle des Coprozessors fw angezeigt, und es wird sichergestellt, dass eine CCU3 nicht als CCU2 angezeigt wird",
+                "ru": "отныне мы показываем версию прошивки вместо версии сопроцессора fw, мы стараемся не допустить, чтобы CCU3 был выставлен как CCU2",
+                "pt": "a partir de agora estamos exibindo a versão do firmware em vez da versão fw do coprocessador, estamos nos certificando de evitar que um CCU3 seja exposto como um CCU2",
+                "nl": "vanaf nu tonen we de firmwareversie in plaats van de coprocessor-fw-versie, we zorgen ervoor dat een CCU3 niet wordt blootgesteld als een CCU2",
+                "fr": "à partir de maintenant, nous affichons la version du microprogramme au lieu de la version du coprocesseur fw, nous nous assurons d'empêcher qu'un CCU3 ne soit exposé en tant que CCU2",
+                "it": "d'ora in poi stiamo visualizzando la versione del firmware invece della versione fw del coprocessore, stiamo facendo in modo di evitare che una CCU3 venga esposta come una CCU2",
+                "es": "de ahora en adelante, estamos mostrando la versión de firmware en lugar de la versión de coprocesador fw, nos aseguramos de evitar que una CCU3 se exponga como una CCU2",
+                "pl": "od teraz wyświetlamy wersję oprogramowania zamiast wersji koprocesora, upewniamy się, że CCU3 nie zostanie ujawnione jako CCU2",
+                "zh-cn": "从现在开始，我们正在显示固件版本而不是协处理器fw版本，我们确保防止CCU3作为CCU2暴露"
             },
             "2.1.6": {
                 "en": "update state when same value is set with another timestamp and fix duty cycle script again",

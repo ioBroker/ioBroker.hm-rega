@@ -354,50 +354,72 @@ function pollVariables() {
 
 function pollDutyCycle() {
     rega.runScriptFile('dutycycle', data => {
-        if (!data) {
-            return;
-        }
-
-        try {
-            data = JSON.parse(convertDataToJSON(data));
-        } catch (e) {
-            adapter.log.error('Cannot parse answer for dutycycle: ' + data);
-            return;
-        }
-
-        let id;
-        for (const dp in data) {
-            if (!data.hasOwnProperty(dp)) {
-                continue;
-            }
-            id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
-
-            //DUTY_CYCLE State:
-            if (data[dp].DUTY_CYCLE) {
-                updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
-                adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
+        rega.runScriptFile('version', firmwareVersion => {
+            if (!data) {
+                return;
             }
 
-            //CONNECTED State:
-            if (data[dp].CONNECTED) {
-                updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
-                adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
+            const ccuType = 'CCU' + firmwareVersion.split('.')[0];
+
+            try {
+                data = JSON.parse(convertDataToJSON(data));
+            } catch (e) {
+                adapter.log.error('Cannot parse answer for dutycycle: ' + data);
+                return;
             }
 
-            //DEFAULT State:
-            if (data[dp].DEFAULT) {
-                updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
-                adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
-            }
+            let id;
+            for (const dp in data) {
+                if (!data.hasOwnProperty(dp)) {
+                    continue;
+                }
+                id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
 
-            //FIRMWARE_VERSION State:
-            if (data[dp].FIRMWARE_VERSION) {
-                updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', data[dp].FIRMWARE_VERSION);
-                adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + data[dp].FIRMWARE_VERSION);
+                //DUTY_CYCLE State:
+                if (data[dp].DUTY_CYCLE) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
+                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
+                }
+
+                //CONNECTED State:
+                if (data[dp].CONNECTED) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
+                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
+                }
+
+                //DEFAULT State:
+                if (data[dp].DEFAULT) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
+                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
+                }
+
+                //FIRMWARE_VERSION State:
+                if (firmwareVersion) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', firmwareVersion);
+                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + firmwareVersion);
+                }
+
+                // CCU-Type - User can update e. g. Raspmatic w/o restarting adapter
+                const obj = {
+                    _id: adapter.namespace + '.' + id,
+                    type: 'device',
+                    common: {
+                        name: ccuType
+                    },
+                    native: {
+                        ADDRESS: _unescape(data[dp].ADDRESS),
+                        TYPE: ccuType
+                    }
+                };
+
+                adapter.getObject(obj._id, (err, _obj) => {
+                    if (err || (obj.native.name !== _obj.native.name)) adapter.extendForeignObject(obj._id, obj);
+                });
+
             }
-        }
+        });
     });
-}
+} // endPollDutyCycle
 
 function pollPrograms() {
     rega.runScriptFile('programs', data => {
@@ -1535,10 +1557,8 @@ function getVariables(callback) {
 }
 
 function getDutyCycle(callback) {
-    adapter.objects.getObjectView('hm-rega', 'variables', {
-        startkey: 'hm-rega.' + adapter.instance + '.',
-        endkey: 'hm-rega.' + adapter.instance + '.\u9999'}, (err, doc) => {
-        rega.runScriptFile('dutycycle', (data) => {
+    rega.runScriptFile('dutycycle', data => {
+        rega.runScriptFile('version', firmwareVersion => {
             try {
                 data = JSON.parse(convertDataToJSON(data));
             } catch (e) {
@@ -1547,6 +1567,8 @@ function getDutyCycle(callback) {
             }
             let count = 0;
             let id;
+
+            const ccuType = 'CCU' + firmwareVersion.split('.')[0];
 
             for (const dp in data) {
                 if (!data.hasOwnProperty(dp)) {
@@ -1559,11 +1581,11 @@ function getDutyCycle(callback) {
                     _id: adapter.namespace + '.' + id,
                     type: 'device',
                     common: {
-                        name: _unescape(data[dp].TYPE)
+                        name: ccuType
                     },
                     native: {
                         ADDRESS: _unescape(data[dp].ADDRESS),
-                        TYPE: _unescape(data[dp].TYPE)
+                        TYPE: ccuType
                     }
                 };
 
@@ -1648,7 +1670,7 @@ function getDutyCycle(callback) {
                 }
 
                 //FIRMWARE_VERSION State:
-                if (data[dp].FIRMWARE_VERSION) {
+                if (firmwareVersion) {
                     const stateFirmware = {
                         _id: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
                         type: 'state',
@@ -1667,7 +1689,7 @@ function getDutyCycle(callback) {
                             CONTROL: 'NONE'
                         }
                     };
-                    addNewStateOrObject(stateFirmware, data[dp].FIRMWARE_VERSION);
+                    addNewStateOrObject(stateFirmware, firmwareVersion);
                 }
             }
 
@@ -1684,7 +1706,7 @@ function getDutyCycle(callback) {
             if (typeof callback === 'function') callback();
         });
     });
-}
+} // endGetDutyCycle
 
 function addNewStateOrObject(obj, val) {
     if (!objects[obj._id]) {
@@ -1719,7 +1741,7 @@ function convertDataToJSON(data) {
     const jsonArray = [];
     data.split('ADDRESS').forEach(item => {
         if (item !== null && item !== '' && item !== undefined) {
-            const jsonObj = new Object();
+            const jsonObj = {};
 
             let splitter = item.split('CONNECTED');
             jsonObj.ADDRESS = splitter[0].trim();
