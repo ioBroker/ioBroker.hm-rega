@@ -470,7 +470,7 @@ function pollServiceMsgs() {
             try {
                 instanceNumber = Object.keys(states).find(value => id.split(':')[0] === value.split('.')[2]).slice(0, 8);
             } catch (e) {
-                return;
+                continue;
             } // endTryCatch
 
             id = instanceNumber + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
@@ -530,7 +530,7 @@ function getServiceMsgs() {
             try {
                 instanceNumber = Object.keys(states).find(value => id.split(':')[0] === value.split('.')[2]).slice(0, 8);
             } catch (e) {
-                return;
+                continue;
             } // endTryCatch
 
             id = instanceNumber + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
@@ -556,7 +556,7 @@ function getServiceMsgs() {
             if (!objects[id]) {
                 objects[id] = true;
                 adapter.getForeignObject(id, (err, obj) => {
-                    if (err || !obj || obj.name !== name || !obj.native || obj.native.DP !== dp) {
+                    if (err || !obj || !obj.native || obj.native.DP !== dp) {
                         adapter.setForeignObject(id, {
                             type: 'state',
                             common: {
@@ -1543,7 +1543,7 @@ function getVariables(callback) {
 
             if (adapter.config.polling && adapter.config.pollingInterval > 0) {
                 if (!pollingInterval && (adapter.config.syncVariables || adapter.config.syncPrograms)) {
-                    pollingInterval = setInterval(function () {
+                    pollingInterval = setInterval(() => {
                         if (adapter.config.syncVariables) pollVariables();
                         if (adapter.config.syncPrograms) pollPrograms();
                     }, adapter.config.pollingInterval * 1000);
