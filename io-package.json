@@ -4,16 +4,16 @@
         "version": "2.1.8",
         "news": {
             "2.1.8": {
-                "en": "from now on we are displaying the firmware version instead of coprocessor fw version, we are making sure to prevent a CCU3 being exposed as a CCU2",
-                "de": "Ab jetzt wird die Firmware-Version anstelle des Coprozessors fw angezeigt, und es wird sichergestellt, dass eine CCU3 nicht als CCU2 angezeigt wird",
-                "ru": "отныне мы показываем версию прошивки вместо версии сопроцессора fw, мы стараемся не допустить, чтобы CCU3 был выставлен как CCU2",
-                "pt": "a partir de agora estamos exibindo a versão do firmware em vez da versão fw do coprocessador, estamos nos certificando de evitar que um CCU3 seja exposto como um CCU2",
-                "nl": "vanaf nu tonen we de firmwareversie in plaats van de coprocessor-fw-versie, we zorgen ervoor dat een CCU3 niet wordt blootgesteld als een CCU2",
-                "fr": "à partir de maintenant, nous affichons la version du microprogramme au lieu de la version du coprocesseur fw, nous nous assurons d'empêcher qu'un CCU3 ne soit exposé en tant que CCU2",
-                "it": "d'ora in poi stiamo visualizzando la versione del firmware invece della versione fw del coprocessore, stiamo facendo in modo di evitare che una CCU3 venga esposta come una CCU2",
-                "es": "de ahora en adelante, estamos mostrando la versión de firmware en lugar de la versión de coprocesador fw, nos aseguramos de evitar que una CCU3 se exponga como una CCU2",
-                "pl": "od teraz wyświetlamy wersję oprogramowania zamiast wersji koprocesora, upewniamy się, że CCU3 nie zostanie ujawnione jako CCU2",
-                "zh-cn": "从现在开始，我们正在显示固件版本而不是协处理器fw版本，我们确保防止CCU3作为CCU2暴露"
+                "en": "from now on we are displaying the firmware version instead of coprocessor fw version, we are making sure to prevent a CCU3 being exposed as a CCU2 and fix renaming of alarms",
+                "de": "Ab jetzt wird die Firmware-Version anstelle des Coprozessors fw angezeigt. Wir stellen sicher, dass eine CCU3 nicht als CCU2 angezeigt wird, und das Umbenennen von Alarmen wird behoben",
+                "ru": "отныне мы показываем версию прошивки вместо версии сопроцессора fw, мы стараемся не допускать раскрытия CCU3 как CCU2 и исправляем переименование аварийных сигналов",
+                "pt": "a partir de agora, estamos exibindo a versão do firmware em vez da versão fw do coprocessador, estamos nos certificando de evitar que um CCU3 seja exposto como um CCU2 e consertar a renomeação de alarmes",
+                "nl": "vanaf nu tonen we de firmwareversie in plaats van de coprocessor-fw-versie, we zorgen ervoor dat een CCU3 niet wordt blootgesteld als een CCU2 en dat de naamgeving van alarmen wordt verholpen",
+                "fr": "à partir de maintenant, nous affichons la version du firmware au lieu de la version du coprocesseur fw, nous nous assurons d'empêcher qu'un CCU3 ne soit exposé en tant que CCU2 et corriger le renommage des alarmes",
+                "it": "d'ora in poi stiamo visualizzando la versione del firmware invece della versione fw del coprocessore, stiamo facendo in modo di evitare che una CCU3 venga esposta come una CCU2 e corregga la ridenominazione degli allarmi",
+                "es": "de ahora en adelante, estamos mostrando la versión de firmware en lugar de la versión de coprocesador fw, nos aseguramos de evitar que una CCU3 se exponga como una CCU2 y corrija el cambio de nombre de las alarmas",
+                "pl": "od teraz wyświetlamy wersję oprogramowania zamiast wersji koprocesora, upewniamy się, że CCU3 nie zostanie ujawnione jako CCU2 i nie zmieni nazwy alarmów",
+                "zh-cn": "从现在开始，我们正在显示固件版本而不是协处理器fw版本，我们确保阻止CCU3作为CCU2公开并修复警报的重命名"
             },
             "2.1.6": {
                 "en": "update state when same value is set with another timestamp and fix duty cycle script again",
