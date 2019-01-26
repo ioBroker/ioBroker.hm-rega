@@ -45,7 +45,7 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 
 ## Changelog
 ### 2.2.0 (2019-01-26)
-* (foxriver76) reworked alarm states, see FAW
+* (foxriver76) reworked alarm states, see FAQ
 * (foxriver76) fix where virtual devices were not named
 
 ### 2.1.8 (2019-01-24)
