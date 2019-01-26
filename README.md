@@ -44,6 +44,10 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 
 
 ## Changelog
+### 2.2.0 (2019-01-26)
+* (foxriver76) reworked alarm states, see FAW
+* (foxriver76) fix where virtual devices were not named
+
 ### 2.1.8 (2019-01-24)
 * (foxriver76) from now on we are displaying the firmware version instead of coprocessor fw version
 * (foxriver76) we are making sure to prevent a CCU3 being exposed as a CCU2

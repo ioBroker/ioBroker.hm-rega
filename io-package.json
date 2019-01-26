@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.1.8",
+        "version": "2.2.0",
         "news": {
+            "2.2.0": {
+                "en": "fix where virtual devices were not named and reworked alarm states",
+                "de": "Fehler behoben, bei dem virtuelle Geräte nicht benannt und Alarmzustände überarbeitet wurden",
+                "ru": "исправить, где виртуальные устройства не были названы и переработаны состояния тревоги",
+                "pt": "corrigir onde os dispositivos virtuais não foram nomeados e retrabalhados estados de alarme",
+                "nl": "repareren waar virtuele apparaten geen naam hebben en herwerkte alarmstatussen",
+                "fr": "correction du cas où les périphériques virtuels n'étaient pas nommés et les états d'alarme retravaillés",
+                "it": "correggere dove i dispositivi virtuali non sono stati nominati e rielaborati stati di allarme",
+                "es": "corregir dónde no se nombraron los dispositivos virtuales y los estados de alarma modificados",
+                "pl": "napraw, gdzie urządzenia wirtualne nie były nazwane i przerobione stany alarmowe",
+                "zh-cn": "修复未命名虚拟设备和重新设置警报状态的位置"
+            },
             "2.1.8": {
                 "en": "from now on we are displaying the firmware version instead of coprocessor fw version, we are making sure to prevent a CCU3 being exposed as a CCU2 and fix renaming of alarms",
                 "de": "Ab jetzt wird die Firmware-Version anstelle des Coprozessors fw angezeigt. Wir stellen sicher, dass eine CCU3 nicht als CCU2 angezeigt wird, und das Umbenennen von Alarmen wird behoben",
