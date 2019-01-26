@@ -22,6 +22,15 @@ This adapter requires one (ore more) already installed and initialized hm-rpc ad
 
 ## FAQ
 
+### What are the ALARM states created in the devices object?
+States which end on '_ALARM' are created by the Rega adapter, to represent service messages. The alarm has three 
+different states _NO ALARM_, which indicates that there is no related alarm (service message) for the state.
+When a service message appears for the related state the state will change to _ALARM_, containing the timestamp 
+of the alarm occurrence on the CCU in the last changed timestamp of the state (state.ls). When you change 
+the state in ioBroker, this will acknowledge the alarm in the CCU and the service message will be gone. 
+The alarm state in ioBroker will change to _ACKNOWLEDGED_ still containing the occurrence timestamp 
+in the last changed state, and the timestamp when it has been acknowledged in the states timestamp (state.ts).
+
 #### I have a HomeMatic CCU2/CCU3, how can I add it to the adapter settings?
 Within the adapter settings, you add the IP address of your CCU2, then 
 * Activate "rfd" for regular HomeMatic devices, 

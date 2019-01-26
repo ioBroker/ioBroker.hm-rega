@@ -476,7 +476,7 @@ function pollServiceMsgs() {
             id = instanceNumber + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
 
             const state = {
-                val: !!data[dp].AlState,
+                val: data[dp].AlState,
                 ack: true,
                 lc: new Date(data[dp].AlOccurrenceTime),
                 ts: new Date(data[dp].LastTriggerTime)
@@ -497,8 +497,9 @@ function pollServiceMsgs() {
 
 // Acknowledge Alarm
 function acknowledgeAlarm(id) {
+    adapter.log.debug('[INFO] Acknowledge alarm ' + id);
     states[id] = {ack: false};
-    adapter.getForeignObject(id, function (err, obj) {
+    adapter.getForeignObject(id, (err, obj) => {
         if (obj && obj.native) {
             rega.script('dom.GetObject(' + obj.native.DP + ').AlReceipt();');
             setTimeout(pollServiceMsgs, 1000);
@@ -536,7 +537,7 @@ function getServiceMsgs() {
             id = instanceNumber + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
 
             const state = {
-                val: !!data[dp].AlState,
+                val: data[dp].AlState,
                 ack: true,
                 lc: new Date(data[dp].AlOccurrenceTime),
                 ts: new Date(data[dp].LastTriggerTime)
@@ -556,16 +557,21 @@ function getServiceMsgs() {
             if (!objects[id]) {
                 objects[id] = true;
                 adapter.getForeignObject(id, (err, obj) => {
-                    if (err || !obj || !obj.native || obj.native.DP !== dp) {
+                    if (err || !obj || !obj.native || obj.native.DP !== dp || obj.common.type !== 'number') {
                         adapter.setForeignObject(id, {
                             type: 'state',
                             common: {
                                 name: name,
-                                type: 'boolean',
+                                type: 'number',
                                 role: 'indicator.alarm',
                                 read: true,
                                 write: true,
-                                def: false
+                                def: 0,
+                                states: {
+                                    0: 'NO ALARM',
+                                    1: 'ALARM',
+                                    2: 'ACKNOWLEDGED'
+                                }
                             },
                             native: {
                                 Name: name,
