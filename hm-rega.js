@@ -1087,7 +1087,8 @@ function getDatapoints(callback) {
                 // round to xx.yy
                 data[dp] = Math.round(data[dp] * 100) / 100;
             } else if (units[id] === '100%' || units[id] === '%') {
-                data[dp] = parseFloat(data[dp]) * 100;
+                //data[dp] = parseFloat(data[dp]) * 100;
+                data[dp] = Math.round(data[dp] * 100);
             }
 
             const state = {val: _unescape(data[dp]), ack: true};
