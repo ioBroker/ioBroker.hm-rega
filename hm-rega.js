@@ -217,21 +217,25 @@ function main() {
     if (adapter.config.cuxdAdapter && adapter.config.cuxdEnabled) {
         adapter.subscribeForeignStates(adapter.config.cuxdAdapter + '.updated');
         adapter.subscribeForeignStates(adapter.config.cuxdAdapter + '.info.connection');
+        adapter.subscribeForeignStates(adapter.config.cuxdAdapter + '.*_ALARM');
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.hmipAdapter && adapter.config.hmipEnabled) {
         adapter.subscribeForeignStates(adapter.config.hmipAdapter + '.updated');
         adapter.subscribeForeignStates(adapter.config.hmipAdapter + '.info.connection');
+        adapter.subscribeForeignStates(adapter.config.hmipAdapter + '.*_ALARM');
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.hs485dAdapter && adapter.config.hs485dEnabled) {
         adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.updated');
         adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.info.connection');
+        adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.*_ALARM');
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.virtualDevicesAdapter && adapter.config.virtualDevicesEnabled) {
         adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.updated');
         adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.info.connection');
+        adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.*_ALARM');
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.useHttps) {
