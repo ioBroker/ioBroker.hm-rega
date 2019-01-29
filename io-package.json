@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.2.0",
+        "version": "2.2.1",
         "news": {
+            "2.2.1": {
+                "en": "create alarm states with correct name instead of renaming on restart",
+                "de": "Erstellen der Alarmzustände mit dem richtigen Namen, anstatt beim Neustart umzubenennen",
+                "ru": "создавать состояния тревоги с правильным именем вместо переименования при перезагрузке",
+                "pt": "criar estados de alarme com nome correto em vez de renomear na reinicialização",
+                "nl": "maak alarmstatussen met de juiste naam in plaats van hernoemen bij opnieuw opstarten",
+                "fr": "créer des états d'alarme avec le nom correct au lieu de renommer au redémarrage",
+                "it": "creare stati di allarme con il nome corretto anziché rinominare al riavvio",
+                "es": "cree estados de alarma con el nombre correcto en lugar de cambiar el nombre al reiniciar",
+                "pl": "stwórz stany alarmowe z poprawną nazwą zamiast zmieniać nazwy przy ponownym uruchomieniu",
+                "zh-cn": "使用正确的名称创建警报状态，而不是重新启动时重命名"
+            },
             "2.2.0": {
                 "en": "fix where virtual devices were not named and reworked alarm states",
                 "de": "Fehler behoben, bei dem virtuelle Geräte nicht benannt und Alarmzustände überarbeitet wurden",

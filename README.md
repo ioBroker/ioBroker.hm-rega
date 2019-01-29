@@ -44,6 +44,9 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 
 
 ## Changelog
+### 2.2.1 (2019-01-29)
+* (foxriver76) create alarm states with correct name instead of renaming on restart
+
 ### 2.2.0 (2019-01-26)
 * (foxriver76) reworked alarm states, see FAQ
 * (foxriver76) fix where virtual devices were not named

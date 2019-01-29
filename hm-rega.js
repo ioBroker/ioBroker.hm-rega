@@ -522,8 +522,7 @@ function getServiceMsgs() {
         for (const dp in data) {
             if (!data.hasOwnProperty(dp)) continue;
 
-            const name = _unescape(data[dp].Name);
-            let id = name;
+            let id = _unescape(data[dp].Name);
             if (id.match(/^AL-/)) id = id.substring(3);
 
             let instanceNumber;
@@ -556,30 +555,33 @@ function getServiceMsgs() {
             // create object if not created
             if (!objects[id]) {
                 objects[id] = true;
-                adapter.getForeignObject(id, (err, obj) => {
-                    if (err || !obj || !obj.native || obj.native.DP !== dp || obj.common.type !== 'number') {
-                        adapter.setForeignObject(id, {
-                            type: 'state',
-                            common: {
-                                name: name,
-                                type: 'number',
-                                role: 'indicator.alarm',
-                                read: true,
-                                write: true,
-                                def: 0,
-                                states: {
-                                    0: 'NO ALARM',
-                                    1: 'ALARM',
-                                    2: 'ACKNOWLEDGED'
+                adapter.getForeignObject(id.substring(0, id.lastIndexOf('.')), (_err, _obj) => {
+                    const name = _obj && _obj.common &&_obj.common.name ? _obj.common.name + '.' + id.split('.')[4] : id;
+                    adapter.getForeignObject(id, (err, obj) => {
+                        if (err || !obj || !obj.native || obj.native.DP !== dp || !obj.common || obj.common.type !== 'number') {
+                            adapter.setForeignObject(id, {
+                                type: 'state',
+                                common: {
+                                    name: name,
+                                    type: 'number',
+                                    role: 'indicator.alarm',
+                                    read: true,
+                                    write: true,
+                                    def: 0,
+                                    states: {
+                                        0: 'NO ALARM',
+                                        1: 'ALARM',
+                                        2: 'ACKNOWLEDGED'
+                                    }
+                                },
+                                native: {
+                                    Name: name,
+                                    TypeName: 'ALARM',
+                                    DP: dp
                                 }
-                            },
-                            native: {
-                                Name: name,
-                                TypeName: 'ALARM',
-                                DP: dp
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 });
             }
         }
