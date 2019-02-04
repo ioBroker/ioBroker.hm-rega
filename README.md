@@ -44,6 +44,9 @@ Afterwards, wait about 10-20 seconds and then check both the Enums tab and the O
 
 
 ## Changelog
+### 2.2.2 (2019-02-04)
+* (foxriver76) show correct number of service messages even if automatic checking is enabled
+
 ### 2.2.1 (2019-01-29)
 * (foxriver76) create alarm states with correct name instead of renaming on restart
 * (foxriver76) fix to enable acknowledging servicemessages for all instance types

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.2.1",
+        "version": "2.2.2",
         "news": {
+            "2.2.2": {
+                "en": "show correct number of service messages even if automatic checking is enabled",
+                "de": "Zeigt die korrekte Anzahl der Servicemeldungen an, auch wenn die automatische Bestätigung aktiviert ist",
+                "ru": "показывать правильное количество служебных сообщений, даже если включена автоматическая проверка",
+                "pt": "mostre o número correto de mensagens de serviço, mesmo se a verificação automática estiver ativada",
+                "nl": "toon het juiste aantal serviceberichten, zelfs als automatische controle is ingeschakeld",
+                "fr": "afficher le nombre correct de messages de service même si la vérification automatique est activée",
+                "it": "mostra il numero corretto di messaggi di servizio anche se il controllo automatico è abilitato",
+                "es": "muestre la cantidad correcta de mensajes de servicio incluso si la verificación automática está habilitada",
+                "pl": "pokaż poprawną liczbę komunikatów serwisowych, nawet jeśli włączone jest automatyczne sprawdzanie",
+                "zh-cn": "即使启用了自动检查，也会显示正确的服务消息数"
+            },
             "2.2.1": {
                 "en": "create alarm states with correct name instead of renaming on restart and add possibility to acknowledge servicemessages for all types",
                 "de": "Erstellen der Alarmzustände mit dem richtigen Namen, anstatt beim Neustart umzubenennen, und Möglichkeit hinzugefügt, Servicemeldungen für alle Typen zu bestätigen",

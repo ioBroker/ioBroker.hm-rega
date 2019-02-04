@@ -13,7 +13,24 @@ boolean bFirst = true;
 
 Write('{');
 
-WriteLine('"40":{"Name":"Alarmmeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Alarmmeldungen","Value":' # dom.GetObject(40).Value() # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""},');
+!# due to the fact that service messages can be automatically acknowledged, we have to loop over all and check
+var servs = dom.GetObject(ID_SERVICES);
+string id;
+integer serviceMessages = 0;
+
+foreach(id, servs.EnumIDs())
+{
+  var service = dom.GetObject(id);
+  if(service)
+  {
+    if(service.IsTypeOf(OT_ALARMDP) && (service.Used() == true) && (service.Enabled() == true) && (service.AlState() == asOncoming))
+    {
+      serviceMessages = serviceMessages + 1;
+    }
+  }
+}
+
+WriteLine('"40":{"Name":"Alarmmeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Alarmmeldungen","Value":' # serviceMessages # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""},');
 Write('"41":{"Name":"Servicemeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Servicemeldungen","Value":' # dom.GetObject(41).Value() # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""}');
 
 foreach (sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumUsedIDs()) {
