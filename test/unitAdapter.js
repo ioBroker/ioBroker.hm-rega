@@ -7,7 +7,6 @@ const {tests} = require('@iobroker/testing');
 // Define the mocks as objects and include them below
 const nobleMock = {
     on() {
-
     },
     state: 'poweredOff',
 };
