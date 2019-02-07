@@ -42,8 +42,26 @@ Within the adapter settings, you add the IP address of your CCU2, then
 Please reload the hm-rega adapter instance, e.g. by clicking on the reload icon of hm-rega.x (actions table) in the Instances tab.
 Afterwards, wait about 10-20 seconds and then check both the Enums tab and the Objects (enum.xxx -- make sure you enable the expert mode). If the changes do still not appear, restart ioBroker. Then the changes should be available in ioBroker.
 
+### I want to execute my own scripts on the CCU via ioBroker. Is this possible?
+Since version 2.3.0 it is possible to execute your own scripts on the CCU by using the ``sendTo`` command.
+E. g. getting the uptime of your CCU by the following script:
+
+```javascript
+    const upTimeScript = `
+        string stderr;
+        string stdout;
+        system.Exec("cat /proc/uptime | awk '// { printf $1/3600 }'", &stdout, &stderr);
+        WriteLine(stdout);`;
+
+    sendTo('hm-rega.0', upTimeScript, res => {
+        log(JSON.stringify(res), 'info');
+    });
+```
 
 ## Changelog
+### 2.3.0 (2019-02-07)
+* (foxriver76) implemented messagebox
+
 ### 2.2.2 (2019-02-04)
 * (foxriver76) show correct number of service messages even if automatic checking is enabled
 

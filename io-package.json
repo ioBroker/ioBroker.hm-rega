@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.2.2",
+        "version": "2.3.0",
         "news": {
+            "2.3.0": {
+                "en": "messagebox implemented",
+                "de": "Messagebox implementiert",
+                "ru": "ящик сообщений реализован",
+                "pt": "caixa de mensagem implementada",
+                "nl": "messagebox geïmplementeerd",
+                "fr": "boîte à message implémentée",
+                "it": "messagebox implementata",
+                "es": "buzón de mensajes implementado",
+                "pl": "zaimplementowano Messagebox",
+                "zh-cn": "消息框已实现"
+            },
             "2.2.2": {
                 "en": "show correct number of service messages even if automatic checking is enabled",
                 "de": "Zeigt die korrekte Anzahl der Servicemeldungen an, auch wenn die automatische Bestätigung aktiviert ist",
@@ -245,6 +257,7 @@
         "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
         "icon": "homematic.png",
         "compact": true,
+        "messagebox": true,
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
         "keywords": [
             "homematic",

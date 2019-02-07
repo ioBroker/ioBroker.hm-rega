@@ -121,6 +121,17 @@ function startAdapter(options) {
 
         unload: stop,
 
+        message: obj => {
+            adapter.log.debug('[MSSG] Received: ' + JSON.stringify(obj));
+            if (ccuRegaUp) {
+                rega.script(obj.message, (data) => {
+                    adapter.sendTo(obj.from, obj.command, {result: data, error: null}, obj.callback);
+                });
+            } else {
+                adapter.sendTo(obj.from, obj.command, {result: null, error: 'Not connected'}, obj.callback);
+            } // endElse
+        },
+
         ready: () => {
             adapter.getForeignObject('system.config', (err, obj) => {
                 if (obj && obj.native && obj.native.secret) {
@@ -560,7 +571,7 @@ function getServiceMsgs() {
             if (!objects[id]) {
                 objects[id] = true;
                 adapter.getForeignObject(id.substring(0, id.lastIndexOf('.')), (_err, _obj) => {
-                    const name = _obj && _obj.common &&_obj.common.name ? _obj.common.name + '.' + id.split('.')[4] : id;
+                    const name = _obj && _obj.common && _obj.common.name ? _obj.common.name + '.' + id.split('.')[4] : id;
                     adapter.getForeignObject(id, (err, obj) => {
                         if (err || !obj || !obj.native || obj.native.DP !== dp || !obj.common || obj.common.type !== 'number') {
                             adapter.setForeignObject(id, {

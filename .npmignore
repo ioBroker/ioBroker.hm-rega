@@ -10,3 +10,4 @@ iob_npm.done
 package-lock.json
 admin/i18n
 .eslintrc.json
+.github
