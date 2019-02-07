@@ -47,15 +47,15 @@ Since version 2.3.0 it is possible to execute your own scripts on the CCU by usi
 E. g. getting the uptime of your CCU by the following script:
 
 ```javascript
-    const upTimeScript = `
-        string stderr;
-        string stdout;
-        system.Exec("cat /proc/uptime | awk '// { printf $1/3600 }'", &stdout, &stderr);
-        WriteLine(stdout);`;
+const upTimeScript = `
+    string stderr;
+    string stdout;
+    system.Exec("cat /proc/uptime | awk '// { printf $1/3600 }'", &stdout, &stderr);
+    WriteLine(stdout);`;
 
-    sendTo('hm-rega.0', upTimeScript, res => {
-        log(JSON.stringify(res), 'info');
-    });
+sendTo('hm-rega.0', upTimeScript, res => {
+    log(JSON.stringify(res), 'info');
+});
 ```
 
 ## Changelog
