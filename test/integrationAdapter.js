@@ -17,15 +17,17 @@ tests.integration(path.join(__dirname, '..'), {
         describe('Test sendTo()', () => {
 
             it('Should work', () => {
-                return new Promise(async resolve => {
+                this.timeout(3000);
+                return new Promise(resolve => {
                     // Create a fresh harness instance each test!
                     const harness = getHarness();
                     // Start the adapter and wait until it has started
-                    await harness.startAdapterAndWait();
+                    harness.startAdapterAndWait().then(() => {
 
-                    harness.sendTo('hm-rega.0', 'test', 'message', (resp) => {
-                        console.dir(resp);
-                        resolve();
+                        harness.sendTo('hm-rega.0', 'test', 'message', (resp) => {
+                            console.dir(resp);
+                            resolve();
+                        });
                     });
                 });
             });
