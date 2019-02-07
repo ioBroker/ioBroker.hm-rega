@@ -17,7 +17,6 @@ tests.integration(path.join(__dirname, '..'), {
         describe('Test sendTo()', () => {
 
             it('Should work', () => {
-                this.timeout(3000);
                 return new Promise(resolve => {
                     // Create a fresh harness instance each test!
                     const harness = getHarness();
