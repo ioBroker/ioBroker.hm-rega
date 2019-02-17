@@ -42,7 +42,7 @@
         "mocha": "^5.2.0",
         "chai": "^4.1.2",
         "eslint": "^5.9.0",
-        "@iobroker/testing": "^1.0.4"
+        "@iobroker/testing": "ioBroker/testing#more-mocks"
     },
     "bugs": {
         "url": "https://github.com/ioBroker/ioBroker.hm-rega/issues"
