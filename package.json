@@ -1,57 +1,59 @@
 {
-    "name": "iobroker.hm-rega",
-    "version": "2.3.0",
-    "engines": {
-        "node": ">=6.0.0"
-    },
-    "description": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
-    "author": "hobbyquaker <hq@ccu.io>",
-    "contributors": [
-        "bluefox <dogafox@gmail.com>",
-        "hobbyquaker <hq@ccu.io>",
-        "Jens Maus <mail@jens-maus.de>",
-        "Apollon77 <ingo@fischer-ka.de>",
-        "Moritz Heusinger <moritz.heusinger@gmail.com>"
-    ],
-    "homepage": "https://github.com/ioBroker/ioBroker.hm-rega",
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/LICENSE"
-        }
-    ],
-    "keywords": [
-        "ioBroker",
-        "hm-rega",
-        "homematic",
-        "home automation"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ioBroker/ioBroker.hm-rega"
-    },
-    "dependencies": {
-        "xml2js": "^0.4.19",
-        "iconv-lite": "^0.4.23",
-        "extend": "^3.0.2",
-        "request": "^2.87.0",
-        "@iobroker/adapter-core": "^1.0.3"
-    },
-    "devDependencies": {
-        "gulp": "^4.0.0",
-        "mocha": "^5.2.0",
-        "chai": "^4.1.2",
-        "eslint": "^5.9.0",
-        "@iobroker/testing": "^1.0.4"
-    },
-    "bugs": {
-        "url": "https://github.com/ioBroker/ioBroker.hm-rega/issues"
-    },
-    "main": "hm-rega.js",
-    "scripts": {
-        "test:unit": "node_modules/.bin/mocha test/unitAdapter --exit",
-        "test:package": "node_modules/.bin/mocha test/packageFiles --exit",
-        "test:integration": "node_modules/.bin/mocha test/integrationAdapter --exit"
-    },
-    "license": "MIT"
+  "name": "iobroker.hm-rega",
+  "version": "2.3.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "description": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
+  "author": "hobbyquaker <hq@ccu.io>",
+  "contributors": [
+    "bluefox <dogafox@gmail.com>",
+    "hobbyquaker <hq@ccu.io>",
+    "Jens Maus <mail@jens-maus.de>",
+    "Apollon77 <ingo@fischer-ka.de>",
+    "Moritz Heusinger <moritz.heusinger@gmail.com>"
+  ],
+  "homepage": "https://github.com/ioBroker/ioBroker.hm-rega",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "ioBroker",
+    "hm-rega",
+    "homematic",
+    "home automation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ioBroker/ioBroker.hm-rega"
+  },
+  "dependencies": {
+    "xml2js": "^0.4.19",
+    "iconv-lite": "^0.4.23",
+    "extend": "^3.0.2",
+    "request": "^2.87.0",
+    "@iobroker/adapter-core": "^1.0.3"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "mocha": "^6.0.2",
+    "chai": "^4.1.2",
+    "eslint": "^5.9.0",
+    "@iobroker/testing": "^1.0.4",
+    "@iobroker/adapter-core": "^1.0.3"
+  },
+  "bugs": {
+    "url": "https://github.com/ioBroker/ioBroker.hm-rega/issues"
+  },
+  "main": "hm-rega.js",
+  "scripts": {
+    "test:unit": "node_modules/.bin/mocha test/unitAdapter --exit",
+    "test:package": "node_modules/.bin/mocha test/packageFiles --exit",
+    "test:integration": "node_modules/.bin/mocha test/integrationAdapter --exit",
+    "test": "node node_modules/mocha/bin/mocha --exit"
+  },
+  "license": "MIT"
 }
