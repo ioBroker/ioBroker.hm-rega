@@ -59,6 +59,9 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.3.1 (2019-03-05)
+* (foxriver76) also unescape %0A (\n)
+
 ### 2.3.0 (2019-02-07)
 * (foxriver76) implemented messagebox
 

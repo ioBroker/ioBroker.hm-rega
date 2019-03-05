@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.3.0",
+        "version": "2.3.1",
         "news": {
+            "2.3.1": {
+                "en": "also unescape %0A (\\n)",
+                "de": "unescape für %0A (\\ n)",
+                "ru": "также не удаляется %0A (\\ n)",
+                "pt": "também unescape %0A (\\ n)",
+                "nl": "ook uncescape %0A (\\ n)",
+                "fr": "également décaper %0A (\\ n)",
+                "it": "anche unescape %0A (\\ n)",
+                "es": "también unescape %0A (\\ n)",
+                "pl": "również unescape %0A (\\ n)",
+                "zh-cn": "也是unescape ％0A（\\ n）"
+            },
             "2.3.0": {
                 "en": "messagebox implemented",
                 "de": "Messagebox implementiert",
