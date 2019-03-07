@@ -6,7 +6,7 @@
 !#
 string stderr;
 string stdout;
-system.Exec('cat /VERSION | grep VERSION | tr -d VERSION=', &stdout, &stderr);
-WriteLine(stdout);
+system.Exec('cat /VERSION | grep VERSION | tr -d VERSION=[:space:]', &stdout, &stderr);
+Write(stdout);
 
 

@@ -4,16 +4,16 @@
         "version": "2.3.1",
         "news": {
             "2.3.1": {
-                "en": "also unescape %0A (\\n)",
-                "de": "unescape für %0A (\\ n)",
-                "ru": "также не удаляется %0A (\\ n)",
-                "pt": "também unescape %0A (\\ n)",
-                "nl": "ook uncescape %0A (\\ n)",
-                "fr": "également décaper %0A (\\ n)",
-                "it": "anche unescape %0A (\\ n)",
-                "es": "también unescape %0A (\\ n)",
-                "pl": "również unescape %0A (\\ n)",
-                "zh-cn": "也是unescape ％0A（\\ n）"
+                "en": "also unescape %0A (\\n) and removed line break in firmware version state",
+                "de": "Unescape für %0A (\\n) und Zeilenumbruch im Status der Firmware-Version entfernt",
+                "ru": "также удалите %0A (\\n) и удалите разрыв строки в состоянии версии прошивки",
+                "pt": "também desativa %0A (\\n) e remove a quebra de linha no estado da versão do firmware",
+                "nl": "ontleed ook %0A (\\n) en verwijderde regelafbreking in firmwareversie",
+                "fr": "libère également %0A (\\n) et supprime la rupture de ligne dans l'état de la version du microprogramme",
+                "it": "anche unescape %0A (\\n) e interruzione di riga rimossa nello stato della versione del firmware",
+                "es": "también unescape %0A (\\n) y quitó el salto de línea en el estado de la versión del firmware",
+                "pl": "również unescape %0A (\\n) i usunięto podział linii w stanie wersji oprogramowania",
+                "zh-cn": "unescape ％0A（\\n）并删除固件版本状态中的换行符"
             },
             "2.3.0": {
                 "en": "messagebox implemented",
