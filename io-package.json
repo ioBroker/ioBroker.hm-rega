@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.3.1",
+        "version": "2.3.2",
         "news": {
+            "2.3.2": {
+                "en": "when ccu sysvar is nan we replace it by null",
+                "de": "Wenn ccu sysvar nan ist, ersetzen wir es durch null",
+                "ru": "когда ccu sysvar является nan, мы заменяем его на null",
+                "pt": "quando ccu sysvar é nan substituí-lo por nulo",
+                "nl": "wanneer ccu sysvar nan is, vervangen we deze door null",
+                "fr": "quand ccu sysvar est nan on le remplace par null",
+                "it": "quando ccu sysvar è nan, lo sostituiamo con null",
+                "es": "cuando ccu sysvar es nan lo reemplazamos por null",
+                "pl": "kiedy ccu sysvar jest nan, zastępujemy go wartością null",
+                "zh-cn": "当ccu sysvar是nan时，我们将其替换为null"
+            },
             "2.3.1": {
                 "en": "also unescape %0A (\\n) and removed line break in firmware version state",
                 "de": "Unescape für %0A (\\n) und Zeilenumbruch im Status der Firmware-Version entfernt",

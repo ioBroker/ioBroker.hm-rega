@@ -1308,7 +1308,8 @@ function getVariables(callback) {
 
         rega.runScriptFile('variables', data => {
             try {
-                data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf/g, null));
+                // CCU sometimes uses -inf or nan, we should handle them as null
+                data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf|nan/g, null));
             } catch (e) {
                 adapter.log.error('Cannot parse answer for variables: ' + data);
                 return;

@@ -59,6 +59,9 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.3.2 (2019-03-10)
+* (foxriver76) when ccu sysvar is nan, replace it by null
+
 ### 2.3.1 (2019-03-07)
 * (foxriver76) also unescape %0A (\n)
 * (foxriver76) remove line break in firmware version
