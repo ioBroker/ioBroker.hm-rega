@@ -2,7 +2,7 @@
 # ioBroker HomeMatic ReGaHSS Adapter
 ==================
 
-[![NPM version](http://img.shields.io/npm/v/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
+![Number of Installations](http://iobroker.live/badges/hm-rega-installed.svg) ![Number of Installations](http://iobroker.live/badges/hm-rega-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
 
 [![NPM](https://nodei.co/npm/iobroker.hm-rega.png?downloads=true)](https://nodei.co/npm/iobroker.hm-rega/)
