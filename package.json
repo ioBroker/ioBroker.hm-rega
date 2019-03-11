@@ -14,12 +14,6 @@
         "Moritz Heusinger <moritz.heusinger@gmail.com>"
     ],
     "homepage": "https://github.com/ioBroker/ioBroker.hm-rega",
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/LICENSE"
-        }
-    ],
     "keywords": [
         "ioBroker",
         "hm-rega",
