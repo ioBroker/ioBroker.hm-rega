@@ -1115,8 +1115,8 @@ function getDatapoints(callback) {
                 !states[id].ack) {
                 states[id] = state;
                 adapter.setForeignState(id, state);
-            }
-        }
+            } // endIf
+        } // endFor
         adapter.log.info('got state values');
         if (typeof callback === 'function') callback();
         units = null;
