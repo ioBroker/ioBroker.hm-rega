@@ -1,0 +1,36 @@
+!# system.fn 0.1
+!#
+!# Dieses Script gibt die FW-Versionsnummer und mehr systemspezifische Informationen der CCU als String zurück
+!#
+!# foxriver76
+!#
+
+string stderr;
+string stdout;
+system.Exec('cat /VERSION | grep VERSION | tr -d VERSION=[:space:]', &stdout, &stderr);
+
+WriteLine('{');
+Write('"ccuVersion": "');
+Write(stdout);
+WriteLine('",');
+Write('"regaVersion": "');
+Write(dom.Version());
+WriteLine('",');
+Write('"buildLabel": "');
+Write(dom.BuildLabel());
+WriteLine('",');
+Write('"countDevices": ');
+Write(dom.GetObject(ID_DEVICES).Count());
+WriteLine(',');
+Write('"countChannels": ');
+Write(dom.GetObject(ID_CHANNELS).Count());
+WriteLine(',');
+Write('"countDatapoints": ');
+Write(dom.GetObject(ID_DATAPOINTS).Count());
+WriteLine(',');
+Write('"countSystemVars": ');
+Write(dom.GetObject(ID_SYSTEM_VARIABLES).Count());
+WriteLine(',');
+Write('"countPrograms": ');
+WriteLine(dom.GetObject(ID_PROGRAMS).Count());
+Write('}');

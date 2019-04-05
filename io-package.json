@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.3.2",
+        "version": "2.3.3",
         "news": {
+            "2.3.3": {
+                "en": "added more systeminfo states when syncing duty cycle",
+                "de": "Bei der Synchronisierung des Duty-Cycles wurden weitere Systeminfo-Zustände hinzugefügt",
+                "ru": "добавлено больше системных состояний при синхронизации рабочего цикла",
+                "pt": "adicionou mais estados systeminfo ao sincronizar o ciclo de serviço",
+                "nl": "meer systeeminfo-staten toegevoegd bij het synchroniseren van de taakcyclus",
+                "fr": "ajout de plusieurs états systeminfo lors de la synchronisation du cycle de travail",
+                "it": "aggiunto più stati di systeminfo durante la sincronizzazione del ciclo di lavoro",
+                "es": "añadido más estados de información del sistema cuando se sincroniza el ciclo de trabajo",
+                "pl": "dodano więcej stanów systeminfo podczas synchronizacji cyklu pracy",
+                "zh-cn": "在同步占空比时添加了更多的systeminfo状态"
+            },
             "2.3.2": {
                 "en": "when ccu sysvar is nan we replace it by null",
                 "de": "Wenn ccu sysvar nan ist, ersetzen wir es durch null",

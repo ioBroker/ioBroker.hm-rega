@@ -370,12 +370,19 @@ function pollVariables() {
 
 function pollDutyCycle() {
     rega.runScriptFile('dutycycle', data => {
-        rega.runScriptFile('version', firmwareVersion => {
+        rega.runScriptFile('system', sysInfo => {
             if (!data) {
                 return;
             }
 
-            const ccuType = 'CCU' + firmwareVersion.split('.')[0];
+            try {
+                sysInfo = JSON.parse(sysInfo);
+            } catch (e) {
+                adapter.log.error(`Cannot parse system info: ${sysInfo}`);
+                return;
+            } // endTryCatch
+
+            const ccuType = 'CCU' + sysInfo.ccuVersion.split('.')[0];
 
             try {
                 data = JSON.parse(convertDataToJSON(data));
@@ -410,9 +417,9 @@ function pollDutyCycle() {
                 }
 
                 //FIRMWARE_VERSION State:
-                if (firmwareVersion) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', firmwareVersion);
-                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + firmwareVersion);
+                if (sysInfo.ccuVersion) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', sysInfo.ccuVersion);
+                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + sysInfo.ccuVersion);
                 }
 
                 // CCU-Type - User can update e. g. Raspmatic w/o restarting adapter
@@ -1420,7 +1427,7 @@ function getVariables(callback) {
 
 function getDutyCycle(callback) {
     rega.runScriptFile('dutycycle', data => {
-        rega.runScriptFile('version', firmwareVersion => {
+        rega.runScriptFile('system', sysInfo => {
             try {
                 data = JSON.parse(convertDataToJSON(data));
             } catch (e) {
@@ -1429,8 +1436,12 @@ function getDutyCycle(callback) {
             }
             let count = 0;
             let id;
-
-            const ccuType = 'CCU' + firmwareVersion.split('.')[0];
+            try {
+                sysInfo = JSON.parse(sysInfo);
+            } catch (e) {
+                adapter.log.error(`Cannot parse system info: ${sysInfo}`);
+            } // endTryCatch
+            const ccuType = 'CCU' + sysInfo.ccuVersion.split('.')[0];
 
             for (const dp in data) {
                 if (!data.hasOwnProperty(dp)) {
@@ -1531,8 +1542,8 @@ function getDutyCycle(callback) {
                     addNewStateOrObject(stateDefault, data[dp].DEFAULT);
                 }
 
-                //FIRMWARE_VERSION State:
-                if (firmwareVersion) {
+                // FIRMWARE_VERSION State:
+                if (sysInfo.ccuVersion) {
                     const stateFirmware = {
                         _id: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
                         type: 'state',
@@ -1551,7 +1562,7 @@ function getDutyCycle(callback) {
                             CONTROL: 'NONE'
                         }
                     };
-                    addNewStateOrObject(stateFirmware, firmwareVersion);
+                    addNewStateOrObject(stateFirmware, sysInfo.ccuVersion);
                 }
             }
 

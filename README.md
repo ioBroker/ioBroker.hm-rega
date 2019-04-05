@@ -59,6 +59,9 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.3.3 (2019-04-05)
+* (foxriver76) added more systeminfo states when syncing duty cycle
+
 ### 2.3.2 (2019-03-10)
 * (foxriver76) when ccu sysvar is nan, replace it by null
 
