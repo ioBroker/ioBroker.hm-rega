@@ -342,7 +342,7 @@ function pollVariables() {
             if (!data.hasOwnProperty(id)) continue;
 
             let val = data[id][0];
-            const timestamp = data[id][1];
+            const timestamp = new Date(data[id][1]).getTime();
 
             if (typeof val === 'string') {
                 val = _unescape(val);
@@ -1373,8 +1373,7 @@ function getVariables(callback) {
                 }
 
                 let val = data[dp].Value;
-                const timestamp = data[dp].Timestamp;
-
+                const timestamp = new Date(data[dp].Timestamp).getTime();
 
                 if (typeof val === 'string') val = _unescape(val);
 
