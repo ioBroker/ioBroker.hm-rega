@@ -398,28 +398,70 @@ function pollDutyCycle() {
                 }
                 id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
 
-                //DUTY_CYCLE State:
+                // DUTY_CYCLE State:
                 if (data[dp].DUTY_CYCLE) {
                     updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
                     adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
                 }
 
-                //CONNECTED State:
+                // CONNECTED State:
                 if (data[dp].CONNECTED) {
                     updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
                     adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
                 }
 
-                //DEFAULT State:
+                // DEFAULT State:
                 if (data[dp].DEFAULT) {
                     updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
                     adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
                 }
 
-                //FIRMWARE_VERSION State:
+                // FIRMWARE_VERSION State:
                 if (sysInfo.ccuVersion) {
                     updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', sysInfo.ccuVersion);
                     adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + sysInfo.ccuVersion);
+                }
+
+                // Rega Version
+                if (sysInfo.regaVersion) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.regaVersion', sysInfo.regaVersion);
+                    adapter.log.debug('Rega Version: ' + adapter.namespace + '.' + id + '.0.regaVersion => ' + sysInfo.regaVersion);
+                }
+
+                // Build Label Rega
+                if (sysInfo.buildLabel) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.buildLabel', sysInfo.buildLabel);
+                    adapter.log.debug('Build Label: ' + adapter.namespace + '.' + id + '.0.buildLabel => ' + sysInfo.buildLabel);
+                }
+
+                // Count Devices
+                if (sysInfo.countDevices) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.countDevices', sysInfo.countDevices);
+                    adapter.log.debug('Count Devices: ' + adapter.namespace + '.' + id + '.0.countDevices => ' + sysInfo.countDevices);
+                }
+
+                // Count Channels
+                if (sysInfo.countChannels) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.countChannels', sysInfo.countChannels);
+                    adapter.log.debug('Count Channels: ' + adapter.namespace + '.' + id + '.0.countChannels => ' + sysInfo.countChannels);
+                }
+
+                // Count Datapoints
+                if (sysInfo.countDatapoints) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.countDatapoints', sysInfo.countDatapoints);
+                    adapter.log.debug('Count Datapoints: ' + adapter.namespace + '.' + id + '.0.countDatapoints => ' + sysInfo.countDatapoints);
+                }
+
+                // Count Programs
+                if (sysInfo.countPrograms) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.countPrograms', sysInfo.countPrograms);
+                    adapter.log.debug('Count Programs: ' + adapter.namespace + '.' + id + '.0.countPrograms => ' + sysInfo.countPrograms);
+                }
+
+                // Count System Variables
+                if (sysInfo.countSystemVars) {
+                    updateNewState(adapter.namespace + '.' + id + '.0.countSystemVariables', sysInfo.countSystemVars);
+                    adapter.log.debug('Count System variables: ' + adapter.namespace + '.' + id + '.0.countSystemVariables => ' + sysInfo.countSystemVars);
                 }
 
                 // CCU-Type - User can update e. g. Raspmatic w/o restarting adapter
@@ -1540,29 +1582,156 @@ function getDutyCycle(callback) {
                     };
                     addNewStateOrObject(stateDefault, data[dp].DEFAULT);
                 }
+            } // endFor
 
-                // FIRMWARE_VERSION State:
-                if (sysInfo.ccuVersion) {
-                    const stateFirmware = {
-                        _id: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
-                        type: 'state',
-                        common: {
-                            name: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
-                            type: 'string',
-                            read: true,
-                            write: false,
-                            role: 'text',
-                            desc: 'firmeware_version'
-                        },
-                        native: {
-                            ID: 'FIRMWARE_VERSION',
-                            TYPE: 'STRING',
-                            DEFAULT: '',
-                            CONTROL: 'NONE'
-                        }
-                    };
-                    addNewStateOrObject(stateFirmware, sysInfo.ccuVersion);
-                }
+
+            // FIRMWARE_VERSION State:
+            if (sysInfo.ccuVersion) {
+                const stateFirmware = {
+                    _id: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'text',
+                        desc: 'firmeware_version'
+                    },
+                    native: {
+                        ID: 'FIRMWARE_VERSION',
+                        TYPE: 'STRING',
+                        DEFAULT: '',
+                        CONTROL: 'NONE'
+                    }
+                };
+                addNewStateOrObject(stateFirmware, sysInfo.ccuVersion);
+            }
+
+            // ReGaHss-Version
+            if (sysInfo.regaVersion) {
+                const regaVersion = {
+                    _id: adapter.namespace + '.' + id + '.0.regaVersion',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.regaVersion',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'text',
+                        desc: 'Version of ReGaHss'
+                    },
+                    native: {}
+                };
+                addNewStateOrObject(regaVersion, sysInfo.regaVersion);
+            }
+
+            // Number of devices
+            if (sysInfo.countDevices) {
+                const countDevices = {
+                    _id: adapter.namespace + '.' + id + '.0.countDevices',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.countDevices',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'indicator.count',
+                        desc: 'Total number of devices'
+                    },
+                    native: {}
+                };
+                addNewStateOrObject(countDevices, sysInfo.countDevices);
+            }
+
+            // Rega Build Label
+            if (sysInfo.buildLabel) {
+                const buildLabel = {
+                    _id: adapter.namespace + '.' + id + '.0.buildLabel',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.buildLabel',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'text',
+                        desc: 'Build Label of ReGaHss'
+                    },
+                    native: {}
+                };
+                addNewStateOrObject(buildLabel, sysInfo.buildLabel);
+            }
+
+            // Number of channels
+            if (sysInfo.countChannels) {
+                const countChannels = {
+                    _id: adapter.namespace + '.' + id + '.0.countChannels',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.countChannels',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'indicator.count',
+                        desc: 'Total number of channels'
+                    },
+                    native: {}
+                };
+                addNewStateOrObject(countChannels, sysInfo.countChannels);
+            }
+
+            // Number of datapoints
+            if (sysInfo.countDatapoints) {
+                const countDatapoints = {
+                    _id: adapter.namespace + '.' + id + '.0.countDatapoints',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.countDatapoints',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'indicator.count',
+                        desc: 'Total number of datapoints'
+                    },
+                    native: {}
+                };
+                addNewStateOrObject(countDatapoints, sysInfo.countDatapoints);
+            }
+
+            // Number of datapoints
+            if (sysInfo.countSystemVars) {
+                const countSysVars = {
+                    _id: adapter.namespace + '.' + id + '.0.countSystemVariables',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.countSystemVariables',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'indicator.count',
+                        desc: 'Total number of system variables'
+                    },
+                    native: {}
+                };
+                addNewStateOrObject(countSysVars, sysInfo.countSystemVars);
+            }
+
+            // Number of programs
+            if (sysInfo.countPrograms) {
+                const countPrograms = {
+                    _id: adapter.namespace + '.' + id + '.0.countPrograms',
+                    type: 'state',
+                    common: {
+                        name: adapter.namespace + '.' + id + '.0.countPrograms',
+                        type: 'string',
+                        read: true,
+                        write: false,
+                        role: 'indicator.count',
+                        desc: 'Total number of programs'
+                    },
+                    native: {}
+                };
+                addNewStateOrObject(countPrograms, sysInfo.countPrograms);
             }
 
             adapter.log.info('added/updated ' + count + ' objects');
