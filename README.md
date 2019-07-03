@@ -30,13 +30,13 @@ the state in ioBroker, this will acknowledge the alarm in the CCU and the servic
 The alarm state in ioBroker will change to _ACKNOWLEDGED_ still containing the occurrence timestamp 
 in the last changed state, and the timestamp when it has been acknowledged in the states timestamp (state.ts).
 
-#### I have a HomeMatic CCU2/CCU3, how can I add it to the adapter settings?
+### I have a HomeMatic CCU2/CCU3, how can I add it to the adapter settings?
 Within the adapter settings, you add the IP address of your CCU2, then 
 * Activate "rfd" for regular HomeMatic devices, 
 * Activate "HomeMatic IP" if you use HomeMatic IP devices,
 * Activate "Virtual Devices" if you use Groups in HomeMatic (so if you combine e.g. multiple thermostats to a group)
 
-#### If I modify rooms, etc. in HomeMatic, the changes are not applied right away within ioBroker.
+### If I modify rooms, etc. in HomeMatic, the changes are not applied right away within ioBroker.
 Please reload the hm-rega adapter instance, e.g. by clicking on the reload icon of hm-rega.x (actions table) in the Instances tab.
 Afterwards, wait about 10-20 seconds and then check both the Enums tab and the Objects (enum.xxx -- make sure you enable the expert mode). If the changes do still not appear, restart ioBroker. Then the changes should be available in ioBroker.
 
