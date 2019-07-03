@@ -215,6 +215,21 @@
                             $username.prop('disabled', true);
                         }
                     });
+
+                    var $showInvSysVarDiv = $('#showInvSysVarDiv');
+
+                    // Hide sync inv sys vars checkbox if not syncing sys vars
+                    if (!settings['syncVariables']) {
+                        $showInvSysVarDiv.prop('hidden', true);
+                    } // endIf
+
+                    $('#syncVariables').change(function () {
+                       if ($(this).prop('checked')) {
+                           $showInvSysVarDiv.prop('hidden', false);
+                       } else {
+                           $showInvSysVarDiv.prop('hidden', true);
+                       } // endElse
+                    });
                 });
                 M.updateTextFields();
             });
@@ -496,6 +511,10 @@
                 <div class="input-field col s4 m2 hm-checkbox">
                     <input type="checkbox" id="syncVariables" class="value"/>
                     <span class="translate" for="syncVariables">enabled</span>
+                </div>
+                <div class="input-field col s4 m2 hm-checkbox" id="showInvSysVarDiv">
+                    <input type="checkbox" id="showInvSysVar" class="value"/>
+                    <span class="translate" for="showInvSysVar">Sync invisible variables</span>
                 </div>
             </div>
             <div class="row">

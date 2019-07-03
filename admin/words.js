@@ -186,6 +186,18 @@ systemDictionary = {
         'de': 'Variablen',
         'ru': 'переменных'
     },
+    'Sync invisible variables': {
+        'en': 'Invisible variables',
+        'de': 'Unsichtbare Variablen',
+        'ru': 'Невидимые переменные',
+        'pt': 'Variáveis invisíveis',
+        'nl': 'Onzichtbare variabelen',
+        'fr': 'Variables invisibles',
+        'it': 'Variabili invisibili',
+        'es': 'Variables invisibles',
+        'pl': 'Niewidzialne zmienne',
+        'zh-cn': '不可见的变量'
+    },
     'Sync programs': {
         'en': 'programs',
         'de': 'Programme',

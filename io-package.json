@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.3.3",
+        "version": "2.4.0",
         "news": {
+            "2.4.0": {
+                "en": "added possibility to synchronize hidden variables",
+                "de": "Möglichkeit hinzugefügt, versteckte Variablen zu synchronisieren",
+                "ru": "добавлена возможность синхронизации скрытых переменных",
+                "pt": "Adicionada possibilidade de sincronizar variáveis ocultas",
+                "nl": "mogelijkheid toegevoegd om verborgen variabelen te synchroniseren",
+                "fr": "possibilité supplémentaire de synchroniser les variables cachées",
+                "it": "aggiunta possibilità di sincronizzare le variabili nascoste",
+                "es": "Posibilidad añadida de sincronizar variables ocultas.",
+                "pl": "dodano możliwość synchronizacji ukrytych zmiennych",
+                "zh-cn": "增加了同步隐藏变量的可能性"
+            },
             "2.3.3": {
                 "en": "added more systeminfo states when syncing duty cycle",
                 "de": "Bei der Synchronisierung des Duty-Cycles wurden weitere Systeminfo-Zustände hinzugefügt",
@@ -185,7 +197,8 @@
         ],
         "authors": [
             "hobbyquaker <hq@ccu.io>",
-            "bluefox <dogafox@gmail.com>"
+            "bluefox <dogafox@gmail.com>",
+            "Moritz Heusinger <moritz.heusinger@gmail.com>"
         ],
         "license": "MIT",
         "mode": "daemon",
@@ -235,7 +248,8 @@
         "enumFavorites": "enum.favorites",
         "username": "",
         "password": "",
-        "useHttps": false
+        "useHttps": false,
+        "showInvSysVar": false
     },
     "protectedNative": [
         "username",

@@ -1356,7 +1356,7 @@ function getVariables(callback) {
             adapter.log.info('got 0 variables');
         }
 
-        rega.runScriptFile('variables', data => {
+        rega.runScriptFile(adapter.config.showInvSysVar ? 'variablesInv' : 'variables', data => {
             try {
                 // CCU sometimes uses -inf or nan, we should handle them as null
                 data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf|nan/g, null));
