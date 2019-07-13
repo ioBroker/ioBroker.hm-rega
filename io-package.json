@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.0",
+        "version": "2.4.1",
         "news": {
+            "2.4.1": {
+                "en": "fixed bug where invisible variables where only synchronized at the start",
+                "de": "Fehler behoben, bei dem unsichtbare Variablen nur zu Beginn synchronisiert wurden",
+                "ru": "исправлена ошибка, когда невидимые переменные были синхронизированы только при запуске",
+                "pt": "Corrigido o erro onde as variáveis invisíveis onde apenas sincronizadas no início",
+                "nl": "bug gerepareerd waar onzichtbare variabelen alleen aan het begin gesynchroniseerd waren",
+                "fr": "bug corrigé où les variables invisibles n'étaient synchronisées qu'au début",
+                "it": "bug risolto in cui le variabili invisibili erano sincronizzate solo all'inizio",
+                "es": "error corregido donde las variables invisibles solo se sincronizaban al inicio",
+                "pl": "naprawiono błąd, w którym niewidzialne zmienne były synchronizowane tylko na początku",
+                "zh-cn": "修复了只在开始时同步的不可见变量的bug"
+            },
             "2.4.0": {
                 "en": "added possibility to synchronize hidden variables",
                 "de": "Möglichkeit hinzugefügt, versteckte Variablen zu synchronisieren",

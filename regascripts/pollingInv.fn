@@ -1,0 +1,81 @@
+!# pollingInv.fn 0.1
+!#
+!# Dieses Script gibt die Systemvariablen (inklusive unsichtbarer) als JSON String aus
+!#
+!# 7'2019 foxriver76 https://github.com/foxriver76 [basierend auf polling.fn (hobbyquaker)]
+!#
+
+object oSysVar;
+string sSysVarId;
+string sValueType;
+string sValue;
+var sValue;
+boolean bFirst = true;
+
+Write('{');
+
+foreach (sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumIDs()) {
+
+  if (bFirst) {
+  	bFirst = false;
+  } else {
+  	WriteLine(',');
+  }
+
+  oSysVar     = dom.GetObject(sSysVarId);
+  sValueType  = oSysVar.ValueType();
+
+  Write('"' # sSysVarId # '":[');
+    if (sValueType == 20) {
+      Write('"');
+      WriteURL(oSysVar.Value());
+      Write('"');
+    } else {
+      sValue = oSysVar.Value();
+      if (sValueType == 2) {
+          if (sValue) {
+              Write("true");
+          } else {
+              Write("false");
+          }
+      } else {
+         if (sValue == "") {
+              Write("0");
+         } else {
+              Write(sValue);
+         }
+      }
+    }
+  Write(',"' # oSysVar.Timestamp() # '"]');
+
+}
+
+if (bFirst) {
+    bFirst = false;
+} else {
+    WriteLine(',');
+}
+
+oSysVar = dom.GetObject(40);
+Write('"40":[' # oSysVar.Value() # ',"' # oSysVar.Timestamp() # '"]');
+
+!# due to the fact that service messages can be automatically acknowledged, we have to loop over all and check
+var servs = dom.GetObject(ID_SERVICES);
+string id;
+integer serviceMessages = 0;
+
+foreach(id, servs.EnumIDs())
+{
+  var service = dom.GetObject(id);
+  if(service)
+  {
+    if(service.IsTypeOf(OT_ALARMDP) && (service.Used() == true) && (service.Enabled() == true) && (service.AlState() == asOncoming))
+    {
+      serviceMessages = serviceMessages + 1;
+    }
+  }
+}
+WriteLine(',');
+
+oSysVar = dom.GetObject(41);
+Write('"41":[' # serviceMessages # ',"' # oSysVar.Timestamp() # '"]}');

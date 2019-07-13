@@ -328,7 +328,7 @@ function queue() {
 }
 
 function pollVariables() {
-    rega.runScriptFile('polling', data => {
+    rega.runScriptFile(adapter.config.showInvSysVar ? 'pollingInv' : 'polling', data => {
         if (!data) return;
 
         try {
