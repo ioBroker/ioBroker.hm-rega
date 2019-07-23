@@ -543,8 +543,8 @@ function pollServiceMsgs() {
             const state = {
                 val: data[dp].AlState,
                 ack: true,
-                lc: new Date(data[dp].AlOccurrenceTime),
-                ts: new Date(data[dp].LastTriggerTime)
+                lc: new Date(data[dp].AlOccurrenceTime).getTime(),
+                ts: new Date(data[dp].LastTriggerTime).getTime()
             };
 
             if (!states[id] ||
@@ -603,8 +603,8 @@ function getServiceMsgs() {
             const state = {
                 val: data[dp].AlState,
                 ack: true,
-                lc: new Date(data[dp].AlOccurrenceTime),
-                ts: new Date(data[dp].LastTriggerTime)
+                lc: new Date(data[dp].AlOccurrenceTime).getTime(),
+                ts: new Date(data[dp].LastTriggerTime).getTime()
             };
 
             if (!states[id] ||
