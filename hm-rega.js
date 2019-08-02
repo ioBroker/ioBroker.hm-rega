@@ -178,7 +178,7 @@ function _unescape(text) {
 }
 
 function checkInit(id) {
-    adapter.getForeignObject('system.adapter.' + id, function (err, obj) {
+    adapter.getForeignObject('system.adapter.' + id, (err, obj) => {
         if (obj && obj.native.checkInit && obj.native.checkInitTrigger) {
             const interval = parseInt(obj.native.checkInitInterval, 10);
 
@@ -189,7 +189,7 @@ function checkInit(id) {
 
             const _id = obj.native.checkInitTrigger;
             if (!checkInterval[id]) {
-                checkInterval[id] = setInterval(function () {
+                checkInterval[id] = setInterval(() => {
                     if (rega) {
                         //BidCos-RF.BidCoS-RF:50.PRESS_LONG
                         adapter.log.debug('Set check init state ' + _id + ' to true');
