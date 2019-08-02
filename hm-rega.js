@@ -767,6 +767,8 @@ function getPrograms(callback) {
 
 function getFunctions(callback) {
     rega.runScriptFile('functions', data => {
+        adapter.log.info('update functions to ' + adapter.config.enumFunctions);
+
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
@@ -833,30 +835,37 @@ function getFunctions(callback) {
                 }
             };
 
-            (function (newObj) {
-                adapter.getForeignObject(newObj._id, (err, obj) => {
-                    let changed = false;
-                    if (!obj) {
-                        obj = newObj;
-                        changed = true;
-                    } else {
-                        obj.common = obj.common || {};
-                        obj.common.members = obj.common.members || [];
-                        for (const newMember of newObj.common.members) {
-                            if (obj.common.members.indexOf(newMember) === -1) {
-                                changed = true;
-                                obj.common.members.push(newMember);
-                            }
-                        }
-                    }
-                    if (changed) {
-                        adapter.setForeignObject(adapter.config.enumFunctions + '.' + newObj.common.name, obj);
-                    }
-                });
-            })(obj);
-        }
 
-        adapter.log.info('added/updated functions to ' + adapter.config.enumFunctions);
+            adapter.getForeignObject(obj._id, (err, oldObj) => {
+                let changed = false;
+                if (!oldObj) {
+                    oldObj = obj;
+                    changed = true;
+                } else {
+                    obj.common = obj.common || {};
+                    obj.common.members = obj.common.members || [];
+                    for (const newMember of obj.common.members) {
+                        // Check if new channel added
+                        if (oldObj.common.members.indexOf(newMember) === -1) {
+                            changed = true;
+                            oldObj.common.members.push(newMember);
+                            adapter.log.info(`${newMember} has been added to functions ${name}`);
+                        } // endIf
+                    } // endFor
+                    for (const oldMember of oldObj.common.members) {
+                        // Check if channel has been removed
+                        if (obj.common.members.indexOf(oldMember) === -1) {
+                            changed = true;
+                            oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
+                            adapter.log.info(`${oldMember} has been removed from functions ${name}`);
+                        } // endIf
+                    } // endFor
+                } // endElse
+                if (changed) {
+                    adapter.setForeignObject(adapter.config.enumFunctions + '.' + oldObj.common.name, obj);
+                } // endIf
+            });
+        } // endFor
 
         adapter.getForeignObject(adapter.config.enumFunctions, (err, obj) => {
             if (!obj || err) {
@@ -877,6 +886,8 @@ function getFunctions(callback) {
 
 function getRooms(callback) {
     rega.runScriptFile('rooms', data => {
+        adapter.log.info('update rooms to ' + adapter.config.enumRooms);
+
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
@@ -943,30 +954,37 @@ function getRooms(callback) {
                 }
             };
 
-            (function (newObj) {
-                adapter.getForeignObject(newObj._id, (err, obj) => {
-                    let changed = false;
-                    if (!obj) {
-                        obj = newObj;
-                        changed = true;
-                    } else {
-                        obj.common = obj.common || {};
-                        obj.common.members = obj.common.members || [];
-                        for (const newMember of newObj.common.members) {
-                            if (obj.common.members.indexOf(newMember) === -1) {
-                                changed = true;
-                                obj.common.members.push(newMember);
-                            }
-                        }
-                    }
-                    if (changed) {
-                        adapter.setForeignObject(adapter.config.enumRooms + '.' + newObj.common.name, obj);
-                    }
-                });
-            })(obj);
-        }
+            adapter.getForeignObject(obj._id, (err, oldObj) => {
+                let changed = false;
+                if (!oldObj) {
+                    oldObj = obj;
+                    changed = true;
+                } else {
+                    oldObj.common = oldObj.common || {};
+                    oldObj.common.members = oldObj.common.members || [];
+                    for (const newMember of obj.common.members) {
+                        // Check if new channel added
+                        if (oldObj.common.members.indexOf(newMember) === -1) {
+                            changed = true;
+                            oldObj.common.members.push(newMember);
+                            adapter.log.info(`${newMember} has been added to room ${name}`);
+                        } // endIf
+                    } // endFor
+                    for (const oldMember of oldObj.common.members) {
+                        // Check if channel has been removed
+                        if (obj.common.members.indexOf(oldMember) === -1) {
+                            changed = true;
+                            oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
+                            adapter.log.info(`${oldMember} has been removed from room ${name}`);
+                        } // endIf
+                    } // endFor
+                } // endElse
 
-        adapter.log.info('added/updated rooms to ' + adapter.config.enumRooms);
+                if (changed) {
+                    adapter.setForeignObject(adapter.config.enumRooms + '.' + obj.common.name, oldObj);
+                } // endIf
+            });
+        }
 
         adapter.getForeignObject(adapter.config.enumRooms, (err, obj) => {
             if (!obj || err) {
@@ -983,10 +1001,12 @@ function getRooms(callback) {
 
         if (typeof callback === 'function') callback();
     });
-}
+} // endGetRooms
 
 function getFavorites(callback) {
     rega.runScriptFile('favorites', data => {
+        adapter.log.info('update favorites to ' + adapter.config.enumFavorites);
+
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
@@ -1001,8 +1021,6 @@ function getFavorites(callback) {
             },
             native: {}
         });
-
-        let c = 0;
 
         for (let user in data) {
             if (!data.hasOwnProperty(user)) continue;
@@ -1056,7 +1074,7 @@ function getFavorites(callback) {
                         members.push(id);
                     }
                 }
-                c += 1;
+
                 const obj = {
                     type: 'enum',
                     common: {
@@ -1070,36 +1088,41 @@ function getFavorites(callback) {
                     }
                 };
 
-                (function (newObj) {
-                    adapter.getForeignObject(adapter.config.enumFavorites + '.' + newObj.native.user + '.' + newObj.common.name, function (err, obj) {
-                        let changed = false;
-                        if (!obj) {
-                            obj = newObj;
-                            changed = true;
-                        } else {
-                            obj.common = obj.common || {};
-                            obj.common.members = obj.common.members || [];
-                            for (const newMember of newObj.common.members) {
-                                if (obj.common.members.indexOf(newMember) === -1) {
-                                    changed = true;
-                                    obj.common.members.push(newMember);
-                                }
-                            }
-                        }
-                        if (changed) {
-                            adapter.setForeignObject(adapter.config.enumFavorites + '.' + newObj.native.user + '.' + newObj.common.name, obj);
-                        }
-                    });
-                })(obj);
-            }
-        }
-
-        adapter.log.info('added/updated ' + c + ' favorites to ' + adapter.config.enumFavorites);
-
+                adapter.getForeignObject(adapter.config.enumFavorites + '.' + obj.native.user + '.' + obj.common.name, (err, oldObj) => {
+                    let changed = false;
+                    if (!oldObj) {
+                        oldObj = obj;
+                        changed = true;
+                    } else {
+                        oldObj.common = oldObj.common || {};
+                        oldObj.common.members = oldObj.common.members || [];
+                        for (const newMember of obj.common.members) {
+                            // Check if new channel added
+                            if (oldObj.common.members.indexOf(newMember) === -1) {
+                                changed = true;
+                                oldObj.common.members.push(newMember);
+                                adapter.log.info(`${newMember} has been added to favorites for ${user}`);
+                            } // endIf
+                        } // endFor
+                        for (const oldMember of oldObj.common.members) {
+                            // Check if channel has been removed
+                            if (obj.common.members.indexOf(oldMember) === -1) {
+                                changed = true;
+                                oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
+                                adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);
+                            } // endIf
+                        } // endFor
+                    } // endElse
+                    if (changed) {
+                        adapter.setForeignObject(adapter.config.enumFavorites + '.' + oldObj.native.user + '.' + oldObj.common.name, obj);
+                    } // endIf
+                });
+            } // endFor
+        } // endFor
 
         if (typeof callback === 'function') callback();
     });
-}
+} // endGetFavorites
 
 function getDatapoints(callback) {
     adapter.log.info('request state values');
