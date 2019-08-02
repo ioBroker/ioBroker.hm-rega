@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.2",
+        "version": "2.4.4",
         "news": {
+            "2.4.4": {
+                "en": "fixed enum sync and improved logging",
+                "de": "Enum Sync und verbesserte Protokollierung behoben",
+                "ru": "исправлена синхронизация перечислений и улучшено ведение журнала",
+                "pt": "sincronização fixa de enum e registro aprimorado",
+                "nl": "vaste enum-synchronisatie en verbeterde logboekregistratie",
+                "fr": "synchronisation enum fixe et journalisation améliorée",
+                "it": "sincronizzazione enum fissa e registrazione migliorata",
+                "es": "sincronización de enumeración fija y registro mejorado",
+                "pl": "poprawiona synchronizacja enum i ulepszone rejestrowanie",
+                "zh-cn": "固定枚举同步和改进的日志记录"
+            },
             "2.4.2": {
                 "en": "fixed last changed time for alarm states",
                 "de": "Die letzte geänderte Zeit für Alarmzustände wurde behoben",

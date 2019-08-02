@@ -61,6 +61,9 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.4.4 (2019-08-02)
+* (foxriver76) fixed enum sync and improved logging
+
 ### 2.4.2 (2019-07-23)
 * (foxriver76) lc and ts for alarm states are now valid formatted for js-controller
 
