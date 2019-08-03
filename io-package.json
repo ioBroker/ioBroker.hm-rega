@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.4",
+        "version": "2.4.5",
         "news": {
+            "2.4.5": {
+                "en": "we are now only deleting hm adapter objects from enums",
+                "de": "wir löschen jetzt nur noch hm adapter objekte aus enums",
+                "ru": "мы сейчас удаляем только объекты-адаптеры hm из перечислений",
+                "pt": "estamos agora apenas excluindo objetos adaptador hm de enums",
+                "nl": "we verwijderen nu alleen hm-adapterobjecten uit enums",
+                "fr": "nous ne faisons que supprimer les objets adaptateur hm des énumérations",
+                "it": "stiamo eliminando solo gli oggetti hm adapter dagli enum",
+                "es": "ahora solo estamos eliminando objetos adaptadores hm de enumeraciones",
+                "pl": "usuwamy teraz tylko obiekty adaptera hm z wyliczeń",
+                "zh-cn": "我们现在只从枚举中删除hm适配器对象"
+            },
             "2.4.4": {
                 "en": "fixed enum sync and improved logging",
                 "de": "Enum Sync und verbesserte Protokollierung behoben",
@@ -181,17 +193,6 @@
                 "it": "correggere lo script del duty cycle e correggere il bug in cui le unità di stato sono state ignorate per tutti tranne rfd",
                 "es": "corregir el script del ciclo de trabajo y corregir el error donde las unidades de estado se ignoraron para todos excepto rfd",
                 "pl": "naprawiono skrypt cyklu pracy i naprawiono błąd, w którym jednostki stanu były ignorowane dla wszystkich z wyjątkiem rfd"
-            },
-            "2.1.0": {
-                "en": "usage of adapter-core module and comapct mode compatibility",
-                "de": "Verwendung des Adapterkernmoduls und Compact Mode Unterstützung",
-                "ru": "использование модуля ядра адаптера и совместимости в режиме карты",
-                "pt": "uso do módulo do núcleo do adaptador e compatibilidade do modo de comapct",
-                "nl": "gebruik van de adapter-kernmodule en compatibiliteit van de comapct-modus",
-                "fr": "utilisation du module adaptateur-core et compatibilité en mode comapct",
-                "it": "utilizzo del modulo adattatore-core e compatibilità della modalità comapct",
-                "es": "Uso del módulo de adaptador de núcleo y compatibilidad de modo comapct",
-                "pl": "wykorzystanie modułu adapter-core i kompatybilność w trybie comapct"
             }
         },
         "title": "HomeMatic ReGaHSS",

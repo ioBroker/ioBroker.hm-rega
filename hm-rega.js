@@ -975,7 +975,7 @@ function getRooms(callback) {
                         if (obj.common.members.indexOf(oldMember) === -1 && /hm-(rega|rpc)..+/.test(oldMember)) {
                             changed = true;
                             oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
-                            adapter.log.info(`${oldMember} has been removed from functions ${name}`);
+                            adapter.log.info(`${oldMember} has been removed from room ${name}`);
                         } // endIf
                     } // endFor
                 } // endElse

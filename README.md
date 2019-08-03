@@ -61,6 +61,9 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.4.5 (2019-08-03)
+* (foxriver76) only deleting hm adapter objects from enums
+
 ### 2.4.4 (2019-08-02)
 * (foxriver76) fixed enum sync and improved logging
 
