@@ -854,7 +854,7 @@ function getFunctions(callback) {
                     } // endFor
                     for (const oldMember of oldObj.common.members) {
                         // Check if channel has been removed
-                        if (obj.common.members.indexOf(oldMember) === -1) {
+                        if (obj.common.members.indexOf(oldMember) === -1 && /hm-(rega|rpc)..+/.test(oldMember)) {
                             changed = true;
                             oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
                             adapter.log.info(`${oldMember} has been removed from functions ${name}`);
@@ -972,10 +972,10 @@ function getRooms(callback) {
                     } // endFor
                     for (const oldMember of oldObj.common.members) {
                         // Check if channel has been removed
-                        if (obj.common.members.indexOf(oldMember) === -1) {
+                        if (obj.common.members.indexOf(oldMember) === -1 && /hm-(rega|rpc)..+/.test(oldMember)) {
                             changed = true;
                             oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
-                            adapter.log.info(`${oldMember} has been removed from room ${name}`);
+                            adapter.log.info(`${oldMember} has been removed from functions ${name}`);
                         } // endIf
                     } // endFor
                 } // endElse
@@ -1106,7 +1106,7 @@ function getFavorites(callback) {
                         } // endFor
                         for (const oldMember of oldObj.common.members) {
                             // Check if channel has been removed
-                            if (obj.common.members.indexOf(oldMember) === -1) {
+                            if (obj.common.members.indexOf(oldMember) === -1 && /hm-(rega|rpc)..+/.test(oldMember)) {
                                 changed = true;
                                 oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
                                 adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);
