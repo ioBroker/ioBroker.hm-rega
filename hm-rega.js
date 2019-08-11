@@ -767,19 +767,18 @@ function getPrograms(callback) {
 
 function getFunctions(callback) {
     rega.runScriptFile('functions', data => {
-        adapter.log.info('update functions to ' + adapter.config.enumFunctions);
+        adapter.log.info(`update functions to ${adapter.config.enumFunctions}`);
 
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for functions: ' + data);
+            adapter.log.error(`Cannot parse answer for functions: ${data}`);
             return;
         }
         for (const regaId in data) {
             if (!data.hasOwnProperty(regaId)) continue;
 
             const members = [];
-
             const memberObjs = data[regaId].Channels;
 
             let id;
@@ -862,7 +861,7 @@ function getFunctions(callback) {
                     } // endFor
                 } // endElse
                 if (changed) {
-                    adapter.setForeignObject(adapter.config.enumFunctions + '.' + oldObj.common.name, obj);
+                    adapter.setForeignObject(adapter.config.enumFunctions + '.' + oldObj.common.name, oldObj);
                 } // endIf
             });
         } // endFor
@@ -1114,7 +1113,7 @@ function getFavorites(callback) {
                         } // endFor
                     } // endElse
                     if (changed) {
-                        adapter.setForeignObject(adapter.config.enumFavorites + '.' + oldObj.native.user + '.' + oldObj.common.name, obj);
+                        adapter.setForeignObject(adapter.config.enumFavorites + '.' + oldObj.native.user + '.' + oldObj.common.name, oldObj);
                     } // endIf
                 });
             } // endFor
