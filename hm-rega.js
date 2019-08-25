@@ -820,12 +820,6 @@ function getFunctions(callback) {
             const name = _unescape(data[regaId].Name);
             const desc = _unescape(data[regaId].EnumInfo);
 
-            // try to debug https://forum.iobroker.net/topic/24122/hm-rega-0-used-invalid-characters
-            if (typeof name === `object`) {
-                adapter.log.warn(`Name of functions enum is an object -> please report to developer: ${JSON.stringify(name)}`);
-                continue;
-            } // endIf
-
             const obj = {
                 _id: `${adapter.config.enumFunctions}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
                 desc: desc,
@@ -840,7 +834,6 @@ function getFunctions(callback) {
                     EnumInfo: desc
                 }
             };
-
 
             adapter.getForeignObject(obj._id, (err, oldObj) => {
                 let changed = false;
@@ -946,7 +939,7 @@ function getRooms(callback) {
             const name = _unescape(data[regaId].Name);
             const desc = _unescape(data[regaId].EnumInfo);
             const obj = {
-                _id: adapter.config.enumRooms + '.' + (words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name),
+                _id: `adapter.config.enumRooms.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
                 type: 'enum',
                 common: {
                     name: words[name] || name,
