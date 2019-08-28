@@ -775,6 +775,7 @@ function getFunctions(callback) {
             adapter.log.error(`Cannot parse answer for functions: ${data}`);
             return;
         }
+
         for (const regaId in data) {
             if (!data.hasOwnProperty(regaId)) continue;
 
@@ -825,7 +826,7 @@ function getFunctions(callback) {
                 desc: desc,
                 type: 'enum',
                 common: {
-                    name: words[name] || name,
+                    name: words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name,
                     members: members
                 },
                 native: {
@@ -861,7 +862,7 @@ function getFunctions(callback) {
                     } // endFor
                 } // endElse
                 if (changed) {
-                    adapter.setForeignObject(adapter.config.enumFunctions + '.' + oldObj.common.name, oldObj);
+                    adapter.setForeignObject(`${adapter.config.enumFunctions}.${oldObj.common.name}`, oldObj);
                 } // endIf
             });
         } // endFor
@@ -942,7 +943,7 @@ function getRooms(callback) {
                 _id: `adapter.config.enumRooms.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
                 type: 'enum',
                 common: {
-                    name: words[name] || name,
+                    name: words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name,
                     desc: desc,
                     members: members
                 },

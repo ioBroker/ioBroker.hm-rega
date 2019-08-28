@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.6",
+        "version": "2.4.7",
         "news": {
+            "2.4.7": {
+                "en": "fixed bug that prevented enums from getting correct name",
+                "de": "Fehler behoben, der verhinderte, dass Aufzählungen den richtigen Namen erhielten",
+                "ru": "исправлена ошибка, из-за которой перечисления не могли получить правильное имя",
+                "pt": "bug fixo que impedia enums de obter o nome correto",
+                "nl": "bug opgelost die verhinderde dat enums de juiste naam konden krijgen",
+                "fr": "correction d'un bug qui empêchait les enums d'obtenir le nom correct",
+                "it": "corretto bug che impediva agli enum di ottenere il nome corretto",
+                "es": "error corregido que impedía que las enumeraciones obtuvieran el nombre correcto",
+                "pl": "naprawiony błąd, który uniemożliwiał wyliczeniom uzyskanie poprawnej nazwy",
+                "zh-cn": "修复了阻止枚举获取正确名称的错误"
+            },
             "2.4.6": {
                 "en": "we are now only deleting hm adapter objects from enums",
                 "de": "wir löschen jetzt nur noch hm adapter objekte aus enums",
@@ -182,17 +194,6 @@
                 "es": "También decodifica valores de cadena al configurar estados extranjeros y más traducciones",
                 "pl": "także dekodować wartości łańcuchów podczas ustawiania stanów obcych i więcej tłumaczeń",
                 "zh-cn": "在设置外部状态和更多翻译时也会解码字符串值"
-            },
-            "2.1.2": {
-                "en": "fix duty cycle script and fix bug where state units were ignored for all except rfd",
-                "de": "Korrektur des Arbeitszyklus-Skripts und Behebung eines Fehlers, bei dem Zustandseinheiten für alle außer rfd ignoriert wurden",
-                "ru": "исправить сценарий рабочего цикла и исправить ошибку, при которой государственные единицы игнорировались для всех, кроме rfd",
-                "pt": "Corrigir script de ciclo de serviço e corrigir bug onde unidades de estado foram ignoradas para todos, exceto rfd",
-                "nl": "fix duty cycle script en repareer bug waar staatseenheden werden genegeerd voor iedereen behalve rfd",
-                "fr": "correction du script de cycle de service et correction d'un bogue dans lequel les unités d'état étaient ignorées pour tous sauf RFD",
-                "it": "correggere lo script del duty cycle e correggere il bug in cui le unità di stato sono state ignorate per tutti tranne rfd",
-                "es": "corregir el script del ciclo de trabajo y corregir el error donde las unidades de estado se ignoraron para todos excepto rfd",
-                "pl": "naprawiono skrypt cyklu pracy i naprawiono błąd, w którym jednostki stanu były ignorowane dla wszystkich z wyjątkiem rfd"
             }
         },
         "title": "HomeMatic ReGaHSS",

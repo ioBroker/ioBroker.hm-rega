@@ -61,6 +61,9 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.4.7 (2019-08-28)
+* (foxriver76) fixed another legacy bug, which prevented some enums from getting correct name
+
 ### 2.4.6 (2019-08-11)
 * (foxriver76) only deleting hm adapter objects from enums
 
