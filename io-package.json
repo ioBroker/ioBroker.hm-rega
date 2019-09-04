@@ -1,19 +1,19 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.8",
+        "version": "2.4.9",
         "news": {
-            "2.4.8": {
-                "en": "only automaticaly delete/synchronize hm-rpc objects from enums",
-                "de": "lösche / synchronisiere nur automatisch hm-rpc objekte aus enums",
-                "ru": "только автоматически удалять / синхронизировать объекты hm-rpc из перечислений",
-                "pt": "somente exclua / sincronize automaticamente objetos hm-rpc de enumerações",
-                "nl": "verwijder / synchroniseer alleen automatisch hm-rpc-objecten uit enums",
-                "fr": "uniquement supprimer / synchroniser automatiquement les objets hm-rpc des énumérations",
-                "it": "cancella / sincronizza automaticamente solo oggetti hm-rpc dagli enum",
-                "es": "solo elimina / sincroniza automáticamente objetos hm-rpc de enumeraciones",
-                "pl": "tylko automatycznie usuwają / synchronizują obiekty hm-rpc z wyliczeń",
-                "zh-cn": "只能从枚举中自动删除/同步hm-rpc对象"
+            "2.4.9": {
+                "en": "only automaticaly delete/synchronize hm-rpc objects from enums and minor fix for room sync",
+                "de": "nur automatisch löschen / synchronisieren von hm-rpc objekten aus enums und kleinere korrekturen für die raumsynchronisation",
+                "ru": "только автоматически удалять / синхронизировать объекты hm-rpc из перечислений и незначительное исправление для синхронизации помещения",
+                "pt": "somente exclua / sincronize automaticamente objetos hm-rpc de enumerações e pequenas correções para sincronização de ambiente",
+                "nl": "verwijder en synchroniseer alleen automatisch hm-rpc-objecten uit enums en een kleine correctie voor roomsynchronisatie",
+                "fr": "uniquement supprimer / synchroniser automatiquement les objets hm-rpc des enums et des correctifs mineurs pour la synchronisation de la pièce",
+                "it": "elimina / sincronizza automaticamente solo oggetti hm-rpc dagli enum e correzioni minori per la sincronizzazione della stanza",
+                "es": "solo elimina / sincroniza automáticamente objetos hm-rpc de enumeraciones y arreglos menores para la sincronización de sala",
+                "pl": "tylko automatycznie usuwają / synchronizują obiekty hm-rpc z wyliczeń i drobną poprawkę do synchronizacji pokoju",
+                "zh-cn": "只能自动删除/同步枚举中的hm-rpc对象和房间同步的小修复"
             },
             "2.4.7": {
                 "en": "fixed bug that prevented enums from getting correct name",

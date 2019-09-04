@@ -816,7 +816,7 @@ function getFunctions(callback) {
                 }
                 id = id + memberObj.Address.replace(':', '.').replace(FORBIDDEN_CHARS, '_');
                 members.push(id);
-            }
+            } // endFor
 
             const name = _unescape(data[regaId].Name);
             const desc = _unescape(data[regaId].EnumInfo);
@@ -894,6 +894,7 @@ function getRooms(callback) {
             adapter.log.error('Cannot parse answer for rooms: ' + data);
             return;
         }
+        // iterate over rooms
         for (const regaId in data) {
             if (!data.hasOwnProperty(regaId)) continue;
 
@@ -940,7 +941,7 @@ function getRooms(callback) {
             const name = _unescape(data[regaId].Name);
             const desc = _unescape(data[regaId].EnumInfo);
             const obj = {
-                _id: `adapter.config.enumRooms.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
+                _id: `${adapter.config.enumRooms}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
                 type: 'enum',
                 common: {
                     name: words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name,
@@ -953,7 +954,6 @@ function getRooms(callback) {
                     EnumInfo: desc
                 }
             };
-
             adapter.getForeignObject(obj._id, (err, oldObj) => {
                 let changed = false;
                 if (!oldObj) {
@@ -963,7 +963,7 @@ function getRooms(callback) {
                     oldObj.common = oldObj.common || {};
                     oldObj.common.members = oldObj.common.members || [];
                     for (const newMember of obj.common.members) {
-                        // Check if new channel added
+                        // Check if new room added
                         if (oldObj.common.members.indexOf(newMember) === -1) {
                             changed = true;
                             oldObj.common.members.push(newMember);
@@ -971,7 +971,7 @@ function getRooms(callback) {
                         } // endIf
                     } // endFor
                     for (const oldMember of oldObj.common.members) {
-                        // Check if channel has been removed
+                        // Check if room has been removed
                         if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
                             changed = true;
                             oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
@@ -981,10 +981,10 @@ function getRooms(callback) {
                 } // endElse
 
                 if (changed) {
-                    adapter.setForeignObject(adapter.config.enumRooms + '.' + obj.common.name, oldObj);
+                    adapter.setForeignObject(`${adapter.config.enumRooms}.${obj.common.name}`, oldObj);
                 } // endIf
             });
-        }
+        } // endFor
 
         adapter.getForeignObject(adapter.config.enumRooms, (err, obj) => {
             if (!obj || err) {

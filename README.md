@@ -61,7 +61,8 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
-### 2.4.8 (2019-09-04)
+### 2.4.9 (2019-09-04)
+* (foxriver76) fix minor bug which prevented correct room sync
 * (foxriver76) in 2.4.6 we implemented the mechanism for hm-rega and rpc, in fact we should only delete hm-rpc devices, 
 because rega will be added on ioB side (can't be done in CCU)
 
