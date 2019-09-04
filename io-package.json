@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.7",
+        "version": "2.4.8",
         "news": {
+            "2.4.8": {
+                "en": "only automaticaly delete/synchronize hm-rpc objects from enums",
+                "de": "lösche / synchronisiere nur automatisch hm-rpc objekte aus enums",
+                "ru": "только автоматически удалять / синхронизировать объекты hm-rpc из перечислений",
+                "pt": "somente exclua / sincronize automaticamente objetos hm-rpc de enumerações",
+                "nl": "verwijder / synchroniseer alleen automatisch hm-rpc-objecten uit enums",
+                "fr": "uniquement supprimer / synchroniser automatiquement les objets hm-rpc des énumérations",
+                "it": "cancella / sincronizza automaticamente solo oggetti hm-rpc dagli enum",
+                "es": "solo elimina / sincroniza automáticamente objetos hm-rpc de enumeraciones",
+                "pl": "tylko automatycznie usuwają / synchronizują obiekty hm-rpc z wyliczeń",
+                "zh-cn": "只能从枚举中自动删除/同步hm-rpc对象"
+            },
             "2.4.7": {
                 "en": "fixed bug that prevented enums from getting correct name",
                 "de": "Fehler behoben, der verhinderte, dass Aufzählungen den richtigen Namen erhielten",
@@ -182,18 +194,6 @@
                 "es": "actualizar el estado cuando se establezca el mismo valor con otra marca de hora y un script de ciclo de servicio de reparación",
                 "pl": "aktualizuje stan, gdy ta sama wartość jest ustawiona z innym znacznikiem czasu i ponownie ustawia skrypt cyklu roboczego",
                 "zh-cn": "当使用另一个时间戳设置相同的值并再次修复占空比脚本时更新状态"
-            },
-            "2.1.3": {
-                "en": "also decode string values when setting foreign states and more translations",
-                "de": "String-Werte werden auch dekodiert, wenn adapterfremde Stati gesetzt werden, mehr Übersetzungen hinzugefügt",
-                "ru": "также декодировать строковые значения при установке иностранных состояний и других переводов",
-                "pt": "também decodifica valores de string ao definir estados estrangeiros e mais traduções",
-                "nl": "decodeer ook reekswaarden bij het instellen van buitenlandse staten en meer vertalingen",
-                "fr": "décode également les valeurs de chaîne lors de la définition d'états étrangers et de davantage de traductions",
-                "it": "decodifica anche i valori di stringa quando si impostano stati esterni e più traduzioni",
-                "es": "También decodifica valores de cadena al configurar estados extranjeros y más traducciones",
-                "pl": "także dekodować wartości łańcuchów podczas ustawiania stanów obcych i więcej tłumaczeń",
-                "zh-cn": "在设置外部状态和更多翻译时也会解码字符串值"
             }
         },
         "title": "HomeMatic ReGaHSS",
