@@ -826,7 +826,7 @@ function getFunctions(callback) {
                 desc: desc,
                 type: 'enum',
                 common: {
-                    name: words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name,
+                    name: words[name] || name,
                     members: members
                 },
                 native: {
@@ -862,7 +862,7 @@ function getFunctions(callback) {
                     } // endFor
                 } // endElse
                 if (changed) {
-                    adapter.setForeignObject(`${adapter.config.enumFunctions}.${oldObj.common.name}`, oldObj);
+                    adapter.setForeignObject(obj._id, oldObj);
                 } // endIf
             });
         } // endFor
@@ -944,7 +944,7 @@ function getRooms(callback) {
                 _id: `${adapter.config.enumRooms}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
                 type: 'enum',
                 common: {
-                    name: words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name,
+                    name: words[name] || name,
                     desc: desc,
                     members: members
                 },
@@ -981,7 +981,7 @@ function getRooms(callback) {
                 } // endElse
 
                 if (changed) {
-                    adapter.setForeignObject(`${adapter.config.enumRooms}.${obj.common.name}`, oldObj);
+                    adapter.setForeignObject(obj._id, oldObj);
                 } // endIf
             });
         } // endFor
@@ -1088,7 +1088,7 @@ function getFavorites(callback) {
                     }
                 };
 
-                adapter.getForeignObject(adapter.config.enumFavorites + '.' + obj.native.user + '.' + obj.common.name, (err, oldObj) => {
+                adapter.getForeignObject(`${adapter.config.enumFavorites}.${obj.native.user}.${obj.common.name}`, (err, oldObj) => {
                     let changed = false;
                     if (!oldObj) {
                         oldObj = obj;
@@ -1114,7 +1114,7 @@ function getFavorites(callback) {
                         } // endFor
                     } // endElse
                     if (changed) {
-                        adapter.setForeignObject(adapter.config.enumFavorites + '.' + oldObj.native.user + '.' + oldObj.common.name, oldObj);
+                        adapter.setForeignObject(`${adapter.config.enumFavorites}.${obj.native.user}.${obj.common.name}`, oldObj);
                     } // endIf
                 });
             } // endFor
