@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.10",
+        "version": "2.4.11",
         "news": {
             "2.4.11": {
                 "en": "fixed bug which lead to alarm counter showing number of service messages",
