@@ -61,8 +61,11 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
-### 2.4.10 (2019-09-25)
+### 2.4.11 (2019-09-25)
 * (foxriver76) fixed bug which lead to alarm counter showing number of service messages
+
+### 2.4.10 (2019-09-17)
+* (foxriver76) we set enum name as translation object again
 
 ### 2.4.9 (2019-09-04)
 * (foxriver76) fix minor bug which prevented correct room sync
