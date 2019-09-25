@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.9",
+        "version": "2.4.10",
         "news": {
+            "2.4.10": {
+                "en": "fixed bug which lead to alarm counter showing number of service messages",
+                "de": "Fehler behoben, der dazu führte, dass der Alarmzähler die Anzahl der Servicemeldungen anzeigte",
+                "ru": "исправлена ошибка, приводившая к тому, что счетчик аварий отображал количество сервисных сообщений",
+                "pt": "bug corrigido que leva ao contador de alarmes mostrando o número de mensagens de serviço",
+                "nl": "fout opgelost die leidde tot alarmteller met aantal servicemeldingen",
+                "fr": "correction d'un bug qui conduisait au compteur d'alarmes indiquant le nombre de messages de service",
+                "it": "corretto bug che porta al contatore di allarmi che mostra il numero di messaggi di servizio",
+                "es": "error corregido que conduce al contador de alarma que muestra la cantidad de mensajes de servicio",
+                "pl": "naprawiony błąd prowadzący do licznika alarmów pokazującego liczbę komunikatów serwisowych",
+                "zh-cn": "修复了导致警报计数器显示服务消息数量的错误"
+            },
             "2.4.9": {
                 "en": "only automaticaly delete/synchronize hm-rpc objects from enums and minor fix for room sync",
                 "de": "nur automatisch löschen / synchronisieren von hm-rpc objekten aus enums und kleinere korrekturen für die raumsynchronisation",
@@ -182,18 +194,6 @@
                 "es": "de ahora en adelante, estamos mostrando la versión de firmware en lugar de la versión de coprocesador fw, nos aseguramos de evitar que una CCU3 se exponga como una CCU2 y corrija el cambio de nombre de las alarmas",
                 "pl": "od teraz wyświetlamy wersję oprogramowania zamiast wersji koprocesora, upewniamy się, że CCU3 nie zostanie ujawnione jako CCU2 i nie zmieni nazwy alarmów",
                 "zh-cn": "从现在开始，我们正在显示固件版本而不是协处理器fw版本，我们确保阻止CCU3作为CCU2公开并修复警报的重命名"
-            },
-            "2.1.6": {
-                "en": "update state when same value is set with another timestamp and fix duty cycle script again",
-                "de": "Aktualisierungsstatus, wenn derselbe Wert mit einem anderen Zeitstempel gesetzt wird und Duty Cycle-Skript erneut gefixt",
-                "ru": "обновить состояние, когда то же значение установлено с другой отметкой времени, и снова исправить сценарий рабочего цикла",
-                "pt": "atualiza o estado quando o mesmo valor é definido com outro registro de data e hora e corrige o script de ciclo de serviço novamente",
-                "nl": "update status wanneer dezelfde waarde is ingesteld met een andere tijdstempel en fix duty cycle script opnieuw",
-                "fr": "mise à jour de l'état lorsque la même valeur est définie avec un autre horodatage et corrige le script de cycle de travail à nouveau",
-                "it": "aggiorna lo stato quando lo stesso valore è impostato con un altro timestamp e riparano nuovamente lo script del ciclo di lavoro",
-                "es": "actualizar el estado cuando se establezca el mismo valor con otra marca de hora y un script de ciclo de servicio de reparación",
-                "pl": "aktualizuje stan, gdy ta sama wartość jest ustawiona z innym znacznikiem czasu i ponownie ustawia skrypt cyklu roboczego",
-                "zh-cn": "当使用另一个时间戳设置相同的值并再次修复占空比脚本时更新状态"
             }
         },
         "title": "HomeMatic ReGaHSS",

@@ -30,9 +30,9 @@ foreach(id, servs.EnumIDs())
   }
 }
 
-WriteLine('"40":{"Name":"Alarmmeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Alarmmeldungen","Value":' # serviceMessages # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""},');
-Write('"41":{"Name":"Servicemeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Servicemeldungen","Value":' # dom.GetObject(41).Value() # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""}');
-
+WriteLine('"40":{"Name":"Alarmmeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Alarmmeldungen","Value":' # dom.GetObject(40).Value()  # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""},');
+Write('"41":{"Name":"Servicemeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Servicemeldungen","Value":' # serviceMessages # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""}');
+# serviceMessages #
 foreach (sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumUsedIDs()) {
 
   WriteLine(',');
