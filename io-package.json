@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.11",
+        "version": "2.4.12",
         "news": {
-            "2.4.11": {
+            "2.4.12": {
                 "en": "fixed bug which lead to alarm counter showing number of service messages",
                 "de": "Fehler behoben, der dazu führte, dass der Alarmzähler die Anzahl der Servicemeldungen anzeigte",
                 "ru": "исправлена ошибка, приводившая к тому, что счетчик аварий отображал количество сервисных сообщений",
