@@ -1243,12 +1243,12 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             const name = _unescape(data[addr].Name);
             if (addr.indexOf(':') === -1) {
                 // device
-                if (devices[id] === undefined || devices[id] !== name) {
+                if (devices[id] === undefined || (devices[id] !== name && adapter.config.syncNames)) {
                     objs.push({_id: id, common: {name: name}});
                 }
             } else {
                 // channel
-                if (channels[id] === undefined || channels[id] !== name) {
+                if (channels[id] === undefined || (channels[id] !== name && adapter.config.syncNames)) {
                     objs.push({_id: id, common: {name: name}});
                 } else if (!channels[id]) {
                     let dev = id.split('.');
@@ -1260,7 +1260,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                     for (const s in _states[id]) {
                         if (!_states[id].hasOwnProperty(s)) continue;
                         const stateName = name + '.' + s;
-                        if (!_states[id][s] || _states[id][s] !== stateName) objs.push({
+                        if (!_states[id][s] || (_states[id][s] !== stateName && adapter.config.syncNames)) objs.push({
                             _id: id + '.' + s,
                             common: {name: stateName}
                         });
