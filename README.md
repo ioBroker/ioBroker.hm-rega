@@ -61,6 +61,10 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.5.0 (2019-12-05)
+* (foxriver76) no longer use adapter.objects
+* (foxriver76) js-controller v > 2 required
+
 ### 2.4.12 (2019-09-26)
 * (foxriver76) fixed bug which lead to alarm counter showing number of service messages
 

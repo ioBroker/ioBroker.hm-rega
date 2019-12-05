@@ -654,7 +654,7 @@ function getServiceMsgs() {
 }
 
 function getPrograms(callback) {
-    adapter.objects.getObjectView('hm-rega', 'programs', {
+    adapter.getObjectView('hm-rega', 'programs', {
         startkey: 'hm-rega.' + adapter.instance + '.',
         endkey: 'hm-rega.' + adapter.instance + '.\u9999'
     }, (err, doc) => {
@@ -1243,12 +1243,12 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             const name = _unescape(data[addr].Name);
             if (addr.indexOf(':') === -1) {
                 // device
-                if (devices[id] === undefined || (devices[id] !== name && adapter.config.syncNames)) {
+                if (devices[id] === undefined || devices[id] !== name) {
                     objs.push({_id: id, common: {name: name}});
                 }
             } else {
                 // channel
-                if (channels[id] === undefined || (channels[id] !== name && adapter.config.syncNames)) {
+                if (channels[id] === undefined || channels[id] !== name) {
                     objs.push({_id: id, common: {name: name}});
                 } else if (!channels[id]) {
                     let dev = id.split('.');
@@ -1260,7 +1260,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                     for (const s in _states[id]) {
                         if (!_states[id].hasOwnProperty(s)) continue;
                         const stateName = name + '.' + s;
-                        if (!_states[id][s] || (_states[id][s] !== stateName && adapter.config.syncNames)) objs.push({
+                        if (!_states[id][s] || _states[id][s] !== stateName) objs.push({
                             _id: id + '.' + s,
                             common: {name: stateName}
                         });
@@ -1301,7 +1301,7 @@ function getDevices(callback) {
 
     function addStatesFromInstance(instance) {
         return new Promise(resolve => {
-            adapter.objects.getObjectView('system', 'device', {
+            adapter.getObjectView('system', 'device', {
                 startkey: instance + '.',
                 endkey: instance + '.\u9999'
             }, (err, doc) => {
@@ -1310,7 +1310,7 @@ function getDevices(callback) {
                         devices[row.id] = row.value.common.name;
                     }
                 }
-                adapter.objects.getObjectView('system', 'channel', {
+                adapter.getObjectView('system', 'channel', {
                     startkey: instance + '.',
                     endkey: instance + '.\u9999'
                 }, (err, doc) => {
@@ -1319,7 +1319,7 @@ function getDevices(callback) {
                             channels[row.id] = row.value.common.name;
                         }
                     }
-                    adapter.objects.getObjectView('system', 'state', {
+                    adapter.getObjectView('system', 'state', {
                         startkey: instance + '.',
                         endkey: instance + '.\u9999'
                     }, (err, doc) => {
@@ -1363,7 +1363,7 @@ function getVariables(callback) {
         20: 'string'
     };
 
-    adapter.objects.getObjectView('hm-rega', 'variables', {
+    adapter.getObjectView('hm-rega', 'variables', {
         startkey: 'hm-rega.' + adapter.instance + '.',
         endkey: 'hm-rega.' + adapter.instance + '.\u9999'
     }, (err, doc) => {

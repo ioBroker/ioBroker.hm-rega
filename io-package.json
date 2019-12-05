@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.4.12",
+        "version": "2.5.0",
         "news": {
+            "2.5.0": {
+                "en": "we no longer use adapter.objects directly",
+                "de": "Wir verwenden adapter.objects nicht mehr direkt",
+                "ru": "мы больше не используем адаптер.объекты напрямую",
+                "pt": "não usamos mais o adapter.objects diretamente",
+                "nl": "we gebruiken adapter.objects niet langer rechtstreeks",
+                "fr": "nous n'utilisons plus directement adapter.objects",
+                "it": "non utilizziamo più adapter.objects direttamente",
+                "es": "ya no usamos adaptador.objetos directamente",
+                "pl": "nie używamy już bezpośrednio adapter.objects",
+                "zh-cn": "我们不再直接使用adapter.objects"
+            },
             "2.4.12": {
                 "en": "fixed bug which lead to alarm counter showing number of service messages",
                 "de": "Fehler behoben, der dazu führte, dass der Alarmzähler die Anzahl der Servicemeldungen anzeigte",
@@ -170,30 +182,6 @@
                 "es": "muestre la cantidad correcta de mensajes de servicio incluso si la verificación automática está habilitada",
                 "pl": "pokaż poprawną liczbę komunikatów serwisowych, nawet jeśli włączone jest automatyczne sprawdzanie",
                 "zh-cn": "即使启用了自动检查，也会显示正确的服务消息数"
-            },
-            "2.2.1": {
-                "en": "create alarm states with correct name instead of renaming on restart and add possibility to acknowledge servicemessages for all types",
-                "de": "Erstellen der Alarmzustände mit dem richtigen Namen, anstatt beim Neustart umzubenennen, und Möglichkeit hinzugefügt, Servicemeldungen für alle Typen zu bestätigen",
-                "ru": "создавать состояния тревоги с правильным именем вместо переименования при перезапуске и добавлять возможность подтверждения служебных сообщений для всех типов",
-                "pt": "crie estados de alarme com nome correto em vez de renomear a reinicialização e adicione a possibilidade de confirmar mensagens de serviço para todos os tipos",
-                "nl": "maak alarmstatussen met de juiste naam in plaats van hernoemen bij opnieuw opstarten en voeg de mogelijkheid toe om serviceberichten voor alle typen te bevestigen",
-                "fr": "créer des états d'alarme avec le nom correct au lieu de renommer au redémarrage et ajouter la possibilité d'acquitter des messages de service pour tous les types",
-                "it": "creare stati di allarme con il nome corretto anziché rinominare al riavvio e aggiungere la possibilità di riconoscere i messaggi di errore per tutti i tipi",
-                "es": "cree estados de alarma con el nombre correcto en lugar de cambiar el nombre al reiniciar y agregue la posibilidad de reconocer los mensajes de servicio para todos los tipos",
-                "pl": "stwórz stany alarmowe z poprawną nazwą zamiast zmieniać nazwy przy ponownym uruchomieniu i dodaj możliwość potwierdzenia obsługi serwisowej dla wszystkich typów",
-                "zh-cn": "使用正确的名称创建警报状态，而不是在重新启动时重命名，并添加确认所有类型的服务消息的可能性"
-            },
-            "2.2.0": {
-                "en": "fix where virtual devices were not named and reworked alarm states",
-                "de": "Fehler behoben, bei dem virtuelle Geräte nicht benannt und Alarmzustände überarbeitet wurden",
-                "ru": "исправить, где виртуальные устройства не были названы и переработаны состояния тревоги",
-                "pt": "corrigir onde os dispositivos virtuais não foram nomeados e retrabalhados estados de alarme",
-                "nl": "repareren waar virtuele apparaten geen naam hebben en herwerkte alarmstatussen",
-                "fr": "correction du cas où les périphériques virtuels n'étaient pas nommés et les états d'alarme retravaillés",
-                "it": "correggere dove i dispositivi virtuali non sono stati nominati e rielaborati stati di allarme",
-                "es": "corregir dónde no se nombraron los dispositivos virtuales y los estados de alarma modificados",
-                "pl": "napraw, gdzie urządzenia wirtualne nie były nazwane i przerobione stany alarmowe",
-                "zh-cn": "修复未命名虚拟设备和重新设置警报状态的位置"
             }
         },
         "title": "HomeMatic ReGaHSS",
@@ -209,7 +197,10 @@
             "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker"
         },
         "dependencies": [
-            "hm-rpc"
+            "hm-rpc",
+            {
+                "js-controller": ">=2.0.0"
+            }
         ],
         "authors": [
             "hobbyquaker <hq@ccu.io>",
