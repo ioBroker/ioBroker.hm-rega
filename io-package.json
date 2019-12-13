@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.5.0",
+        "version": "2.5.1",
         "news": {
-            "2.5.0": {
+            "2.5.1": {
                 "en": "we no longer use adapter.objects directly",
                 "de": "Wir verwenden adapter.objects nicht mehr direkt",
                 "ru": "мы больше не используем адаптер.объекты напрямую",
