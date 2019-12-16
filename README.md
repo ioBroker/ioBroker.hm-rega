@@ -1,6 +1,7 @@
 ![Logo](admin/homematic.png)
 # ioBroker HomeMatic ReGaHSS Adapter
 
+![Build Status](https://github.com/ioBroker/ioBroker.hm-rega/workflows/Test%20and%20Release/badge.svg)
 ![Number of Installations](http://iobroker.live/badges/hm-rega-installed.svg) ![Number of Installations](http://iobroker.live/badges/hm-rega-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
 
