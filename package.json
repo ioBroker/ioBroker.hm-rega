@@ -29,14 +29,14 @@
         "iconv-lite": "^0.4.23",
         "extend": "^3.0.2",
         "request": "^2.87.0",
-        "@iobroker/adapter-core": "^1.0.3"
+        "@iobroker/adapter-core": "^2.0.0"
     },
     "devDependencies": {
         "gulp": "^4.0.0",
         "mocha": "^5.2.0",
         "chai": "^4.1.2",
         "eslint": "^5.9.0",
-        "@iobroker/testing": "^1.0.4"
+        "@iobroker/testing": "^2.0.0"
     },
     "bugs": {
         "url": "https://github.com/ioBroker/ioBroker.hm-rega/issues"
