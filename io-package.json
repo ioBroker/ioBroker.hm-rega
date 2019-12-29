@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.5.1",
+        "version": "2.5.2",
         "news": {
+            "2.5.2": {
+                "en": "fixed issue which originated by undefined tclsh alias on CCU for dutycycle.fn script",
+                "de": "Problem behoben, das durch undefinierten tclsh-Alias auf der CCU für das Skript dutycycle.fn verursacht wurde",
+                "ru": "исправлена ошибка, возникшая из-за неопределенного псевдонима tclsh в CCU для сценария dutycycle.fn",
+                "pt": "Foi corrigido o problema que se originava do alias tclsh indefinido na CCU para o script dutycycle.fn",
+                "nl": "probleem opgelost dat is ontstaan door ongedefinieerde tclsh-alias op CCU voor dutycycle.fn-script",
+                "fr": "problème corrigé qui provenait d'un alias tclsh non défini sur CCU pour le script dutycycle.fn",
+                "it": "risolto problema originato da alias tclsh indefinito su CCU per lo script dutycycle.fn",
+                "es": "problema solucionado que se originó por el alias tclsh indefinido en CCU para el script dutycycle.fn",
+                "pl": "naprawiono problem, który powstał przez niezdefiniowany alias tclsh w CCU dla skryptu dutycycle.fn",
+                "zh-cn": "解决了由Dutycycle.fn脚本的CCU上未定义的tclsh别名引起的问题"
+            },
             "2.5.1": {
                 "en": "we no longer use adapter.objects directly",
                 "de": "Wir verwenden adapter.objects nicht mehr direkt",
@@ -170,18 +182,6 @@
                 "es": "buzón de mensajes implementado",
                 "pl": "zaimplementowano Messagebox",
                 "zh-cn": "消息框已实现"
-            },
-            "2.2.2": {
-                "en": "show correct number of service messages even if automatic checking is enabled",
-                "de": "Zeigt die korrekte Anzahl der Servicemeldungen an, auch wenn die automatische Bestätigung aktiviert ist",
-                "ru": "показывать правильное количество служебных сообщений, даже если включена автоматическая проверка",
-                "pt": "mostre o número correto de mensagens de serviço, mesmo se a verificação automática estiver ativada",
-                "nl": "toon het juiste aantal serviceberichten, zelfs als automatische controle is ingeschakeld",
-                "fr": "afficher le nombre correct de messages de service même si la vérification automatique est activée",
-                "it": "mostra il numero corretto di messaggi di servizio anche se il controllo automatico è abilitato",
-                "es": "muestre la cantidad correcta de mensajes de servicio incluso si la verificación automática está habilitada",
-                "pl": "pokaż poprawną liczbę komunikatów serwisowych, nawet jeśli włączone jest automatyczne sprawdzanie",
-                "zh-cn": "即使启用了自动检查，也会显示正确的服务消息数"
             }
         },
         "title": "HomeMatic ReGaHSS",
