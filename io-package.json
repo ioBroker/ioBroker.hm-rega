@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.5.2",
+        "version": "2.5.3",
         "news": {
+            "2.5.3": {
+                "en": "improved error handling in edge cases and more verbose logging on errors",
+                "de": "Verbesserte Fehlerbehandlung in Randfällen und ausführlichere Fehlerprotokollierung",
+                "ru": "улучшенная обработка ошибок в крайних случаях и более подробное ведение журнала ошибок",
+                "pt": "manipulação aprimorada de erros em casos extremos e registro mais detalhado de erros",
+                "nl": "verbeterde foutafhandeling in randgevallen en meer uitgebreide aanmeldfouten",
+                "fr": "gestion améliorée des erreurs dans les cas marginaux et journalisation plus détaillée des erreurs",
+                "it": "migliorata gestione degli errori nei casi limite e registrazione più dettagliata degli errori",
+                "es": "manejo mejorado de errores en casos extremos y registro más detallado de errores",
+                "pl": "poprawiona obsługa błędów w przypadkach skrajnych i bardziej szczegółowe rejestrowanie błędów",
+                "zh-cn": "改进了极端情况下的错误处理，并更详细地记录了错误"
+            },
             "2.5.2": {
                 "en": "fixed issue which originated by undefined tclsh alias on CCU for dutycycle.fn script",
                 "de": "Problem behoben, das durch undefinierten tclsh-Alias auf der CCU für das Skript dutycycle.fn verursacht wurde",
@@ -170,18 +182,6 @@
                 "es": "también unescape %0A (\\n) y quitó el salto de línea en el estado de la versión del firmware",
                 "pl": "również unescape %0A (\\n) i usunięto podział linii w stanie wersji oprogramowania",
                 "zh-cn": "unescape ％0A（\\n）并删除固件版本状态中的换行符"
-            },
-            "2.3.0": {
-                "en": "messagebox implemented",
-                "de": "Messagebox implementiert",
-                "ru": "ящик сообщений реализован",
-                "pt": "caixa de mensagem implementada",
-                "nl": "messagebox geïmplementeerd",
-                "fr": "boîte à message implémentée",
-                "it": "messagebox implementata",
-                "es": "buzón de mensajes implementado",
-                "pl": "zaimplementowano Messagebox",
-                "zh-cn": "消息框已实现"
             }
         },
         "title": "HomeMatic ReGaHSS",

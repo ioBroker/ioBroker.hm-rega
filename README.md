@@ -62,6 +62,9 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ## Changelog
+### 2.5.3 (2020-01-15)
+* (foxriver76) improved error handling in edge cases and more verbose logging on errors
+
 ### 2.5.2 (2019-12-29)
 * (foxriver76) fixed issue which originated by undefined tclsh alias on CCU for dutycycle.fn script
 
