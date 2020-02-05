@@ -249,9 +249,10 @@ function main() {
         adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.*_ALARM');
         checkInit(adapter.config.rfdAdapter);
     }
-    if (adapter.config.useHttps) {
+    // if port is default, we can assume that ssl port is default too
+    if (adapter.config.useHttps && (!adapter.config.homematicPort || adapter.config.homematicPort === 8181)) {
         adapter.config.homematicPort = 48181;
-    }
+    } // endIf
 
     rega = new Rega({
         ccuIp: adapter.config.homematicAddress,

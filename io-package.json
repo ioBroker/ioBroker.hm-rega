@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "2.5.3",
+        "version": "2.5.4",
         "news": {
+            "2.5.4": {
+                "en": "made port fully configurable also with https enabled",
+                "de": "Port auch mit aktiviertem https voll konfigurierbar gemacht",
+                "ru": "сделал порт полностью настраиваемым также с включенным https",
+                "pt": "porta totalmente configurável também com https ativado",
+                "nl": "poort volledig configureerbaar gemaakt, ook met https ingeschakeld",
+                "fr": "port entièrement configurable également avec https activé",
+                "it": "reso porta completamente configurabile anche con https abilitato",
+                "es": "puerto hecho totalmente configurable también con https habilitado",
+                "pl": "w pełni konfigurowalny port, także z włączonym https",
+                "zh-cn": "使端口完全可配置，同时启用https"
+            },
             "2.5.3": {
                 "en": "improved error handling in edge cases and more verbose logging on errors",
                 "de": "Verbesserte Fehlerbehandlung in Randfällen und ausführlichere Fehlerprotokollierung",
@@ -170,18 +182,6 @@
                 "es": "cuando ccu sysvar es nan lo reemplazamos por null",
                 "pl": "kiedy ccu sysvar jest nan, zastępujemy go wartością null",
                 "zh-cn": "当ccu sysvar是nan时，我们将其替换为null"
-            },
-            "2.3.1": {
-                "en": "also unescape %0A (\\n) and removed line break in firmware version state",
-                "de": "Unescape für %0A (\\n) und Zeilenumbruch im Status der Firmware-Version entfernt",
-                "ru": "также удалите %0A (\\n) и удалите разрыв строки в состоянии версии прошивки",
-                "pt": "também desativa %0A (\\n) e remove a quebra de linha no estado da versão do firmware",
-                "nl": "ontleed ook %0A (\\n) en verwijderde regelafbreking in firmwareversie",
-                "fr": "libère également %0A (\\n) et supprime la rupture de ligne dans l'état de la version du microprogramme",
-                "it": "anche unescape %0A (\\n) e interruzione di riga rimossa nello stato della versione del firmware",
-                "es": "también unescape %0A (\\n) y quitó el salto de línea en el estado de la versión del firmware",
-                "pl": "również unescape %0A (\\n) i usunięto podział linii w stanie wersji oprogramowania",
-                "zh-cn": "unescape ％0A（\\n）并删除固件版本状态中的换行符"
             }
         },
         "title": "HomeMatic ReGaHSS",
