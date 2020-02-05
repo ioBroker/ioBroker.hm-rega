@@ -62,7 +62,7 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ### My Rega API is running at another port than 8181 (HTTPS: 48181), can I use the adapter anyway?
-If you Rega API is running at a non default port (which should only happen in edge cases), we assume that you are familiar
+If your Rega API is running at a non default port (which should only happen in edge cases), we assume that you are familiar
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
