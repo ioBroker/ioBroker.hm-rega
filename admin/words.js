@@ -266,5 +266,17 @@ systemDictionary = {
         'it': 'Parola d\'ordine',
         'es': 'Contraseña',
         'pl': 'Hasło'
+    },
+    'Homematic WebUI Port': {
+        'en': 'WebUI Port',
+        'de': 'WebUI Port'
+    },
+    'Homematic Rega Port': {
+        'en': 'Rega.exe Port',
+        'de': 'Rega.exe Port'
+    },
+    'Set ports to default': {
+        'en': 'Set ports to default',
+        'de': 'Ports zurücksetzen'
     }
 };

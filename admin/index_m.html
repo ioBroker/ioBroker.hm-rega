@@ -16,6 +16,8 @@
     <script type="text/javascript">
         var adapterDefaults = {
             syncDutyCycle: false,
+            regaport : 8181,
+            webport : 8181,
             pollingIntervalDC: ''
         };
         var instances = null;
@@ -184,7 +186,7 @@
                     fillInstances('cuxdAdapter', arr, settings['homematicAddress'], settings['cuxdAdapter'], 'CUxD');
                     fillInstances('hmipAdapter', arr, settings['homematicAddress'], settings['hmipAdapter'], 'HMIP');
                     enableFields();
-
+                   
                     $('#homematicAddress').on('change', function () {
                         var ip = $(this).val();
                         fillInstances('rfdAdapter', arr, ip, settings['rfdAdapter'], 'rfd', true);
@@ -197,23 +199,25 @@
                     var $useHttps = $('#useHttps');
                     var $password = $('#password');
                     var $username = $('#username');
-
-                    if ($useHttps.prop('checked')) {
-                        $password.prop('disabled', false);
-                        $username.prop('disabled', false);
-                    } else {
-                        $password.prop('disabled', true);
-                        $username.prop('disabled', true);
-                    } // endElse
+                    var $regaport = $('#regaport');
+                    var $webport = $('#webport');
+                    var $btnportdefault = $('#btnportdefault');
 
                     $useHttps.change(function () {
-                        if ($(this).prop('checked')) {
-                            $password.prop('disabled', false);
-                            $username.prop('disabled', false);
-                        } else {
-                            $password.prop('disabled', true);
-                            $username.prop('disabled', true);
+                        $rPort = parseInt($regaport.val(), 10);
+                        $wPort = parseInt($webport.val(), 10);
+                        $checked = $(this).prop('checked');
+                        if(!isNaN($rPort) && ($rPort==8181 || $rPort==48181)) {
+                            $regaport.val( $rPort==8181 ? 48181 : 8181);
                         }
+                        if(!isNaN($wPort) && ($wPort==80 || $wPort==48181)) {
+                            $webport.val( $wPort==8181 ? 48181 : 8181);
+                        }
+                    });
+
+                    $btnportdefault.click(function() {
+                        $regaport.val( $checked = $useHttps.prop('checked') ? 48181 : 8181);
+                        $webport.val( $regaport.val() );
                     });
 
                     var $showInvSysVarDiv = $('#showInvSysVarDiv');
@@ -566,20 +570,33 @@
             </div>
         </div>
     </div>
-    <div id="tab-advanced"    class="col s12 page">
+    <div id="tab-advanced" class="col s12 page">
         <div class="row">
             <div class="input field col s12">
-                <input type="checkbox" id="useHttps" class="value"/>
+                <input type="checkbox" id="useHttps" class="value" />
                 <span for="useHttps"  class="translate">Use https</span>
             </div>
         </div>
         <div class="row">
+            <div class="input field col s12 m6 l4">
+                <input id="regaport" class="value" type="number" />
+                <span for="regaport"  class="translate">Homematic Rega Port</span>
+            </div>
+            <div class="input field col s12 m6 l4">
+                <input id="webport"  class="value" type="number" />
+                <span for="webport"  class="translate">Homematic WebUI Port</span>
+            </div>
+            <div class="input field col s12 m6 l4">
+                <button id="btnportdefault" class="btn translate">Set ports to default</button>
+            </div>
+        </div>
+        <div class="row">
             <div class="input-field col s12 m6 l4">
-                <input class="value" id="username" data-crypt="1" type="text" disabled>
+                <input class="value" id="username" data-crypt="1" type="text" />
                 <label for="username" class="translate">Username</label>
             </div>
             <div class="input-field col s12 m6 l4">
-                <input class="value" id="password" data-crypt="1" type="password" disabled>
+                <input class="value" id="password" data-crypt="1" type="password" />
                 <label for="password" class="translate">Password</label>
             </div>
         </div>

@@ -202,6 +202,8 @@ function checkInit(id) {
 }
 
 function main() {
+    adapter.log.debug("Using for UI: " + adapter.config.homematicAddress + ":" + adapter.config.webport);
+    adapter.log.debug("Using for Rega.exe: " + adapter.config.homematicAddress + ":" + adapter.config.regaport);
     adapter.config.reconnectionInterval = parseInt(adapter.config.reconnectionInterval, 10) || 30;
 
     if (adapter.config.pollingTrigger) {
@@ -249,13 +251,11 @@ function main() {
         adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.*_ALARM');
         checkInit(adapter.config.rfdAdapter);
     }
-    if (adapter.config.useHttps) {
-        adapter.config.homematicPort = 48181;
-    }
 
     rega = new Rega({
         ccuIp: adapter.config.homematicAddress,
-        port: adapter.config.homematicPort,
+        regaport: adapter.config.regaport,
+	    webport: adapter.config.webport,
         reconnectionInterval: adapter.config.reconnectionInterval,
         logger: adapter.log,
         secure: adapter.config.useHttps,
@@ -275,7 +275,16 @@ function main() {
 
             } else if (err === 'CCU unreachable') {
 
-                adapter.log.error('CCU ' + adapter.config.homematicAddress + ' unreachable');
+                adapter.log.error('CCU ' + adapter.config.homematicAddress + ' unreachable (web port wrong?)');
+                ccuReachable = false;
+                ccuRegaUp = false;
+                adapter.setState('info.connection', false, true);
+                adapter.setState('info.ccuReachable', ccuReachable, true);
+                adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
+
+            } else if (err === 'CCU rega.exe unreachable') {
+
+                adapter.log.error('CCU ' + adapter.config.homematicAddress + '/rega.exe unreachable (rega port wrong?)');
                 ccuReachable = false;
                 ccuRegaUp = false;
                 adapter.setState('info.connection', false, true);

@@ -23,7 +23,10 @@
 <script type="text/javascript">
 	var adapterDefaults = {
 		"syncDutyCycle": false,
-		"pollingIntervalDC": ''
+		"pollingIntervalDC": '',
+		"regaport": 8181,
+		"webport": 8181,
+
 	};
     var instances = null;
 
@@ -386,8 +389,16 @@
             <td class="translate">enum</td>
             <td><input type="text" size="30" id="enumFunctions" class="value"></td>
         </tr>
-
-
+        <tr class="row">
+            <td class="translate">Homematic WebUI Port</td>
+            <td class="translate">enabled</td>
+            <td colspan="3"><input id="webport" value="8181" class="value"></td>
+        </tr>
+        <tr class="row">
+            <td class="translate">Homematic Rega Port</td>
+            <td class="translate">enabled</td>
+            <td colspan="3"><input id="regaport" value="8181" class="value"></td>
+        </tr>
     </table>
 
 </div>
