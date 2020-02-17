@@ -1,330 +1,330 @@
 {
-    "common": {
-        "name": "hm-rega",
-        "version": "2.5.4",
-        "news": {
-            "2.5.4": {
-                "en": "made port fully configurable also with https enabled",
-                "de": "Port auch mit aktiviertem https voll konfigurierbar gemacht",
-                "ru": "сделал порт полностью настраиваемым также с включенным https",
-                "pt": "porta totalmente configurável também com https ativado",
-                "nl": "poort volledig configureerbaar gemaakt, ook met https ingeschakeld",
-                "fr": "port entièrement configurable également avec https activé",
-                "it": "reso porta completamente configurabile anche con https abilitato",
-                "es": "puerto hecho totalmente configurable también con https habilitado",
-                "pl": "w pełni konfigurowalny port, także z włączonym https",
-                "zh-cn": "使端口完全可配置，同时启用https"
-            },
-            "2.5.3": {
-                "en": "improved error handling in edge cases and more verbose logging on errors",
-                "de": "Verbesserte Fehlerbehandlung in Randfällen und ausführlichere Fehlerprotokollierung",
-                "ru": "улучшенная обработка ошибок в крайних случаях и более подробное ведение журнала ошибок",
-                "pt": "manipulação aprimorada de erros em casos extremos e registro mais detalhado de erros",
-                "nl": "verbeterde foutafhandeling in randgevallen en meer uitgebreide aanmeldfouten",
-                "fr": "gestion améliorée des erreurs dans les cas marginaux et journalisation plus détaillée des erreurs",
-                "it": "migliorata gestione degli errori nei casi limite e registrazione più dettagliata degli errori",
-                "es": "manejo mejorado de errores en casos extremos y registro más detallado de errores",
-                "pl": "poprawiona obsługa błędów w przypadkach skrajnych i bardziej szczegółowe rejestrowanie błędów",
-                "zh-cn": "改进了极端情况下的错误处理，并更详细地记录了错误"
-            },
-            "2.5.2": {
-                "en": "fixed issue which originated by undefined tclsh alias on CCU for dutycycle.fn script",
-                "de": "Problem behoben, das durch undefinierten tclsh-Alias auf der CCU für das Skript dutycycle.fn verursacht wurde",
-                "ru": "исправлена ошибка, возникшая из-за неопределенного псевдонима tclsh в CCU для сценария dutycycle.fn",
-                "pt": "Foi corrigido o problema que se originava do alias tclsh indefinido na CCU para o script dutycycle.fn",
-                "nl": "probleem opgelost dat is ontstaan door ongedefinieerde tclsh-alias op CCU voor dutycycle.fn-script",
-                "fr": "problème corrigé qui provenait d'un alias tclsh non défini sur CCU pour le script dutycycle.fn",
-                "it": "risolto problema originato da alias tclsh indefinito su CCU per lo script dutycycle.fn",
-                "es": "problema solucionado que se originó por el alias tclsh indefinido en CCU para el script dutycycle.fn",
-                "pl": "naprawiono problem, który powstał przez niezdefiniowany alias tclsh w CCU dla skryptu dutycycle.fn",
-                "zh-cn": "解决了由Dutycycle.fn脚本的CCU上未定义的tclsh别名引起的问题"
-            },
-            "2.5.1": {
-                "en": "we no longer use adapter.objects directly",
-                "de": "Wir verwenden adapter.objects nicht mehr direkt",
-                "ru": "мы больше не используем адаптер.объекты напрямую",
-                "pt": "não usamos mais o adapter.objects diretamente",
-                "nl": "we gebruiken adapter.objects niet langer rechtstreeks",
-                "fr": "nous n'utilisons plus directement adapter.objects",
-                "it": "non utilizziamo più adapter.objects direttamente",
-                "es": "ya no usamos adaptador.objetos directamente",
-                "pl": "nie używamy już bezpośrednio adapter.objects",
-                "zh-cn": "我们不再直接使用adapter.objects"
-            },
-            "2.4.12": {
-                "en": "fixed bug which lead to alarm counter showing number of service messages",
-                "de": "Fehler behoben, der dazu führte, dass der Alarmzähler die Anzahl der Servicemeldungen anzeigte",
-                "ru": "исправлена ошибка, приводившая к тому, что счетчик аварий отображал количество сервисных сообщений",
-                "pt": "bug corrigido que leva ao contador de alarmes mostrando o número de mensagens de serviço",
-                "nl": "fout opgelost die leidde tot alarmteller met aantal servicemeldingen",
-                "fr": "correction d'un bug qui conduisait au compteur d'alarmes indiquant le nombre de messages de service",
-                "it": "corretto bug che porta al contatore di allarmi che mostra il numero di messaggi di servizio",
-                "es": "error corregido que conduce al contador de alarma que muestra la cantidad de mensajes de servicio",
-                "pl": "naprawiony błąd prowadzący do licznika alarmów pokazującego liczbę komunikatów serwisowych",
-                "zh-cn": "修复了导致警报计数器显示服务消息数量的错误"
-            },
-            "2.4.10": {
-                "en": "we set enum name as translation object again",
-                "de": "wir setzen enum name wieder als übersetzungsobjekt",
-                "ru": "мы снова устанавливаем enum name как объект перевода",
-                "pt": "definimos o nome do enum como objeto de tradução novamente",
-                "nl": "we stellen de enum-naam opnieuw in als vertaalobject",
-                "fr": "nous mettons à nouveau le nom enum comme objet de traduction",
-                "it": "impostiamo nuovamente enum name come oggetto di traduzione",
-                "es": "configuramos el nombre de enumeración como objeto de traducción nuevamente",
-                "pl": "ustawiamy ponownie nazwę enum jako obiekt tłumaczenia",
-                "zh-cn": "我们再次将枚举名称设置为翻译对象"
-            },
-            "2.4.9": {
-                "en": "only automaticaly delete/synchronize hm-rpc objects from enums and minor fix for room sync",
-                "de": "nur automatisch löschen / synchronisieren von hm-rpc objekten aus enums und kleinere korrekturen für die raumsynchronisation",
-                "ru": "только автоматически удалять / синхронизировать объекты hm-rpc из перечислений и незначительное исправление для синхронизации помещения",
-                "pt": "somente exclua / sincronize automaticamente objetos hm-rpc de enumerações e pequenas correções para sincronização de ambiente",
-                "nl": "verwijder en synchroniseer alleen automatisch hm-rpc-objecten uit enums en een kleine correctie voor roomsynchronisatie",
-                "fr": "uniquement supprimer / synchroniser automatiquement les objets hm-rpc des enums et des correctifs mineurs pour la synchronisation de la pièce",
-                "it": "elimina / sincronizza automaticamente solo oggetti hm-rpc dagli enum e correzioni minori per la sincronizzazione della stanza",
-                "es": "solo elimina / sincroniza automáticamente objetos hm-rpc de enumeraciones y arreglos menores para la sincronización de sala",
-                "pl": "tylko automatycznie usuwają / synchronizują obiekty hm-rpc z wyliczeń i drobną poprawkę do synchronizacji pokoju",
-                "zh-cn": "只能自动删除/同步枚举中的hm-rpc对象和房间同步的小修复"
-            },
-            "2.4.7": {
-                "en": "fixed bug that prevented enums from getting correct name",
-                "de": "Fehler behoben, der verhinderte, dass Aufzählungen den richtigen Namen erhielten",
-                "ru": "исправлена ошибка, из-за которой перечисления не могли получить правильное имя",
-                "pt": "bug fixo que impedia enums de obter o nome correto",
-                "nl": "bug opgelost die verhinderde dat enums de juiste naam konden krijgen",
-                "fr": "correction d'un bug qui empêchait les enums d'obtenir le nom correct",
-                "it": "corretto bug che impediva agli enum di ottenere il nome corretto",
-                "es": "error corregido que impedía que las enumeraciones obtuvieran el nombre correcto",
-                "pl": "naprawiony błąd, który uniemożliwiał wyliczeniom uzyskanie poprawnej nazwy",
-                "zh-cn": "修复了阻止枚举获取正确名称的错误"
-            },
-            "2.4.6": {
-                "en": "we are now only deleting hm adapter objects from enums",
-                "de": "wir löschen jetzt nur noch hm adapter objekte aus enums",
-                "ru": "мы сейчас удаляем только объекты-адаптеры hm из перечислений",
-                "pt": "estamos agora apenas excluindo objetos adaptador hm de enums",
-                "nl": "we verwijderen nu alleen hm-adapterobjecten uit enums",
-                "fr": "nous ne faisons que supprimer les objets adaptateur hm des énumérations",
-                "it": "stiamo eliminando solo gli oggetti hm adapter dagli enum",
-                "es": "ahora solo estamos eliminando objetos adaptadores hm de enumeraciones",
-                "pl": "usuwamy teraz tylko obiekty adaptera hm z wyliczeń",
-                "zh-cn": "我们现在只从枚举中删除hm适配器对象"
-            },
-            "2.4.4": {
-                "en": "fixed enum sync and improved logging",
-                "de": "Enum Sync und verbesserte Protokollierung behoben",
-                "ru": "исправлена синхронизация перечислений и улучшено ведение журнала",
-                "pt": "sincronização fixa de enum e registro aprimorado",
-                "nl": "vaste enum-synchronisatie en verbeterde logboekregistratie",
-                "fr": "synchronisation enum fixe et journalisation améliorée",
-                "it": "sincronizzazione enum fissa e registrazione migliorata",
-                "es": "sincronización de enumeración fija y registro mejorado",
-                "pl": "poprawiona synchronizacja enum i ulepszone rejestrowanie",
-                "zh-cn": "固定枚举同步和改进的日志记录"
-            },
-            "2.4.2": {
-                "en": "fixed last changed time for alarm states",
-                "de": "Die letzte geänderte Zeit für Alarmzustände wurde behoben",
-                "ru": "фиксированное время последнего изменения состояний тревоги",
-                "pt": "fixo último horário alterado para estados de alarme",
-                "nl": "vaste laatst gewijzigde tijd voor alarmstatussen",
-                "fr": "correction du dernier changement d'heure pour les états d'alarme",
-                "it": "fisso l'ultimo orario modificato per gli stati di allarme",
-                "es": "Se fijó el último tiempo cambiado para los estados de alarma",
-                "pl": "naprawiono ostatnio zmieniony czas dla stanów alarmowych",
-                "zh-cn": "修复报警状态的最后更改时间"
-            },
-            "2.4.1": {
-                "en": "fixed bug where invisible variables where only synchronized at the start",
-                "de": "Fehler behoben, bei dem unsichtbare Variablen nur zu Beginn synchronisiert wurden",
-                "ru": "исправлена ошибка, когда невидимые переменные были синхронизированы только при запуске",
-                "pt": "Corrigido o erro onde as variáveis invisíveis onde apenas sincronizadas no início",
-                "nl": "bug gerepareerd waar onzichtbare variabelen alleen aan het begin gesynchroniseerd waren",
-                "fr": "bug corrigé où les variables invisibles n'étaient synchronisées qu'au début",
-                "it": "bug risolto in cui le variabili invisibili erano sincronizzate solo all'inizio",
-                "es": "error corregido donde las variables invisibles solo se sincronizaban al inicio",
-                "pl": "naprawiono błąd, w którym niewidzialne zmienne były synchronizowane tylko na początku",
-                "zh-cn": "修复了只在开始时同步的不可见变量的bug"
-            },
-            "2.4.0": {
-                "en": "added possibility to synchronize hidden variables",
-                "de": "Möglichkeit hinzugefügt, versteckte Variablen zu synchronisieren",
-                "ru": "добавлена возможность синхронизации скрытых переменных",
-                "pt": "Adicionada possibilidade de sincronizar variáveis ocultas",
-                "nl": "mogelijkheid toegevoegd om verborgen variabelen te synchroniseren",
-                "fr": "possibilité supplémentaire de synchroniser les variables cachées",
-                "it": "aggiunta possibilità di sincronizzare le variabili nascoste",
-                "es": "Posibilidad añadida de sincronizar variables ocultas.",
-                "pl": "dodano możliwość synchronizacji ukrytych zmiennych",
-                "zh-cn": "增加了同步隐藏变量的可能性"
-            },
-            "2.3.3": {
-                "en": "added more systeminfo states when syncing duty cycle",
-                "de": "Bei der Synchronisierung des Duty-Cycles wurden weitere Systeminfo-Zustände hinzugefügt",
-                "ru": "добавлено больше системных состояний при синхронизации рабочего цикла",
-                "pt": "adicionou mais estados systeminfo ao sincronizar o ciclo de serviço",
-                "nl": "meer systeeminfo-staten toegevoegd bij het synchroniseren van de taakcyclus",
-                "fr": "ajout de plusieurs états systeminfo lors de la synchronisation du cycle de travail",
-                "it": "aggiunto più stati di systeminfo durante la sincronizzazione del ciclo di lavoro",
-                "es": "añadido más estados de información del sistema cuando se sincroniza el ciclo de trabajo",
-                "pl": "dodano więcej stanów systeminfo podczas synchronizacji cyklu pracy",
-                "zh-cn": "在同步占空比时添加了更多的systeminfo状态"
-            },
-            "2.3.2": {
-                "en": "when ccu sysvar is nan we replace it by null",
-                "de": "Wenn ccu sysvar nan ist, ersetzen wir es durch null",
-                "ru": "когда ccu sysvar является nan, мы заменяем его на null",
-                "pt": "quando ccu sysvar é nan substituí-lo por nulo",
-                "nl": "wanneer ccu sysvar nan is, vervangen we deze door null",
-                "fr": "quand ccu sysvar est nan on le remplace par null",
-                "it": "quando ccu sysvar è nan, lo sostituiamo con null",
-                "es": "cuando ccu sysvar es nan lo reemplazamos por null",
-                "pl": "kiedy ccu sysvar jest nan, zastępujemy go wartością null",
-                "zh-cn": "当ccu sysvar是nan时，我们将其替换为null"
-            }
-        },
-        "title": "HomeMatic ReGaHSS",
-        "desc": {
-            "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
-            "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
-            "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker",
-            "pt": "Conecta o HomeMatic CCU \"Layer Lógica\" (\"ReGaHSS\") para ioBroker",
-            "nl": "Verbindt HomeMatic CCU \"Logic Layer\" (\"ReGaHSS \") met ioBroker",
-            "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
-            "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
-            "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
-            "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker"
-        },
-        "dependencies": [
-            "hm-rpc",
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
-        "authors": [
-            "hobbyquaker <hq@ccu.io>",
-            "bluefox <dogafox@gmail.com>",
-            "Moritz Heusinger <moritz.heusinger@gmail.com>"
-        ],
-        "license": "MIT",
-        "mode": "daemon",
-        "platform": "Javascript/Node.js",
-        "loglevel": "info",
-        "materialize": true,
-        "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
-        "icon": "homematic.png",
-        "compact": true,
-        "messagebox": true,
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
-        "keywords": [
-            "homematic",
-            "eq3",
-            "regahss",
-            "ccu1",
-            "ccu2"
-        ],
-        "localLink": "http://%homematicAddress%",
-        "type": "iot-systems",
-        "connectionType": "local",
-        "dataSource": "poll"
+  "common": {
+    "name": "hm-rega",
+    "version": "2.5.5",
+    "news": {
+      "2.5.5": {
+        "en": "logging of script name added, when script is still in pending queue",
+        "de": "Protokollierung des Skriptnamens hinzugefügt, wenn sich das Skript noch in der Warteschlange befindet",
+        "ru": "добавлено ведение журнала имени скрипта, когда скрипт еще находится в очереди",
+        "pt": "registro do nome do script adicionado, quando o script ainda está na fila pendente",
+        "nl": "logboekregistratie van scriptnaam toegevoegd, wanneer script nog in wachtrij staat",
+        "fr": "enregistrement du nom du script ajouté, lorsque le script est toujours dans la file d'attente",
+        "it": "registrazione del nome dello script aggiunto, quando lo script è ancora in coda in sospeso",
+        "es": "registro del nombre del script agregado, cuando el script aún está en la cola pendiente",
+        "pl": "dodano rejestrowanie nazwy skryptu, gdy skrypt jest nadal w kolejce",
+        "zh-cn": "当脚本仍在挂起队列中时，添加脚本名称的日志记录"
+      },
+      "2.5.4": {
+        "en": "made port fully configurable also with https enabled",
+        "de": "Port auch mit aktiviertem https voll konfigurierbar gemacht",
+        "ru": "сделал порт полностью настраиваемым также с включенным https",
+        "pt": "porta totalmente configurável também com https ativado",
+        "nl": "poort volledig configureerbaar gemaakt, ook met https ingeschakeld",
+        "fr": "port entièrement configurable également avec https activé",
+        "it": "reso porta completamente configurabile anche con https abilitato",
+        "es": "puerto hecho totalmente configurable también con https habilitado",
+        "pl": "w pełni konfigurowalny port, także z włączonym https",
+        "zh-cn": "使端口完全可配置，同时启用https"
+      },
+      "2.5.3": {
+        "en": "improved error handling in edge cases and more verbose logging on errors",
+        "de": "Verbesserte Fehlerbehandlung in Randfällen und ausführlichere Fehlerprotokollierung",
+        "ru": "улучшенная обработка ошибок в крайних случаях и более подробное ведение журнала ошибок",
+        "pt": "manipulação aprimorada de erros em casos extremos e registro mais detalhado de erros",
+        "nl": "verbeterde foutafhandeling in randgevallen en meer uitgebreide aanmeldfouten",
+        "fr": "gestion améliorée des erreurs dans les cas marginaux et journalisation plus détaillée des erreurs",
+        "it": "migliorata gestione degli errori nei casi limite e registrazione più dettagliata degli errori",
+        "es": "manejo mejorado de errores en casos extremos y registro más detallado de errores",
+        "pl": "poprawiona obsługa błędów w przypadkach skrajnych i bardziej szczegółowe rejestrowanie błędów",
+        "zh-cn": "改进了极端情况下的错误处理，并更详细地记录了错误"
+      },
+      "2.5.2": {
+        "en": "fixed issue which originated by undefined tclsh alias on CCU for dutycycle.fn script",
+        "de": "Problem behoben, das durch undefinierten tclsh-Alias auf der CCU für das Skript dutycycle.fn verursacht wurde",
+        "ru": "исправлена ошибка, возникшая из-за неопределенного псевдонима tclsh в CCU для сценария dutycycle.fn",
+        "pt": "Foi corrigido o problema que se originava do alias tclsh indefinido na CCU para o script dutycycle.fn",
+        "nl": "probleem opgelost dat is ontstaan door ongedefinieerde tclsh-alias op CCU voor dutycycle.fn-script",
+        "fr": "problème corrigé qui provenait d'un alias tclsh non défini sur CCU pour le script dutycycle.fn",
+        "it": "risolto problema originato da alias tclsh indefinito su CCU per lo script dutycycle.fn",
+        "es": "problema solucionado que se originó por el alias tclsh indefinido en CCU para el script dutycycle.fn",
+        "pl": "naprawiono problem, który powstał przez niezdefiniowany alias tclsh w CCU dla skryptu dutycycle.fn",
+        "zh-cn": "解决了由Dutycycle.fn脚本的CCU上未定义的tclsh别名引起的问题"
+      },
+      "2.5.1": {
+        "en": "we no longer use adapter.objects directly",
+        "de": "Wir verwenden adapter.objects nicht mehr direkt",
+        "ru": "мы больше не используем адаптер.объекты напрямую",
+        "pt": "não usamos mais o adapter.objects diretamente",
+        "nl": "we gebruiken adapter.objects niet langer rechtstreeks",
+        "fr": "nous n'utilisons plus directement adapter.objects",
+        "it": "non utilizziamo più adapter.objects direttamente",
+        "es": "ya no usamos adaptador.objetos directamente",
+        "pl": "nie używamy już bezpośrednio adapter.objects",
+        "zh-cn": "我们不再直接使用adapter.objects"
+      },
+      "2.4.12": {
+        "en": "fixed bug which lead to alarm counter showing number of service messages",
+        "de": "Fehler behoben, der dazu führte, dass der Alarmzähler die Anzahl der Servicemeldungen anzeigte",
+        "ru": "исправлена ошибка, приводившая к тому, что счетчик аварий отображал количество сервисных сообщений",
+        "pt": "bug corrigido que leva ao contador de alarmes mostrando o número de mensagens de serviço",
+        "nl": "fout opgelost die leidde tot alarmteller met aantal servicemeldingen",
+        "fr": "correction d'un bug qui conduisait au compteur d'alarmes indiquant le nombre de messages de service",
+        "it": "corretto bug che porta al contatore di allarmi che mostra il numero di messaggi di servizio",
+        "es": "error corregido que conduce al contador de alarma que muestra la cantidad de mensajes de servicio",
+        "pl": "naprawiony błąd prowadzący do licznika alarmów pokazującego liczbę komunikatów serwisowych",
+        "zh-cn": "修复了导致警报计数器显示服务消息数量的错误"
+      },
+      "2.4.10": {
+        "en": "we set enum name as translation object again",
+        "de": "wir setzen enum name wieder als übersetzungsobjekt",
+        "ru": "мы снова устанавливаем enum name как объект перевода",
+        "pt": "definimos o nome do enum como objeto de tradução novamente",
+        "nl": "we stellen de enum-naam opnieuw in als vertaalobject",
+        "fr": "nous mettons à nouveau le nom enum comme objet de traduction",
+        "it": "impostiamo nuovamente enum name come oggetto di traduzione",
+        "es": "configuramos el nombre de enumeración como objeto de traducción nuevamente",
+        "pl": "ustawiamy ponownie nazwę enum jako obiekt tłumaczenia",
+        "zh-cn": "我们再次将枚举名称设置为翻译对象"
+      },
+      "2.4.9": {
+        "en": "only automaticaly delete/synchronize hm-rpc objects from enums and minor fix for room sync",
+        "de": "nur automatisch löschen / synchronisieren von hm-rpc objekten aus enums und kleinere korrekturen für die raumsynchronisation",
+        "ru": "только автоматически удалять / синхронизировать объекты hm-rpc из перечислений и незначительное исправление для синхронизации помещения",
+        "pt": "somente exclua / sincronize automaticamente objetos hm-rpc de enumerações e pequenas correções para sincronização de ambiente",
+        "nl": "verwijder en synchroniseer alleen automatisch hm-rpc-objecten uit enums en een kleine correctie voor roomsynchronisatie",
+        "fr": "uniquement supprimer / synchroniser automatiquement les objets hm-rpc des enums et des correctifs mineurs pour la synchronisation de la pièce",
+        "it": "elimina / sincronizza automaticamente solo oggetti hm-rpc dagli enum e correzioni minori per la sincronizzazione della stanza",
+        "es": "solo elimina / sincroniza automáticamente objetos hm-rpc de enumeraciones y arreglos menores para la sincronización de sala",
+        "pl": "tylko automatycznie usuwają / synchronizują obiekty hm-rpc z wyliczeń i drobną poprawkę do synchronizacji pokoju",
+        "zh-cn": "只能自动删除/同步枚举中的hm-rpc对象和房间同步的小修复"
+      },
+      "2.4.7": {
+        "en": "fixed bug that prevented enums from getting correct name",
+        "de": "Fehler behoben, der verhinderte, dass Aufzählungen den richtigen Namen erhielten",
+        "ru": "исправлена ошибка, из-за которой перечисления не могли получить правильное имя",
+        "pt": "bug fixo que impedia enums de obter o nome correto",
+        "nl": "bug opgelost die verhinderde dat enums de juiste naam konden krijgen",
+        "fr": "correction d'un bug qui empêchait les enums d'obtenir le nom correct",
+        "it": "corretto bug che impediva agli enum di ottenere il nome corretto",
+        "es": "error corregido que impedía que las enumeraciones obtuvieran el nombre correcto",
+        "pl": "naprawiony błąd, który uniemożliwiał wyliczeniom uzyskanie poprawnej nazwy",
+        "zh-cn": "修复了阻止枚举获取正确名称的错误"
+      },
+      "2.4.6": {
+        "en": "we are now only deleting hm adapter objects from enums",
+        "de": "wir löschen jetzt nur noch hm adapter objekte aus enums",
+        "ru": "мы сейчас удаляем только объекты-адаптеры hm из перечислений",
+        "pt": "estamos agora apenas excluindo objetos adaptador hm de enums",
+        "nl": "we verwijderen nu alleen hm-adapterobjecten uit enums",
+        "fr": "nous ne faisons que supprimer les objets adaptateur hm des énumérations",
+        "it": "stiamo eliminando solo gli oggetti hm adapter dagli enum",
+        "es": "ahora solo estamos eliminando objetos adaptadores hm de enumeraciones",
+        "pl": "usuwamy teraz tylko obiekty adaptera hm z wyliczeń",
+        "zh-cn": "我们现在只从枚举中删除hm适配器对象"
+      },
+      "2.4.4": {
+        "en": "fixed enum sync and improved logging",
+        "de": "Enum Sync und verbesserte Protokollierung behoben",
+        "ru": "исправлена синхронизация перечислений и улучшено ведение журнала",
+        "pt": "sincronização fixa de enum e registro aprimorado",
+        "nl": "vaste enum-synchronisatie en verbeterde logboekregistratie",
+        "fr": "synchronisation enum fixe et journalisation améliorée",
+        "it": "sincronizzazione enum fissa e registrazione migliorata",
+        "es": "sincronización de enumeración fija y registro mejorado",
+        "pl": "poprawiona synchronizacja enum i ulepszone rejestrowanie",
+        "zh-cn": "固定枚举同步和改进的日志记录"
+      },
+      "2.4.2": {
+        "en": "fixed last changed time for alarm states",
+        "de": "Die letzte geänderte Zeit für Alarmzustände wurde behoben",
+        "ru": "фиксированное время последнего изменения состояний тревоги",
+        "pt": "fixo último horário alterado para estados de alarme",
+        "nl": "vaste laatst gewijzigde tijd voor alarmstatussen",
+        "fr": "correction du dernier changement d'heure pour les états d'alarme",
+        "it": "fisso l'ultimo orario modificato per gli stati di allarme",
+        "es": "Se fijó el último tiempo cambiado para los estados de alarma",
+        "pl": "naprawiono ostatnio zmieniony czas dla stanów alarmowych",
+        "zh-cn": "修复报警状态的最后更改时间"
+      },
+      "2.4.1": {
+        "en": "fixed bug where invisible variables where only synchronized at the start",
+        "de": "Fehler behoben, bei dem unsichtbare Variablen nur zu Beginn synchronisiert wurden",
+        "ru": "исправлена ошибка, когда невидимые переменные были синхронизированы только при запуске",
+        "pt": "Corrigido o erro onde as variáveis invisíveis onde apenas sincronizadas no início",
+        "nl": "bug gerepareerd waar onzichtbare variabelen alleen aan het begin gesynchroniseerd waren",
+        "fr": "bug corrigé où les variables invisibles n'étaient synchronisées qu'au début",
+        "it": "bug risolto in cui le variabili invisibili erano sincronizzate solo all'inizio",
+        "es": "error corregido donde las variables invisibles solo se sincronizaban al inicio",
+        "pl": "naprawiono błąd, w którym niewidzialne zmienne były synchronizowane tylko na początku",
+        "zh-cn": "修复了只在开始时同步的不可见变量的bug"
+      },
+      "2.4.0": {
+        "en": "added possibility to synchronize hidden variables",
+        "de": "Möglichkeit hinzugefügt, versteckte Variablen zu synchronisieren",
+        "ru": "добавлена возможность синхронизации скрытых переменных",
+        "pt": "Adicionada possibilidade de sincronizar variáveis ocultas",
+        "nl": "mogelijkheid toegevoegd om verborgen variabelen te synchroniseren",
+        "fr": "possibilité supplémentaire de synchroniser les variables cachées",
+        "it": "aggiunta possibilità di sincronizzare le variabili nascoste",
+        "es": "Posibilidad añadida de sincronizar variables ocultas.",
+        "pl": "dodano możliwość synchronizacji ukrytych zmiennych",
+        "zh-cn": "增加了同步隐藏变量的可能性"
+      },
+      "2.3.3": {
+        "en": "added more systeminfo states when syncing duty cycle",
+        "de": "Bei der Synchronisierung des Duty-Cycles wurden weitere Systeminfo-Zustände hinzugefügt",
+        "ru": "добавлено больше системных состояний при синхронизации рабочего цикла",
+        "pt": "adicionou mais estados systeminfo ao sincronizar o ciclo de serviço",
+        "nl": "meer systeeminfo-staten toegevoegd bij het synchroniseren van de taakcyclus",
+        "fr": "ajout de plusieurs états systeminfo lors de la synchronisation du cycle de travail",
+        "it": "aggiunto più stati di systeminfo durante la sincronizzazione del ciclo di lavoro",
+        "es": "añadido más estados de información del sistema cuando se sincroniza el ciclo de trabajo",
+        "pl": "dodano więcej stanów systeminfo podczas synchronizacji cyklu pracy",
+        "zh-cn": "在同步占空比时添加了更多的systeminfo状态"
+      }
     },
-    "native": {
-        "homematicAddress": "192.168.0.100",
-        "homematicPort": 8181,
-        "reconnectionInterval": 30,
-        "polling": true,
-        "pollingInterval": 30,
-        "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
-        "rfdEnabled": true,
-        "rfdAdapter": "hm-rpc.0",
-        "hs485denabled": false,
-        "hs485dAdapter": "hm-rpc.1",
-        "cuxdEnabled": false,
-        "cuxdAdapter": "hm-rpc.2",
-        "hmipEnabled": false,
-        "hmipAdapter": "hm-rpc.3",
-        "virtualDevicesEnabled": false,
-        "virtualDevicesAdapter": "hm-rpc.4",
-        "syncVariables": true,
-        "syncPrograms": true,
-        "syncNames": true,
-        "syncRooms": true,
-        "enumRooms": "enum.rooms",
-        "syncFunctions": true,
-        "enumFunctions": "enum.functions",
-        "syncFavorites": true,
-        "enumFavorites": "enum.favorites",
-        "username": "",
-        "password": "",
-        "useHttps": false,
-        "showInvSysVar": false
+    "title": "HomeMatic ReGaHSS",
+    "desc": {
+      "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
+      "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
+      "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker",
+      "pt": "Conecta o HomeMatic CCU \"Layer Lógica\" (\"ReGaHSS\") para ioBroker",
+      "nl": "Verbindt HomeMatic CCU \"Logic Layer\" (\"ReGaHSS \") met ioBroker",
+      "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
+      "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
+      "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
+      "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker"
     },
-    "protectedNative": [
-        "username",
-        "password"
+    "dependencies": [
+      "hm-rpc",
+      {
+        "js-controller": ">=2.0.0"
+      }
     ],
-    "objects": [
-        {
-            "_id": "_design/hm-rega",
-            "language": "javascript",
-            "views": {
-                "variables": {
-                    "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'ALARMDP' || doc.native.TypeName === 'VARDP')) {\n   emit(doc._id, doc);\n  }\n}"
-                },
-                "programs": {
-                    "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
-                }
-            }
-        }
+    "authors": [
+      "hobbyquaker <hq@ccu.io>",
+      "bluefox <dogafox@gmail.com>",
+      "Moritz Heusinger <moritz.heusinger@gmail.com>"
     ],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
+    "license": "MIT",
+    "mode": "daemon",
+    "platform": "Javascript/Node.js",
+    "loglevel": "info",
+    "materialize": true,
+    "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
+    "icon": "homematic.png",
+    "compact": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
+    "keywords": [
+      "homematic",
+      "eq3",
+      "regahss",
+      "ccu1",
+      "ccu2"
+    ],
+    "localLink": "http://%homematicAddress%",
+    "type": "iot-systems",
+    "connectionType": "local",
+    "dataSource": "poll"
+  },
+  "native": {
+    "homematicAddress": "192.168.0.100",
+    "homematicPort": 8181,
+    "reconnectionInterval": 30,
+    "polling": true,
+    "pollingInterval": 30,
+    "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
+    "rfdEnabled": true,
+    "rfdAdapter": "hm-rpc.0",
+    "hs485denabled": false,
+    "hs485dAdapter": "hm-rpc.1",
+    "cuxdEnabled": false,
+    "cuxdAdapter": "hm-rpc.2",
+    "hmipEnabled": false,
+    "hmipAdapter": "hm-rpc.3",
+    "virtualDevicesEnabled": false,
+    "virtualDevicesAdapter": "hm-rpc.4",
+    "syncVariables": true,
+    "syncPrograms": true,
+    "syncNames": true,
+    "syncRooms": true,
+    "enumRooms": "enum.rooms",
+    "syncFunctions": true,
+    "enumFunctions": "enum.functions",
+    "syncFavorites": true,
+    "enumFavorites": "enum.favorites",
+    "username": "",
+    "password": "",
+    "useHttps": false,
+    "showInvSysVar": false
+  },
+  "protectedNative": [
+    "username",
+    "password"
+  ],
+  "objects": [
+    {
+      "_id": "_design/hm-rega",
+      "language": "javascript",
+      "views": {
+        "variables": {
+          "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'ALARMDP' || doc.native.TypeName === 'VARDP')) {\n   emit(doc._id, doc);\n  }\n}"
         },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "If connected to CCU",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.ccuReachable",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "If connected to CCU on IP layer",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.ccuRegaUp",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "If rega is UP",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
+        "programs": {
+          "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
         }
-    ]
+      }
+    }
+  ],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If connected to CCU",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.ccuReachable",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If connected to CCU on IP layer",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.ccuRegaUp",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If rega is UP",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
