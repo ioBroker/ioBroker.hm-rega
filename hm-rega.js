@@ -30,9 +30,9 @@
 'use strict';
 const utils = require('@iobroker/adapter-core');
 const words = require('./lib/enumNames');
-const crypto = require(__dirname + '/lib/crypto'); // get cryptography functions
-const Rega = require(__dirname + '/lib/rega');
-const helper = require(__dirname + '/lib/utils');
+const crypto = require(`${__dirname}/lib/crypto`); // get cryptography functions
+const Rega = require(`${__dirname}/lib/rega`);
+const helper = require(`${__dirname}/lib/utils`);
 
 const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
@@ -46,9 +46,6 @@ function startAdapter(options) {
 
         name: adapterName,
 
-        objectChange: (id, obj) =>
-            adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj)),
-
         stateChange: (id, state) => {
             if (!state || state.ack) {
                 if (state && id === pollingTrigger) {
@@ -59,24 +56,24 @@ function startAdapter(options) {
                 setTimeout(acknowledgeAlarm, 100, id);
             } else
             // Read devices anew if hm-rpc updated the list of devices
-            if (id === adapter.config.rfdAdapter + '.updated' ||
-                id === adapter.config.virtualDevicesAdapter + '.updated' ||
-                id === adapter.config.cuxdAdapter + '.updated' ||
-                id === adapter.config.hmipAdapter + '.updated' ||
-                id === adapter.config.hs485dAdapter + '.updated') {
+            if (id === `${adapter.config.rfdAdapter}.updated` ||
+                id === `${adapter.config.virtualDevicesAdapter}.updated` ||
+                id === `${adapter.config.cuxdAdapter}.updated` ||
+                id === `${adapter.config.hmipAdapter}.updated` ||
+                id === `${adapter.config.hs485dAdapter}.updated`) {
                 if (state.val) {
                     setTimeout(() => getDevices(), 1000);
                     // Reset flag
                     adapter.setForeignState(id, false, true);
                 }
-            } else if (id === adapter.config.rfdAdapter + '.info.connection' ||
-                id === adapter.config.virtualDevicesAdapter + '.info.connection' ||
-                id === adapter.config.cuxdAdapter + '.info.connection' ||
-                id === adapter.config.hmipAdapter + '.info.connection' ||
-                id === adapter.config.hs485dAdapter + '.info.connection') {
+            } else if (id === `${adapter.config.rfdAdapter}.info.connection` ||
+                id === `${adapter.config.virtualDevicesAdapter}.info.connection` ||
+                id === `${adapter.config.cuxdAdapter}.info.connection` ||
+                id === `${adapter.config.hmipAdapter}.info.connection` ||
+                id === `${adapter.config.hs485dAdapter}.info.connection`) {
                 if (state.val) {
                     if (!afterReconnect) {
-                        adapter.log.debug('Connection of "' + id + '" detected. Read variables anew in 60 seconds');
+                        adapter.log.debug(`Connection of "${id}" detected. Read variables anew in 60 seconds`);
                         afterReconnect = setTimeout(() => {
                             afterReconnect = null;
                             if (adapter.config.syncVariables) getVariables();
@@ -84,37 +81,37 @@ function startAdapter(options) {
                     }
                 } else {
                     if (afterReconnect) {
-                        adapter.log.debug('Disconnection of "' + id + '" detected. Cancel read of variables');
+                        adapter.log.debug(`Disconnection of "${id}" detected. Cancel read of variables`);
                         clearTimeout(afterReconnect);
                         afterReconnect = null;
                     }
                 }
             } else {
-                adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+                adapter.log.debug(`stateChange ${id} ${JSON.stringify(state)}`);
 
                 const rid = id.split('.');
                 if (rid[3] === 'ProgramExecute') {
                     if (state.val) {
-                        adapter.log.debug('ProgramExecute ' + rid[2]);
+                        adapter.log.debug(`ProgramExecute ${rid[2]}`);
                         states[id] = {ack: false};
-                        rega.script('dom.GetObject(' + rid[2] + ').ProgramExecute();');
+                        rega.script(`dom.GetObject(${rid[2]}).ProgramExecute();`);
                     }
                 } else if (rid[3] === 'Active') {
-                    adapter.log.debug('Active ' + rid[2] + ' ' + state.val);
+                    adapter.log.debug(`Active ${rid[2]} ${state.val}`);
                     states[id] = {ack: false};
-                    rega.script('dom.GetObject(' + rid[2] + ').Active(' + JSON.stringify(state.val) + ')');
+                    rega.script(`dom.GetObject(${rid[2]}).Active(${JSON.stringify(state.val)})`);
                 } else {
                     if (rid[2] === 'alarms') rid[2] = 40;
                     if (rid[2] === 'maintenance') rid[2] = 41;
 
                     if (!states[id]) {
-                        if (!id.match(/\.updated$/)) adapter.log.warn('Got unexpected ID: ' + id);
+                        if (!id.match(/\.updated$/)) adapter.log.warn(`Got unexpected ID: ${id}`);
                         return;
                     }
 
-                    adapter.log.debug('Set state ' + rid[2] + ': ' + state.val);
+                    adapter.log.debug(`Set state ${rid[2]}: ${state.val}`);
                     states[id] = {ack: false};
-                    rega.script('dom.GetObject(' + rid[2] + ').State(' + JSON.stringify(state.val) + ')');
+                    rega.script(`dom.GetObject(${rid[2]}).State(${JSON.stringify(state.val)})`);
                 }
             }
         },
@@ -122,7 +119,7 @@ function startAdapter(options) {
         unload: stop,
 
         message: obj => {
-            adapter.log.debug('[MSSG] Received: ' + JSON.stringify(obj));
+            adapter.log.debug(`[MSSG] Received: ${JSON.stringify(obj)}`);
             if (ccuRegaUp) {
                 rega.script(obj.message, (data) => {
                     adapter.sendTo(obj.from, obj.command, {result: data, error: null}, obj.callback);
@@ -172,13 +169,13 @@ function _unescape(text) {
     try {
         return decodeURI(text);
     } catch (err) {
-        adapter.log.error('Cannot decode :' + text);
+        adapter.log.error(`Cannot decode :${text}`);
         return text;
     }
 }
 
 function checkInit(id) {
-    adapter.getForeignObject('system.adapter.' + id, (err, obj) => {
+    adapter.getForeignObject(`system.adapter.${id}`, (err, obj) => {
         if (obj && obj.native.checkInit && obj.native.checkInitTrigger) {
             const interval = parseInt(obj.native.checkInitInterval, 10);
 
@@ -192,8 +189,8 @@ function checkInit(id) {
                 checkInterval[id] = setInterval(() => {
                     if (rega) {
                         //BidCos-RF.BidCoS-RF:50.PRESS_LONG
-                        adapter.log.debug('Set check init state ' + _id + ' to true');
-                        rega.script('dom.GetObject("' + _id + '").State(1);');
+                        adapter.log.debug(`Set check init state ${_id} to true`);
+                        rega.script(`dom.GetObject("${_id}").State(1);`);
                     }
                 }, interval * 500);
             }
@@ -207,11 +204,11 @@ function main() {
     if (adapter.config.pollingTrigger) {
         adapter.config.pollingTrigger = adapter.config.pollingTrigger.replace(':', '.').replace(FORBIDDEN_CHARS, '_');
         if (adapter.config.pollingTrigger.match(/^BidCoS-RF/)) {
-            pollingTrigger = adapter.config.rfdAdapter + '.' + adapter.config.pollingTrigger;
+            pollingTrigger = `${adapter.config.rfdAdapter}.${adapter.config.pollingTrigger}`;
         } else {
-            pollingTrigger = adapter.config.hs485dAdapter + '.' + adapter.config.pollingTrigger;
+            pollingTrigger = `${adapter.config.hs485dAdapter}.${adapter.config.pollingTrigger}`;
         }
-        adapter.log.info('subscribe ' + pollingTrigger);
+        adapter.log.info(`subscribe ${pollingTrigger}`);
         adapter.subscribeForeignStates(pollingTrigger);
     }
 
@@ -220,33 +217,33 @@ function main() {
     adapter.subscribeObjects('*');
 
     if (adapter.config.rfdAdapter && adapter.config.rfdEnabled) {
-        adapter.subscribeForeignStates(adapter.config.rfdAdapter + '.updated');
-        adapter.subscribeForeignStates(adapter.config.rfdAdapter + '.info.connection');
-        adapter.subscribeForeignStates(adapter.config.rfdAdapter + '.*_ALARM');
+        adapter.subscribeForeignStates(`${adapter.config.rfdAdapter}.updated`);
+        adapter.subscribeForeignStates(`${adapter.config.rfdAdapter}.info.connection`);
+        adapter.subscribeForeignStates(`${adapter.config.rfdAdapter}.*_ALARM`);
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.cuxdAdapter && adapter.config.cuxdEnabled) {
-        adapter.subscribeForeignStates(adapter.config.cuxdAdapter + '.updated');
-        adapter.subscribeForeignStates(adapter.config.cuxdAdapter + '.info.connection');
-        adapter.subscribeForeignStates(adapter.config.cuxdAdapter + '.*_ALARM');
+        adapter.subscribeForeignStates(`${adapter.config.cuxdAdapter}.updated`);
+        adapter.subscribeForeignStates(`${adapter.config.cuxdAdapter}.info.connection`);
+        adapter.subscribeForeignStates(`${adapter.config.cuxdAdapter}.*_ALARM`);
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.hmipAdapter && adapter.config.hmipEnabled) {
-        adapter.subscribeForeignStates(adapter.config.hmipAdapter + '.updated');
-        adapter.subscribeForeignStates(adapter.config.hmipAdapter + '.info.connection');
-        adapter.subscribeForeignStates(adapter.config.hmipAdapter + '.*_ALARM');
+        adapter.subscribeForeignStates(`${adapter.config.hmipAdapter}.updated`);
+        adapter.subscribeForeignStates(`${adapter.config.hmipAdapter}.info.connection`);
+        adapter.subscribeForeignStates(`${adapter.config.hmipAdapter}.*_ALARM`);
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.hs485dAdapter && adapter.config.hs485dEnabled) {
-        adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.updated');
-        adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.info.connection');
-        adapter.subscribeForeignStates(adapter.config.hs485dAdapter + '.*_ALARM');
+        adapter.subscribeForeignStates(`${adapter.config.hs485dAdapter}.updated`);
+        adapter.subscribeForeignStates(`${adapter.config.hs485dAdapter}.info.connection`);
+        adapter.subscribeForeignStates(`${adapter.config.hs485dAdapter}.*_ALARM`);
         checkInit(adapter.config.rfdAdapter);
     }
     if (adapter.config.virtualDevicesAdapter && adapter.config.virtualDevicesEnabled) {
-        adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.updated');
-        adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.info.connection');
-        adapter.subscribeForeignStates(adapter.config.virtualDevicesAdapter + '.*_ALARM');
+        adapter.subscribeForeignStates(`${adapter.config.virtualDevicesAdapter}.updated`);
+        adapter.subscribeForeignStates(`${adapter.config.virtualDevicesAdapter}.info.connection`);
+        adapter.subscribeForeignStates(`${adapter.config.virtualDevicesAdapter}.*_ALARM`);
         checkInit(adapter.config.rfdAdapter);
     }
     // if port is default, we can assume that ssl port is default too
@@ -265,7 +262,7 @@ function main() {
 
         ready: (err) => {
 
-            if (err === 'ReGaHSS ' + adapter.config.homematicAddress + ' down') {
+            if (err === `ReGaHSS ${adapter.config.homematicAddress} down`) {
 
                 adapter.log.error('ReGaHSS down');
                 ccuReachable = true;
@@ -276,7 +273,7 @@ function main() {
 
             } else if (err === 'CCU unreachable') {
 
-                adapter.log.error('CCU ' + adapter.config.homematicAddress + ' unreachable');
+                adapter.log.error(`CCU ${adapter.config.homematicAddress} unreachable`);
                 ccuReachable = false;
                 ccuRegaUp = false;
                 adapter.setState('info.connection', false, true);
@@ -294,7 +291,7 @@ function main() {
 
             } else {
 
-                adapter.log.info('ReGaHSS ' + adapter.config.homematicAddress + ' up');
+                adapter.log.info(`ReGaHSS ${adapter.config.homematicAddress} up`);
                 ccuReachable = true;
                 ccuRegaUp = true;
                 adapter.setState('info.connection', true, true);
@@ -336,7 +333,7 @@ function pollVariables() {
             // CCU sometimes uses -inf or nan, we should handle them as null
             data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf|nan/g, null));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for polling: ' + data);
+            adapter.log.error(`Cannot parse answer for polling: ${data}`);
             return;
         }
         for (let id in data) {
@@ -357,7 +354,7 @@ function pollVariables() {
                 // If number of alarms changed
                 id = 'maintenance';
             }
-            const fullId = adapter.namespace + '.' + id;
+            const fullId = `${adapter.namespace}.${id}`;
 
             if ((id === 'maintenance') && (!states[fullId] || states[fullId].val !== val)) setTimeout(pollServiceMsgs, 1000);
 
@@ -383,12 +380,12 @@ function pollDutyCycle() {
                 return;
             } // endTryCatch
 
-            const ccuType = 'CCU' + sysInfo.ccuVersion.split('.')[0];
+            const ccuType = `CCU${sysInfo.ccuVersion.split('.')[0]}`;
 
             try {
                 data = JSON.parse(convertDataToJSON(data));
             } catch (e) {
-                adapter.log.error('Cannot parse answer for dutycycle: ' + data);
+                adapter.log.error(`Cannot parse answer for dutycycle: ${data}`);
                 return;
             }
 
@@ -401,73 +398,73 @@ function pollDutyCycle() {
 
                 // DUTY_CYCLE State:
                 if (data[dp].DUTY_CYCLE) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.DUTY_CYCLE', data[dp].DUTY_CYCLE);
-                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DUTY_CYCLE => ' + data[dp].DUTY_CYCLE);
+                    updateNewState(`${adapter.namespace}.${id}.0.DUTY_CYCLE`, data[dp].DUTY_CYCLE);
+                    adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DUTY_CYCLE => ${data[dp].DUTY_CYCLE}`);
                 }
 
                 // CONNECTED State:
                 if (data[dp].CONNECTED) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.CONNECTED', data[dp].CONNECTED);
-                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.CONNECTED => ' + data[dp].CONNECTED);
+                    updateNewState(`${adapter.namespace}.${id}.0.CONNECTED`, data[dp].CONNECTED);
+                    adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.CONNECTED => ${data[dp].CONNECTED}`);
                 }
 
                 // DEFAULT State:
                 if (data[dp].DEFAULT) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.DEFAULT', data[dp].DEFAULT);
-                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.DEFAULT => ' + data[dp].DEFAULT);
+                    updateNewState(`${adapter.namespace}.${id}.0.DEFAULT`, data[dp].DEFAULT);
+                    adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DEFAULT => ${data[dp].DEFAULT}`);
                 }
 
                 // FIRMWARE_VERSION State:
                 if (sysInfo.ccuVersion) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION', sysInfo.ccuVersion);
-                    adapter.log.debug('Dutycycle: ' + adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION => ' + sysInfo.ccuVersion);
+                    updateNewState(`${adapter.namespace}.${id}.0.FIRMWARE_VERSION`, sysInfo.ccuVersion);
+                    adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.FIRMWARE_VERSION => ${sysInfo.ccuVersion}`);
                 }
 
                 // Rega Version
                 if (sysInfo.regaVersion) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.regaVersion', sysInfo.regaVersion);
-                    adapter.log.debug('Rega Version: ' + adapter.namespace + '.' + id + '.0.regaVersion => ' + sysInfo.regaVersion);
+                    updateNewState(`${adapter.namespace}.${id}.0.regaVersion`, sysInfo.regaVersion);
+                    adapter.log.debug(`Rega Version: ${adapter.namespace}.${id}.0.regaVersion => ${sysInfo.regaVersion}`);
                 }
 
                 // Build Label Rega
                 if (sysInfo.buildLabel) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.buildLabel', sysInfo.buildLabel);
-                    adapter.log.debug('Build Label: ' + adapter.namespace + '.' + id + '.0.buildLabel => ' + sysInfo.buildLabel);
+                    updateNewState(`${adapter.namespace}.${id}.0.buildLabel`, sysInfo.buildLabel);
+                    adapter.log.debug(`Build Label: ${adapter.namespace}.${id}.0.buildLabel => ${sysInfo.buildLabel}`);
                 }
 
                 // Count Devices
                 if (sysInfo.countDevices) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.countDevices', sysInfo.countDevices);
-                    adapter.log.debug('Count Devices: ' + adapter.namespace + '.' + id + '.0.countDevices => ' + sysInfo.countDevices);
+                    updateNewState(`${adapter.namespace}.${id}.0.countDevices`, sysInfo.countDevices);
+                    adapter.log.debug(`Count Devices: ${adapter.namespace}.${id}.0.countDevices => ${sysInfo.countDevices}`);
                 }
 
                 // Count Channels
                 if (sysInfo.countChannels) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.countChannels', sysInfo.countChannels);
-                    adapter.log.debug('Count Channels: ' + adapter.namespace + '.' + id + '.0.countChannels => ' + sysInfo.countChannels);
+                    updateNewState(`${adapter.namespace}.${id}.0.countChannels`, sysInfo.countChannels);
+                    adapter.log.debug(`Count Channels: ${adapter.namespace}.${id}.0.countChannels => ${sysInfo.countChannels}`);
                 }
 
                 // Count Datapoints
                 if (sysInfo.countDatapoints) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.countDatapoints', sysInfo.countDatapoints);
-                    adapter.log.debug('Count Datapoints: ' + adapter.namespace + '.' + id + '.0.countDatapoints => ' + sysInfo.countDatapoints);
+                    updateNewState(`${adapter.namespace}.${id}.0.countDatapoints`, sysInfo.countDatapoints);
+                    adapter.log.debug(`Count Datapoints: ${adapter.namespace}.${id}.0.countDatapoints => ${sysInfo.countDatapoints}`);
                 }
 
                 // Count Programs
                 if (sysInfo.countPrograms) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.countPrograms', sysInfo.countPrograms);
-                    adapter.log.debug('Count Programs: ' + adapter.namespace + '.' + id + '.0.countPrograms => ' + sysInfo.countPrograms);
+                    updateNewState(`${adapter.namespace}.${id}.0.countPrograms`, sysInfo.countPrograms);
+                    adapter.log.debug(`Count Programs: ${adapter.namespace}.${id}.0.countPrograms => ${sysInfo.countPrograms}`);
                 }
 
                 // Count System Variables
                 if (sysInfo.countSystemVars) {
-                    updateNewState(adapter.namespace + '.' + id + '.0.countSystemVariables', sysInfo.countSystemVars);
-                    adapter.log.debug('Count System variables: ' + adapter.namespace + '.' + id + '.0.countSystemVariables => ' + sysInfo.countSystemVars);
+                    updateNewState(`${adapter.namespace}.${id}.0.countSystemVariables`, sysInfo.countSystemVars);
+                    adapter.log.debug(`Count System variables: ${adapter.namespace}.${id}.0.countSystemVariables => ${sysInfo.countSystemVars}`);
                 }
 
                 // CCU-Type - User can update e. g. Raspmatic w/o restarting adapter
                 const obj = {
-                    _id: adapter.namespace + '.' + id,
+                    _id: `${adapter.namespace}.${id}`,
                     type: 'device',
                     common: {
                         name: ccuType
@@ -493,7 +490,7 @@ function pollPrograms() {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for programs: ' + data);
+            adapter.log.error(`Cannot parse answer for programs: ${data}`);
             return;
         }
         for (const dp in data) {
@@ -502,7 +499,7 @@ function pollPrograms() {
             const id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
             const val = data[dp].Active;
 
-            const fullId = adapter.namespace + '.' + id + '.Active';
+            const fullId = `${adapter.namespace}.${id}.Active`;
             if (!states[fullId] ||
                 !states[fullId].ack ||
                 states[fullId].val !== val
@@ -523,7 +520,7 @@ function pollServiceMsgs() {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for alarms: ' + data);
+            adapter.log.error(`Cannot parse answer for alarms: ${data}`);
             return;
         }
         for (const dp in data) {
@@ -539,7 +536,7 @@ function pollServiceMsgs() {
                 continue;
             } // endTryCatch
 
-            id = instanceNumber + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
+            id = `${instanceNumber}.${id.replace(':', '.').replace(FORBIDDEN_CHARS, '_')}_ALARM`;
 
             const state = {
                 val: data[dp].AlState,
@@ -563,11 +560,11 @@ function pollServiceMsgs() {
 
 // Acknowledge Alarm
 function acknowledgeAlarm(id) {
-    adapter.log.debug('[INFO] Acknowledge alarm ' + id);
+    adapter.log.debug(`[INFO] Acknowledge alarm ${id}`);
     states[id] = {ack: false};
     adapter.getForeignObject(id, (err, obj) => {
         if (obj && obj.native) {
-            rega.script('dom.GetObject(' + obj.native.DP + ').AlReceipt();');
+            rega.script(`dom.GetObject(${obj.native.DP}).AlReceipt();`);
             setTimeout(pollServiceMsgs, 1000);
         }
     });
@@ -582,7 +579,7 @@ function getServiceMsgs() {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for alarms: ' + data);
+            adapter.log.error(`Cannot parse answer for alarms: ${data}`);
             return;
         }
         for (const dp in data) {
@@ -599,30 +596,13 @@ function getServiceMsgs() {
                 continue;
             } // endTryCatch
 
-            id = instanceNumber + '.' + id.replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '_ALARM';
-
-            const state = {
-                val: data[dp].AlState,
-                ack: true,
-                lc: new Date(data[dp].AlOccurrenceTime).getTime(),
-                ts: new Date(data[dp].LastTriggerTime).getTime()
-            };
-
-            if (!states[id] ||
-                !states[id].ack ||
-                states[id].val !== state.val ||
-                states[id].lc !== state.lc ||
-                states[id].ts !== state.ts
-            ) {
-                states[id] = state;
-                adapter.setForeignState(id, state);
-            }
+            id = `${instanceNumber}.${id.replace(':', '.').replace(FORBIDDEN_CHARS, '_')}_ALARM`;
 
             // create object if not created
             if (!objects[id]) {
                 objects[id] = true;
                 adapter.getForeignObject(id.substring(0, id.lastIndexOf('.')), (_err, _obj) => {
-                    const name = _obj && _obj.common && _obj.common.name ? _obj.common.name + '.' + id.split('.')[4] : id;
+                    const name = _obj && _obj.common && _obj.common.name ? `${_obj.common.name}.${id.split('.')[4]}` : id;
                     adapter.getForeignObject(id, (err, obj) => {
                         if (err || !obj || !obj.native || obj.native.DP !== dp || !obj.common || obj.common.type !== 'number') {
                             adapter.setForeignObject(id, {
@@ -649,15 +629,27 @@ function getServiceMsgs() {
                         }
                     });
                 });
-            }
-        }
+            } // endIf
+            const state = {
+                val: data[dp].AlState,
+                ack: true,
+                lc: new Date(data[dp].AlOccurrenceTime).getTime(),
+                ts: new Date(data[dp].LastTriggerTime).getTime()
+            };
+
+            if (!states[id] || !states[id].ack || states[id].val !== state.val ||
+                states[id].lc !== state.lc || states[id].ts !== state.ts) {
+                states[id] = state;
+                adapter.setForeignState(id, state);
+            } // endIf
+        } // endFor
     });
 }
 
 function getPrograms(callback) {
     adapter.getObjectView('hm-rega', 'programs', {
-        startkey: 'hm-rega.' + adapter.instance + '.',
-        endkey: 'hm-rega.' + adapter.instance + '.\u9999'
+        startkey: `hm-rega.${adapter.instance}.`,
+        endkey: `hm-rega.${adapter.instance}.\u9999`
     }, (err, doc) => {
 
         const response = [];
@@ -667,7 +659,7 @@ function getPrograms(callback) {
                 const id = row.value._id.split('.').pop();
                 response.push(id);
             } // endFor
-            adapter.log.info('got ' + doc.rows.length + ' programs');
+            adapter.log.info(`got ${doc.rows.length} programs`);
         } else {
             adapter.log.info('got 0 programs');
         } // endElse
@@ -676,7 +668,7 @@ function getPrograms(callback) {
             try {
                 data = JSON.parse(data.replace(/\n/gm, ''));
             } catch (e) {
-                adapter.log.error('Cannot parse answer for programs: ' + data);
+                adapter.log.error(`Cannot parse answer for programs: ${data}`);
                 return;
             }
             let count = 0;
@@ -686,7 +678,7 @@ function getPrograms(callback) {
 
                 id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
                 count += 1;
-                let fullId = adapter.namespace + '.' + id;
+                let fullId = `${adapter.namespace}.${id}`;
                 if (!objects[fullId]) {
                     objects[fullId] = true;
                     adapter.setForeignObject(fullId, {
@@ -705,14 +697,14 @@ function getPrograms(callback) {
 
                 const val = data[dp].Active;
 
-                fullId = adapter.namespace + '.' + id + '.ProgramExecute';
+                fullId = `${adapter.namespace}.${id}.ProgramExecute`;
 
                 if (!objects[fullId]) {
                     objects[fullId] = true;
                     adapter.extendForeignObject(fullId, {
                         type: 'state',
                         common: {
-                            name: _unescape(data[dp].Name) + ' execute',
+                            name: `${_unescape(data[dp].Name)} execute`,
                             type: 'boolean',
                             role: 'action.execute',
                             read: true,
@@ -730,13 +722,13 @@ function getPrograms(callback) {
                     adapter.setForeignState(fullId, states[fullId]);
                 }
 
-                fullId = adapter.namespace + '.' + id + '.Active';
+                fullId = `${adapter.namespace}.${id}.Active`;
                 if (!objects[fullId]) {
                     objects[fullId] = true;
                     adapter.extendForeignObject(fullId, {
                         type: 'state',
                         common: {
-                            name: _unescape(data[dp].Name) + ' enabled',
+                            name: `${_unescape(data[dp].Name)} enabled`,
                             type: 'boolean',
                             role: 'state.enabled',
                             read: true,
@@ -754,12 +746,12 @@ function getPrograms(callback) {
                 if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
             }
 
-            adapter.log.info('added/updated ' + count + ' programs');
+            adapter.log.info(`added/updated ${count} programs`);
 
             for (const entry of response) {
                 adapter.delObject(entry);
             }
-            adapter.log.info('deleted ' + response.length + ' programs');
+            adapter.log.info(`deleted ${response.length} programs`);
 
             if (typeof callback === 'function') callback();
         });
@@ -788,27 +780,27 @@ function getFunctions(callback) {
                 switch (memberObj.Interface) {
                     case 'BidCos-RF':
                         if (!adapter.config.rfdEnabled) continue;
-                        id = adapter.config.rfdAdapter + '.';
+                        id = `${adapter.config.rfdAdapter}.`;
                         break;
 
                     case 'BidCos-Wired':
                         if (!adapter.config.hs485dEnabled) continue;
-                        id = adapter.config.hs485dAdapter + '.';
+                        id = `${adapter.config.hs485dAdapter}.`;
                         break;
 
                     case 'CUxD':
                         if (!adapter.config.cuxdEnabled) continue;
-                        id = adapter.config.cuxdAdapter + '.';
+                        id = `${adapter.config.cuxdAdapter}.`;
                         break;
 
                     case 'HmIP-RF':
                         if (!adapter.config.hmipEnabled) continue;
-                        id = adapter.config.hmipAdapter + '.';
+                        id = `${adapter.config.hmipAdapter}.`;
                         break;
 
                     case 'VirtualDevices':
                         if (!adapter.config.virtualDevicesEnabled) continue;
-                        id = adapter.config.virtualDevicesAdapter + '.';
+                        id = `${adapter.config.virtualDevicesAdapter}.`;
                         break;
 
                     default:
@@ -887,12 +879,12 @@ function getFunctions(callback) {
 
 function getRooms(callback) {
     rega.runScriptFile('rooms', data => {
-        adapter.log.info('update rooms to ' + adapter.config.enumRooms);
+        adapter.log.info(`update rooms to ${adapter.config.enumRooms}`);
 
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for rooms: ' + data);
+            adapter.log.error(`Cannot parse answer for rooms: ${data}`);
             return;
         }
         // iterate over rooms
@@ -907,27 +899,27 @@ function getRooms(callback) {
             for (const memberObj of memberObjs) {
                 switch (memberObj.Interface) {
                     case 'BidCos-RF':
-                        id = adapter.config.rfdAdapter + '.';
+                        id = `${adapter.config.rfdAdapter}.`;
                         if (!adapter.config.rfdAdapter) continue;
                         break;
 
                     case 'BidCos-Wired':
-                        id = adapter.config.hs485dAdapter + '.';
+                        id = `${adapter.config.hs485dAdapter}.`;
                         if (!adapter.config.hs485dAdapter) continue;
                         break;
 
                     case 'CUxD':
-                        id = adapter.config.cuxdAdapter + '.';
+                        id = `${adapter.config.cuxdAdapter}.`;
                         if (!adapter.config.cuxdAdapter) continue;
                         break;
 
                     case 'HmIP-RF':
-                        id = adapter.config.hmipAdapter + '.';
+                        id = `${adapter.config.hmipAdapter}.`;
                         if (!adapter.config.hmipAdapter) continue;
                         break;
 
                     case 'VirtualDevices':
-                        id = adapter.config.virtualDevicesAdapter + '.';
+                        id = `${adapter.config.virtualDevicesAdapter}.`;
                         if (!adapter.config.virtualDevicesEnabled) continue;
                         break;
 
@@ -1006,12 +998,12 @@ function getRooms(callback) {
 
 function getFavorites(callback) {
     rega.runScriptFile('favorites', data => {
-        adapter.log.info('update favorites to ' + adapter.config.enumFavorites);
+        adapter.log.info(`update favorites to ${adapter.config.enumFavorites}`);
 
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for favorites: ' + data);
+            adapter.log.error(`Cannot parse answer for favorites: ${data}`);
             return;
         }
 
@@ -1027,10 +1019,10 @@ function getFavorites(callback) {
             if (!data.hasOwnProperty(user)) continue;
 
             user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
-            adapter.setForeignObject(adapter.config.enumFavorites + '.' + user, {
+            adapter.setForeignObject(`${adapter.config.enumFavorites}.${user}`, {
                 type: 'enum',
                 common: {
-                    name: user + ' Favorites'
+                    name: `${user} Favorites`
                 },
                 native: {}
             });
@@ -1043,28 +1035,28 @@ function getFavorites(callback) {
                 const members = [];
                 for (const channel of channels) {
                     if (typeof channel === 'number') {
-                        members.push(adapter.namespace + '.' + channel);
+                        members.push(`${adapter.namespace}.${channel}`);
                     } else {
                         let id;
                         switch (channel.Interface) {
                             case 'BidCos-RF':
-                                id = adapter.config.rfdAdapter + '.';
+                                id = `${adapter.config.rfdAdapter}.`;
                                 if (!adapter.config.rfdAdapter) continue;
                                 break;
                             case 'BidCos-Wired':
-                                id = adapter.config.hs485dAdapter + '.';
+                                id = `${adapter.config.hs485dAdapter}.`;
                                 if (!adapter.config.hs485dAdapter) continue;
                                 break;
                             case 'CUxD':
-                                id = adapter.config.cuxdAdapter + '.';
+                                id = `${adapter.config.cuxdAdapter}.`;
                                 if (!adapter.config.cuxdAdapter) continue;
                                 break;
                             case 'HmIP-RF':
-                                id = adapter.config.hmipAdapter + '.';
+                                id = `${adapter.config.hmipAdapter}.`;
                                 if (!adapter.config.hmipAdapter) continue;
                                 break;
                             case 'VirtualDevices':
-                                id = adapter.config.virtualDevicesAdapter + '.';
+                                id = `${adapter.config.virtualDevicesAdapter}.`;
                                 if (!adapter.config.virtualDevicesEnabled) continue;
                                 break;
                             default:
@@ -1131,8 +1123,8 @@ function getDatapoints(callback) {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            require('fs').writeFile(__dirname + '/hm-rega-log.log', data);
-            adapter.log.error('Cannot parse answer for datapoints: ' + data);
+            require('fs').writeFile(`${__dirname}/hm-rega-log.log`, data);
+            adapter.log.error(`Cannot parse answer for datapoints: ${data}`);
             return;
         }
         for (const dp in data) {
@@ -1144,33 +1136,33 @@ function getDatapoints(callback) {
             switch (tmp[0]) {
                 case 'BidCos-RF':
                     if (!adapter.config.rfdEnabled) continue;
-                    id = adapter.config.rfdAdapter + '.';
+                    id = `${adapter.config.rfdAdapter}.`;
                     break;
 
                 case 'BidCos-Wired':
                     if (!adapter.config.hs485dEnabled) continue;
-                    id = adapter.config.hs485dAdapter + '.';
+                    id = `${adapter.config.hs485dAdapter}.`;
                     break;
 
                 case 'CUxD':
                     if (!adapter.config.cuxdEnabled) continue;
-                    id = adapter.config.cuxdAdapter + '.';
+                    id = `${adapter.config.cuxdAdapter}.`;
                     break;
 
                 case 'HmIP-RF':
                     if (!adapter.config.hmipEnabled) continue;
-                    id = adapter.config.hmipAdapter + '.';
+                    id = `${adapter.config.hmipAdapter}.`;
                     break;
 
                 case 'VirtualDevices':
                     if (!adapter.config.virtualDevicesEnabled) continue;
-                    id = adapter.config.virtualDevicesAdapter + '.';
+                    id = `${adapter.config.virtualDevicesAdapter}.`;
                     break;
 
                 default:
                     continue;
             }
-            id += tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_') + '.' + tmp[2].replace(FORBIDDEN_CHARS, '_');
+            id += `${tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_')}.${tmp[2].replace(FORBIDDEN_CHARS, '_')}`;
 
             // convert dimmer and blinds
             if (typeof units[id] === 'object') {
@@ -1196,13 +1188,21 @@ function getDatapoints(callback) {
     });
 }
 
+/**
+ * Gets all devices, channels, states and rename them
+ * @param {string[]} devices
+ * @param {string[]} channels
+ * @param {string[]}_states
+ * @param {function} callback
+ * @private
+ */
 function _getDevicesFromRega(devices, channels, _states, callback) {
     // Get all devices channels and states
     rega.runScriptFile('devices', data => {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            adapter.log.error('Cannot parse answer for devices: ' + data);
+            adapter.log.error(`Cannot parse answer for devices: ${data}`);
             return;
         }
         const objs = [];
@@ -1213,27 +1213,27 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
             switch (data[addr].Interface) {
                 case 'BidCos-RF':
                     if (!adapter.config.rfdEnabled) continue;
-                    id = adapter.config.rfdAdapter + '.';
+                    id = `${adapter.config.rfdAdapter}.`;
                     break;
 
                 case 'BidCos-Wired':
                     if (!adapter.config.hs485dEnabled) continue;
-                    id = adapter.config.hs485dAdapter + '.';
+                    id = `${adapter.config.hs485dAdapter}.`;
                     break;
 
                 case 'CUxD':
                     if (!adapter.config.cuxdEnabled) continue;
-                    id = adapter.config.cuxdAdapter + '.';
+                    id = `${adapter.config.cuxdAdapter}.`;
                     break;
 
                 case 'HmIP-RF':
                     if (!adapter.config.hmipEnabled) continue;
-                    id = adapter.config.hmipAdapter + '.';
+                    id = `${adapter.config.hmipAdapter}.`;
                     break;
 
                 case 'VirtualDevices':
                     if (!adapter.config.virtualDevicesEnabled) continue;
-                    id = adapter.config.virtualDevicesAdapter + '.';
+                    id = `${adapter.config.virtualDevicesAdapter}.`;
                     break;
 
                 default:
@@ -1255,14 +1255,14 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
                     let dev = id.split('.');
                     const last = dev.pop();
                     dev = dev.join('.');
-                    if (devices[dev]) objs.push({_id: id, common: {name: devices[dev] + '.' + last}});
+                    if (devices[dev]) objs.push({_id: id, common: {name: `${devices[dev]}.${last}`}});
                 }
                 if (_states[id]) {
                     for (const s in _states[id]) {
                         if (!_states[id].hasOwnProperty(s)) continue;
-                        const stateName = name + '.' + s;
+                        const stateName = `${name}.${s}`;
                         if (!_states[id][s] || (_states[id][s] !== stateName && adapter.config.syncNames)) objs.push({
-                            _id: id + '.' + s,
+                            _id: `${id}.${s}`,
                             common: {name: stateName}
                         });
                     }
@@ -1273,7 +1273,7 @@ function _getDevicesFromRega(devices, channels, _states, callback) {
         function _queue() {
             if (objs.length > 0) {
                 const obj = objs.pop();
-                adapter.log.info('renamed ' + obj._id + ' to "' + obj.common.name + '"');
+                adapter.log.info(`renamed ${obj._id} to "${obj.common.name}"`);
                 adapter.extendForeignObject(obj._id, obj, () => {
                     setTimeout(_queue, 0);
                 });
@@ -1303,8 +1303,8 @@ function getDevices(callback) {
     function addStatesFromInstance(instance) {
         return new Promise(resolve => {
             adapter.getObjectView('system', 'device', {
-                startkey: instance + '.',
-                endkey: instance + '.\u9999'
+                startkey: `${instance}.`,
+                endkey: `${instance}.\u9999`
             }, (err, doc) => {
                 if (doc && doc.rows) {
                     for (const row of doc.rows) {
@@ -1312,8 +1312,8 @@ function getDevices(callback) {
                     }
                 }
                 adapter.getObjectView('system', 'channel', {
-                    startkey: instance + '.',
-                    endkey: instance + '.\u9999'
+                    startkey: `${instance}.`,
+                    endkey: `${instance}.\u9999`
                 }, (err, doc) => {
                     if (doc && doc.rows) {
                         for (const row of doc.rows) {
@@ -1321,8 +1321,8 @@ function getDevices(callback) {
                         }
                     }
                     adapter.getObjectView('system', 'state', {
-                        startkey: instance + '.',
-                        endkey: instance + '.\u9999'
+                        startkey: `${instance}.`,
+                        endkey: `${instance}.\u9999`
                     }, (err, doc) => {
                         if (doc && doc.rows) {
                             units = units || {};
@@ -1365,8 +1365,8 @@ function getVariables(callback) {
     };
 
     adapter.getObjectView('hm-rega', 'variables', {
-        startkey: 'hm-rega.' + adapter.instance + '.',
-        endkey: 'hm-rega.' + adapter.instance + '.\u9999'
+        startkey: `hm-rega.${adapter.instance}.`,
+        endkey: `hm-rega.${adapter.instance}.\u9999`
     }, (err, doc) => {
         const response = [];
 
@@ -1375,7 +1375,7 @@ function getVariables(callback) {
                 const id = row.value._id.split('.').pop();
                 response.push(id);
             }
-            adapter.log.info('got ' + doc.rows.length + ' variables');
+            adapter.log.info(`got ${doc.rows.length} variables`);
         } else {
             adapter.log.info('got 0 variables');
         }
@@ -1385,7 +1385,7 @@ function getVariables(callback) {
                 // CCU sometimes uses -inf or nan, we should handle them as null
                 data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf|nan/g, null));
             } catch (e) {
-                adapter.log.error('Cannot parse answer for variables: ' + data);
+                adapter.log.error(`Cannot parse answer for variables: ${data}`);
                 return;
             }
             let count = 0;
@@ -1399,7 +1399,7 @@ function getVariables(callback) {
                 const role = 'state';
 
                 const obj = {
-                    _id: adapter.namespace + '.' + id,
+                    _id: `${adapter.namespace}.${id}`,
                     type: 'state',
                     common: {
                         name: _unescape(data[dp].Name),
@@ -1445,12 +1445,12 @@ function getVariables(callback) {
 
                 if (id === '40') {
                     id = 'alarms';
-                    obj.role = 'indicator.' + id;
-                    obj._id = adapter.namespace + '.' + id;
+                    obj.role = `indicator.${id}`;
+                    obj._id = `${adapter.namespace}.${id}`;
                 } else if (id === '41') {
                     id = 'maintenance';
-                    obj.role = 'indicator.' + id;
-                    obj._id = adapter.namespace + '.' + id;
+                    obj.role = `indicator.${id}`;
+                    obj._id = `${adapter.namespace}.${id}`;
                 }
                 const fullId = obj._id;
 
@@ -1468,12 +1468,12 @@ function getVariables(callback) {
                 if (response.indexOf(id) !== -1) response.splice(response.indexOf(id), 1);
             }
 
-            adapter.log.info('added/updated ' + count + ' variables');
+            adapter.log.info(`added/updated ${count} variables`);
 
             for (const entry of response) {
                 adapter.delObject(entry);
             }
-            adapter.log.info('deleted ' + response.length + ' variables');
+            adapter.log.info(`deleted ${response.length} variables`);
 
             if (adapter.config.polling && adapter.config.pollingInterval > 0) {
                 if (!pollingInterval && (adapter.config.syncVariables || adapter.config.syncPrograms)) {
@@ -1496,7 +1496,7 @@ function getDutyCycle(callback) {
             try {
                 data = JSON.parse(convertDataToJSON(data));
             } catch (e) {
-                adapter.log.error('Cannot parse answer for dutycycle: ' + data);
+                adapter.log.error(`Cannot parse answer for dutycycle: ${data}`);
                 return;
             }
             let count = 0;
@@ -1506,7 +1506,7 @@ function getDutyCycle(callback) {
             } catch (e) {
                 adapter.log.error(`Cannot parse system info: ${sysInfo}`);
             } // endTryCatch
-            const ccuType = 'CCU' + sysInfo.ccuVersion.split('.')[0];
+            const ccuType = `CCU${sysInfo.ccuVersion.split('.')[0]}`;
 
             for (const dp in data) {
                 if (!data.hasOwnProperty(dp)) {
@@ -1516,7 +1516,7 @@ function getDutyCycle(callback) {
                 count += 1;
 
                 const obj = {
-                    _id: adapter.namespace + '.' + id,
+                    _id: `${adapter.namespace}.${id}`,
                     type: 'device',
                     common: {
                         name: ccuType
@@ -1535,10 +1535,10 @@ function getDutyCycle(callback) {
                 //DUTY_CYCLE State:
                 if (data[dp].DUTY_CYCLE) {
                     const stateDutycycle = {
-                        _id: adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
+                        _id: `${adapter.namespace}.${id}.0.DUTY_CYCLE`,
                         type: 'state',
                         common: {
-                            name: adapter.namespace + '.' + id + '.0.DUTY_CYCLE',
+                            name: `${adapter.namespace}.${id}.0.DUTY_CYCLE`,
                             type: 'number',
                             read: true,
                             write: false,
@@ -1564,10 +1564,10 @@ function getDutyCycle(callback) {
                 //CONNECTED State:
                 if (data[dp].CONNECTED) {
                     const stateConnected = {
-                        _id: adapter.namespace + '.' + id + '.0.CONNECTED',
+                        _id: `${adapter.namespace}.${id}.0.CONNECTED`,
                         type: 'state',
                         common: {
-                            name: adapter.namespace + '.' + id + '.0.CONNECTED',
+                            name: `${adapter.namespace}.${id}.0.CONNECTED`,
                             type: 'boolean',
                             read: true,
                             write: false,
@@ -1587,10 +1587,10 @@ function getDutyCycle(callback) {
                 //DEFAULT State:
                 if (data[dp].DEFAULT) {
                     const stateDefault = {
-                        _id: adapter.namespace + '.' + id + '.0.DEFAULT',
+                        _id: `${adapter.namespace}.${id}.0.DEFAULT`,
                         type: 'state',
                         common: {
-                            name: adapter.namespace + '.' + id + '.0.DEFAULT',
+                            name: `${adapter.namespace}.${id}.0.DEFAULT`,
                             type: 'boolean',
                             read: true,
                             write: false,
@@ -1612,10 +1612,10 @@ function getDutyCycle(callback) {
             // FIRMWARE_VERSION State:
             if (sysInfo.ccuVersion) {
                 const stateFirmware = {
-                    _id: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                    _id: `${adapter.namespace}.${id}.0.FIRMWARE_VERSION`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.FIRMWARE_VERSION',
+                        name: `${adapter.namespace}.${id}.0.FIRMWARE_VERSION`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1635,10 +1635,10 @@ function getDutyCycle(callback) {
             // ReGaHss-Version
             if (sysInfo.regaVersion) {
                 const regaVersion = {
-                    _id: adapter.namespace + '.' + id + '.0.regaVersion',
+                    _id: `${adapter.namespace}.${id}.0.regaVersion`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.regaVersion',
+                        name: `${adapter.namespace}.${id}.0.regaVersion`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1653,10 +1653,10 @@ function getDutyCycle(callback) {
             // Number of devices
             if (sysInfo.countDevices) {
                 const countDevices = {
-                    _id: adapter.namespace + '.' + id + '.0.countDevices',
+                    _id: `${adapter.namespace}.${id}.0.countDevices`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.countDevices',
+                        name: `${adapter.namespace}.${id}.0.countDevices`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1671,10 +1671,10 @@ function getDutyCycle(callback) {
             // Rega Build Label
             if (sysInfo.buildLabel) {
                 const buildLabel = {
-                    _id: adapter.namespace + '.' + id + '.0.buildLabel',
+                    _id: `${adapter.namespace}.${id}.0.buildLabel`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.buildLabel',
+                        name: `${adapter.namespace}.${id}.0.buildLabel`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1689,10 +1689,10 @@ function getDutyCycle(callback) {
             // Number of channels
             if (sysInfo.countChannels) {
                 const countChannels = {
-                    _id: adapter.namespace + '.' + id + '.0.countChannels',
+                    _id: `${adapter.namespace}.${id}.0.countChannels`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.countChannels',
+                        name: `${adapter.namespace}.${id}.0.countChannels`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1707,10 +1707,10 @@ function getDutyCycle(callback) {
             // Number of datapoints
             if (sysInfo.countDatapoints) {
                 const countDatapoints = {
-                    _id: adapter.namespace + '.' + id + '.0.countDatapoints',
+                    _id: `${adapter.namespace}.${id}.0.countDatapoints`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.countDatapoints',
+                        name: `${adapter.namespace}.${id}.0.countDatapoints`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1725,10 +1725,10 @@ function getDutyCycle(callback) {
             // Number of datapoints
             if (sysInfo.countSystemVars) {
                 const countSysVars = {
-                    _id: adapter.namespace + '.' + id + '.0.countSystemVariables',
+                    _id: `${adapter.namespace}.${id}.0.countSystemVariables`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.countSystemVariables',
+                        name: `${adapter.namespace}.${id}.0.countSystemVariables`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1743,10 +1743,10 @@ function getDutyCycle(callback) {
             // Number of programs
             if (sysInfo.countPrograms) {
                 const countPrograms = {
-                    _id: adapter.namespace + '.' + id + '.0.countPrograms',
+                    _id: `${adapter.namespace}.${id}.0.countPrograms`,
                     type: 'state',
                     common: {
-                        name: adapter.namespace + '.' + id + '.0.countPrograms',
+                        name: `${adapter.namespace}.${id}.0.countPrograms`,
                         type: 'string',
                         read: true,
                         write: false,
@@ -1758,7 +1758,7 @@ function getDutyCycle(callback) {
                 addNewStateOrObject(countPrograms, sysInfo.countPrograms);
             }
 
-            adapter.log.info('added/updated ' + count + ' objects');
+            adapter.log.info(`added/updated ${count} objects`);
 
             if (adapter.config.syncDutyCycle && adapter.config.pollingIntervalDC > 0) {
                 if (!pollingIntervalDC) {
