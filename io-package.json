@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.5.5",
+    "version": "2.5.6",
     "news": {
+      "2.5.6": {
+        "en": "fixed problem with never triggered `end` events",
+        "de": "Problem mit nie ausgelösten \"End\" -Ereignissen behoben",
+        "ru": "исправлена проблема с никогда не запускаемыми событиями `end`",
+        "pt": "problema corrigido com eventos `end` nunca disparados",
+        "nl": "probleem opgelost met nooit geactiveerde `end` events",
+        "fr": "problème résolu avec les événements de fin qui n'ont jamais été déclenchés",
+        "it": "risolto problema con eventi `end` mai attivati",
+        "es": "problema solucionado con eventos `end` nunca activados",
+        "pl": "naprawiono problem z nigdy nie wyzwalanymi zdarzeniami końca",
+        "zh-cn": "修复了永不触发`end`事件的问题"
+      },
       "2.5.5": {
         "en": "logging of script name added, when script is still in pending queue",
         "de": "Protokollierung des Skriptnamens hinzugefügt, wenn sich das Skript noch in der Warteschlange befindet",
@@ -170,18 +182,6 @@
         "es": "Posibilidad añadida de sincronizar variables ocultas.",
         "pl": "dodano możliwość synchronizacji ukrytych zmiennych",
         "zh-cn": "增加了同步隐藏变量的可能性"
-      },
-      "2.3.3": {
-        "en": "added more systeminfo states when syncing duty cycle",
-        "de": "Bei der Synchronisierung des Duty-Cycles wurden weitere Systeminfo-Zustände hinzugefügt",
-        "ru": "добавлено больше системных состояний при синхронизации рабочего цикла",
-        "pt": "adicionou mais estados systeminfo ao sincronizar o ciclo de serviço",
-        "nl": "meer systeeminfo-staten toegevoegd bij het synchroniseren van de taakcyclus",
-        "fr": "ajout de plusieurs états systeminfo lors de la synchronisation du cycle de travail",
-        "it": "aggiunto più stati di systeminfo durante la sincronizzazione del ciclo di lavoro",
-        "es": "añadido más estados de información del sistema cuando se sincroniza el ciclo de trabajo",
-        "pl": "dodano więcej stanów systeminfo podczas synchronizacji cyklu pracy",
-        "zh-cn": "在同步占空比时添加了更多的systeminfo状态"
       }
     },
     "title": "HomeMatic ReGaHSS",
