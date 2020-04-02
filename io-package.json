@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.5.6",
+    "version": "2.6.0",
     "news": {
+      "2.6.0": {
+        "en": "added Sentry plugin support",
+        "de": "Unterstützung für Sentry-Plugins hinzugefügt",
+        "ru": "добавлена поддержка плагинов Sentry",
+        "pt": "adicionado suporte ao plugin Sentry",
+        "nl": "ondersteuning voor Sentry-plug-ins toegevoegd",
+        "fr": "ajout du support du plugin Sentry",
+        "it": "aggiunto il supporto del plugin Sentry",
+        "es": "Se agregó soporte para el complemento Sentry",
+        "pl": "dodano obsługę wtyczek Sentry",
+        "zh-cn": "添加了Sentry插件支持"
+      },
       "2.5.6": {
         "en": "fixed problem with never triggered `end` events",
         "de": "Problem mit nie ausgelösten \"End\" -Ereignissen behoben",
@@ -158,30 +170,6 @@
         "es": "Se fijó el último tiempo cambiado para los estados de alarma",
         "pl": "naprawiono ostatnio zmieniony czas dla stanów alarmowych",
         "zh-cn": "修复报警状态的最后更改时间"
-      },
-      "2.4.1": {
-        "en": "fixed bug where invisible variables where only synchronized at the start",
-        "de": "Fehler behoben, bei dem unsichtbare Variablen nur zu Beginn synchronisiert wurden",
-        "ru": "исправлена ошибка, когда невидимые переменные были синхронизированы только при запуске",
-        "pt": "Corrigido o erro onde as variáveis invisíveis onde apenas sincronizadas no início",
-        "nl": "bug gerepareerd waar onzichtbare variabelen alleen aan het begin gesynchroniseerd waren",
-        "fr": "bug corrigé où les variables invisibles n'étaient synchronisées qu'au début",
-        "it": "bug risolto in cui le variabili invisibili erano sincronizzate solo all'inizio",
-        "es": "error corregido donde las variables invisibles solo se sincronizaban al inicio",
-        "pl": "naprawiono błąd, w którym niewidzialne zmienne były synchronizowane tylko na początku",
-        "zh-cn": "修复了只在开始时同步的不可见变量的bug"
-      },
-      "2.4.0": {
-        "en": "added possibility to synchronize hidden variables",
-        "de": "Möglichkeit hinzugefügt, versteckte Variablen zu synchronisieren",
-        "ru": "добавлена возможность синхронизации скрытых переменных",
-        "pt": "Adicionada possibilidade de sincronizar variáveis ocultas",
-        "nl": "mogelijkheid toegevoegd om verborgen variabelen te synchroniseren",
-        "fr": "possibilité supplémentaire de synchroniser les variables cachées",
-        "it": "aggiunta possibilità di sincronizzare le variabili nascoste",
-        "es": "Posibilidad añadida de sincronizar variables ocultas.",
-        "pl": "dodano możliwość synchronizacji ukrytych zmiennych",
-        "zh-cn": "增加了同步隐藏变量的可能性"
       }
     },
     "title": "HomeMatic ReGaHSS",
@@ -227,7 +215,14 @@
     "localLink": "http://%homematicAddress%",
     "type": "iot-systems",
     "connectionType": "local",
-    "dataSource": "poll"
+    "dataSource": "poll",
+    "plugins": {
+      "sentry": {
+        "dsn": "https://08c0b6d9b71c43cc91e9705877681085@sentry.iobroker.net/11",
+        "pathWhitelist": [],
+        "errorBlacklist": ["SyntaxError"]
+      }
+    }
   },
   "native": {
     "homematicAddress": "192.168.0.100",
