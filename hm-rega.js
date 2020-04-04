@@ -54,13 +54,12 @@ function startAdapter(options) {
                 }
             } else if (id.match(/_ALARM$/)) {
                 setTimeout(acknowledgeAlarm, 100, id);
-            } else
-            // Read devices anew if hm-rpc updated the list of devices
-            if (id === `${adapter.config.rfdAdapter}.updated` ||
+            } else if (id === `${adapter.config.rfdAdapter}.updated` ||
                 id === `${adapter.config.virtualDevicesAdapter}.updated` ||
                 id === `${adapter.config.cuxdAdapter}.updated` ||
                 id === `${adapter.config.hmipAdapter}.updated` ||
                 id === `${adapter.config.hs485dAdapter}.updated`) {
+                // Read devices anew if hm-rpc updated the list of devices
                 if (state.val) {
                     setTimeout(() => getDevices(), 1000);
                     // Reset flag
@@ -104,7 +103,7 @@ function startAdapter(options) {
                     if (rid[2] === 'alarms') rid[2] = 40;
                     if (rid[2] === 'maintenance') rid[2] = 41;
 
-                    if (!states[id]) {
+                    if (!states[id] && id !== pollingTrigger) {
                         if (!id.match(/\.updated$/)) adapter.log.warn(`Got unexpected ID: ${id}`);
                         return;
                     }

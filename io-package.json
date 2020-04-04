@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.0",
+    "version": "2.6.1",
     "news": {
-      "2.6.0": {
+      "2.6.1": {
         "en": "added Sentry plugin support",
         "de": "Unterstützung für Sentry-Plugins hinzugefügt",
         "ru": "добавлена поддержка плагинов Sentry",
@@ -14,18 +14,6 @@
         "es": "Se agregó soporte para el complemento Sentry",
         "pl": "dodano obsługę wtyczek Sentry",
         "zh-cn": "添加了Sentry插件支持"
-      },
-      "2.5.6": {
-        "en": "fixed problem with never triggered `end` events",
-        "de": "Problem mit nie ausgelösten \"End\" -Ereignissen behoben",
-        "ru": "исправлена проблема с никогда не запускаемыми событиями `end`",
-        "pt": "problema corrigido com eventos `end` nunca disparados",
-        "nl": "probleem opgelost met nooit geactiveerde `end` events",
-        "fr": "problème résolu avec les événements de fin qui n'ont jamais été déclenchés",
-        "it": "risolto problema con eventi `end` mai attivati",
-        "es": "problema solucionado con eventos `end` nunca activados",
-        "pl": "naprawiono problem z nigdy nie wyzwalanymi zdarzeniami końca",
-        "zh-cn": "修复了永不触发`end`事件的问题"
       },
       "2.5.5": {
         "en": "logging of script name added, when script is still in pending queue",
