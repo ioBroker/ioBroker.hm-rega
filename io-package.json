@@ -204,6 +204,7 @@
     "icon": "homematic.png",
     "compact": true,
     "messagebox": true,
+    "stopBeforeUpdate": true,
     "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
     "keywords": [
       "homematic",
