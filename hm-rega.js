@@ -475,7 +475,7 @@ function pollDutyCycle() {
                 };
 
                 adapter.getObject(obj._id, (err, _obj) => {
-                    if (err || (obj.native.name !== _obj.native.name)) adapter.extendForeignObject(obj._id, obj);
+                    if (err || !_obj || !_obj.common || (obj.common.name !== _obj.common.name)) adapter.extendForeignObject(obj._id, obj);
                 });
 
             }
