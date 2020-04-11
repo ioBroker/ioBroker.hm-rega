@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.1",
+    "version": "2.6.2",
     "news": {
+      "2.6.2": {
+        "en": "minor fix on CCU object",
+        "de": "kleinere Korrektur am CCU-Objekt",
+        "ru": "мелкое исправление на объекте CCU",
+        "pt": "correção menor no objeto CCU",
+        "nl": "kleine correctie op CCU-object",
+        "fr": "correction mineure sur un objet CCU",
+        "it": "correzione minore sull'oggetto CCU",
+        "es": "corrección menor en objeto CCU",
+        "pl": "drobna poprawka na obiekcie CCU",
+        "zh-cn": "对CCU对象的次要修复"
+      },
       "2.6.1": {
         "en": "added Sentry plugin support",
         "de": "Unterstützung für Sentry-Plugins hinzugefügt",
@@ -146,18 +158,6 @@
         "es": "sincronización de enumeración fija y registro mejorado",
         "pl": "poprawiona synchronizacja enum i ulepszone rejestrowanie",
         "zh-cn": "固定枚举同步和改进的日志记录"
-      },
-      "2.4.2": {
-        "en": "fixed last changed time for alarm states",
-        "de": "Die letzte geänderte Zeit für Alarmzustände wurde behoben",
-        "ru": "фиксированное время последнего изменения состояний тревоги",
-        "pt": "fixo último horário alterado para estados de alarme",
-        "nl": "vaste laatst gewijzigde tijd voor alarmstatussen",
-        "fr": "correction du dernier changement d'heure pour les états d'alarme",
-        "it": "fisso l'ultimo orario modificato per gli stati di allarme",
-        "es": "Se fijó el último tiempo cambiado para los estados de alarma",
-        "pl": "naprawiono ostatnio zmieniony czas dla stanów alarmowych",
-        "zh-cn": "修复报警状态的最后更改时间"
       }
     },
     "title": "HomeMatic ReGaHSS",
