@@ -29,8 +29,7 @@
         "extend": "^3.0.2",
         "iconv-lite": "^0.4.23",
         "request": "^2.87.0",
-        "xml2js": "^0.4.19",
-        "@iobroker/plugin-sentry": "^0.1.2"
+        "xml2js": "^0.4.19"
     },
     "devDependencies": {
         "gulp": "^4.0.0",
