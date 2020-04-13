@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.2",
+    "version": "2.6.3",
     "news": {
+      "2.6.3": {
+        "en": "we are now using iobroker file storage for regascripts",
+        "de": "Wir verwenden jetzt den iobroker-Dateispeicher für Regaskripte",
+        "ru": "мы теперь используем хранилище файлов iobroker для regascripts",
+        "pt": "agora estamos usando o armazenamento de arquivos iobroker para regascripts",
+        "nl": "we gebruiken nu iobroker-bestandsopslag voor regascripts",
+        "fr": "nous utilisons maintenant le stockage de fichiers iobroker pour les regascripts",
+        "it": "ora stiamo usando l'archiviazione di file iobroker per registri",
+        "es": "ahora estamos usando el almacenamiento de archivos iobroker para regascripts",
+        "pl": "teraz używamy przechowywania plików iobroker do regascriptów",
+        "zh-cn": "我们现在正在使用iobroker文件存储来生成副本"
+      },
       "2.6.2": {
         "en": "minor fix on CCU object",
         "de": "kleinere Korrektur am CCU-Objekt",
@@ -146,18 +158,6 @@
         "es": "ahora solo estamos eliminando objetos adaptadores hm de enumeraciones",
         "pl": "usuwamy teraz tylko obiekty adaptera hm z wyliczeń",
         "zh-cn": "我们现在只从枚举中删除hm适配器对象"
-      },
-      "2.4.4": {
-        "en": "fixed enum sync and improved logging",
-        "de": "Enum Sync und verbesserte Protokollierung behoben",
-        "ru": "исправлена синхронизация перечислений и улучшено ведение журнала",
-        "pt": "sincronização fixa de enum e registro aprimorado",
-        "nl": "vaste enum-synchronisatie en verbeterde logboekregistratie",
-        "fr": "synchronisation enum fixe et journalisation améliorée",
-        "it": "sincronizzazione enum fissa e registrazione migliorata",
-        "es": "sincronización de enumeración fija y registro mejorado",
-        "pl": "poprawiona synchronizacja enum i ulepszone rejestrowanie",
-        "zh-cn": "固定枚举同步和改进的日志记录"
       }
     },
     "title": "HomeMatic ReGaHSS",

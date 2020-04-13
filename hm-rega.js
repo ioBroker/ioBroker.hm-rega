@@ -33,6 +33,7 @@ const words = require('./lib/enumNames');
 const crypto = require(`${__dirname}/lib/crypto`); // get cryptography functions
 const Rega = require(`${__dirname}/lib/rega`);
 const helper = require(`${__dirname}/lib/utils`);
+const fs = require('fs');
 
 const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
@@ -129,7 +130,7 @@ function startAdapter(options) {
         },
 
         ready: () => {
-            adapter.getForeignObject('system.config', (err, obj) => {
+            adapter.getForeignObject('system.config', async (err, obj) => {
                 if (obj && obj.native && obj.native.secret) {
                     adapter.config.password = crypto.decrypt(obj.native.secret, adapter.config.password);
                     adapter.config.username = crypto.decrypt(obj.native.secret, adapter.config.username);
@@ -137,6 +138,39 @@ function startAdapter(options) {
                     adapter.config.password = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.password);
                     adapter.config.username = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.username);
                 } // endElse
+
+                // update script files if necessary - first ensure meta object is there
+                await adapter.setForeignObjectNotExistsAsync('hm-rega', {
+                    type: 'meta',
+                    common: {
+                        name: 'hm-rega'
+                    }
+                });
+
+                try {
+                    // read all files
+                    const regascripts = fs.readdirSync(`${__dirname}/regascripts/`);
+                    for (const regascript of regascripts) {
+                        const sourceFile = fs.readFileSync(`${__dirname}/regascripts/${regascript}`, 'utf-8');
+                        let targetFile;
+                        try {
+                            targetFile = await adapter.readFileAsync('hm-rega', `regascripts/${regascript}`, 'utf-8');
+                        } catch (e) {
+                            adapter.log.debug(`[REGASCRIPTS] Script ${regascript} does not exist in file storage yet`);
+                        }
+
+                        if (!targetFile || targetFile.file !== sourceFile) {
+                            // update file storage
+                            await adapter.writeFileAsync('hm-rega', `regascripts/${regascript}`, sourceFile, 'utf-8');
+                            adapter.log.info(`[REGASCRIPTS] Successfully updated ${regascript}`);
+                        } else {
+                            adapter.log.debug(`[REGASCRIPTS] Script ${regascript} is already up-to-date`);
+                        }
+                    } // endFor
+                } catch (e) {
+                    adapter.log.warn(`[REGASCRIPTS] Error updating scripts: ${e}`);
+                }
+
                 main();
             });
         }
@@ -255,6 +289,7 @@ function main() {
         port: adapter.config.homematicPort,
         reconnectionInterval: adapter.config.reconnectionInterval,
         logger: adapter.log,
+        readFileAsync: adapter.readFileAsync,
         secure: adapter.config.useHttps,
         username: adapter.config.username,
         password: adapter.config.password,
