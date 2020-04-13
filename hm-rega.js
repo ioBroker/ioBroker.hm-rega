@@ -139,15 +139,15 @@ function startAdapter(options) {
                     adapter.config.username = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.username);
                 } // endElse
 
-                // update script files if necessary - first ensure meta object is there
-                await adapter.setForeignObjectNotExistsAsync('hm-rega', {
-                    type: 'meta',
-                    common: {
-                        name: 'hm-rega'
-                    }
-                });
-
                 try {
+                    // update script files if necessary - first ensure meta object is there
+                    await adapter.setForeignObjectNotExistsAsync('hm-rega', {
+                        type: 'meta',
+                        common: {
+                            name: 'hm-rega'
+                        }
+                    });
+
                     // read all files
                     const regascripts = fs.readdirSync(`${__dirname}/regascripts/`);
                     for (const regascript of regascripts) {

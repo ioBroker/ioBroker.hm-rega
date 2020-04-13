@@ -66,7 +66,7 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
-### 2.6.3 (2020-04-13)
+### 2.6.4 (2020-04-13)
 * (foxriver76) now storing scripts in iob file storage
 
 ### 2.6.2 (2020-04-11)

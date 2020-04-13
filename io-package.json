@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.3",
+    "version": "2.6.4",
     "news": {
-      "2.6.3": {
+      "2.6.4": {
         "en": "we are now using iobroker file storage for regascripts",
         "de": "Wir verwenden jetzt den iobroker-Dateispeicher für Regaskripte",
         "ru": "мы теперь используем хранилище файлов iobroker для regascripts",
