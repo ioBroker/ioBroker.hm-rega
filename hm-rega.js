@@ -1157,7 +1157,6 @@ function getDatapoints(callback) {
         try {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
-            require('fs').writeFile(`${__dirname}/hm-rega-log.log`, data);
             adapter.log.error(`Cannot parse answer for datapoints: ${data}`);
             return;
         }
