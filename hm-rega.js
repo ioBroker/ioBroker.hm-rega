@@ -414,7 +414,7 @@ function pollDutyCycle() {
                 return;
             } // endTryCatch
 
-            const ccuType = `CCU${sysInfo.ccuVersion.split('.')[0]}`;
+            const ccuType = `CCU${typeof sysInfo.ccuVersion === 'string' ? sysInfo.ccuVersion.split('.')[0] : ''}`;
 
             try {
                 data = JSON.parse(convertDataToJSON(data));

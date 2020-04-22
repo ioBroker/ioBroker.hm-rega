@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.4",
+    "version": "2.6.5",
     "news": {
+      "2.6.5": {
+        "en": "improved error handling, no longer use legacy log file",
+        "de": "Verbesserte Fehlerbehandlung, ältere Protokolldatei nicht mehr verwenden",
+        "ru": "улучшена обработка ошибок, больше не используется устаревший файл журнала",
+        "pt": "tratamento de erros aprimorado, não usa mais o arquivo de log herdado",
+        "nl": "verbeterde foutafhandeling, niet langer legacy logbestand gebruiken",
+        "fr": "gestion améliorée des erreurs, n'utilisez plus le fichier journal hérité",
+        "it": "gestione degli errori migliorata, non utilizzare più il file di registro legacy",
+        "es": "manejo mejorado de errores, ya no use el archivo de registro heredado",
+        "pl": "poprawiona obsługa błędów, nie należy już używać starszego pliku dziennika",
+        "zh-cn": "改进的错误处理，不再使用旧式日志文件"
+      },
       "2.6.4": {
         "en": "we are now using iobroker file storage for regascripts",
         "de": "Wir verwenden jetzt den iobroker-Dateispeicher für Regaskripte",
