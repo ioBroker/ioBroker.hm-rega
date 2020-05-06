@@ -1472,7 +1472,7 @@ function getVariables(callback) {
                 }
 
                 let val = data[dp].Value;
-                const timestamp = new Date(data[dp].Timestamp).getTime();
+                const timestamp = data[dp].Timestamp ? new Date(data[dp].Timestamp).getTime() : new Date().getTime();
 
                 if (typeof val === 'string') val = _unescape(val);
 

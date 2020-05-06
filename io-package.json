@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.5",
+    "version": "2.6.6",
     "news": {
+      "2.6.6": {
+        "en": "we use current time as timestamp if non-existent on initial variables poll",
+        "de": "Wir verwenden die aktuelle Zeit als Zeitstempel, wenn sie bei der ersten Variablenabfrage nicht vorhanden ist",
+        "ru": "мы используем текущее время в качестве метки времени, если оно отсутствует при опросе исходных переменных",
+        "pt": "usamos o tempo atual como carimbo de data / hora, se inexistente na pesquisa de variáveis iniciais",
+        "nl": "we gebruiken de huidige tijd als tijdstempel als deze niet aanwezig is in de initiële variabelenpeiling",
+        "fr": "nous utilisons l'heure actuelle comme horodatage si inexistant sur le sondage des variables initiales",
+        "it": "usiamo l'ora corrente come timestamp se inesistente nel poll iniziale delle variabili",
+        "es": "Utilizamos la hora actual como marca de tiempo si no existe en la encuesta de variables iniciales",
+        "pl": "używamy aktualnego czasu jako znacznika czasu, jeśli nie istnieje w ankiecie zmiennych początkowych",
+        "zh-cn": "如果初始变量民意调查不存在，我们使用当前时间作为时间戳"
+      },
       "2.6.5": {
         "en": "improved error handling, no longer use legacy log file",
         "de": "Verbesserte Fehlerbehandlung, ältere Protokolldatei nicht mehr verwenden",
