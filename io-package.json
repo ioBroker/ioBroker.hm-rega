@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.6",
+    "version": "2.6.7",
     "news": {
+      "2.6.7": {
+        "en": "fixed some edge cases, reported by Sentry",
+        "de": "Einige von Sentry gemeldete Randfälle wurden behoben",
+        "ru": "исправлены некоторые крайние случаи, о которых сообщает Sentry",
+        "pt": "corrigimos alguns casos extremos, relatados pelo Sentry",
+        "nl": "enkele randgevallen opgelost, gemeld door Sentry",
+        "fr": "correction de certains cas marginaux, rapportés par Sentry",
+        "it": "risolti alcuni casi limite, riportati da Sentry",
+        "es": "arreglado algunos casos extremos, reportados por Sentry",
+        "pl": "naprawiono niektóre przypadki krawędzi, zgłoszone przez Sentry",
+        "zh-cn": "修复了哨兵报告的一些极端情况"
+      },
       "2.6.6": {
         "en": "we use current time as timestamp if non-existent on initial variables poll",
         "de": "Wir verwenden die aktuelle Zeit als Zeitstempel, wenn sie bei der ersten Variablenabfrage nicht vorhanden ist",
