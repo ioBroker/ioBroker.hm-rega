@@ -1164,7 +1164,7 @@ async function getFavorites(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for favorites: ${data}`);
-        return typeof callback === 'function' && callback();
+        return void (typeof callback === 'function' && callback());
     }
 
     adapter.setForeignObject(adapter.config.enumFavorites, {
