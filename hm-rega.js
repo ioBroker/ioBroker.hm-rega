@@ -318,7 +318,6 @@ function main() {
         ready: err => {
 
             if (err === `ReGaHSS ${adapter.config.homematicAddress} down`) {
-
                 adapter.log.error('ReGaHSS down');
                 ccuReachable = true;
                 ccuRegaUp = false;
@@ -327,25 +326,20 @@ function main() {
                 adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
 
             } else if (err === 'CCU unreachable') {
-
                 adapter.log.error(`CCU ${adapter.config.homematicAddress} unreachable`);
                 ccuReachable = false;
                 ccuRegaUp = false;
                 adapter.setState('info.connection', false, true);
                 adapter.setState('info.ccuReachable', ccuReachable, true);
                 adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
-
             } else if (err) {
-
                 adapter.log.error(err);
                 ccuReachable = false;
                 ccuRegaUp = false;
                 adapter.setState('info.connection', false, true);
                 adapter.setState('info.ccuReachable', ccuReachable, true);
                 adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
-
             } else {
-
                 adapter.log.info(`ReGaHSS ${adapter.config.homematicAddress} up`);
                 ccuReachable = true;
                 ccuRegaUp = true;
@@ -383,7 +377,7 @@ function main() {
                     }
                 }
 
-                rega.checkTime(() => setTimeout(queue, 0));
+                rega.checkTime(() => setImmediate(queue));
             }
         }
     });
@@ -788,7 +782,7 @@ function getPrograms(callback) {
             data = JSON.parse(data.replace(/\n/gm, ''));
         } catch (e) {
             adapter.log.error(`Cannot parse answer for programs: ${data}`);
-            return;
+            return void (typeof callback === 'function' && callback());
         }
         let count = 0;
         let id;
@@ -895,7 +889,7 @@ async function getFunctions(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for functions: ${data}`);
-        return;
+        return void (typeof callback === 'function' && callback());
     }
 
     for (const regaId in data) {
@@ -1033,7 +1027,7 @@ async function getRooms(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for rooms: ${data}`);
-        return;
+        return void (typeof callback === 'function' && callback());
     }
     // iterate over rooms
     for (const regaId in data) {
@@ -1170,7 +1164,7 @@ async function getFavorites(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for favorites: ${data}`);
-        return;
+        return typeof callback === 'function' && callback();
     }
 
     adapter.setForeignObject(adapter.config.enumFavorites, {
@@ -1309,7 +1303,7 @@ async function getDatapoints(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for datapoints: ${data}`);
-        return;
+        return void (typeof callback === 'function' && callback());
     }
     for (const dp in data) {
         if (!data.hasOwnProperty(dp)) {
@@ -1403,7 +1397,7 @@ async function _getDevicesFromRega(devices, channels, _states, callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for devices: ${data}`);
-        return;
+        return void (typeof callback === 'function' && callback());
     }
     const objs = [];
     let id;
@@ -1642,7 +1636,7 @@ function getVariables(callback) {
             data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf|nan/g, null));
         } catch (e) {
             adapter.log.error(`Cannot parse answer for variables: ${data}`);
-            return;
+            return void (typeof callback === 'function' && callback());
         }
         let count = 0;
         let id;
@@ -1777,7 +1771,7 @@ async function getDutyCycle(callback) {
         data = JSON.parse(convertDataToJSON(data));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for dutycycle: ${data}`);
-        return;
+        return void (typeof callback === 'function' && callback());
     }
     let count = 0;
     let id;
