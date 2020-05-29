@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.8",
+    "version": "2.6.9",
     "news": {
+      "2.6.9": {
+        "en": "fixed crash when we cannot determine CCU version",
+        "de": "Absturz behoben, wenn wir die CCU-Version nicht bestimmen können",
+        "ru": "исправлено падение, когда мы не можем определить версию CCU",
+        "pt": "falha corrigida quando não podemos determinar a versão da CCU",
+        "nl": "crash opgelost wanneer we de CCU-versie niet kunnen bepalen",
+        "fr": "Correction d'un crash lorsque nous ne pouvons pas déterminer la version CCU",
+        "it": "risolto crash quando non siamo in grado di determinare la versione della CCU",
+        "es": "Se corrigió el bloqueo cuando no podemos determinar la versión de CCU",
+        "pl": "naprawiono awarię, gdy nie możemy ustalić wersji CCU",
+        "zh-cn": "修复了无法确定CCU版本时的崩溃"
+      },
       "2.6.8": {
         "en": "Script post requests will time out after 15 seconds to prevent  stucking in queue if no answer from ccu received",
         "de": "Skript-Post-Anfragen laufen nach 15 Sekunden ab, um zu verhindern, dass sie in der Warteschlange hängen bleiben, wenn keine Antwort von ccu empfangen wird",

@@ -1779,8 +1779,10 @@ async function getDutyCycle(callback) {
         sysInfo = JSON.parse(sysInfo);
     } catch (e) {
         adapter.log.error(`Cannot parse system info: ${sysInfo}`);
+        sysInfo = {};
     } // endTryCatch
-    const ccuType = `CCU${sysInfo.ccuVersion.split('.')[0]}`;
+
+    const ccuType = `CCU${sysInfo.ccuVersion === 'string' ? sysInfo.ccuVersion.split('.')[0] : ''}`;
 
     for (const dp in data) {
         if (!data.hasOwnProperty(dp)) {
