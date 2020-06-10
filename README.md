@@ -66,6 +66,9 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
+### 2.6.10 (2020-06-10)
+* (foxriver76) fix crash when a user on CCU is a empty string on synchronizing favorites
+
 ### 2.6.9 (2020-05-29)
 * (foxriver76) fixed crash when we cannot determine CCU version
 

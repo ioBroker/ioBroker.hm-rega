@@ -1181,13 +1181,17 @@ async function getFavorites(callback) {
         }
 
         user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
-        adapter.setForeignObject(`${adapter.config.enumFavorites}.${user}`, {
-            type: 'enum',
-            common: {
-                name: `${user} Favorites`
-            },
-            native: {}
-        });
+        try {
+            await adapter.setForeignObjectAsync(`${adapter.config.enumFavorites}.${user}`, {
+                type: 'enum',
+                common: {
+                    name: `${user} Favorites`
+                },
+                native: {}
+            });
+        } catch (e) {
+            adapter.log.error(`Could not synchronize favorites of user "${user}": ${e}`);
+        }
 
         for (const fav in data[user]) {
             if (!data[user].hasOwnProperty(fav)) {

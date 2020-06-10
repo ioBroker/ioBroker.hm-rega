@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.9",
+    "version": "2.6.10",
     "news": {
+      "2.6.10": {
+        "en": "fix crash when a user on CCU is a empty string on synchronizing favorites",
+        "de": "Absturz behoben, wenn ein Benutzer auf der CCU beim Synchronisieren von Favoriten eine leere Zeichenfolge ist",
+        "ru": "исправление сбоя, когда пользователь в CCU представляет собой пустую строку при синхронизации избранного",
+        "pt": "corrigir falha quando um usuário na CCU é uma string vazia na sincronização de favoritos",
+        "nl": "crash repareren wanneer een gebruiker op CCU een lege string is bij het synchroniseren van favorieten",
+        "fr": "Correction d'un crash lorsqu'un utilisateur sur CCU est une chaîne vide lors de la synchronisation des favoris",
+        "it": "risolve il crash quando un utente su CCU è una stringa vuota durante la sincronizzazione dei preferiti",
+        "es": "arregla el bloqueo cuando un usuario en CCU es una cadena vacía al sincronizar favoritos",
+        "pl": "napraw awarię, gdy użytkownik w CCU jest pustym ciągiem synchronizacji ulubionych",
+        "zh-cn": "修复当CCU上的用户为同步收藏夹中的空字符串时的崩溃"
+      },
       "2.6.9": {
         "en": "fixed crash when we cannot determine CCU version",
         "de": "Absturz behoben, wenn wir die CCU-Version nicht bestimmen können",
