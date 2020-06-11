@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.10",
+    "version": "2.6.11",
     "news": {
+      "2.6.11": {
+        "en": "timeout of requests increased to 90 seconds",
+        "de": "Das Zeitlimit für Anforderungen wurde auf 90 Sekunden erhöht",
+        "ru": "таймаут запросов увеличен до 90 секунд",
+        "pt": "o tempo limite das solicitações aumentou para 90 segundos",
+        "nl": "time-out van verzoeken is verhoogd tot 90 seconden",
+        "fr": "délai d'expiration des demandes augmenté à 90 secondes",
+        "it": "timeout delle richieste aumentato a 90 secondi",
+        "es": "el tiempo de espera de las solicitudes aumentó a 90 segundos",
+        "pl": "limit czasu żądań zwiększony do 90 sekund",
+        "zh-cn": "请求超时增加到90秒"
+      },
       "2.6.10": {
         "en": "fix crash when a user on CCU is a empty string on synchronizing favorites",
         "de": "Absturz behoben, wenn ein Benutzer auf der CCU beim Synchronisieren von Favoriten eine leere Zeichenfolge ist",
