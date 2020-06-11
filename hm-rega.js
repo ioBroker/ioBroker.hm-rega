@@ -980,12 +980,15 @@ async function getFunctions(callback) {
                         adapter.log.info(`${newMember} has been added to functions ${name}`);
                     } // endIf
                 } // endFor
+
+                // do it reverse, because we delete own elements in loop
                 let i = oldObj.common.members.length;
                 while (i--) {
-                    const oldMember = oldObj.common.members[i];                    // Check if channel has been removed
+                    const oldMember = oldObj.common.members[i];
+                    // Check if channel has been removed
                     if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
                         changed = true;
-                        oldObj.common.members.splice(obj.common.members.indexOf(oldMember), 1);
+                        oldObj.common.members.splice(oldObj.common.members.indexOf(oldMember), 1);
                         adapter.log.info(`${oldMember} has been removed from functions ${name}`);
                     } // endIf
                 } // endFor
@@ -1118,12 +1121,15 @@ async function getRooms(callback) {
                         adapter.log.info(`${newMember} has been added to room ${name}`);
                     } // endIf
                 } // endFor
+
+                // do it reverse, because we delete own elements in loop
                 let i = oldObj.common.members.length;
                 while (i--) {
-                    const oldMember = oldObj.common.members[i];                    // Check if room has been removed
+                    const oldMember = oldObj.common.members[i];
+                    // Check if room has been removed
                     if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
                         changed = true;
-                        oldObj.common.members.splice(obj.common.members.indexOf(oldMember), 1);
+                        oldObj.common.members.splice(oldObj.common.members.indexOf(oldMember), 1);
                         adapter.log.info(`${oldMember} has been removed from room ${name}`);
                     } // endIf
                 } // endFor
@@ -1276,12 +1282,15 @@ async function getFavorites(callback) {
                             adapter.log.info(`${newMember} has been added to favorites for ${user}`);
                         } // endIf
                     } // endFor
+
+                    // do it reverse, because we delete own elements in loop
                     let i = oldObj.common.members.length;
                     while (i--) {
-                        const oldMember = oldObj.common.members[i];                        // Check if channel has been removed
+                        const oldMember = oldObj.common.members[i];
+                        // Check if channel has been removed
                         if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
                             changed = true;
-                            oldObj.common.members.splice(obj.common.members.indexOf(oldMember), 1);
+                            oldObj.common.members.splice(oldObj.common.members.indexOf(oldMember), 1);
                             adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);
                         } // endIf
                     } // endFor

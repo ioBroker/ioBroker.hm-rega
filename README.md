@@ -66,7 +66,7 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
-### 2.6.12 (2020-06-11)
+### 2.6.13 (2020-06-11)
 * (foxriver76) fix potential problem on enum sync, where to many channels could be deleted
 
 ### 2.6.11 (2020-06-11)

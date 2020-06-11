@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.12",
+    "version": "2.6.13",
     "news": {
-      "2.6.12": {
+      "2.6.13": {
         "en": "fixed potential problem on enum sync",
         "de": "Mögliches Problem bei der Enum-Synchronisierung behoben",
         "ru": "исправлена потенциальная проблема при синхронизации перечислений",
