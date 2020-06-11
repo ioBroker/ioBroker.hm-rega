@@ -268,8 +268,6 @@ function main() {
 
     adapter.subscribeStates('*');
 
-    adapter.subscribeObjects('*');
-
     if (adapter.config.rfdAdapter && adapter.config.rfdEnabled) {
         adapter.subscribeForeignStates(`${adapter.config.rfdAdapter}.updated`);
         adapter.subscribeForeignStates(`${adapter.config.rfdAdapter}.info.connection`);
