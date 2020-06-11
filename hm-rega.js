@@ -980,11 +980,12 @@ async function getFunctions(callback) {
                         adapter.log.info(`${newMember} has been added to functions ${name}`);
                     } // endIf
                 } // endFor
-                for (const oldMember of oldObj.common.members) {
-                    // Check if channel has been removed
+                let i = oldObj.common.members.length;
+                while (i--) {
+                    const oldMember = oldObj.common.members[i];                    // Check if channel has been removed
                     if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
                         changed = true;
-                        oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
+                        oldObj.common.members.splice(obj.common.members.indexOf(oldMember), 1);
                         adapter.log.info(`${oldMember} has been removed from functions ${name}`);
                     } // endIf
                 } // endFor
@@ -1117,11 +1118,12 @@ async function getRooms(callback) {
                         adapter.log.info(`${newMember} has been added to room ${name}`);
                     } // endIf
                 } // endFor
-                for (const oldMember of oldObj.common.members) {
-                    // Check if room has been removed
+                let i = oldObj.common.members.length;
+                while (i--) {
+                    const oldMember = oldObj.common.members[i];                    // Check if room has been removed
                     if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
                         changed = true;
-                        oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
+                        oldObj.common.members.splice(obj.common.members.indexOf(oldMember), 1);
                         adapter.log.info(`${oldMember} has been removed from room ${name}`);
                     } // endIf
                 } // endFor
@@ -1274,11 +1276,12 @@ async function getFavorites(callback) {
                             adapter.log.info(`${newMember} has been added to favorites for ${user}`);
                         } // endIf
                     } // endFor
-                    for (const oldMember of oldObj.common.members) {
-                        // Check if channel has been removed
+                    let i = oldObj.common.members.length;
+                    while (i--) {
+                        const oldMember = oldObj.common.members[i];                        // Check if channel has been removed
                         if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
                             changed = true;
-                            oldObj.common.members.splice(obj.common.members.indexOf(oldMember));
+                            oldObj.common.members.splice(obj.common.members.indexOf(oldMember), 1);
                             adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);
                         } // endIf
                     } // endFor
