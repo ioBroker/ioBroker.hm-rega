@@ -2,6 +2,5 @@
 node_modules
 .git
 iob_npm.done
-package-lock.json
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt
