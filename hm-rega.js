@@ -1369,9 +1369,15 @@ async function getDatapoints(callback) {
 
         // convert dimmer and blinds
         if (typeof units[id] === 'object') {
-            data[dp] = ((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100;
-            // round to xx.yy
-            data[dp] = Math.round(data[dp] * 100) / 100;
+            // data[dp] = ((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100;
+            const max = units[id].MAX;
+            // check if we need to scale
+            if (max === 1 || max === 1.005 || max === 1.01) {
+                data[dp] = parseFloat(data[dp]) * 100;
+            } else {
+                // round to xx.yy
+                data[dp] = Math.round(data[dp] * 100) / 100;
+            }
         } else if (units[id] === '100%' || units[id] === '%') {
             data[dp] = parseFloat(data[dp]) * 100;
         }
@@ -1589,8 +1595,7 @@ function getDevices(callback) {
                     if (row.value && row.value.native && row.value.native.UNIT) {
                         const _id = row.id;
                         units[_id] = _unescape(row.value.native.UNIT);
-                        if ((units[_id] === '100%' || units[_id] === '%') &&
-                            row.value.native.MIN !== undefined &&
+                        if ((units[_id] === '%') &&
                             typeof row.value.native.MIN === 'number') {
                             units[_id] = {
                                 UNIT: '%',

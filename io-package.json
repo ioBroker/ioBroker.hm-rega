@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.14",
+    "version": "2.6.15",
     "news": {
+      "2.6.15": {
+        "en": "fixed potential issues with scaling of % values",
+        "de": "potenzielle Probleme mit der Skalierung von %-Werten wurden behoben",
+        "ru": "исправлены потенциальные проблемы с масштабированием значений%",
+        "pt": "corrigidos problemas potenciais com escala de valores%",
+        "nl": "Mogelijke problemen opgelost met het schalen van% -waarden",
+        "fr": "Correction de problèmes potentiels avec la mise à l'échelle des valeurs%",
+        "it": "risolti potenziali problemi con il ridimensionamento dei valori%",
+        "es": "problemas potenciales solucionados con la escala de valores de porcentaje",
+        "pl": "naprawiono potencjalne problemy ze skalowaniem wartości%",
+        "zh-cn": "修正了％值缩放的潜在问题"
+      },
       "2.6.14": {
         "en": "fixed potential problem on enum sync",
         "de": "Mögliches Problem bei der Enum-Synchronisierung behoben",
@@ -218,30 +230,6 @@
         "es": "configuramos el nombre de enumeración como objeto de traducción nuevamente",
         "pl": "ustawiamy ponownie nazwę enum jako obiekt tłumaczenia",
         "zh-cn": "我们再次将枚举名称设置为翻译对象"
-      },
-      "2.4.9": {
-        "en": "only automaticaly delete/synchronize hm-rpc objects from enums and minor fix for room sync",
-        "de": "nur automatisch löschen / synchronisieren von hm-rpc objekten aus enums und kleinere korrekturen für die raumsynchronisation",
-        "ru": "только автоматически удалять / синхронизировать объекты hm-rpc из перечислений и незначительное исправление для синхронизации помещения",
-        "pt": "somente exclua / sincronize automaticamente objetos hm-rpc de enumerações e pequenas correções para sincronização de ambiente",
-        "nl": "verwijder en synchroniseer alleen automatisch hm-rpc-objecten uit enums en een kleine correctie voor roomsynchronisatie",
-        "fr": "uniquement supprimer / synchroniser automatiquement les objets hm-rpc des enums et des correctifs mineurs pour la synchronisation de la pièce",
-        "it": "elimina / sincronizza automaticamente solo oggetti hm-rpc dagli enum e correzioni minori per la sincronizzazione della stanza",
-        "es": "solo elimina / sincroniza automáticamente objetos hm-rpc de enumeraciones y arreglos menores para la sincronización de sala",
-        "pl": "tylko automatycznie usuwają / synchronizują obiekty hm-rpc z wyliczeń i drobną poprawkę do synchronizacji pokoju",
-        "zh-cn": "只能自动删除/同步枚举中的hm-rpc对象和房间同步的小修复"
-      },
-      "2.4.7": {
-        "en": "fixed bug that prevented enums from getting correct name",
-        "de": "Fehler behoben, der verhinderte, dass Aufzählungen den richtigen Namen erhielten",
-        "ru": "исправлена ошибка, из-за которой перечисления не могли получить правильное имя",
-        "pt": "bug fixo que impedia enums de obter o nome correto",
-        "nl": "bug opgelost die verhinderde dat enums de juiste naam konden krijgen",
-        "fr": "correction d'un bug qui empêchait les enums d'obtenir le nom correct",
-        "it": "corretto bug che impediva agli enum di ottenere il nome corretto",
-        "es": "error corregido que impedía que las enumeraciones obtuvieran el nombre correcto",
-        "pl": "naprawiony błąd, który uniemożliwiał wyliczeniom uzyskanie poprawnej nazwy",
-        "zh-cn": "修复了阻止枚举获取正确名称的错误"
       }
     },
     "title": "HomeMatic ReGaHSS",
