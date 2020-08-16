@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.15",
+    "version": "2.6.16",
     "news": {
+      "2.6.16": {
+        "en": "we now log the id of the pollingTrigger too",
+        "de": "Wir protokollieren jetzt auch die ID des pollingTrigger",
+        "ru": "теперь мы также регистрируем идентификатор pollingTrigger",
+        "pt": "agora registramos o id do pollingTrigger também",
+        "nl": "we loggen nu ook de id van de pollingTrigger",
+        "fr": "nous enregistrons maintenant l'id du pollingTrigger aussi",
+        "it": "ora registriamo anche l'id del pollingTrigger",
+        "es": "ahora también registramos el id del pollingTrigger",
+        "pl": "teraz rejestrujemy również identyfikator pollingTrigger",
+        "zh-cn": "现在我们也记录了pollingTrigger的ID"
+      },
       "2.6.15": {
         "en": "fixed potential issues with scaling of % values",
         "de": "potenzielle Probleme mit der Skalierung von %-Werten wurden behoben",

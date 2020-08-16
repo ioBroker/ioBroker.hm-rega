@@ -50,7 +50,7 @@ function startAdapter(options) {
         stateChange: (id, state) => {
             if (!state || state.ack) {
                 if (state && id === pollingTrigger) {
-                    adapter.log.info('pollingTrigger');
+                    adapter.log.info(`pollingTrigger - ${id}`);
                     if (adapter.config.syncVariables) {
                         pollVariables();
                     }
