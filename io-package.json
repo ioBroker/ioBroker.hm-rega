@@ -1,19 +1,19 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.16",
+    "version": "2.6.17",
     "news": {
-      "2.6.16": {
-        "en": "we now log the id of the pollingTrigger too",
-        "de": "Wir protokollieren jetzt auch die ID des pollingTrigger",
-        "ru": "теперь мы также регистрируем идентификатор pollingTrigger",
-        "pt": "agora registramos o id do pollingTrigger também",
-        "nl": "we loggen nu ook de id van de pollingTrigger",
-        "fr": "nous enregistrons maintenant l'id du pollingTrigger aussi",
-        "it": "ora registriamo anche l'id del pollingTrigger",
-        "es": "ahora también registramos el id del pollingTrigger",
-        "pl": "teraz rejestrujemy również identyfikator pollingTrigger",
-        "zh-cn": "现在我们也记录了pollingTrigger的ID"
+      "2.6.17": {
+        "en": "fix for % scaling of float numbers",
+        "de": "Fix für% Skalierung von Float-Zahlen",
+        "ru": "исправление для% масштабирования чисел с плавающей запятой",
+        "pt": "correção para escala% de números flutuantes",
+        "nl": "oplossing voor %s chaling van float-getallen",
+        "fr": "correction de la mise à l'échelle en% des nombres flottants",
+        "it": "corretto il ridimensionamento% dei numeri in virgola mobile",
+        "es": "corrección de% de escala de números flotantes",
+        "pl": "poprawka dla %s kalowania liczb zmiennoprzecinkowych",
+        "zh-cn": "修正浮点数的百分比缩放"
       },
       "2.6.15": {
         "en": "fixed potential issues with scaling of % values",

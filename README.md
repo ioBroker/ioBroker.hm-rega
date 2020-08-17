@@ -66,8 +66,8 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
-### 2.6.16 (2020-08-16)
-* (foxriver76) we now log the id of the pollingTrigger too
+### 2.6.17 (2020-08-17)
+* (foxriver76) fix for % scaling of float numbers
 
 ### 2.6.15 (2020-08-08)
 * (foxriver76) fix potential issues with scaling of % values as in https://github.com/ioBroker/ioBroker.hm-rpc/issues/263

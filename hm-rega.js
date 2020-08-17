@@ -50,7 +50,7 @@ function startAdapter(options) {
         stateChange: (id, state) => {
             if (!state || state.ack) {
                 if (state && id === pollingTrigger) {
-                    adapter.log.info(`pollingTrigger - ${id}`);
+                    adapter.log.info('pollingTrigger');
                     if (adapter.config.syncVariables) {
                         pollVariables();
                     }
@@ -1379,7 +1379,7 @@ async function getDatapoints(callback) {
                 data[dp] = Math.round(data[dp] * 100) / 100;
             }
         } else if (units[id] === '100%' || units[id] === '%') {
-            data[dp] = parseFloat(data[dp]) * 100;
+            data[dp] = Math.round(parseFloat(data[dp]) * 100 * 1000) / 1000;
         }
 
         const state = {val: _unescape(data[dp]), ack: true};
