@@ -1,6 +1,6 @@
 {
     "name": "iobroker.hm-rega",
-    "version": "2.6.17",
+    "version": "2.6.18",
     "engines": {
         "node": ">=8.0.0"
     },

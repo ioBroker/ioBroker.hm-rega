@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.17",
+    "version": "2.6.18",
     "news": {
+      "2.26.18": {
+        "en": "fixed issue on syncing service message counter when invisible variables are synchronized",
+        "de": "Problem beim Synchronisieren des Dienstnachrichtenzählers beim Synchronisieren unsichtbarer Variablen behoben",
+        "ru": "исправлена проблема с синхронизацией счетчика служебных сообщений при синхронизации невидимых переменных",
+        "pt": "Foi corrigido o problema de sincronização do contador de mensagens de serviço quando variáveis invisíveis são sincronizadas",
+        "nl": "probleem opgelost bij het synchroniseren van serviceberichtenteller wanneer onzichtbare variabelen werden gesynchroniseerd",
+        "fr": "Correction d'un problème sur la synchronisation du compteur de messages de service lorsque les variables invisibles sont synchronisées",
+        "it": "risolto il problema relativo alla sincronizzazione del contatore dei messaggi del servizio quando le variabili invisibili sono sincronizzate",
+        "es": "Problema solucionado al sincronizar el contador de mensajes del servicio cuando se sincronizan variables invisibles",
+        "pl": "naprawiono problem z synchronizacją licznika komunikatów serwisowych, gdy synchronizowane są niewidoczne zmienne",
+        "zh-cn": "解决了同步不可见变量时同步服务消息计数器的问题"
+      },
       "2.6.17": {
         "en": "fix for % scaling of float numbers",
         "de": "Fix für% Skalierung von Float-Zahlen",
@@ -218,30 +230,6 @@
         "es": "ya no usamos adaptador.objetos directamente",
         "pl": "nie używamy już bezpośrednio adapter.objects",
         "zh-cn": "我们不再直接使用adapter.objects"
-      },
-      "2.4.12": {
-        "en": "fixed bug which lead to alarm counter showing number of service messages",
-        "de": "Fehler behoben, der dazu führte, dass der Alarmzähler die Anzahl der Servicemeldungen anzeigte",
-        "ru": "исправлена ошибка, приводившая к тому, что счетчик аварий отображал количество сервисных сообщений",
-        "pt": "bug corrigido que leva ao contador de alarmes mostrando o número de mensagens de serviço",
-        "nl": "fout opgelost die leidde tot alarmteller met aantal servicemeldingen",
-        "fr": "correction d'un bug qui conduisait au compteur d'alarmes indiquant le nombre de messages de service",
-        "it": "corretto bug che porta al contatore di allarmi che mostra il numero di messaggi di servizio",
-        "es": "error corregido que conduce al contador de alarma que muestra la cantidad de mensajes de servicio",
-        "pl": "naprawiony błąd prowadzący do licznika alarmów pokazującego liczbę komunikatów serwisowych",
-        "zh-cn": "修复了导致警报计数器显示服务消息数量的错误"
-      },
-      "2.4.10": {
-        "en": "we set enum name as translation object again",
-        "de": "wir setzen enum name wieder als übersetzungsobjekt",
-        "ru": "мы снова устанавливаем enum name как объект перевода",
-        "pt": "definimos o nome do enum como objeto de tradução novamente",
-        "nl": "we stellen de enum-naam opnieuw in als vertaalobject",
-        "fr": "nous mettons à nouveau le nom enum comme objet de traduction",
-        "it": "impostiamo nuovamente enum name come oggetto di traduzione",
-        "es": "configuramos el nombre de enumeración como objeto de traducción nuevamente",
-        "pl": "ustawiamy ponownie nazwę enum jako obiekt tłumaczenia",
-        "zh-cn": "我们再次将枚举名称设置为翻译对象"
       }
     },
     "title": "HomeMatic ReGaHSS",
