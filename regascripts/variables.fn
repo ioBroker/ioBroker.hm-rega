@@ -11,7 +11,6 @@ var sValue;
 integer iValueType;
 integer iValueSubType;
 string sValueList;
-boolean bFirst = true;
 
 Write('{');
 

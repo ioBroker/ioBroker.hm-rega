@@ -66,7 +66,7 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
-### 2.6.18 (2020-08-22)
+### 2.6.19 (2020-08-23)
 * (foxriver76) fixed issue on syncing service message counter when invisible variables are synchronized
 * (foxriver76) fixed issue where value list variables are a string instead of an integer
 

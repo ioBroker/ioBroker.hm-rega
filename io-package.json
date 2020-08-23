@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.18",
+    "version": "2.6.19",
     "news": {
-      "2.26.18": {
+      "2.26.19": {
         "en": "fixed issue on syncing service message counter when invisible variables are synchronized",
         "de": "Problem beim Synchronisieren des Dienstnachrichtenzählers beim Synchronisieren unsichtbarer Variablen behoben",
         "ru": "исправлена проблема с синхронизацией счетчика служебных сообщений при синхронизации невидимых переменных",
