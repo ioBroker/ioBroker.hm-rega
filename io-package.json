@@ -1,9 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.19",
+    "version": "2.6.20",
     "news": {
-      "2.26.19": {
+      "2.6.20": {
+        "en": "we now set explicit object type on extending object",
+        "de": "Wir setzen jetzt den expliziten Objekttyp für das Erweitern des Objekts",
+        "ru": "Теперь мы устанавливаем явный тип объекта для расширяемого объекта",
+        "pt": "agora definimos o tipo de objeto explícito na extensão de objeto",
+        "nl": "we stellen nu een expliciet objecttype in op het uitbreidende object",
+        "fr": "nous définissons maintenant le type d'objet explicite sur l'objet d'extension",
+        "it": "ora impostiamo il tipo di oggetto esplicito sull'estensione dell'oggetto",
+        "es": "ahora establecemos el tipo de objeto explícito al extender el objeto",
+        "pl": "teraz ustawiamy jawny typ obiektu na rozszerzanie obiektu",
+        "zh-cn": "现在，我们在扩展对象上设置显式对象类型"
+      },
+      "2.6.19": {
         "en": "fixed issue on syncing service message counter when invisible variables are synchronized",
         "de": "Problem beim Synchronisieren des Dienstnachrichtenzählers beim Synchronisieren unsichtbarer Variablen behoben",
         "ru": "исправлена проблема с синхронизацией счетчика служебных сообщений при синхронизации невидимых переменных",

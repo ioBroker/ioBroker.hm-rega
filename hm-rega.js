@@ -406,11 +406,7 @@ async function pollVariables() {
         adapter.log.error(`Cannot parse answer for polling: ${data}`);
         return;
     }
-    for (let id in data) {
-        if (!data.hasOwnProperty(id)) {
-            continue;
-        }
-
+    for (let id of Object.keys(data)) {
         let val = data[id][0];
         const timestamp = new Date(data[id][1]).getTime();
 
@@ -468,10 +464,7 @@ async function pollDutyCycle() {
     }
 
     let id;
-    for (const dp in data) {
-        if (!data.hasOwnProperty(dp)) {
-            continue;
-        }
+    for (const dp of Object.keys(data)) {
         id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
 
         // DUTY_CYCLE State:
@@ -578,11 +571,7 @@ async function pollPrograms() {
         adapter.log.error(`Cannot parse answer for programs: ${data}`);
         return;
     }
-    for (const dp in data) {
-        if (!data.hasOwnProperty(dp)) {
-            continue;
-        }
-
+    for (const dp of Object.keys(data)) {
         const id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
         const val = data[dp].Active;
 
@@ -616,11 +605,7 @@ async function pollServiceMsgs() {
         adapter.log.error(`Cannot parse answer for alarms: ${data}`);
         return;
     }
-    for (const dp in data) {
-        if (!data.hasOwnProperty(dp)) {
-            continue;
-        }
-
+    for (const dp of Object.keys(data)) {
         let id = _unescape(data[dp].Name);
         if (id.match(/^AL-/)) {
             id = id.substring(3);
@@ -685,11 +670,7 @@ async function getServiceMsgs() {
         adapter.log.error(`Cannot parse answer for alarms: ${data}`);
         return;
     }
-    for (const dp in data) {
-        if (!data.hasOwnProperty(dp)) {
-            continue;
-        }
-
+    for (const dp of Object.keys(data)) {
         let id = _unescape(data[dp].Name);
         if (id.match(/^AL-/)) {
             id = id.substring(3);
@@ -784,11 +765,7 @@ function getPrograms(callback) {
         }
         let count = 0;
         let id;
-        for (const dp in data) {
-            if (!data.hasOwnProperty(dp)) {
-                continue;
-            }
-
+        for (const dp of Object.keys(data)) {
             id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
             count += 1;
             let fullId = `${adapter.namespace}.${id}`;
@@ -890,11 +867,7 @@ async function getFunctions(callback) {
         return void (typeof callback === 'function' && callback());
     }
 
-    for (const regaId in data) {
-        if (!data.hasOwnProperty(regaId)) {
-            continue;
-        }
-
+    for (const regaId of Object.keys(data)) {
         const members = [];
         const memberObjs = data[regaId].Channels;
 
@@ -1031,11 +1004,7 @@ async function getRooms(callback) {
         return void (typeof callback === 'function' && callback());
     }
     // iterate over rooms
-    for (const regaId in data) {
-        if (!data.hasOwnProperty(regaId)) {
-            continue;
-        }
-
+    for (const regaId of Object.keys(data)) {
         const members = [];
 
         const memberObjs = data[regaId].Channels;
@@ -1179,11 +1148,7 @@ async function getFavorites(callback) {
         native: {}
     });
 
-    for (let user in data) {
-        if (!data.hasOwnProperty(user)) {
-            continue;
-        }
-
+    for (let user of Object.keys(data)) {
         user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
         try {
             await adapter.setForeignObjectAsync(`${adapter.config.enumFavorites}.${user}`, {
@@ -1197,11 +1162,7 @@ async function getFavorites(callback) {
             adapter.log.error(`Could not synchronize favorites of user "${user}": ${e}`);
         }
 
-        for (const fav in data[user]) {
-            if (!data[user].hasOwnProperty(fav)) {
-                continue;
-            }
-
+        for (const fav of Object.keys(data[user])) {
             const channels = data[user][fav].Channels;
             const members = [];
             for (const channel of channels) {
@@ -1316,10 +1277,7 @@ async function getDatapoints(callback) {
         adapter.log.error(`Cannot parse answer for datapoints: ${data}`);
         return void (typeof callback === 'function' && callback());
     }
-    for (const dp in data) {
-        if (!data.hasOwnProperty(dp)) {
-            continue;
-        }
+    for (const dp of Object.keys(data)) {
         const tmp = _unescape(dp).replace(FORBIDDEN_CHARS, '_').split('.');
 
         if (tmp[2] === 'PRESS_SHORT' || tmp[2] === 'PRESS_LONG') {
@@ -1418,11 +1376,7 @@ async function _getDevicesFromRega(devices, channels, _states, callback) {
     }
     const objs = [];
     let id;
-    for (const addr in data) {
-        if (!data.hasOwnProperty(addr)) {
-            continue;
-        }
-
+    for (const addr of Object.keys(data)) {
         switch (data[addr].Interface) {
             case 'BidCos-RF':
                 if (!adapter.config.rfdEnabled) {
@@ -1468,29 +1422,27 @@ async function _getDevicesFromRega(devices, channels, _states, callback) {
         if (addr.indexOf(':') === -1) {
             // device
             if (devices[id] === undefined || (devices[id] !== name && adapter.config.syncNames)) {
-                objs.push({_id: id, common: {name: name}});
+                objs.push({_id: id, type: 'device', common: {name: name}});
             }
         } else {
             // channel
             if (channels[id] === undefined || (channels[id] !== name && adapter.config.syncNames)) {
-                objs.push({_id: id, common: {name: name}});
+                objs.push({_id: id, type: 'channel', common: {name: name}});
             } else if (!channels[id]) {
                 let dev = id.split('.');
                 const last = dev.pop();
                 dev = dev.join('.');
                 if (devices[dev]) {
-                    objs.push({_id: id, common: {name: `${devices[dev]}.${last}`}});
+                    objs.push({_id: id, type:'channel', common: {name: `${devices[dev]}.${last}`}});
                 }
             }
             if (_states[id]) {
-                for (const s in _states[id]) {
-                    if (!_states[id].hasOwnProperty(s)) {
-                        continue;
-                    }
+                for (const s of Object.keys(_states[id])) {
                     const stateName = `${name}.${s}`;
                     if (!_states[id][s] || (_states[id][s] !== stateName && adapter.config.syncNames)) {
                         objs.push({
                             _id: `${id}.${s}`,
+                            type: 'state',
                             common: {name: stateName}
                         });
                     }
@@ -1657,10 +1609,7 @@ function getVariables(callback) {
         let count = 0;
         let id;
 
-        for (const dp in data) {
-            if (!data.hasOwnProperty(dp)) {
-                continue;
-            }
+        for (const dp of Object.keys(data)) {
             id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
             count += 1;
 
@@ -1800,10 +1749,7 @@ async function getDutyCycle(callback) {
 
     const ccuType = `CCU${sysInfo.ccuVersion === 'string' ? sysInfo.ccuVersion.split('.')[0] : ''}`;
 
-    for (const dp in data) {
-        if (!data.hasOwnProperty(dp)) {
-            continue;
-        }
+    for (const dp of Object.keys(data)) {
         id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
         count += 1;
 
@@ -2138,10 +2084,7 @@ function stop(callback) {
         clearInterval(pollingInterval);
         clearInterval(pollingIntervalDC);
     }
-    for (const id in checkInterval) {
-        if (!checkInterval.hasOwnProperty(id)) {
-            continue;
-        }
+    for (const id of Object.keys(checkInterval)) {
         clearInterval(checkInterval[id]);
     }
 
