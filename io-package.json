@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.20",
+    "version": "2.6.21",
     "news": {
+      "2.6.21": {
+        "en": "fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance",
+        "de": "Fehler behoben, bei dem Alarmzustände von hm-rpc-Instanzen mit der Instanznummer> = 10 für die falsche Instanz erstellt wurden",
+        "ru": "исправлена ошибка, при которой аварийные состояния экземпляров hm-rpc с номером экземпляра> = 10 создаются для неправильного экземпляра",
+        "pt": "corrigido o erro em que os estados de alarme de instâncias hm-rpc com número de instância> = 10 são criados para a instância errada",
+        "nl": "fout opgelost waarbij alarmstatussen van hm-rpc-instanties met instantienummer> = 10 werden gemaakt voor de verkeerde instantie",
+        "fr": "Correction d'une erreur où les états d'alarme des instances hm-rpc avec un numéro d'instance> = 10 sont créés pour la mauvaise instance",
+        "it": "corretto errore in cui gli stati di allarme delle istanze hm-rpc con numero di istanza> = 10 venivano creati per l'istanza sbagliata",
+        "es": "Error fijo donde los estados de alarma de instancias de hm-rpc con número de instancia> = 10 se crean para la instancia incorrecta",
+        "pl": "poprawiono błąd, w którym stany alarmowe instancji hm-rpc o numerze instancji> = 10 są tworzone dla niewłaściwej instancji",
+        "zh-cn": "修复了以下错误：为错误的实例创建了实例号> = 10的hm-rpc实例的警报状态"
+      },
       "2.6.20": {
         "en": "we now set explicit object type on extending object",
         "de": "Wir setzen jetzt den expliziten Objekttyp für das Erweitern des Objekts",
@@ -218,30 +230,6 @@
         "es": "manejo mejorado de errores en casos extremos y registro más detallado de errores",
         "pl": "poprawiona obsługa błędów w przypadkach skrajnych i bardziej szczegółowe rejestrowanie błędów",
         "zh-cn": "改进了极端情况下的错误处理，并更详细地记录了错误"
-      },
-      "2.5.2": {
-        "en": "fixed issue which originated by undefined tclsh alias on CCU for dutycycle.fn script",
-        "de": "Problem behoben, das durch undefinierten tclsh-Alias auf der CCU für das Skript dutycycle.fn verursacht wurde",
-        "ru": "исправлена ошибка, возникшая из-за неопределенного псевдонима tclsh в CCU для сценария dutycycle.fn",
-        "pt": "Foi corrigido o problema que se originava do alias tclsh indefinido na CCU para o script dutycycle.fn",
-        "nl": "probleem opgelost dat is ontstaan door ongedefinieerde tclsh-alias op CCU voor dutycycle.fn-script",
-        "fr": "problème corrigé qui provenait d'un alias tclsh non défini sur CCU pour le script dutycycle.fn",
-        "it": "risolto problema originato da alias tclsh indefinito su CCU per lo script dutycycle.fn",
-        "es": "problema solucionado que se originó por el alias tclsh indefinido en CCU para el script dutycycle.fn",
-        "pl": "naprawiono problem, który powstał przez niezdefiniowany alias tclsh w CCU dla skryptu dutycycle.fn",
-        "zh-cn": "解决了由Dutycycle.fn脚本的CCU上未定义的tclsh别名引起的问题"
-      },
-      "2.5.1": {
-        "en": "we no longer use adapter.objects directly",
-        "de": "Wir verwenden adapter.objects nicht mehr direkt",
-        "ru": "мы больше не используем адаптер.объекты напрямую",
-        "pt": "não usamos mais o adapter.objects diretamente",
-        "nl": "we gebruiken adapter.objects niet langer rechtstreeks",
-        "fr": "nous n'utilisons plus directement adapter.objects",
-        "it": "non utilizziamo più adapter.objects direttamente",
-        "es": "ya no usamos adaptador.objetos directamente",
-        "pl": "nie używamy już bezpośrednio adapter.objects",
-        "zh-cn": "我们不再直接使用adapter.objects"
       }
     },
     "title": "HomeMatic ReGaHSS",

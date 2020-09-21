@@ -613,12 +613,13 @@ async function pollServiceMsgs() {
 
         let instanceNumber;
         try {
-            instanceNumber = Object.keys(states).find(value => id.split(':')[0] === value.split('.')[2]).slice(0, 8);
-        } catch (e) {
+            instanceNumber = Object.keys(states).find(value => id.split(':')[0] === value.split('.')[2]).split('.')[1];
+        } catch {
+            // instance not found -> "split" raises
             continue;
         } // endTryCatch
 
-        id = `${instanceNumber}.${id.replace(':', '.').replace(FORBIDDEN_CHARS, '_')}_ALARM`;
+        id = `hm-rpc.${instanceNumber}.${id.replace(':', '.').replace(FORBIDDEN_CHARS, '_')}_ALARM`;
 
         const state = {
             val: data[dp].AlState,
