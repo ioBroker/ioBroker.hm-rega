@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.21",
+    "version": "2.6.22",
     "news": {
-      "2.6.21": {
+      "2.6.22": {
         "en": "fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance",
         "de": "Fehler behoben, bei dem Alarmzustände von hm-rpc-Instanzen mit der Instanznummer> = 10 für die falsche Instanz erstellt wurden",
         "ru": "исправлена ошибка, при которой аварийные состояния экземпляров hm-rpc с номером экземпляра> = 10 создаются для неправильного экземпляра",
