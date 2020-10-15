@@ -230,7 +230,7 @@ function _unescape(text) {
 
 function checkInit(id) {
     adapter.getForeignObject(`system.adapter.${id}`, (err, obj) => {
-        if (obj && obj.native.checkInit && obj.native.checkInitTrigger) {
+        if (obj && obj.native && obj.native.checkInit && obj.native.checkInitTrigger) {
             const interval = parseInt(obj.native.checkInitInterval, 10);
 
             // Fix error in config
@@ -945,6 +945,8 @@ async function getFunctions(callback) {
             } else {
                 obj.common = obj.common || {};
                 obj.common.members = obj.common.members || [];
+                oldObj.common = oldObj.common || {};
+                oldObj.common.members = oldObj.common.members || [];
                 for (const newMember of obj.common.members) {
                     // Check if new channel added
                     if (oldObj.common.members.indexOf(newMember) === -1) {

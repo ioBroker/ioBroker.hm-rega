@@ -66,6 +66,9 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
+### 2.6.23 (2020-10-15)
+* (foxriver76) fixes for edge case crashes
+
 ### 2.6.22 (2020-09-29)
 * (foxriver76) fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance (issue #111)
 

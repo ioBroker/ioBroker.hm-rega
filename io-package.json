@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.22",
+    "version": "2.6.23",
     "news": {
+      "2.6.23": {
+        "en": "fixes for edge case crashes",
+        "de": "Korrekturen für Edge-Case-Abstürze",
+        "ru": "исправления сбоев крайнего случая",
+        "pt": "correções para falhas de casos extremos",
+        "nl": "oplossingen voor crashes aan de rand",
+        "fr": "correctifs pour les plantages de bordures",
+        "it": "correzioni per crash del case edge",
+        "es": "arreglos para fallas de casos de borde",
+        "pl": "poprawki dotyczące awarii skrajnych",
+        "zh-cn": "修复了边缘机壳崩溃的问题"
+      },
       "2.6.22": {
         "en": "fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance",
         "de": "Fehler behoben, bei dem Alarmzustände von hm-rpc-Instanzen mit der Instanznummer> = 10 für die falsche Instanz erstellt wurden",
