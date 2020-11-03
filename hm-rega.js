@@ -315,8 +315,8 @@ function main() {
 
         ready: err => {
 
-            if (err === `ReGaHSS ${adapter.config.homematicAddress} down`) {
-                adapter.log.error('ReGaHSS down');
+            if (err === 'ReGaHSS down') {
+                adapter.log.error(`ReGaHSS ${adapter.config.homematicAddress} down`);
                 ccuReachable = true;
                 ccuRegaUp = false;
                 adapter.setState('info.connection', false, true);

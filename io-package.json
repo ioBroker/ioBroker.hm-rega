@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.23",
+    "version": "2.6.24",
     "news": {
+      "2.6.24": {
+        "en": "now states will be accordingly marked to indicate that rega is down when receiving invalid responses",
+        "de": "Jetzt werden Zustände entsprechend markiert, um anzuzeigen, dass die Rega beim Empfang ungültiger Antworten nicht verfügbar ist",
+        "ru": "Теперь состояния будут соответственно отмечены, чтобы указать, что rega не работает при получении неверных ответов",
+        "pt": "agora os estados serão devidamente marcados para indicar que rega está inativo ao receber respostas inválidas",
+        "nl": "Nu worden staten dienovereenkomstig gemarkeerd om aan te geven dat rega down is bij het ontvangen van ongeldige antwoorden",
+        "fr": "maintenant les états seront marqués en conséquence pour indiquer que rega est en panne lors de la réception de réponses invalides",
+        "it": "ora gli stati saranno contrassegnati di conseguenza per indicare che la rega è inattiva quando si ricevono risposte non valide",
+        "es": "ahora los estados se marcarán en consecuencia para indicar que rega está inactivo cuando se reciben respuestas no válidas",
+        "pl": "teraz stany będą odpowiednio oznaczone, aby wskazać, że rega nie działa podczas otrzymywania nieprawidłowych odpowiedzi",
+        "zh-cn": "现在状态将相应地标记为指示接收到无效响应时rega已关闭"
+      },
       "2.6.23": {
         "en": "fixes for edge case crashes",
         "de": "Korrekturen für Edge-Case-Abstürze",
@@ -218,30 +230,6 @@
         "es": "registro del nombre del script agregado, cuando el script aún está en la cola pendiente",
         "pl": "dodano rejestrowanie nazwy skryptu, gdy skrypt jest nadal w kolejce",
         "zh-cn": "当脚本仍在挂起队列中时，添加脚本名称的日志记录"
-      },
-      "2.5.4": {
-        "en": "made port fully configurable also with https enabled",
-        "de": "Port auch mit aktiviertem https voll konfigurierbar gemacht",
-        "ru": "сделал порт полностью настраиваемым также с включенным https",
-        "pt": "porta totalmente configurável também com https ativado",
-        "nl": "poort volledig configureerbaar gemaakt, ook met https ingeschakeld",
-        "fr": "port entièrement configurable également avec https activé",
-        "it": "reso porta completamente configurabile anche con https abilitato",
-        "es": "puerto hecho totalmente configurable también con https habilitado",
-        "pl": "w pełni konfigurowalny port, także z włączonym https",
-        "zh-cn": "使端口完全可配置，同时启用https"
-      },
-      "2.5.3": {
-        "en": "improved error handling in edge cases and more verbose logging on errors",
-        "de": "Verbesserte Fehlerbehandlung in Randfällen und ausführlichere Fehlerprotokollierung",
-        "ru": "улучшенная обработка ошибок в крайних случаях и более подробное ведение журнала ошибок",
-        "pt": "manipulação aprimorada de erros em casos extremos e registro mais detalhado de erros",
-        "nl": "verbeterde foutafhandeling in randgevallen en meer uitgebreide aanmeldfouten",
-        "fr": "gestion améliorée des erreurs dans les cas marginaux et journalisation plus détaillée des erreurs",
-        "it": "migliorata gestione degli errori nei casi limite e registrazione più dettagliata degli errori",
-        "es": "manejo mejorado de errores en casos extremos y registro más detallado de errores",
-        "pl": "poprawiona obsługa błędów w przypadkach skrajnych i bardziej szczegółowe rejestrowanie błędów",
-        "zh-cn": "改进了极端情况下的错误处理，并更详细地记录了错误"
       }
     },
     "title": "HomeMatic ReGaHSS",
