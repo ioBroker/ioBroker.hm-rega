@@ -924,7 +924,7 @@ async function getFunctions(callback) {
         const desc = _unescape(data[regaId].EnumInfo);
 
         const obj = {
-            _id: `${adapter.config.enumFunctions}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
+            _id: `${adapter.config.enumFunctions}.${name.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_')}`,
             desc: desc,
             type: 'enum',
             common: {
@@ -938,40 +938,46 @@ async function getFunctions(callback) {
             }
         };
 
-        adapter.getForeignObject(obj._id, (err, oldObj) => {
-            let changed = false;
-            if (!oldObj) {
-                oldObj = obj;
-                changed = true;
-            } else {
-                obj.common = obj.common || {};
-                obj.common.members = obj.common.members || [];
-                oldObj.common = oldObj.common || {};
-                oldObj.common.members = oldObj.common.members || [];
-                for (const newMember of obj.common.members) {
-                    // Check if new channel added
-                    if (oldObj.common.members.indexOf(newMember) === -1) {
-                        changed = true;
-                        oldObj.common.members.push(newMember);
-                        adapter.log.info(`${newMember} has been added to functions ${name}`);
-                    } // endIf
-                } // endFor
+        let oldObj;
+        try {
+            oldObj = await adapter.getForeignObjectAsync(obj._id);
+        } catch (e) {
+            adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
+            return void (typeof callback === 'function' && callback());
+        }
 
-                // do it reverse, because we delete own elements in loop
-                for (let i = oldObj.common.members.length; i >= 0; i--) {
-                    const oldMember = oldObj.common.members[i];
-                    // Check if channel has been removed
-                    if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
-                        changed = true;
-                        oldObj.common.members.splice(i, 1);
-                        adapter.log.info(`${oldMember} has been removed from functions ${name}`);
-                    } // endIf
-                } // endFor
-            } // endElse
-            if (changed) {
-                adapter.setForeignObject(obj._id, oldObj);
-            } // endIf
-        });
+        let changed = false;
+        if (!oldObj) {
+            oldObj = obj;
+            changed = true;
+        } else {
+            obj.common = obj.common || {};
+            obj.common.members = obj.common.members || [];
+            oldObj.common = oldObj.common || {};
+            oldObj.common.members = oldObj.common.members || [];
+            for (const newMember of obj.common.members) {
+                // Check if new channel added
+                if (oldObj.common.members.indexOf(newMember) === -1) {
+                    changed = true;
+                    oldObj.common.members.push(newMember);
+                    adapter.log.info(`${newMember} has been added to functions ${name}`);
+                } // endIf
+            } // endFor
+
+            // do it reverse, because we delete own elements in loop
+            for (let i = oldObj.common.members.length; i >= 0; i--) {
+                const oldMember = oldObj.common.members[i];
+                // Check if channel has been removed
+                if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
+                    changed = true;
+                    oldObj.common.members.splice(i, 1);
+                    adapter.log.info(`${oldMember} has been removed from functions ${name}`);
+                } // endIf
+            } // endFor
+        } // endElse
+        if (changed) {
+            adapter.setForeignObject(obj._id, oldObj);
+        } // endIf
     } // endFor
 
     adapter.getForeignObject(adapter.config.enumFunctions, (err, obj) => {
@@ -1062,8 +1068,9 @@ async function getRooms(callback) {
 
         const name = _unescape(data[regaId].Name);
         const desc = _unescape(data[regaId].EnumInfo);
+
         const obj = {
-            _id: `${adapter.config.enumRooms}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
+            _id: `${adapter.config.enumRooms}.${name.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_')}`,
             type: 'enum',
             common: {
                 name: words[name] || name,
@@ -1076,39 +1083,46 @@ async function getRooms(callback) {
                 EnumInfo: desc
             }
         };
-        adapter.getForeignObject(obj._id, (err, oldObj) => {
-            let changed = false;
-            if (!oldObj) {
-                oldObj = obj;
-                changed = true;
-            } else {
-                oldObj.common = oldObj.common || {};
-                oldObj.common.members = oldObj.common.members || [];
-                for (const newMember of obj.common.members) {
-                    // Check if new room added
-                    if (oldObj.common.members.indexOf(newMember) === -1) {
-                        changed = true;
-                        oldObj.common.members.push(newMember);
-                        adapter.log.info(`${newMember} has been added to room ${name}`);
-                    } // endIf
-                } // endFor
 
-                // do it reverse, because we delete own elements in loop
-                for (let i = oldObj.common.members.length; i >= 0; i--) {
-                    const oldMember = oldObj.common.members[i];
-                    // Check if room has been removed
-                    if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
-                        changed = true;
-                        oldObj.common.members.splice(i, 1);
-                        adapter.log.info(`${oldMember} has been removed from room ${name}`);
-                    } // endIf
-                } // endFor
-            } // endElse
+        let oldObj;
+        try {
+            oldObj = await adapter.getForeignObjectAsync(obj._id);
+        } catch (e) {
+            adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
+            return void (typeof callback === 'function' && callback());
+        }
 
-            if (changed) {
-                adapter.setForeignObject(obj._id, oldObj);
-            } // endIf
-        });
+        let changed = false;
+        if (!oldObj) {
+            oldObj = obj;
+            changed = true;
+        } else {
+            oldObj.common = oldObj.common || {};
+            oldObj.common.members = oldObj.common.members || [];
+            for (const newMember of obj.common.members) {
+                // Check if new room added
+                if (oldObj.common.members.indexOf(newMember) === -1) {
+                    changed = true;
+                    oldObj.common.members.push(newMember);
+                    adapter.log.info(`${newMember} has been added to room ${name}`);
+                } // endIf
+            } // endFor
+
+            // do it reverse, because we delete own elements in loop
+            for (let i = oldObj.common.members.length; i >= 0; i--) {
+                const oldMember = oldObj.common.members[i];
+                // Check if room has been removed
+                if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
+                    changed = true;
+                    oldObj.common.members.splice(i, 1);
+                    adapter.log.info(`${oldMember} has been removed from room ${name}`);
+                } // endIf
+            } // endFor
+        } // endElse
+
+        if (changed) {
+            adapter.setForeignObject(obj._id, oldObj);
+        } // endIf
     } // endFor
 
     adapter.getForeignObject(adapter.config.enumRooms, (err, obj) => {
@@ -1145,7 +1159,7 @@ async function getFavorites(callback) {
         return void (typeof callback === 'function' && callback());
     }
 
-    adapter.setForeignObject(adapter.config.enumFavorites, {
+    adapter.setForeignObjectNotExists(adapter.config.enumFavorites, {
         type: 'enum',
         common: {
             name: 'Favorites'
@@ -1153,10 +1167,11 @@ async function getFavorites(callback) {
         native: {}
     });
 
+
     for (let user of Object.keys(data)) {
         user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
         try {
-            await adapter.setForeignObjectAsync(`${adapter.config.enumFavorites}.${user}`, {
+            await adapter.setForeignObjectNotExistsAsync(`${adapter.config.enumFavorites}.${user}`, {
                 type: 'enum',
                 common: {
                     name: `${user} Favorites`
@@ -1216,6 +1231,7 @@ async function getFavorites(callback) {
             }
 
             const obj = {
+                _id: `${adapter.config.enumFavorites}.${user}`,
                 type: 'enum',
                 common: {
                     name: fav,
@@ -1228,38 +1244,44 @@ async function getFavorites(callback) {
                 }
             };
 
-            adapter.getForeignObject(`${adapter.config.enumFavorites}.${obj.native.user}.${obj.common.name}`, (err, oldObj) => {
-                let changed = false;
-                if (!oldObj) {
-                    oldObj = obj;
-                    changed = true;
-                } else {
-                    oldObj.common = oldObj.common || {};
-                    oldObj.common.members = oldObj.common.members || [];
-                    for (const newMember of obj.common.members) {
-                        // Check if new channel added
-                        if (oldObj.common.members.indexOf(newMember) === -1) {
-                            changed = true;
-                            oldObj.common.members.push(newMember);
-                            adapter.log.info(`${newMember} has been added to favorites for ${user}`);
-                        } // endIf
-                    } // endFor
+            let oldObj;
+            try {
+                oldObj = await adapter.getForeignObjectAsync(obj._id);
+            } catch (e) {
+                adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
+                return void (typeof callback === 'function' && callback());
+            }
 
-                    // do it reverse, because we delete own elements in loop
-                    for (let i = oldObj.common.members.length; i >= 0; i--) {
-                        const oldMember = oldObj.common.members[i];
-                        // Check if channel has been removed
-                        if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
-                            changed = true;
-                            oldObj.common.members.splice(i, 1);
-                            adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);
-                        } // endIf
-                    } // endFor
-                } // endElse
-                if (changed) {
-                    adapter.setForeignObject(`${adapter.config.enumFavorites}.${obj.native.user}.${obj.common.name}`, oldObj);
-                } // endIf
-            });
+            let changed = false;
+            if (!oldObj) {
+                oldObj = obj;
+                changed = true;
+            } else {
+                oldObj.common = oldObj.common || {};
+                oldObj.common.members = oldObj.common.members || [];
+                for (const newMember of obj.common.members) {
+                    // Check if new channel added
+                    if (oldObj.common.members.indexOf(newMember) === -1) {
+                        changed = true;
+                        oldObj.common.members.push(newMember);
+                        adapter.log.info(`${newMember} has been added to favorites for ${user}`);
+                    } // endIf
+                } // endFor
+
+                // do it reverse, because we delete own elements in loop
+                for (let i = oldObj.common.members.length; i >= 0; i--) {
+                    const oldMember = oldObj.common.members[i];
+                    // Check if channel has been removed
+                    if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
+                        changed = true;
+                        oldObj.common.members.splice(i, 1);
+                        adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);
+                    } // endIf
+                } // endFor
+            } // endElse
+            if (changed) {
+                adapter.setForeignObject(obj._id, oldObj);
+            } // endIf
         } // endFor
     } // endFor
 

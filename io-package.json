@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.25",
+    "version": "2.6.26",
     "news": {
+      "2.6.26": {
+        "en": "fixed missing enum translations (changed in API)",
+        "de": "fehlende Enum-Übersetzungen behoben (in API geändert)",
+        "ru": "исправлены отсутствующие переводы enum (изменено в API)",
+        "pt": "corrigidas traduções enum ausentes (alteradas na API)",
+        "nl": "ontbrekende enum-vertalingen opgelost (gewijzigd in API)",
+        "fr": "corrections d'énumérations manquantes (modifiées dans l'API)",
+        "it": "risolte traduzioni enum mancanti (modificate nell'API)",
+        "es": "Se corrigieron las traducciones de enumeración que faltaban (cambiadas en la API)",
+        "pl": "naprawiono brakujące tłumaczenia wyliczeń (zmienione w API)",
+        "zh-cn": "修复缺少的枚举翻译（已在API中更改）"
+      },
       "2.6.25": {
         "en": "fixed aliases being removed from enums if they contain \"hm-rpc.\"",
         "de": "Fehler behoben, bei denen Aliase aus Aufzählungen entfernt wurden, wenn sie \"hm-rpc\" enthielten.",
@@ -218,30 +230,6 @@
         "es": "corrección menor en objeto CCU",
         "pl": "drobna poprawka na obiekcie CCU",
         "zh-cn": "对CCU对象的次要修复"
-      },
-      "2.6.1": {
-        "en": "added Sentry plugin support",
-        "de": "Unterstützung für Sentry-Plugins hinzugefügt",
-        "ru": "добавлена поддержка плагинов Sentry",
-        "pt": "adicionado suporte ao plugin Sentry",
-        "nl": "ondersteuning voor Sentry-plug-ins toegevoegd",
-        "fr": "ajout du support du plugin Sentry",
-        "it": "aggiunto il supporto del plugin Sentry",
-        "es": "Se agregó soporte para el complemento Sentry",
-        "pl": "dodano obsługę wtyczek Sentry",
-        "zh-cn": "添加了Sentry插件支持"
-      },
-      "2.5.5": {
-        "en": "logging of script name added, when script is still in pending queue",
-        "de": "Protokollierung des Skriptnamens hinzugefügt, wenn sich das Skript noch in der Warteschlange befindet",
-        "ru": "добавлено ведение журнала имени скрипта, когда скрипт еще находится в очереди",
-        "pt": "registro do nome do script adicionado, quando o script ainda está na fila pendente",
-        "nl": "logboekregistratie van scriptnaam toegevoegd, wanneer script nog in wachtrij staat",
-        "fr": "enregistrement du nom du script ajouté, lorsque le script est toujours dans la file d'attente",
-        "it": "registrazione del nome dello script aggiunto, quando lo script è ancora in coda in sospeso",
-        "es": "registro del nombre del script agregado, cuando el script aún está en la cola pendiente",
-        "pl": "dodano rejestrowanie nazwy skryptu, gdy skrypt jest nadal w kolejce",
-        "zh-cn": "当脚本仍在挂起队列中时，添加脚本名称的日志记录"
       }
     },
     "title": "HomeMatic ReGaHSS",
