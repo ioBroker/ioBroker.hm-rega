@@ -38,6 +38,7 @@ const fs = require('fs');
 const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\][*,;'"`<>\\?]/g;
+const HM_RPC_REGEX = new RegExp('^hm-rpc[.]\\d+[.]+.+');
 let adapter;
 
 function startAdapter(options) {
@@ -960,7 +961,7 @@ async function getFunctions(callback) {
                 for (let i = oldObj.common.members.length; i >= 0; i--) {
                     const oldMember = oldObj.common.members[i];
                     // Check if channel has been removed
-                    if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
+                    if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
                         changed = true;
                         oldObj.common.members.splice(i, 1);
                         adapter.log.info(`${oldMember} has been removed from functions ${name}`);
@@ -1096,7 +1097,7 @@ async function getRooms(callback) {
                 for (let i = oldObj.common.members.length; i >= 0; i--) {
                     const oldMember = oldObj.common.members[i];
                     // Check if room has been removed
-                    if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
+                    if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
                         changed = true;
                         oldObj.common.members.splice(i, 1);
                         adapter.log.info(`${oldMember} has been removed from room ${name}`);
@@ -1248,7 +1249,7 @@ async function getFavorites(callback) {
                     for (let i = oldObj.common.members.length; i >= 0; i--) {
                         const oldMember = oldObj.common.members[i];
                         // Check if channel has been removed
-                        if (obj.common.members.indexOf(oldMember) === -1 && /hm-rpc..+/.test(oldMember)) {
+                        if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
                             changed = true;
                             oldObj.common.members.splice(i, 1);
                             adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);

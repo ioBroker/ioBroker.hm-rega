@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "2.6.24",
+    "version": "2.6.25",
     "news": {
+      "2.6.25": {
+        "en": "fixed aliases being removed from enums if they contain \"hm-rpc.\"",
+        "de": "Fehler behoben, bei denen Aliase aus Aufzählungen entfernt wurden, wenn sie \"hm-rpc\" enthielten.",
+        "ru": "исправлено удаление псевдонимов из перечислений, если они содержат «hm-rpc».",
+        "pt": "aliases corrigidos sendo removidos de enums se contiverem \"hm-rpc.\"",
+        "nl": "vaste aliassen verwijderd uit enums als ze \"hm-rpc\" bevatten.",
+        "fr": "correction des alias supprimés des énumérations s'ils contiennent \"hm-rpc\".",
+        "it": "corretti gli alias rimossi dalle enumerazioni se contengono \"hm-rpc\".",
+        "es": "Se corrigieron los alias que se eliminaron de las enumeraciones si contienen \"hm-rpc\".",
+        "pl": "naprawiono usuwanie aliasów z wyliczeń, jeśli zawierają one „hm-rpc”.",
+        "zh-cn": "固定别名（如果它们包含“ hm-rpc”）将从枚举中删除。"
+      },
       "2.6.24": {
         "en": "now states will be accordingly marked to indicate that rega is down when receiving invalid responses",
         "de": "Jetzt werden Zustände entsprechend markiert, um anzuzeigen, dass die Rega beim Empfang ungültiger Antworten nicht verfügbar ist",

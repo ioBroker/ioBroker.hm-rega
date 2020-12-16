@@ -66,6 +66,9 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
+### 2.6.25 (2020-12-16)
+* (foxriver76) fix aliases being removed from enums if they contain `hm-rpc.`
+
 ### 2.6.24 (2020-11-03)
 * (foxriver76) now states will be accordingly marked to indicate that rega is down when receiving invalid responses
 
