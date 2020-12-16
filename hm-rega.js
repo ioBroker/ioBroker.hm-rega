@@ -924,7 +924,7 @@ async function getFunctions(callback) {
         const desc = _unescape(data[regaId].EnumInfo);
 
         const obj = {
-            _id: `${adapter.config.enumFunctions}.${name.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_')}`,
+            _id: `${adapter.config.enumFunctions}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
             desc: desc,
             type: 'enum',
             common: {
@@ -1070,7 +1070,7 @@ async function getRooms(callback) {
         const desc = _unescape(data[regaId].EnumInfo);
 
         const obj = {
-            _id: `${adapter.config.enumRooms}.${name.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_')}`,
+            _id: `${adapter.config.enumRooms}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
             type: 'enum',
             common: {
                 name: words[name] || name,
@@ -1166,7 +1166,6 @@ async function getFavorites(callback) {
         },
         native: {}
     });
-
 
     for (let user of Object.keys(data)) {
         user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
