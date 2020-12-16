@@ -1159,6 +1159,7 @@ async function getFavorites(callback) {
         return void (typeof callback === 'function' && callback());
     }
 
+    // Create enum favorites if non existing (can be different to default)
     adapter.setForeignObjectNotExists(adapter.config.enumFavorites, {
         type: 'enum',
         common: {
@@ -1170,6 +1171,7 @@ async function getFavorites(callback) {
     for (let user of Object.keys(data)) {
         user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
         try {
+            // create every user even if no channels there
             await adapter.setForeignObjectNotExistsAsync(`${adapter.config.enumFavorites}.${user}`, {
                 type: 'enum',
                 common: {
@@ -1181,6 +1183,7 @@ async function getFavorites(callback) {
             adapter.log.error(`Could not synchronize favorites of user "${user}": ${e}`);
         }
 
+        // every user can have multiple favorite lists
         for (const fav of Object.keys(data[user])) {
             const channels = data[user][fav].Channels;
             const members = [];
@@ -1230,10 +1233,10 @@ async function getFavorites(callback) {
             }
 
             const obj = {
-                _id: `${adapter.config.enumFavorites}.${user}`,
+                _id: `${adapter.config.enumFavorites}.${user}.${_unescape(fav)}`,
                 type: 'enum',
                 common: {
-                    name: fav,
+                    name: _unescape(fav),
                     members: members
                 },
                 native: {
@@ -1263,7 +1266,7 @@ async function getFavorites(callback) {
                     if (oldObj.common.members.indexOf(newMember) === -1) {
                         changed = true;
                         oldObj.common.members.push(newMember);
-                        adapter.log.info(`${newMember} has been added to favorites for ${user}`);
+                        adapter.log.info(`${newMember} has been added to favorites for "${user}" on list "${_unescape(fav)}"`);
                     } // endIf
                 } // endFor
 
@@ -1274,7 +1277,7 @@ async function getFavorites(callback) {
                     if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
                         changed = true;
                         oldObj.common.members.splice(i, 1);
-                        adapter.log.info(`${oldMember} has been removed from favorites for ${user}`);
+                        adapter.log.info(`${oldMember} has been removed from favorites for "${user}" on list "${_unescape(fav)}"`);
                     } // endIf
                 } // endFor
             } // endElse

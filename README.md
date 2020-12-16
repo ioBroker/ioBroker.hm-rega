@@ -68,6 +68,7 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 ## Changelog
 ### 3.0.0 (2020-12-16)
 * (foxriver76) fixed enum translations (changed in API)
+* (foxriver76) fixed handling of "favorites" enum
 * __this can be breaking for some users, please check your enums__
 
 ### 2.6.25 (2020-12-16)
