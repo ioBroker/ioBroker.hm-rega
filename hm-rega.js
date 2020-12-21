@@ -1242,7 +1242,7 @@ async function getFavorites(callback) {
                 },
                 native: {
                     user: user,
-                    id: data[user][fav].id,
+                    id: data[_user][fav].id,
                     TypeName: 'FAVORITE'
                 }
             };
