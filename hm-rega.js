@@ -1168,8 +1168,8 @@ async function getFavorites(callback) {
         native: {}
     });
 
-    for (let user of Object.keys(data)) {
-        user = _unescape(user).replace(FORBIDDEN_CHARS, '_');
+    for (const _user of Object.keys(data)) {
+        const user = _unescape(_user).replace(FORBIDDEN_CHARS, '_');
         try {
             // create every user even if no channels there
             await adapter.setForeignObjectNotExistsAsync(`${adapter.config.enumFavorites}.${user}`, {
@@ -1184,8 +1184,9 @@ async function getFavorites(callback) {
         }
 
         // every user can have multiple favorite lists
-        for (const fav of Object.keys(data[user])) {
-            const channels = data[user][fav].Channels;
+
+        for (const fav of Object.keys(data[_user])) {
+            const channels = data[_user][fav].Channels;
             const members = [];
             for (const channel of channels) {
                 if (typeof channel === 'number') {
