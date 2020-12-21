@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "news": {
-      "3.0.2": {
+      "3.0.3": {
         "en": "fixed missing enum translations (changed in API)",
         "de": "fehlende Enum-Übersetzungen behoben (in API geändert)",
         "ru": "исправлены отсутствующие переводы enum (изменено в API)",

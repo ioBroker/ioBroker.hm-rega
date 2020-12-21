@@ -1234,7 +1234,7 @@ async function getFavorites(callback) {
             }
 
             const obj = {
-                _id: `${adapter.config.enumFavorites}.${user}.${_unescape(fav)}`,
+                _id: `${adapter.config.enumFavorites}.${user}.${_unescape(fav)}`.replace(FORBIDDEN_CHARS, '_'),
                 type: 'enum',
                 common: {
                     name: _unescape(fav),
