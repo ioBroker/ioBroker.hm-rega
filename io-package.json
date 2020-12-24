@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.4",
+    "version": "3.0.5",
     "news": {
+      "3.0.5": {
+        "en": "we now provide possibility to use custom webinterface port, please see FAQ",
+        "de": "Wir bieten jetzt die Möglichkeit, einen benutzerdefinierten Webinterface-Port zu verwenden (siehe FAQ)",
+        "ru": "теперь мы предоставляем возможность использовать собственный порт веб-интерфейса, см. FAQ",
+        "pt": "agora oferecemos a possibilidade de usar uma porta de interface da web personalizada, consulte o FAQ",
+        "nl": "we bieden nu de mogelijkheid om een aangepaste webinterfacepoort te gebruiken, zie FAQ",
+        "fr": "nous offrons maintenant la possibilité d'utiliser un port d'interface Web personnalisé, veuillez consulter la FAQ",
+        "it": "ora forniamo la possibilità di utilizzare la porta dell'interfaccia web personalizzata, vedere le domande frequenti",
+        "es": "ahora ofrecemos la posibilidad de utilizar un puerto de interfaz web personalizado, consulte las preguntas frecuentes",
+        "pl": "oferujemy teraz możliwość korzystania z niestandardowego portu interfejsu internetowego, zobacz FAQ",
+        "zh-cn": "我们现在提供使用自定义Web界面端口的可能性，请参阅常见问题解答"
+      },
       "3.0.4": {
         "en": "fixed missing enum translations (changed in API)",
         "de": "fehlende Enum-Übersetzungen behoben (in API geändert)",
@@ -313,7 +325,8 @@
     "username": "",
     "password": "",
     "useHttps": false,
-    "showInvSysVar": false
+    "showInvSysVar": false,
+    "webinterfacePort": 0
   },
   "protectedNative": [
     "username",

@@ -49,6 +49,16 @@ At the Sync tab you will find `Invisible variables` when `Variables` is checked.
 Since version 2.3.0 it is possible to execute your own scripts on the CCU by using the ``sendTo`` command.
 E. g. getting the uptime of your CCU by the following script:
 
+### My CCU Webinterface has a different Port than the standard http/https protocols, thus no connection is established. How can I configure the adapter to use a default port for the webinterface?
+Until now, this is an edge case and thus no configuration in the Admin GUI is possible. This has been decided because it would confuse
+10,000 users to help one user. However, the port can still be changed via the cli, using the following command:
+
+```bash
+iob set hm-rega.0 --webinterfacePort 8765
+```
+
+To use default port settings again, either set `443/80` according to your protocol, or set `0` for automatic selection.
+
 ```javascript
 const upTimeScript = `
     string stderr;
@@ -66,6 +76,9 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
+### 3.0.5 (2020-12-24)
+* (foxriver76) provide possibility to use custom webinterface port, please see FAQ
+
 ### 3.0.4 (2020-12-21)
 * (foxriver76) fixed enum translations (changed in API)
 * (foxriver76) fixed handling of "favorites" enum

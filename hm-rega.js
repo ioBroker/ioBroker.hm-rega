@@ -306,6 +306,7 @@ function main() {
 
     rega = new Rega({
         ccuIp: adapter.config.homematicAddress,
+        webinterfacePort: adapter.config.webinterfacePort,
         port: adapter.config.homematicPort,
         reconnectionInterval: adapter.config.reconnectionInterval,
         logger: adapter.log,
