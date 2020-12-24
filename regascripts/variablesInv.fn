@@ -1,15 +1,16 @@
-!# variablesInv.fn 0.1
+!# variablesInv.fn 0.2
 !#
-!# Dieses Script gibt die Systemvariablen (inklusive unsichtbarer) als JSON String aus
+!# Dieses Script gibt die Systemvariablen(inklusive unsichtbarer) als JSON String aus
 !#
 !# 7'2019 foxriver76 https://github.com/foxriver76 [basierend auf variables.fn (hobbyquaker)]
 !#
 
 object oSysVar;
 string sSysVarId;
-string sValueType;
-string sValue;
-boolean bFirst = true;
+var sValue;
+integer iValueType;
+integer iValueSubType;
+string sValueList;
 
 Write('{');
 
@@ -18,13 +19,10 @@ var servs = dom.GetObject(ID_SERVICES);
 string id;
 integer serviceMessages = 0;
 
-foreach(id, servs.EnumIDs())
-{
+foreach(id, servs.EnumIDs()) {
   var service = dom.GetObject(id);
-  if(service)
-  {
-    if(service.IsTypeOf(OT_ALARMDP) && (service.Used() == true) && (service.Enabled() == true) && (service.AlState() == asOncoming))
-    {
+  if(service) {
+    if(service.IsTypeOf(OT_ALARMDP) && (service.Used() == true) && (service.Enabled() == true) && (service.AlState() == asOncoming)) {
       serviceMessages = serviceMessages + 1;
     }
   }
@@ -33,68 +31,95 @@ foreach(id, servs.EnumIDs())
 WriteLine('"40":{"Name":"Alarmmeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Alarmmeldungen","Value":' # dom.GetObject(40).Value() # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""},');
 Write('"41":{"Name":"Servicemeldungen","TypeName":"VARDP","DPInfo":"Anzahl%20Servicemeldungen","Value":' # serviceMessages # ',"ValueMin":0,"ValueMax":65000,"ValueUnit":"","ValueType":16,"ValueSubType":0,"ValueList":""}');
 
-foreach (sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumIDs()) {
+foreach(sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumIDs()) {
+  !# we already read them above
+  if ((sSysVarId == 40) || (sSysVarId == 41)) {
+   continue;
+  }
 
   WriteLine(',');
 
+  oSysVar = dom.GetObject(sSysVarId);
+  sValue = oSysVar.Value();
+  iValueType = oSysVar.ValueType();
+  iValueSubType = oSysVar.ValueSubType();
+  sValueList = oSysVar.ValueList();
 
-  oSysVar     = dom.GetObject(sSysVarId);
-  sValueType  = oSysVar.ValueType();
+  Write('"' # sSysVarId # '":{');
 
-  Write('"' # sSysVarId # '":{"Name":"');
+  Write('"Name":"');
   WriteURL(oSysVar.Name());
-  Write('","TypeName":"' # oSysVar.TypeName());
-  Write('","DPInfo":"');
-  WriteURL(oSysVar.DPInfo());
+  Write('"');
 
-  Write('","Value":');
-  if (sValueType == 20) {
+  Write(',"TypeName":"' # oSysVar.TypeName() # '"');
+
+  Write(',"DPInfo":"');
+  WriteURL(oSysVar.DPInfo());
+  Write('"');
+
+  Write(',"Value":');
+  if (iValueType == 20) {
     Write('"');
-  	WriteURL(oSysVar.Value());
+    WriteURL(sValue);
     Write('"');
-  } else {
-    sValue = oSysVar.Value();
-    if (sValueType == 2) {
-        if (sValue) {
-            Write("true");
-        } else {
-            Write("false");
-        }
+  } elseif ((iValueType == 16) && (iValueSubType == 29)) {
+    if (sValue.VarType() == 2) {
+      Write(sValue);
     } else {
-       if (sValue == "") {
-            Write("0");
-       } else {
-            Write(sValue);
-       }
+      string sItem;
+      integer iIndex = 0;
+      string sIndex = "null";
+      foreach(sItem, sValueList.Split(";")) {
+        if ((sIndex == "null") && (sItem == sValue)) {
+          sIndex = iIndex.ToString();
+        }
+        iIndex = iIndex + 1;
+      }
+      Write(sIndex);
     }
+  } elseif (iValueType == 2) {
+    if (sValue) {
+      Write("true");
+    } else {
+      Write("false");
+    }
+  } elseif (sValue == "") {
+    Write("0");
+  } else {
+    Write(sValue);
   }
+
   string sValueMin = oSysVar.ValueMin();
 
   if (sValueMin == '') {
-      sValueMin = 'null';
+    sValueMin = 'null';
   }
 
   string sValueMax = oSysVar.ValueMax();
 
   if (sValueMax == '') {
-      sValueMax = 'null';
+    sValueMax = 'null';
   }
 
-  Write(',"Timestamp":"' # oSysVar.Timestamp());
-  Write('","ValueMin":' # sValueMin # ',"ValueMax":' # sValueMax # ',"ValueUnit":"');
-  WriteURL(oSysVar.ValueUnit());
-  Write('","ValueType":' # sValueType # ',"ValueSubType":' # oSysVar.ValueSubType());
+  Write(',"Timestamp":"' # oSysVar.Timestamp() # '"');
+  Write(',"ValueMin":' # sValueMin);
+  Write(',"ValueMax":' # sValueMax);
 
-  if (sValueType == 2) {
+  Write(',"ValueUnit":"');
+  WriteURL(oSysVar.ValueUnit());
+  Write('"')
+
+  Write(',"ValueType":' # iValueType);
+  Write(',"ValueSubType":' # iValueSubType);
+
+  if (iValueType == 2) {
     Write(',"ValueList":"');
     WriteURL(oSysVar.ValueName0() # ';' # oSysVar.ValueName1());
   } else {
     Write(',"ValueList":"');
-    WriteURL(oSysVar.ValueList());
+    WriteURL(sValueList);
   }
-
   Write('"}');
-
 }
 
 Write('}');

@@ -12,7 +12,7 @@
     <script type="text/javascript" src="../../lib/js/materialize.js"></script>
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
     <script type="text/javascript" src="words.js"></script>
-    
+
     <script type="text/javascript">
         var adapterDefaults = {
             syncDutyCycle: false,
@@ -213,6 +213,9 @@
                         } else {
                             $password.prop('disabled', true);
                             $username.prop('disabled', true);
+                            $password.val('');
+                            $username.val('');
+                            M.updateTextFields();
                         }
                     });
 

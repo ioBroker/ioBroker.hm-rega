@@ -49,6 +49,16 @@ At the Sync tab you will find `Invisible variables` when `Variables` is checked.
 Since version 2.3.0 it is possible to execute your own scripts on the CCU by using the ``sendTo`` command.
 E. g. getting the uptime of your CCU by the following script:
 
+### My CCU webinterface has a different port than the standard http/https protocols, thus no connection is established. How can I configure the adapter to use a custom port for the webinterface?
+Until now, this is an edge case and thus no configuration in the Admin GUI is possible. This has been decided because it would confuse
+10,000 users to help one user. However, the port can still be changed via the cli, using the following command:
+
+```bash
+iob set hm-rega.0 --webinterfacePort 8765
+```
+
+To use default port settings again, either set `443/80` according to your protocol, or set `0` for automatic selection.
+
 ```javascript
 const upTimeScript = `
     string stderr;
@@ -61,7 +71,93 @@ sendTo('hm-rega.0', upTimeScript, res => {
 });
 ```
 
+### My Rega API is running at another port than 8181 (HTTPS: 48181), can I use the adapter anyway?
+If your Rega API is running at a non default port (which should only happen in edge cases), we assume that you are familiar
+with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
+
 ## Changelog
+### 3.0.5 (2020-12-24)
+* (foxriver76) provide possibility to use custom webinterface port, please see FAQ
+
+### 3.0.4 (2020-12-21)
+* (foxriver76) fixed enum translations (changed in API)
+* (foxriver76) fixed handling of "favorites" enum
+* __this can be breaking for some users, please check your enums__
+
+### 2.6.25 (2020-12-16)
+* (foxriver76) fix aliases being removed from enums if they contain `hm-rpc.`
+
+### 2.6.24 (2020-11-03)
+* (foxriver76) now states will be accordingly marked to indicate that rega is down when receiving invalid responses
+
+### 2.6.23 (2020-10-15)
+* (foxriver76) fixes for edge case crashes
+
+### 2.6.22 (2020-09-29)
+* (foxriver76) fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance (issue #111)
+
+### 2.6.20 (2020-09-15)
+* (foxriver76) set explicit object type on extending object (issue #109)
+
+### 2.6.19 (2020-08-23)
+* (foxriver76) fixed issue on syncing service message counter when invisible variables are synchronized
+* (foxriver76) fixed issue where value list variables are a string instead of an integer
+
+### 2.6.17 (2020-08-17)
+* (foxriver76) fix for % scaling of float numbers
+
+### 2.6.15 (2020-08-08)
+* (foxriver76) fix potential issues with scaling of % values as in https://github.com/ioBroker/ioBroker.hm-rpc/issues/263
+
+### 2.6.14 (2020-06-11)
+* (foxriver76) fix potential problem on enum sync, where to many channels could be deleted
+
+### 2.6.11 (2020-06-11)
+* (foxriver76) timeout of requests increased to 90 seconds (its only important to have a timeout to prevent infinite stucking)
+
+### 2.6.10 (2020-06-10)
+* (foxriver76) fix crash when a user on CCU is a empty string on synchronizing favorites
+
+### 2.6.9 (2020-05-29)
+* (foxriver76) fixed crash when we cannot determine CCU version
+
+### 2.6.8 (2020-05-26)
+* (foxriver76) Script post requests will time out after 15 seconds to prevent 
+stucking in queue if no answer from ccu received
+
+### 2.6.7 (2020-05-11)
+* (foxriver76) fixed some edge cases, reported by Sentry
+
+### 2.6.6 (2020-05-06)
+* (foxriver76) use current time as timestamp if non-existent on initial variables poll
+
+### 2.6.5 (2020-04-22)
+* (foxriver76) improved error handling, no longer use legacy log file
+
+### 2.6.4 (2020-04-13)
+* (foxriver76) now storing scripts in iob file storage
+
+### 2.6.2 (2020-04-11)
+* (foxriver76) minor fix on ccu object
+
+### 2.6.1 (2020-04-04)
+* (foxriver76) fix synchronization
+
+### 2.6.0 (2020-04-02)
+* (foxriver76) sentry plugin support added
+
+### 2.5.5 (2020-02-17)
+* (foxriver76) we are logging the script name in still pending warning from now on
+
+### 2.5.4 (2020-02-05)
+* (foxriver76) made port fully configurable, also with https enabled
+
+### 2.5.3 (2020-01-15)
+* (foxriver76) improved error handling in edge cases and more verbose logging on errors
+
+### 2.5.2 (2019-12-29)
+* (foxriver76) fixed issue which originated by undefined tclsh alias on CCU for dutycycle.fn script
+
 ### 2.5.1 (2019-12-14)
 * (foxriver76) no longer use adapter.objects
 * (foxriver76) js-controller v > 2 required
@@ -315,7 +411,7 @@ or non existent if no rpc instance existed
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2019 bluefox <dogafox@gmail.com>
+Copyright (c) 2014-2020 bluefox <dogafox@gmail.com>
 
 Copyright (c) 2014 hobbyquaker
 

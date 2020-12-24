@@ -1,8 +1,8 @@
 {
     "name": "iobroker.hm-rega",
-    "version": "2.5.1",
+    "version": "3.0.5",
     "engines": {
-        "node": ">=6.0.0"
+        "node": ">=10.0.0"
     },
     "description": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
     "author": "hobbyquaker <hq@ccu.io>",
@@ -25,18 +25,18 @@
         "url": "https://github.com/ioBroker/ioBroker.hm-rega"
     },
     "dependencies": {
-        "xml2js": "^0.4.19",
-        "iconv-lite": "^0.4.23",
+        "@iobroker/adapter-core": "^2.0.0",
         "extend": "^3.0.2",
+        "iconv-lite": "^0.4.23",
         "request": "^2.87.0",
-        "@iobroker/adapter-core": "^1.0.3"
+        "xml2js": "^0.4.19"
     },
     "devDependencies": {
         "gulp": "^4.0.0",
         "mocha": "^5.2.0",
         "chai": "^4.1.2",
         "eslint": "^5.9.0",
-        "@iobroker/testing": "^1.0.4"
+        "@iobroker/testing": "^2.0.0"
     },
     "bugs": {
         "url": "https://github.com/ioBroker/ioBroker.hm-rega/issues"

@@ -1,4 +1,4 @@
-!# polling.fn 1.2
+!# polling.fn 1.3
 !#
 !# Dieses Script gibt die Werte aller Systemvariablen als JSON String aus
 !#
@@ -7,47 +7,59 @@
 
 object oSysVar;
 string sSysVarId;
-string sValueType;
-string sValue;
 var sValue;
+integer iValueType;
+integer iValueSubType;
+string sValueList;
 boolean bFirst = true;
 
 Write('{');
 
 foreach (sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumUsedIDs()) {
-
   if (bFirst) {
-  	bFirst = false;
+    bFirst = false;
   } else {
-  	WriteLine(',');
+    WriteLine(',');
   }
 
-  oSysVar     = dom.GetObject(sSysVarId);
-  sValueType  = oSysVar.ValueType();
+  oSysVar = dom.GetObject(sSysVarId);
+  sValue = oSysVar.Value();
+  iValueType = oSysVar.ValueType();
+  iValueSubType = oSysVar.ValueSubType();
+  sValueList = oSysVar.ValueList();
 
   Write('"' # sSysVarId # '":[');
-    if (sValueType == 20) {
-      Write('"');
-      WriteURL(oSysVar.Value());
-      Write('"');
+  if (iValueType == 20) {
+    Write('"');
+    WriteURL(sValue);
+    Write('"');
+  } elseif ((iValueType == 16) && (iValueSubType == 29)) {
+    if (sValue.VarType() == 2) {
+      Write(sValue);
     } else {
-      sValue = oSysVar.Value();
-      if (sValueType == 2) {
-          if (sValue) {
-              Write("true");
-          } else {
-              Write("false");
-          }
-      } else {
-         if (sValue == "") {
-              Write("0");
-         } else {
-              Write(sValue);
-         }
+      string sItem;
+      integer iIndex = 0;
+      string sIndex = "null";
+      foreach(sItem, sValueList.Split(";")) {
+        if ((sIndex == "null") && (sItem == sValue)) {
+          sIndex = iIndex.ToString();
+        }
+        iIndex = iIndex + 1;
       }
+      Write(sIndex);
     }
+  } elseif (iValueType == 2) {
+    if (sValue) {
+      Write("true");
+    } else {
+      Write("false");
+    }
+  } elseif (sValue == "") {
+    Write("0");
+  } else {
+    Write(sValue);
+  }
   Write(',"' # oSysVar.Timestamp() # '"]');
-
 }
 
 if (bFirst) {
@@ -64,13 +76,10 @@ var servs = dom.GetObject(ID_SERVICES);
 string id;
 integer serviceMessages = 0;
 
-foreach(id, servs.EnumIDs())
-{
+foreach(id, servs.EnumIDs()) {
   var service = dom.GetObject(id);
-  if(service)
-  {
-    if(service.IsTypeOf(OT_ALARMDP) && (service.Used() == true) && (service.Enabled() == true) && (service.AlState() == asOncoming))
-    {
+  if(service) {
+    if(service.IsTypeOf(OT_ALARMDP) && (service.Used() == true) && (service.Enabled() == true) && (service.AlState() == asOncoming)) {
       serviceMessages = serviceMessages + 1;
     }
   }
