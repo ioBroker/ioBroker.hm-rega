@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.5",
+    "version": "3.0.6",
     "news": {
+      "3.0.6": {
+        "en": "we don't write datapoints if timestamp is 0",
+        "de": "Wir schreiben keine Datenpunkte, wenn der Zeitstempel 0 ist",
+        "ru": "мы не записываем точки данных, если отметка времени равна 0",
+        "pt": "não gravamos pontos de dados se o carimbo de data / hora for 0",
+        "nl": "we schrijven geen datapunten als het tijdstempel 0 is",
+        "fr": "nous n'écrivons pas de points de données si l'horodatage est 0",
+        "it": "non scriviamo datapoint se timestamp è 0",
+        "es": "no escribimos puntos de datos si la marca de tiempo es 0",
+        "pl": "nie zapisujemy punktów danych, jeśli znacznik czasu wynosi 0",
+        "zh-cn": "如果时间戳为0，我们不写数据点"
+      },
       "3.0.5": {
         "en": "we now provide possibility to use custom webinterface port, please see FAQ",
         "de": "Wir bieten jetzt die Möglichkeit, einen benutzerdefinierten Webinterface-Port zu verwenden (siehe FAQ)",
@@ -218,30 +230,6 @@
         "es": "manejo mejorado de errores, ya no use el archivo de registro heredado",
         "pl": "poprawiona obsługa błędów, nie należy już używać starszego pliku dziennika",
         "zh-cn": "改进的错误处理，不再使用旧式日志文件"
-      },
-      "2.6.4": {
-        "en": "we are now using iobroker file storage for regascripts",
-        "de": "Wir verwenden jetzt den iobroker-Dateispeicher für Regaskripte",
-        "ru": "мы теперь используем хранилище файлов iobroker для regascripts",
-        "pt": "agora estamos usando o armazenamento de arquivos iobroker para regascripts",
-        "nl": "we gebruiken nu iobroker-bestandsopslag voor regascripts",
-        "fr": "nous utilisons maintenant le stockage de fichiers iobroker pour les regascripts",
-        "it": "ora stiamo usando l'archiviazione di file iobroker per registri",
-        "es": "ahora estamos usando el almacenamiento de archivos iobroker para regascripts",
-        "pl": "teraz używamy przechowywania plików iobroker do regascriptów",
-        "zh-cn": "我们现在正在使用iobroker文件存储来生成副本"
-      },
-      "2.6.2": {
-        "en": "minor fix on CCU object",
-        "de": "kleinere Korrektur am CCU-Objekt",
-        "ru": "мелкое исправление на объекте CCU",
-        "pt": "correção menor no objeto CCU",
-        "nl": "kleine correctie op CCU-object",
-        "fr": "correction mineure sur un objet CCU",
-        "it": "correzione minore sull'oggetto CCU",
-        "es": "corrección menor en objeto CCU",
-        "pl": "drobna poprawka na obiekcie CCU",
-        "zh-cn": "对CCU对象的次要修复"
       }
     },
     "title": "HomeMatic ReGaHSS",

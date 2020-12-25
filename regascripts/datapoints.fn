@@ -1,4 +1,4 @@
-!# datapoints.fn 1.8
+!# datapoints.fn 1.9
 !#
 !# Dieses Homematic-Script gibt eine Liste aller Datenpunkte (ausser WORKING/DIRECTION) als JSON String aus
 !#

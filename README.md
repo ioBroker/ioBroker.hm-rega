@@ -76,6 +76,9 @@ If your Rega API is running at a non default port (which should only happen in e
 with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
+### 3.0.6 (2020-12-25)
+* (Hirsch-DE) don't write datapoints if timestamp is 0"
+
 ### 3.0.5 (2020-12-24)
 * (foxriver76) provide possibility to use custom webinterface port, please see FAQ
 
