@@ -1,6 +1,6 @@
 {
     "name": "iobroker.hm-rega",
-    "version": "3.0.6",
+    "version": "3.0.7",
     "engines": {
         "node": ">=10.0.0"
     },
@@ -43,7 +43,6 @@
     },
     "main": "hm-rega.js",
     "scripts": {
-        "test:unit": "node_modules/.bin/mocha test/unitAdapter --exit",
         "test:package": "node_modules/.bin/mocha test/packageFiles --exit",
         "test:integration": "node_modules/.bin/mocha test/integrationAdapter --exit"
     },

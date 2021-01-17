@@ -2130,10 +2130,10 @@ function stop(callback) {
     stopCount++;
 }
 
-// If started as allInOne/compact mode => return function to create instance
-if (module && module.parent) {
-    module.exports = startAdapter;
-} else {
-    // or start the instance directly
+if (module === require.main) {
+    // start the instance directly
     startAdapter();
+} else {
+    // If started as allInOne/compact mode => return function to create instance
+    module.exports = startAdapter;
 }

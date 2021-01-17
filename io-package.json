@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.6",
+    "version": "3.0.7",
     "news": {
+      "3.0.7": {
+        "en": "we notify the user about aborted connection by CCU during request",
+        "de": "Wir benachrichtigen den Benutzer während der Anfrage über einen Verbindungsabbruch durch die CCU",
+        "ru": "мы уведомляем пользователя о разрыве соединения CCU во время запроса",
+        "pt": "notificamos o usuário sobre a conexão abortada pelo CCU durante a solicitação",
+        "nl": "we informeren de gebruiker over een afgebroken verbinding door CCU tijdens het verzoek",
+        "fr": "nous informons l'utilisateur de l'interruption de la connexion par CCU lors de la demande",
+        "it": "informiamo l'utente della connessione interrotta dalla CCU durante la richiesta",
+        "es": "notificamos al usuario sobre la conexión abortada por CCU durante la solicitud",
+        "pl": "powiadamiamy użytkownika o przerwaniu połączenia przez CCU podczas żądania",
+        "zh-cn": "我们在请求期间通知用户有关CCU中止连接的信息"
+      },
       "3.0.6": {
         "en": "we don't write datapoints if timestamp is 0",
         "de": "Wir schreiben keine Datenpunkte, wenn der Zeitstempel 0 ist",
