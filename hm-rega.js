@@ -366,13 +366,13 @@ function main() {
 
                     functionQueue.push(getDevices);
 
-                    if (adapter.config.syncRooms) {
+                    if (adapter.config.syncRooms && adapter.config.enumRooms) {
                         functionQueue.push(getRooms);
                     }
-                    if (adapter.config.syncFunctions) {
+                    if (adapter.config.syncFunctions && adapter.config.enumFunctions) {
                         functionQueue.push(getFunctions);
                     }
-                    if (adapter.config.syncFavorites) {
+                    if (adapter.config.syncFavorites && adapter.config.enumFavorites) {
                         functionQueue.push(getFavorites);
                     }
                 }
