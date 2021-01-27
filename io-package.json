@@ -2,8 +2,20 @@
     "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.9",
+        "version": "3.0.10",
         "news": {
+            "3.0.10": {
+                "en": "no build needed",
+                "de": "Kein Build erforderlich",
+                "ru": "сборка не требуется",
+                "pt": "nenhuma construção necessária",
+                "nl": "geen build nodig",
+                "fr": "aucune construction nécessaire",
+                "it": "nessuna build necessaria",
+                "es": "no se necesita construcción",
+                "pl": "nie potrzeba kompilacji",
+                "zh-cn": "无需构建"
+            },
             "3.0.9": {
                 "en": "fix gh actions",
                 "de": "Beheben Sie Gh-Aktionen",
@@ -231,18 +243,6 @@
                 "es": "Las solicitudes de publicación de guiones se agotarán después de 15 segundos para evitar el bloqueo en la cola si no se recibe respuesta de ccu",
                 "pl": "Żądania wysłania skryptu przekroczą limit czasu po 15 sekundach, aby zapobiec utknięciu w kolejce, jeśli nie otrzymano odpowiedzi od ccu",
                 "zh-cn": "如果未收到ccu的答复，则脚本发布请求将在15秒后超时，以防止卡在队列中"
-            },
-            "2.6.7": {
-                "en": "fixed some edge cases, reported by Sentry",
-                "de": "Einige von Sentry gemeldete Randfälle wurden behoben",
-                "ru": "исправлены некоторые крайние случаи, о которых сообщает Sentry",
-                "pt": "corrigimos alguns casos extremos, relatados pelo Sentry",
-                "nl": "enkele randgevallen opgelost, gemeld door Sentry",
-                "fr": "correction de certains cas marginaux, rapportés par Sentry",
-                "it": "risolti alcuni casi limite, riportati da Sentry",
-                "es": "arreglado algunos casos extremos, reportados por Sentry",
-                "pl": "naprawiono niektóre przypadki krawędzi, zgłoszone przez Sentry",
-                "zh-cn": "修复了哨兵报告的一些极端情况"
             }
         },
         "title": "HomeMatic ReGaHSS",
