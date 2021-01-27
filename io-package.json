@@ -1,398 +1,400 @@
 {
-  "common": {
-    "name": "hm-rega",
-    "version": "3.0.7",
-    "news": {
-      "3.0.7": {
-        "en": "we notify the user about aborted connection by CCU during request",
-        "de": "Wir benachrichtigen den Benutzer während der Anfrage über einen Verbindungsabbruch durch die CCU",
-        "ru": "мы уведомляем пользователя о разрыве соединения CCU во время запроса",
-        "pt": "notificamos o usuário sobre a conexão abortada pelo CCU durante a solicitação",
-        "nl": "we informeren de gebruiker over een afgebroken verbinding door CCU tijdens het verzoek",
-        "fr": "nous informons l'utilisateur de l'interruption de la connexion par CCU lors de la demande",
-        "it": "informiamo l'utente della connessione interrotta dalla CCU durante la richiesta",
-        "es": "notificamos al usuario sobre la conexión abortada por CCU durante la solicitud",
-        "pl": "powiadamiamy użytkownika o przerwaniu połączenia przez CCU podczas żądania",
-        "zh-cn": "我们在请求期间通知用户有关CCU中止连接的信息"
-      },
-      "3.0.6": {
-        "en": "we don't write datapoints if timestamp is 0",
-        "de": "Wir schreiben keine Datenpunkte, wenn der Zeitstempel 0 ist",
-        "ru": "мы не записываем точки данных, если отметка времени равна 0",
-        "pt": "não gravamos pontos de dados se o carimbo de data / hora for 0",
-        "nl": "we schrijven geen datapunten als het tijdstempel 0 is",
-        "fr": "nous n'écrivons pas de points de données si l'horodatage est 0",
-        "it": "non scriviamo datapoint se timestamp è 0",
-        "es": "no escribimos puntos de datos si la marca de tiempo es 0",
-        "pl": "nie zapisujemy punktów danych, jeśli znacznik czasu wynosi 0",
-        "zh-cn": "如果时间戳为0，我们不写数据点"
-      },
-      "3.0.5": {
-        "en": "we now provide possibility to use custom webinterface port, please see FAQ",
-        "de": "Wir bieten jetzt die Möglichkeit, einen benutzerdefinierten Webinterface-Port zu verwenden (siehe FAQ)",
-        "ru": "теперь мы предоставляем возможность использовать собственный порт веб-интерфейса, см. FAQ",
-        "pt": "agora oferecemos a possibilidade de usar uma porta de interface da web personalizada, consulte o FAQ",
-        "nl": "we bieden nu de mogelijkheid om een aangepaste webinterfacepoort te gebruiken, zie FAQ",
-        "fr": "nous offrons maintenant la possibilité d'utiliser un port d'interface Web personnalisé, veuillez consulter la FAQ",
-        "it": "ora forniamo la possibilità di utilizzare la porta dell'interfaccia web personalizzata, vedere le domande frequenti",
-        "es": "ahora ofrecemos la posibilidad de utilizar un puerto de interfaz web personalizado, consulte las preguntas frecuentes",
-        "pl": "oferujemy teraz możliwość korzystania z niestandardowego portu interfejsu internetowego, zobacz FAQ",
-        "zh-cn": "我们现在提供使用自定义Web界面端口的可能性，请参阅常见问题解答"
-      },
-      "3.0.4": {
-        "en": "fixed missing enum translations (changed in API)",
-        "de": "fehlende Enum-Übersetzungen behoben (in API geändert)",
-        "ru": "исправлены отсутствующие переводы enum (изменено в API)",
-        "pt": "corrigidas traduções enum ausentes (alteradas na API)",
-        "nl": "ontbrekende enum-vertalingen opgelost (gewijzigd in API)",
-        "fr": "corrections d'énumérations manquantes (modifiées dans l'API)",
-        "it": "risolte traduzioni enum mancanti (modificate nell'API)",
-        "es": "Se corrigieron las traducciones de enumeración que faltaban (cambiadas en la API)",
-        "pl": "naprawiono brakujące tłumaczenia wyliczeń (zmienione w API)",
-        "zh-cn": "修复缺少的枚举翻译（已在API中更改）"
-      },
-      "2.6.25": {
-        "en": "fixed aliases being removed from enums if they contain \"hm-rpc.\"",
-        "de": "Fehler behoben, bei denen Aliase aus Aufzählungen entfernt wurden, wenn sie \"hm-rpc\" enthielten.",
-        "ru": "исправлено удаление псевдонимов из перечислений, если они содержат «hm-rpc».",
-        "pt": "aliases corrigidos sendo removidos de enums se contiverem \"hm-rpc.\"",
-        "nl": "vaste aliassen verwijderd uit enums als ze \"hm-rpc\" bevatten.",
-        "fr": "correction des alias supprimés des énumérations s'ils contiennent \"hm-rpc\".",
-        "it": "corretti gli alias rimossi dalle enumerazioni se contengono \"hm-rpc\".",
-        "es": "Se corrigieron los alias que se eliminaron de las enumeraciones si contienen \"hm-rpc\".",
-        "pl": "naprawiono usuwanie aliasów z wyliczeń, jeśli zawierają one „hm-rpc”.",
-        "zh-cn": "固定别名（如果它们包含“ hm-rpc”）将从枚举中删除。"
-      },
-      "2.6.24": {
-        "en": "now states will be accordingly marked to indicate that rega is down when receiving invalid responses",
-        "de": "Jetzt werden Zustände entsprechend markiert, um anzuzeigen, dass die Rega beim Empfang ungültiger Antworten nicht verfügbar ist",
-        "ru": "Теперь состояния будут соответственно отмечены, чтобы указать, что rega не работает при получении неверных ответов",
-        "pt": "agora os estados serão devidamente marcados para indicar que rega está inativo ao receber respostas inválidas",
-        "nl": "Nu worden staten dienovereenkomstig gemarkeerd om aan te geven dat rega down is bij het ontvangen van ongeldige antwoorden",
-        "fr": "maintenant les états seront marqués en conséquence pour indiquer que rega est en panne lors de la réception de réponses invalides",
-        "it": "ora gli stati saranno contrassegnati di conseguenza per indicare che la rega è inattiva quando si ricevono risposte non valide",
-        "es": "ahora los estados se marcarán en consecuencia para indicar que rega está inactivo cuando se reciben respuestas no válidas",
-        "pl": "teraz stany będą odpowiednio oznaczone, aby wskazać, że rega nie działa podczas otrzymywania nieprawidłowych odpowiedzi",
-        "zh-cn": "现在状态将相应地标记为指示接收到无效响应时rega已关闭"
-      },
-      "2.6.23": {
-        "en": "fixes for edge case crashes",
-        "de": "Korrekturen für Edge-Case-Abstürze",
-        "ru": "исправления сбоев крайнего случая",
-        "pt": "correções para falhas de casos extremos",
-        "nl": "oplossingen voor crashes aan de rand",
-        "fr": "correctifs pour les plantages de bordures",
-        "it": "correzioni per crash del case edge",
-        "es": "arreglos para fallas de casos de borde",
-        "pl": "poprawki dotyczące awarii skrajnych",
-        "zh-cn": "修复了边缘机壳崩溃的问题"
-      },
-      "2.6.22": {
-        "en": "fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance",
-        "de": "Fehler behoben, bei dem Alarmzustände von hm-rpc-Instanzen mit der Instanznummer> = 10 für die falsche Instanz erstellt wurden",
-        "ru": "исправлена ошибка, при которой аварийные состояния экземпляров hm-rpc с номером экземпляра> = 10 создаются для неправильного экземпляра",
-        "pt": "corrigido o erro em que os estados de alarme de instâncias hm-rpc com número de instância> = 10 são criados para a instância errada",
-        "nl": "fout opgelost waarbij alarmstatussen van hm-rpc-instanties met instantienummer> = 10 werden gemaakt voor de verkeerde instantie",
-        "fr": "Correction d'une erreur où les états d'alarme des instances hm-rpc avec un numéro d'instance> = 10 sont créés pour la mauvaise instance",
-        "it": "corretto errore in cui gli stati di allarme delle istanze hm-rpc con numero di istanza> = 10 venivano creati per l'istanza sbagliata",
-        "es": "Error fijo donde los estados de alarma de instancias de hm-rpc con número de instancia> = 10 se crean para la instancia incorrecta",
-        "pl": "poprawiono błąd, w którym stany alarmowe instancji hm-rpc o numerze instancji> = 10 są tworzone dla niewłaściwej instancji",
-        "zh-cn": "修复了以下错误：为错误的实例创建了实例号> = 10的hm-rpc实例的警报状态"
-      },
-      "2.6.20": {
-        "en": "we now set explicit object type on extending object",
-        "de": "Wir setzen jetzt den expliziten Objekttyp für das Erweitern des Objekts",
-        "ru": "Теперь мы устанавливаем явный тип объекта для расширяемого объекта",
-        "pt": "agora definimos o tipo de objeto explícito na extensão de objeto",
-        "nl": "we stellen nu een expliciet objecttype in op het uitbreidende object",
-        "fr": "nous définissons maintenant le type d'objet explicite sur l'objet d'extension",
-        "it": "ora impostiamo il tipo di oggetto esplicito sull'estensione dell'oggetto",
-        "es": "ahora establecemos el tipo de objeto explícito al extender el objeto",
-        "pl": "teraz ustawiamy jawny typ obiektu na rozszerzanie obiektu",
-        "zh-cn": "现在，我们在扩展对象上设置显式对象类型"
-      },
-      "2.6.19": {
-        "en": "fixed issue on syncing service message counter when invisible variables are synchronized",
-        "de": "Problem beim Synchronisieren des Dienstnachrichtenzählers beim Synchronisieren unsichtbarer Variablen behoben",
-        "ru": "исправлена проблема с синхронизацией счетчика служебных сообщений при синхронизации невидимых переменных",
-        "pt": "Foi corrigido o problema de sincronização do contador de mensagens de serviço quando variáveis invisíveis são sincronizadas",
-        "nl": "probleem opgelost bij het synchroniseren van serviceberichtenteller wanneer onzichtbare variabelen werden gesynchroniseerd",
-        "fr": "Correction d'un problème sur la synchronisation du compteur de messages de service lorsque les variables invisibles sont synchronisées",
-        "it": "risolto il problema relativo alla sincronizzazione del contatore dei messaggi del servizio quando le variabili invisibili sono sincronizzate",
-        "es": "Problema solucionado al sincronizar el contador de mensajes del servicio cuando se sincronizan variables invisibles",
-        "pl": "naprawiono problem z synchronizacją licznika komunikatów serwisowych, gdy synchronizowane są niewidoczne zmienne",
-        "zh-cn": "解决了同步不可见变量时同步服务消息计数器的问题"
-      },
-      "2.6.17": {
-        "en": "fix for % scaling of float numbers",
-        "de": "Fix für% Skalierung von Float-Zahlen",
-        "ru": "исправление для% масштабирования чисел с плавающей запятой",
-        "pt": "correção para escala% de números flutuantes",
-        "nl": "oplossing voor %s chaling van float-getallen",
-        "fr": "correction de la mise à l'échelle en% des nombres flottants",
-        "it": "corretto il ridimensionamento% dei numeri in virgola mobile",
-        "es": "corrección de% de escala de números flotantes",
-        "pl": "poprawka dla %s kalowania liczb zmiennoprzecinkowych",
-        "zh-cn": "修正浮点数的百分比缩放"
-      },
-      "2.6.15": {
-        "en": "fixed potential issues with scaling of % values",
-        "de": "potenzielle Probleme mit der Skalierung von %-Werten wurden behoben",
-        "ru": "исправлены потенциальные проблемы с масштабированием значений%",
-        "pt": "corrigidos problemas potenciais com escala de valores%",
-        "nl": "Mogelijke problemen opgelost met het schalen van% -waarden",
-        "fr": "Correction de problèmes potentiels avec la mise à l'échelle des valeurs%",
-        "it": "risolti potenziali problemi con il ridimensionamento dei valori%",
-        "es": "problemas potenciales solucionados con la escala de valores de porcentaje",
-        "pl": "naprawiono potencjalne problemy ze skalowaniem wartości%",
-        "zh-cn": "修正了％值缩放的潜在问题"
-      },
-      "2.6.14": {
-        "en": "fixed potential problem on enum sync",
-        "de": "Mögliches Problem bei der Enum-Synchronisierung behoben",
-        "ru": "исправлена потенциальная проблема при синхронизации перечислений",
-        "pt": "problema potencial fixo na sincronização enum",
-        "nl": "Potentieel probleem opgelost met enum sync",
-        "fr": "correction d'un problème potentiel sur la synchronisation enum",
-        "it": "risolto potenziale problema sulla sincronizzazione enum",
-        "es": "problema potencial solucionado en la sincronización de enumeración",
-        "pl": "naprawiono potencjalny problem z synchronizacją enum",
-        "zh-cn": "修复了枚举同步的潜在问题"
-      },
-      "2.6.11": {
-        "en": "timeout of requests increased to 90 seconds",
-        "de": "Das Zeitlimit für Anforderungen wurde auf 90 Sekunden erhöht",
-        "ru": "таймаут запросов увеличен до 90 секунд",
-        "pt": "o tempo limite das solicitações aumentou para 90 segundos",
-        "nl": "time-out van verzoeken is verhoogd tot 90 seconden",
-        "fr": "délai d'expiration des demandes augmenté à 90 secondes",
-        "it": "timeout delle richieste aumentato a 90 secondi",
-        "es": "el tiempo de espera de las solicitudes aumentó a 90 segundos",
-        "pl": "limit czasu żądań zwiększony do 90 sekund",
-        "zh-cn": "请求超时增加到90秒"
-      },
-      "2.6.10": {
-        "en": "fix crash when a user on CCU is a empty string on synchronizing favorites",
-        "de": "Absturz behoben, wenn ein Benutzer auf der CCU beim Synchronisieren von Favoriten eine leere Zeichenfolge ist",
-        "ru": "исправление сбоя, когда пользователь в CCU представляет собой пустую строку при синхронизации избранного",
-        "pt": "corrigir falha quando um usuário na CCU é uma string vazia na sincronização de favoritos",
-        "nl": "crash repareren wanneer een gebruiker op CCU een lege string is bij het synchroniseren van favorieten",
-        "fr": "Correction d'un crash lorsqu'un utilisateur sur CCU est une chaîne vide lors de la synchronisation des favoris",
-        "it": "risolve il crash quando un utente su CCU è una stringa vuota durante la sincronizzazione dei preferiti",
-        "es": "arregla el bloqueo cuando un usuario en CCU es una cadena vacía al sincronizar favoritos",
-        "pl": "napraw awarię, gdy użytkownik w CCU jest pustym ciągiem synchronizacji ulubionych",
-        "zh-cn": "修复当CCU上的用户为同步收藏夹中的空字符串时的崩溃"
-      },
-      "2.6.9": {
-        "en": "fixed crash when we cannot determine CCU version",
-        "de": "Absturz behoben, wenn wir die CCU-Version nicht bestimmen können",
-        "ru": "исправлено падение, когда мы не можем определить версию CCU",
-        "pt": "falha corrigida quando não podemos determinar a versão da CCU",
-        "nl": "crash opgelost wanneer we de CCU-versie niet kunnen bepalen",
-        "fr": "Correction d'un crash lorsque nous ne pouvons pas déterminer la version CCU",
-        "it": "risolto crash quando non siamo in grado di determinare la versione della CCU",
-        "es": "Se corrigió el bloqueo cuando no podemos determinar la versión de CCU",
-        "pl": "naprawiono awarię, gdy nie możemy ustalić wersji CCU",
-        "zh-cn": "修复了无法确定CCU版本时的崩溃"
-      },
-      "2.6.8": {
-        "en": "Script post requests will time out after 15 seconds to prevent  stucking in queue if no answer from ccu received",
-        "de": "Skript-Post-Anfragen laufen nach 15 Sekunden ab, um zu verhindern, dass sie in der Warteschlange hängen bleiben, wenn keine Antwort von ccu empfangen wird",
-        "ru": "Сценарий отправки запросов истекает через 15 секунд, чтобы предотвратить зависание в очереди, если не получен ответ от ccu",
-        "pt": "As solicitações de postagem de script atingem o tempo limite após 15 segundos para evitar a espera na fila se nenhuma resposta da ccu for recebida",
-        "nl": "Verzoeken voor scriptposts verlopen na 15 seconden om te voorkomen dat ze in de wachtrij blijven steken als er geen antwoord van ccu wordt ontvangen",
-        "fr": "Les demandes de publication de script expireront au bout de 15 secondes pour empêcher le blocage dans la file d'attente si aucune réponse du ccu n'est reçue",
-        "it": "Le richieste di post degli script scadranno dopo 15 secondi per impedire il blocco in coda se non viene ricevuta alcuna risposta da ccu",
-        "es": "Las solicitudes de publicación de guiones se agotarán después de 15 segundos para evitar el bloqueo en la cola si no se recibe respuesta de ccu",
-        "pl": "Żądania wysłania skryptu przekroczą limit czasu po 15 sekundach, aby zapobiec utknięciu w kolejce, jeśli nie otrzymano odpowiedzi od ccu",
-        "zh-cn": "如果未收到ccu的答复，则脚本发布请求将在15秒后超时，以防止卡在队列中"
-      },
-      "2.6.7": {
-        "en": "fixed some edge cases, reported by Sentry",
-        "de": "Einige von Sentry gemeldete Randfälle wurden behoben",
-        "ru": "исправлены некоторые крайние случаи, о которых сообщает Sentry",
-        "pt": "corrigimos alguns casos extremos, relatados pelo Sentry",
-        "nl": "enkele randgevallen opgelost, gemeld door Sentry",
-        "fr": "correction de certains cas marginaux, rapportés par Sentry",
-        "it": "risolti alcuni casi limite, riportati da Sentry",
-        "es": "arreglado algunos casos extremos, reportados por Sentry",
-        "pl": "naprawiono niektóre przypadki krawędzi, zgłoszone przez Sentry",
-        "zh-cn": "修复了哨兵报告的一些极端情况"
-      },
-      "2.6.6": {
-        "en": "we use current time as timestamp if non-existent on initial variables poll",
-        "de": "Wir verwenden die aktuelle Zeit als Zeitstempel, wenn sie bei der ersten Variablenabfrage nicht vorhanden ist",
-        "ru": "мы используем текущее время в качестве метки времени, если оно отсутствует при опросе исходных переменных",
-        "pt": "usamos o tempo atual como carimbo de data / hora, se inexistente na pesquisa de variáveis iniciais",
-        "nl": "we gebruiken de huidige tijd als tijdstempel als deze niet aanwezig is in de initiële variabelenpeiling",
-        "fr": "nous utilisons l'heure actuelle comme horodatage si inexistant sur le sondage des variables initiales",
-        "it": "usiamo l'ora corrente come timestamp se inesistente nel poll iniziale delle variabili",
-        "es": "Utilizamos la hora actual como marca de tiempo si no existe en la encuesta de variables iniciales",
-        "pl": "używamy aktualnego czasu jako znacznika czasu, jeśli nie istnieje w ankiecie zmiennych początkowych",
-        "zh-cn": "如果初始变量民意调查不存在，我们使用当前时间作为时间戳"
-      },
-      "2.6.5": {
-        "en": "improved error handling, no longer use legacy log file",
-        "de": "Verbesserte Fehlerbehandlung, ältere Protokolldatei nicht mehr verwenden",
-        "ru": "улучшена обработка ошибок, больше не используется устаревший файл журнала",
-        "pt": "tratamento de erros aprimorado, não usa mais o arquivo de log herdado",
-        "nl": "verbeterde foutafhandeling, niet langer legacy logbestand gebruiken",
-        "fr": "gestion améliorée des erreurs, n'utilisez plus le fichier journal hérité",
-        "it": "gestione degli errori migliorata, non utilizzare più il file di registro legacy",
-        "es": "manejo mejorado de errores, ya no use el archivo de registro heredado",
-        "pl": "poprawiona obsługa błędów, nie należy już używać starszego pliku dziennika",
-        "zh-cn": "改进的错误处理，不再使用旧式日志文件"
-      }
-    },
-    "title": "HomeMatic ReGaHSS",
-    "desc": {
-      "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
-      "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
-      "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker",
-      "pt": "Conecta o HomeMatic CCU \"Layer Lógica\" (\"ReGaHSS\") para ioBroker",
-      "nl": "Verbindt HomeMatic CCU \"Logic Layer\" (\"ReGaHSS \") met ioBroker",
-      "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
-      "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
-      "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
-      "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker"
-    },
-    "dependencies": [
-      "hm-rpc",
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ],
-    "authors": [
-      "hobbyquaker <hq@ccu.io>",
-      "bluefox <dogafox@gmail.com>",
-      "Moritz Heusinger <moritz.heusinger@gmail.com>"
-    ],
-    "license": "MIT",
-    "mode": "daemon",
-    "platform": "Javascript/Node.js",
-    "loglevel": "info",
-    "materialize": true,
-    "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
-    "icon": "homematic.png",
-    "compact": true,
-    "messagebox": true,
-    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
-    "keywords": [
-      "homematic",
-      "eq3",
-      "regahss",
-      "ccu1",
-      "ccu2"
-    ],
-    "localLink": "http://%homematicAddress%",
-    "type": "iot-systems",
-    "connectionType": "local",
-    "dataSource": "poll",
-    "plugins": {
-      "sentry": {
-        "dsn": "https://08c0b6d9b71c43cc91e9705877681085@sentry.iobroker.net/11",
-        "pathWhitelist": [],
-        "errorBlacklist": ["SyntaxError"]
-      }
-    }
-  },
-  "native": {
-    "homematicAddress": "192.168.0.100",
-    "homematicPort": 8181,
-    "reconnectionInterval": 30,
-    "polling": true,
-    "pollingInterval": 30,
-    "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
-    "rfdEnabled": true,
-    "rfdAdapter": "hm-rpc.0",
-    "hs485denabled": false,
-    "hs485dAdapter": "hm-rpc.1",
-    "cuxdEnabled": false,
-    "cuxdAdapter": "hm-rpc.2",
-    "hmipEnabled": false,
-    "hmipAdapter": "hm-rpc.3",
-    "virtualDevicesEnabled": false,
-    "virtualDevicesAdapter": "hm-rpc.4",
-    "syncVariables": true,
-    "syncPrograms": true,
-    "syncNames": true,
-    "syncRooms": true,
-    "enumRooms": "enum.rooms",
-    "syncFunctions": true,
-    "enumFunctions": "enum.functions",
-    "syncFavorites": true,
-    "enumFavorites": "enum.favorites",
-    "username": "",
-    "password": "",
-    "useHttps": false,
-    "showInvSysVar": false,
-    "webinterfacePort": 0
-  },
-  "protectedNative": [
-    "username",
-    "password"
-  ],
-  "objects": [
-    {
-      "_id": "_design/hm-rega",
-      "language": "javascript",
-      "views": {
-        "variables": {
-          "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'ALARMDP' || doc.native.TypeName === 'VARDP')) {\n   emit(doc._id, doc);\n  }\n}"
+    "common": {
+        "name": "hm-rega",
+        "version": "3.0.8",
+        "news": {
+            "3.0.8": {
+                "en": "we now wait until objects are created before setting states (fixes #122)\nadded release script",
+                "de": "Wir warten nun, bis Objekte erstellt wurden, bevor wir Zustände festlegen (Fixes # 122).\nRelease-Skript hinzugefügt",
+                "ru": "теперь мы ждем, пока объекты не будут созданы, прежде чем устанавливать состояния (исправления # 122)\nдобавлен скрипт выпуска",
+                "pt": "agora esperamos até que os objetos sejam criados antes de definir os estados (correções # 122)\nadicionado script de lançamento",
+                "nl": "we wachten nu totdat objecten zijn gemaakt voordat we toestanden instellen (fixes # 122)\ntoegevoegd release script",
+                "fr": "nous attendons maintenant que les objets soient créés avant de définir les états (corrections # 122)\nscript de version ajouté",
+                "it": "ora aspettiamo che gli oggetti vengano creati prima di impostare gli stati (correzione # 122)\naggiunto script di rilascio",
+                "es": "ahora esperamos hasta que se creen los objetos antes de establecer estados (arreglos # 122)\nscript de lanzamiento agregado",
+                "pl": "teraz czekamy, aż obiekty zostaną utworzone przed ustawieniem stanów (poprawki # 122)\ndodany skrypt wydania",
+                "zh-cn": "现在，我们等待创建对象之前设置状态（修复＃122）\n添加了发布脚本"
+            },
+            "3.0.7": {
+                "en": "we notify the user about aborted connection by CCU during request",
+                "de": "Wir benachrichtigen den Benutzer während der Anfrage über einen Verbindungsabbruch durch die CCU",
+                "ru": "мы уведомляем пользователя о разрыве соединения CCU во время запроса",
+                "pt": "notificamos o usuário sobre a conexão abortada pelo CCU durante a solicitação",
+                "nl": "we informeren de gebruiker over een afgebroken verbinding door CCU tijdens het verzoek",
+                "fr": "nous informons l'utilisateur de l'interruption de la connexion par CCU lors de la demande",
+                "it": "informiamo l'utente della connessione interrotta dalla CCU durante la richiesta",
+                "es": "notificamos al usuario sobre la conexión abortada por CCU durante la solicitud",
+                "pl": "powiadamiamy użytkownika o przerwaniu połączenia przez CCU podczas żądania",
+                "zh-cn": "我们在请求期间通知用户有关CCU中止连接的信息"
+            },
+            "3.0.6": {
+                "en": "we don't write datapoints if timestamp is 0",
+                "de": "Wir schreiben keine Datenpunkte, wenn der Zeitstempel 0 ist",
+                "ru": "мы не записываем точки данных, если отметка времени равна 0",
+                "pt": "não gravamos pontos de dados se o carimbo de data / hora for 0",
+                "nl": "we schrijven geen datapunten als het tijdstempel 0 is",
+                "fr": "nous n'écrivons pas de points de données si l'horodatage est 0",
+                "it": "non scriviamo datapoint se timestamp è 0",
+                "es": "no escribimos puntos de datos si la marca de tiempo es 0",
+                "pl": "nie zapisujemy punktów danych, jeśli znacznik czasu wynosi 0",
+                "zh-cn": "如果时间戳为0，我们不写数据点"
+            },
+            "3.0.5": {
+                "en": "we now provide possibility to use custom webinterface port, please see FAQ",
+                "de": "Wir bieten jetzt die Möglichkeit, einen benutzerdefinierten Webinterface-Port zu verwenden (siehe FAQ)",
+                "ru": "теперь мы предоставляем возможность использовать собственный порт веб-интерфейса, см. FAQ",
+                "pt": "agora oferecemos a possibilidade de usar uma porta de interface da web personalizada, consulte o FAQ",
+                "nl": "we bieden nu de mogelijkheid om een aangepaste webinterfacepoort te gebruiken, zie FAQ",
+                "fr": "nous offrons maintenant la possibilité d'utiliser un port d'interface Web personnalisé, veuillez consulter la FAQ",
+                "it": "ora forniamo la possibilità di utilizzare la porta dell'interfaccia web personalizzata, vedere le domande frequenti",
+                "es": "ahora ofrecemos la posibilidad de utilizar un puerto de interfaz web personalizado, consulte las preguntas frecuentes",
+                "pl": "oferujemy teraz możliwość korzystania z niestandardowego portu interfejsu internetowego, zobacz FAQ",
+                "zh-cn": "我们现在提供使用自定义Web界面端口的可能性，请参阅常见问题解答"
+            },
+            "3.0.4": {
+                "en": "fixed missing enum translations (changed in API)",
+                "de": "fehlende Enum-Übersetzungen behoben (in API geändert)",
+                "ru": "исправлены отсутствующие переводы enum (изменено в API)",
+                "pt": "corrigidas traduções enum ausentes (alteradas na API)",
+                "nl": "ontbrekende enum-vertalingen opgelost (gewijzigd in API)",
+                "fr": "corrections d'énumérations manquantes (modifiées dans l'API)",
+                "it": "risolte traduzioni enum mancanti (modificate nell'API)",
+                "es": "Se corrigieron las traducciones de enumeración que faltaban (cambiadas en la API)",
+                "pl": "naprawiono brakujące tłumaczenia wyliczeń (zmienione w API)",
+                "zh-cn": "修复缺少的枚举翻译（已在API中更改）"
+            },
+            "2.6.25": {
+                "en": "fixed aliases being removed from enums if they contain \"hm-rpc.\"",
+                "de": "Fehler behoben, bei denen Aliase aus Aufzählungen entfernt wurden, wenn sie \"hm-rpc\" enthielten.",
+                "ru": "исправлено удаление псевдонимов из перечислений, если они содержат «hm-rpc».",
+                "pt": "aliases corrigidos sendo removidos de enums se contiverem \"hm-rpc.\"",
+                "nl": "vaste aliassen verwijderd uit enums als ze \"hm-rpc\" bevatten.",
+                "fr": "correction des alias supprimés des énumérations s'ils contiennent \"hm-rpc\".",
+                "it": "corretti gli alias rimossi dalle enumerazioni se contengono \"hm-rpc\".",
+                "es": "Se corrigieron los alias que se eliminaron de las enumeraciones si contienen \"hm-rpc\".",
+                "pl": "naprawiono usuwanie aliasów z wyliczeń, jeśli zawierają one „hm-rpc”.",
+                "zh-cn": "固定别名（如果它们包含“ hm-rpc”）将从枚举中删除。"
+            },
+            "2.6.24": {
+                "en": "now states will be accordingly marked to indicate that rega is down when receiving invalid responses",
+                "de": "Jetzt werden Zustände entsprechend markiert, um anzuzeigen, dass die Rega beim Empfang ungültiger Antworten nicht verfügbar ist",
+                "ru": "Теперь состояния будут соответственно отмечены, чтобы указать, что rega не работает при получении неверных ответов",
+                "pt": "agora os estados serão devidamente marcados para indicar que rega está inativo ao receber respostas inválidas",
+                "nl": "Nu worden staten dienovereenkomstig gemarkeerd om aan te geven dat rega down is bij het ontvangen van ongeldige antwoorden",
+                "fr": "maintenant les états seront marqués en conséquence pour indiquer que rega est en panne lors de la réception de réponses invalides",
+                "it": "ora gli stati saranno contrassegnati di conseguenza per indicare che la rega è inattiva quando si ricevono risposte non valide",
+                "es": "ahora los estados se marcarán en consecuencia para indicar que rega está inactivo cuando se reciben respuestas no válidas",
+                "pl": "teraz stany będą odpowiednio oznaczone, aby wskazać, że rega nie działa podczas otrzymywania nieprawidłowych odpowiedzi",
+                "zh-cn": "现在状态将相应地标记为指示接收到无效响应时rega已关闭"
+            },
+            "2.6.23": {
+                "en": "fixes for edge case crashes",
+                "de": "Korrekturen für Edge-Case-Abstürze",
+                "ru": "исправления сбоев крайнего случая",
+                "pt": "correções para falhas de casos extremos",
+                "nl": "oplossingen voor crashes aan de rand",
+                "fr": "correctifs pour les plantages de bordures",
+                "it": "correzioni per crash del case edge",
+                "es": "arreglos para fallas de casos de borde",
+                "pl": "poprawki dotyczące awarii skrajnych",
+                "zh-cn": "修复了边缘机壳崩溃的问题"
+            },
+            "2.6.22": {
+                "en": "fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance",
+                "de": "Fehler behoben, bei dem Alarmzustände von hm-rpc-Instanzen mit der Instanznummer> = 10 für die falsche Instanz erstellt wurden",
+                "ru": "исправлена ошибка, при которой аварийные состояния экземпляров hm-rpc с номером экземпляра> = 10 создаются для неправильного экземпляра",
+                "pt": "corrigido o erro em que os estados de alarme de instâncias hm-rpc com número de instância> = 10 são criados para a instância errada",
+                "nl": "fout opgelost waarbij alarmstatussen van hm-rpc-instanties met instantienummer> = 10 werden gemaakt voor de verkeerde instantie",
+                "fr": "Correction d'une erreur où les états d'alarme des instances hm-rpc avec un numéro d'instance> = 10 sont créés pour la mauvaise instance",
+                "it": "corretto errore in cui gli stati di allarme delle istanze hm-rpc con numero di istanza> = 10 venivano creati per l'istanza sbagliata",
+                "es": "Error fijo donde los estados de alarma de instancias de hm-rpc con número de instancia> = 10 se crean para la instancia incorrecta",
+                "pl": "poprawiono błąd, w którym stany alarmowe instancji hm-rpc o numerze instancji> = 10 są tworzone dla niewłaściwej instancji",
+                "zh-cn": "修复了以下错误：为错误的实例创建了实例号> = 10的hm-rpc实例的警报状态"
+            },
+            "2.6.20": {
+                "en": "we now set explicit object type on extending object",
+                "de": "Wir setzen jetzt den expliziten Objekttyp für das Erweitern des Objekts",
+                "ru": "Теперь мы устанавливаем явный тип объекта для расширяемого объекта",
+                "pt": "agora definimos o tipo de objeto explícito na extensão de objeto",
+                "nl": "we stellen nu een expliciet objecttype in op het uitbreidende object",
+                "fr": "nous définissons maintenant le type d'objet explicite sur l'objet d'extension",
+                "it": "ora impostiamo il tipo di oggetto esplicito sull'estensione dell'oggetto",
+                "es": "ahora establecemos el tipo de objeto explícito al extender el objeto",
+                "pl": "teraz ustawiamy jawny typ obiektu na rozszerzanie obiektu",
+                "zh-cn": "现在，我们在扩展对象上设置显式对象类型"
+            },
+            "2.6.19": {
+                "en": "fixed issue on syncing service message counter when invisible variables are synchronized",
+                "de": "Problem beim Synchronisieren des Dienstnachrichtenzählers beim Synchronisieren unsichtbarer Variablen behoben",
+                "ru": "исправлена проблема с синхронизацией счетчика служебных сообщений при синхронизации невидимых переменных",
+                "pt": "Foi corrigido o problema de sincronização do contador de mensagens de serviço quando variáveis invisíveis são sincronizadas",
+                "nl": "probleem opgelost bij het synchroniseren van serviceberichtenteller wanneer onzichtbare variabelen werden gesynchroniseerd",
+                "fr": "Correction d'un problème sur la synchronisation du compteur de messages de service lorsque les variables invisibles sont synchronisées",
+                "it": "risolto il problema relativo alla sincronizzazione del contatore dei messaggi del servizio quando le variabili invisibili sono sincronizzate",
+                "es": "Problema solucionado al sincronizar el contador de mensajes del servicio cuando se sincronizan variables invisibles",
+                "pl": "naprawiono problem z synchronizacją licznika komunikatów serwisowych, gdy synchronizowane są niewidoczne zmienne",
+                "zh-cn": "解决了同步不可见变量时同步服务消息计数器的问题"
+            },
+            "2.6.17": {
+                "en": "fix for % scaling of float numbers",
+                "de": "Fix für% Skalierung von Float-Zahlen",
+                "ru": "исправление для% масштабирования чисел с плавающей запятой",
+                "pt": "correção para escala% de números flutuantes",
+                "nl": "oplossing voor %s chaling van float-getallen",
+                "fr": "correction de la mise à l'échelle en% des nombres flottants",
+                "it": "corretto il ridimensionamento% dei numeri in virgola mobile",
+                "es": "corrección de% de escala de números flotantes",
+                "pl": "poprawka dla %s kalowania liczb zmiennoprzecinkowych",
+                "zh-cn": "修正浮点数的百分比缩放"
+            },
+            "2.6.15": {
+                "en": "fixed potential issues with scaling of % values",
+                "de": "potenzielle Probleme mit der Skalierung von %-Werten wurden behoben",
+                "ru": "исправлены потенциальные проблемы с масштабированием значений%",
+                "pt": "corrigidos problemas potenciais com escala de valores%",
+                "nl": "Mogelijke problemen opgelost met het schalen van% -waarden",
+                "fr": "Correction de problèmes potentiels avec la mise à l'échelle des valeurs%",
+                "it": "risolti potenziali problemi con il ridimensionamento dei valori%",
+                "es": "problemas potenciales solucionados con la escala de valores de porcentaje",
+                "pl": "naprawiono potencjalne problemy ze skalowaniem wartości%",
+                "zh-cn": "修正了％值缩放的潜在问题"
+            },
+            "2.6.14": {
+                "en": "fixed potential problem on enum sync",
+                "de": "Mögliches Problem bei der Enum-Synchronisierung behoben",
+                "ru": "исправлена потенциальная проблема при синхронизации перечислений",
+                "pt": "problema potencial fixo na sincronização enum",
+                "nl": "Potentieel probleem opgelost met enum sync",
+                "fr": "correction d'un problème potentiel sur la synchronisation enum",
+                "it": "risolto potenziale problema sulla sincronizzazione enum",
+                "es": "problema potencial solucionado en la sincronización de enumeración",
+                "pl": "naprawiono potencjalny problem z synchronizacją enum",
+                "zh-cn": "修复了枚举同步的潜在问题"
+            },
+            "2.6.11": {
+                "en": "timeout of requests increased to 90 seconds",
+                "de": "Das Zeitlimit für Anforderungen wurde auf 90 Sekunden erhöht",
+                "ru": "таймаут запросов увеличен до 90 секунд",
+                "pt": "o tempo limite das solicitações aumentou para 90 segundos",
+                "nl": "time-out van verzoeken is verhoogd tot 90 seconden",
+                "fr": "délai d'expiration des demandes augmenté à 90 secondes",
+                "it": "timeout delle richieste aumentato a 90 secondi",
+                "es": "el tiempo de espera de las solicitudes aumentó a 90 segundos",
+                "pl": "limit czasu żądań zwiększony do 90 sekund",
+                "zh-cn": "请求超时增加到90秒"
+            },
+            "2.6.10": {
+                "en": "fix crash when a user on CCU is a empty string on synchronizing favorites",
+                "de": "Absturz behoben, wenn ein Benutzer auf der CCU beim Synchronisieren von Favoriten eine leere Zeichenfolge ist",
+                "ru": "исправление сбоя, когда пользователь в CCU представляет собой пустую строку при синхронизации избранного",
+                "pt": "corrigir falha quando um usuário na CCU é uma string vazia na sincronização de favoritos",
+                "nl": "crash repareren wanneer een gebruiker op CCU een lege string is bij het synchroniseren van favorieten",
+                "fr": "Correction d'un crash lorsqu'un utilisateur sur CCU est une chaîne vide lors de la synchronisation des favoris",
+                "it": "risolve il crash quando un utente su CCU è una stringa vuota durante la sincronizzazione dei preferiti",
+                "es": "arregla el bloqueo cuando un usuario en CCU es una cadena vacía al sincronizar favoritos",
+                "pl": "napraw awarię, gdy użytkownik w CCU jest pustym ciągiem synchronizacji ulubionych",
+                "zh-cn": "修复当CCU上的用户为同步收藏夹中的空字符串时的崩溃"
+            },
+            "2.6.9": {
+                "en": "fixed crash when we cannot determine CCU version",
+                "de": "Absturz behoben, wenn wir die CCU-Version nicht bestimmen können",
+                "ru": "исправлено падение, когда мы не можем определить версию CCU",
+                "pt": "falha corrigida quando não podemos determinar a versão da CCU",
+                "nl": "crash opgelost wanneer we de CCU-versie niet kunnen bepalen",
+                "fr": "Correction d'un crash lorsque nous ne pouvons pas déterminer la version CCU",
+                "it": "risolto crash quando non siamo in grado di determinare la versione della CCU",
+                "es": "Se corrigió el bloqueo cuando no podemos determinar la versión de CCU",
+                "pl": "naprawiono awarię, gdy nie możemy ustalić wersji CCU",
+                "zh-cn": "修复了无法确定CCU版本时的崩溃"
+            },
+            "2.6.8": {
+                "en": "Script post requests will time out after 15 seconds to prevent  stucking in queue if no answer from ccu received",
+                "de": "Skript-Post-Anfragen laufen nach 15 Sekunden ab, um zu verhindern, dass sie in der Warteschlange hängen bleiben, wenn keine Antwort von ccu empfangen wird",
+                "ru": "Сценарий отправки запросов истекает через 15 секунд, чтобы предотвратить зависание в очереди, если не получен ответ от ccu",
+                "pt": "As solicitações de postagem de script atingem o tempo limite após 15 segundos para evitar a espera na fila se nenhuma resposta da ccu for recebida",
+                "nl": "Verzoeken voor scriptposts verlopen na 15 seconden om te voorkomen dat ze in de wachtrij blijven steken als er geen antwoord van ccu wordt ontvangen",
+                "fr": "Les demandes de publication de script expireront au bout de 15 secondes pour empêcher le blocage dans la file d'attente si aucune réponse du ccu n'est reçue",
+                "it": "Le richieste di post degli script scadranno dopo 15 secondi per impedire il blocco in coda se non viene ricevuta alcuna risposta da ccu",
+                "es": "Las solicitudes de publicación de guiones se agotarán después de 15 segundos para evitar el bloqueo en la cola si no se recibe respuesta de ccu",
+                "pl": "Żądania wysłania skryptu przekroczą limit czasu po 15 sekundach, aby zapobiec utknięciu w kolejce, jeśli nie otrzymano odpowiedzi od ccu",
+                "zh-cn": "如果未收到ccu的答复，则脚本发布请求将在15秒后超时，以防止卡在队列中"
+            },
+            "2.6.7": {
+                "en": "fixed some edge cases, reported by Sentry",
+                "de": "Einige von Sentry gemeldete Randfälle wurden behoben",
+                "ru": "исправлены некоторые крайние случаи, о которых сообщает Sentry",
+                "pt": "corrigimos alguns casos extremos, relatados pelo Sentry",
+                "nl": "enkele randgevallen opgelost, gemeld door Sentry",
+                "fr": "correction de certains cas marginaux, rapportés par Sentry",
+                "it": "risolti alcuni casi limite, riportati da Sentry",
+                "es": "arreglado algunos casos extremos, reportados por Sentry",
+                "pl": "naprawiono niektóre przypadki krawędzi, zgłoszone przez Sentry",
+                "zh-cn": "修复了哨兵报告的一些极端情况"
+            },
+            "2.6.6": {
+                "en": "we use current time as timestamp if non-existent on initial variables poll",
+                "de": "Wir verwenden die aktuelle Zeit als Zeitstempel, wenn sie bei der ersten Variablenabfrage nicht vorhanden ist",
+                "ru": "мы используем текущее время в качестве метки времени, если оно отсутствует при опросе исходных переменных",
+                "pt": "usamos o tempo atual como carimbo de data / hora, se inexistente na pesquisa de variáveis iniciais",
+                "nl": "we gebruiken de huidige tijd als tijdstempel als deze niet aanwezig is in de initiële variabelenpeiling",
+                "fr": "nous utilisons l'heure actuelle comme horodatage si inexistant sur le sondage des variables initiales",
+                "it": "usiamo l'ora corrente come timestamp se inesistente nel poll iniziale delle variabili",
+                "es": "Utilizamos la hora actual como marca de tiempo si no existe en la encuesta de variables iniciales",
+                "pl": "używamy aktualnego czasu jako znacznika czasu, jeśli nie istnieje w ankiecie zmiennych początkowych",
+                "zh-cn": "如果初始变量民意调查不存在，我们使用当前时间作为时间戳"
+            }
         },
-        "programs": {
-          "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
+        "title": "HomeMatic ReGaHSS",
+        "desc": {
+            "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
+            "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
+            "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker",
+            "pt": "Conecta o HomeMatic CCU \"Layer Lógica\" (\"ReGaHSS\") para ioBroker",
+            "nl": "Verbindt HomeMatic CCU \"Logic Layer\" (\"ReGaHSS \") met ioBroker",
+            "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
+            "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
+            "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
+            "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker"
+        },
+        "dependencies": [
+            "hm-rpc",
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "authors": [
+            "hobbyquaker <hq@ccu.io>",
+            "bluefox <dogafox@gmail.com>",
+            "Moritz Heusinger <moritz.heusinger@gmail.com>"
+        ],
+        "license": "MIT",
+        "mode": "daemon",
+        "platform": "Javascript/Node.js",
+        "loglevel": "info",
+        "materialize": true,
+        "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
+        "icon": "homematic.png",
+        "compact": true,
+        "messagebox": true,
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
+        "keywords": [
+            "homematic",
+            "eq3",
+            "regahss",
+            "ccu1",
+            "ccu2"
+        ],
+        "localLink": "http://%homematicAddress%",
+        "type": "iot-systems",
+        "connectionType": "local",
+        "dataSource": "poll",
+        "plugins": {
+            "sentry": {
+                "dsn": "https://08c0b6d9b71c43cc91e9705877681085@sentry.iobroker.net/11",
+                "pathWhitelist": [],
+                "errorBlacklist": [
+                    "SyntaxError"
+                ]
+            }
         }
-      }
-    }
-  ],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
     },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "If connected to CCU",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
+    "native": {
+        "homematicAddress": "192.168.0.100",
+        "homematicPort": 8181,
+        "reconnectionInterval": 30,
+        "polling": true,
+        "pollingInterval": 30,
+        "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
+        "rfdEnabled": true,
+        "rfdAdapter": "hm-rpc.0",
+        "hs485denabled": false,
+        "hs485dAdapter": "hm-rpc.1",
+        "cuxdEnabled": false,
+        "cuxdAdapter": "hm-rpc.2",
+        "hmipEnabled": false,
+        "hmipAdapter": "hm-rpc.3",
+        "virtualDevicesEnabled": false,
+        "virtualDevicesAdapter": "hm-rpc.4",
+        "syncVariables": true,
+        "syncPrograms": true,
+        "syncNames": true,
+        "syncRooms": true,
+        "enumRooms": "enum.rooms",
+        "syncFunctions": true,
+        "enumFunctions": "enum.functions",
+        "syncFavorites": true,
+        "enumFavorites": "enum.favorites",
+        "username": "",
+        "password": "",
+        "useHttps": false,
+        "showInvSysVar": false,
+        "webinterfacePort": 0
     },
-    {
-      "_id": "info.ccuReachable",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "If connected to CCU on IP layer",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.ccuRegaUp",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "If rega is UP",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
+    "protectedNative": [
+        "username",
+        "password"
+    ],
+    "objects": [
+        {
+            "_id": "_design/hm-rega",
+            "language": "javascript",
+            "views": {
+                "variables": {
+                    "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'ALARMDP' || doc.native.TypeName === 'VARDP')) {\n   emit(doc._id, doc);\n  }\n}"
+                },
+                "programs": {
+                    "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
+                }
+            }
+        }
+    ],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "If connected to CCU",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.ccuReachable",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "If connected to CCU on IP layer",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.ccuRegaUp",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "If rega is UP",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }

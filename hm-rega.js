@@ -206,7 +206,6 @@ let pollingInterval;
 let pollingIntervalDC;
 let pollingTrigger;
 const checkInterval = {};
-const functionQueue = [];
 let units = {};
 const states = {};
 const objects = {};
@@ -315,7 +314,7 @@ function main() {
         username: adapter.config.username,
         password: adapter.config.password,
 
-        ready: err => {
+        ready: async err => {
 
             if (err === 'ReGaHSS down') {
                 adapter.log.error(`ReGaHSS ${adapter.config.homematicAddress} down`);
@@ -347,47 +346,43 @@ function main() {
                 adapter.setState('info.ccuReachable', ccuReachable, true);
                 adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
 
-                if (!functionQueue.length) {
-                    if (adapter.config.syncVariables) {
-                        functionQueue.push(getServiceMsgs);
-                    }
+                await rega.checkTime();
 
-                    functionQueue.push(getDatapoints);
-
-                    if (adapter.config.syncDutyCycle) {
-                        functionQueue.push(getDutyCycle);
-                    }
-                    if (adapter.config.syncVariables) {
-                        functionQueue.push(getVariables);
-                    }
-                    if (adapter.config.syncPrograms) {
-                        functionQueue.push(getPrograms);
-                    }
-
-                    functionQueue.push(getDevices);
-
-                    if (adapter.config.syncRooms && adapter.config.enumRooms) {
-                        functionQueue.push(getRooms);
-                    }
-                    if (adapter.config.syncFunctions && adapter.config.enumFunctions) {
-                        functionQueue.push(getFunctions);
-                    }
-                    if (adapter.config.syncFavorites && adapter.config.enumFavorites) {
-                        functionQueue.push(getFavorites);
-                    }
+                if (adapter.config.syncVariables) {
+                    await getServiceMsgs();
                 }
 
-                rega.checkTime(() => setImmediate(queue));
+                await getDatapoints();
+
+                if (adapter.config.syncDutyCycle) {
+                    await getDutyCycle();
+                }
+
+                if (adapter.config.syncVariables) {
+                    await getVariables();
+                }
+
+                if (adapter.config.syncPrograms) {
+                    await getPrograms();
+                }
+
+                await getDevices();
+
+                if (adapter.config.syncRooms && adapter.config.enumRooms) {
+                    await getRooms();
+                }
+
+                if (adapter.config.syncFunctions && adapter.config.enumFunctions) {
+                    await getFunctions();
+                }
+
+                if (adapter.config.syncFavorites && adapter.config.enumFavorites) {
+                    await getFavorites();
+                }
             }
+
         }
     });
-}
-
-function queue() {
-    if (functionQueue.length > 0) {
-        const fn = functionQueue.pop();
-        fn(queue);
-    }
 }
 
 /**
@@ -693,35 +688,39 @@ async function getServiceMsgs() {
         // create object if not created
         if (!objects[id]) {
             objects[id] = true;
-            adapter.getForeignObject(id.substring(0, id.lastIndexOf('.')), (_err, _obj) => {
+            try {
+                const _obj = await adapter.getForeignObjectAsync(id.substring(0, id.lastIndexOf('.')));
                 const name = _obj && _obj.common && _obj.common.name ? `${_obj.common.name}.${id.split('.')[4]}` : id;
-                adapter.getForeignObject(id, (err, obj) => {
-                    if (err || !obj || !obj.native || obj.native.DP !== dp || !obj.common || obj.common.type !== 'number') {
-                        adapter.setForeignObject(id, {
-                            type: 'state',
-                            common: {
-                                name: name,
-                                type: 'number',
-                                role: 'indicator.alarm',
-                                read: true,
-                                write: true,
-                                def: 0,
-                                states: {
-                                    0: 'NO ALARM',
-                                    1: 'ALARM',
-                                    2: 'ACKNOWLEDGED'
-                                }
-                            },
-                            native: {
-                                Name: name,
-                                TypeName: 'ALARM',
-                                DP: dp
+
+                const obj = await adapter.getForeignObjectAsync(id);
+                if (!obj || !obj.native || obj.native.DP !== dp || !obj.common || obj.common.type !== 'number') {
+                    await adapter.setForeignObjectAsync(id, {
+                        type: 'state',
+                        common: {
+                            name: name,
+                            type: 'number',
+                            role: 'indicator.alarm',
+                            read: true,
+                            write: true,
+                            def: 0,
+                            states: {
+                                0: 'NO ALARM',
+                                1: 'ALARM',
+                                2: 'ACKNOWLEDGED'
                             }
-                        });
-                    }
-                });
-            });
+                        },
+                        native: {
+                            Name: name,
+                            TypeName: 'ALARM',
+                            DP: dp
+                        }
+                    });
+                }
+            } catch (e) {
+                adapter.log.error(`Could not update object of "${id}": ${e.message}`);
+            }
         } // endIf
+
         const state = {
             val: data[dp].AlState,
             ack: true,
@@ -732,7 +731,11 @@ async function getServiceMsgs() {
         if (!states[id] || !states[id].ack || states[id].val !== state.val ||
                 states[id].lc !== state.lc || states[id].ts !== state.ts) {
             states[id] = state;
-            adapter.setForeignState(id, state);
+            try {
+                await adapter.setForeignStateAsync(id, state);
+            } catch (e) {
+                adapter.log.error(`Could not update state of "${id}": ${e.message}`);
+            }
         } // endIf
     } // endFor
 }
@@ -742,7 +745,7 @@ async function getServiceMsgs() {
  *
  * @param {function()} [callback]
  */
-function getPrograms(callback) {
+async function getPrograms(callback) {
     adapter.getObjectView('hm-rega', 'programs', {
         startkey: `hm-rega.${adapter.instance}.`,
         endkey: `hm-rega.${adapter.instance}.\u9999`
@@ -775,7 +778,7 @@ function getPrograms(callback) {
             let fullId = `${adapter.namespace}.${id}`;
             if (!objects[fullId]) {
                 objects[fullId] = true;
-                adapter.setForeignObject(fullId, {
+                await adapter.setForeignObjectAsync(fullId, {
                     type: 'channel',
                     common: {
                         name: _unescape(data[dp].Name),
@@ -795,7 +798,7 @@ function getPrograms(callback) {
 
             if (!objects[fullId]) {
                 objects[fullId] = true;
-                adapter.extendForeignObject(fullId, {
+                await adapter.extendForeignObjectAsync(fullId, {
                     type: 'state',
                     common: {
                         name: `${_unescape(data[dp].Name)} execute`,
@@ -813,13 +816,13 @@ function getPrograms(callback) {
                     states[fullId].val !== false
             ) {
                 states[fullId] = {val: false, ack: true};
-                adapter.setForeignState(fullId, states[fullId]);
+                await adapter.setForeignStateAsync(fullId, states[fullId]);
             }
 
             fullId = `${adapter.namespace}.${id}.Active`;
             if (!objects[fullId]) {
                 objects[fullId] = true;
-                adapter.extendForeignObject(fullId, {
+                await adapter.extendForeignObjectAsync(fullId, {
                     type: 'state',
                     common: {
                         name: `${_unescape(data[dp].Name)} enabled`,
@@ -834,7 +837,7 @@ function getPrograms(callback) {
 
             if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
                 states[fullId] = {val: val, ack: true};
-                adapter.setForeignState(fullId, states[fullId]);
+                await adapter.setForeignStateAsync(fullId, states[fullId]);
             }
 
             if (response.indexOf(id) !== -1) {
@@ -845,7 +848,7 @@ function getPrograms(callback) {
         adapter.log.info(`added/updated ${count} programs`);
 
         for (const entry of response) {
-            adapter.delObject(entry);
+            await adapter.delObjectAsync(entry);
         }
         adapter.log.info(`deleted ${response.length} programs`);
 
@@ -858,9 +861,9 @@ function getPrograms(callback) {
 /**
  * Get all functions from the CCU and sync it with enums accordingly
  *
- * @param {function()} [callback]
+ * @returns Promise<void>
  */
-async function getFunctions(callback) {
+async function getFunctions() {
     let data = await rega.runScriptFile('functions');
     adapter.log.info(`update functions to ${adapter.config.enumFunctions}`);
 
@@ -868,7 +871,7 @@ async function getFunctions(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for functions: ${data}`);
-        return void (typeof callback === 'function' && callback());
+        return;
     }
 
     for (const regaId of Object.keys(data)) {
@@ -944,7 +947,7 @@ async function getFunctions(callback) {
             oldObj = await adapter.getForeignObjectAsync(obj._id);
         } catch (e) {
             adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
-            return void (typeof callback === 'function' && callback());
+            return;
         }
 
         let changed = false;
@@ -977,34 +980,26 @@ async function getFunctions(callback) {
             } // endFor
         } // endElse
         if (changed) {
-            adapter.setForeignObject(obj._id, oldObj);
+            await adapter.setForeignObjectAsync(obj._id, oldObj);
         } // endIf
     } // endFor
 
-    adapter.getForeignObject(adapter.config.enumFunctions, (err, obj) => {
-        if (!obj || err) {
-            adapter.setForeignObject(adapter.config.enumFunctions, {
-                type: 'enum',
-                common: {
-                    name: 'Functions',
-                    members: []
-                },
-                native: {}
-            });
-        }
+    await adapter.setForeignObjectNotExistsAsync(adapter.config.enumFunctions, {
+        type: 'enum',
+        common: {
+            name: 'Functions',
+            members: []
+        },
+        native: {}
     });
-
-    if (typeof callback === 'function') {
-        callback();
-    }
 }
 
 /**
  * Get all rooms from the CCU and sync it with enums accordingly
  *
- * @param {function()} [callback]
+ * @returns Promise<void>
  */
-async function getRooms(callback) {
+async function getRooms() {
     let data = await rega.runScriptFile('rooms');
 
     adapter.log.info(`update rooms to ${adapter.config.enumRooms}`);
@@ -1013,7 +1008,7 @@ async function getRooms(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for rooms: ${data}`);
-        return void (typeof callback === 'function' && callback());
+        return;
     }
     // iterate over rooms
     for (const regaId of Object.keys(data)) {
@@ -1090,7 +1085,7 @@ async function getRooms(callback) {
             oldObj = await adapter.getForeignObjectAsync(obj._id);
         } catch (e) {
             adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
-            return void (typeof callback === 'function' && callback());
+            return;
         }
 
         let changed = false;
@@ -1122,34 +1117,26 @@ async function getRooms(callback) {
         } // endElse
 
         if (changed) {
-            adapter.setForeignObject(obj._id, oldObj);
+            await adapter.setForeignObjectAsync(obj._id, oldObj);
         } // endIf
     } // endFor
 
-    adapter.getForeignObject(adapter.config.enumRooms, (err, obj) => {
-        if (!obj || err) {
-            adapter.setForeignObject(adapter.config.enumRooms, {
-                type: 'enum',
-                common: {
-                    name: 'Rooms',
-                    members: []
-                },
-                native: {}
-            });
-        }
+    await adapter.setForeignObjectNotExistsAsync(adapter.config.enumRooms, {
+        type: 'enum',
+        common: {
+            name: 'Rooms',
+            members: []
+        },
+        native: {}
     });
-
-    if (typeof callback === 'function') {
-        callback();
-    }
 } // endGetRooms
 
 /**
  * Get all favorites from the CCU and sync it with enums accordingly
  *
- * @param {function()} [callback]
+ * @returns Promise<void>
  */
-async function getFavorites(callback) {
+async function getFavorites() {
     let data = await rega.runScriptFile('favorites');
     adapter.log.info(`update favorites to ${adapter.config.enumFavorites}`);
 
@@ -1157,11 +1144,11 @@ async function getFavorites(callback) {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for favorites: ${data}`);
-        return void (typeof callback === 'function' && callback());
+        return;
     }
 
     // Create enum favorites if non existing (can be different to default)
-    adapter.setForeignObjectNotExists(adapter.config.enumFavorites, {
+    await adapter.setForeignObjectNotExistsAsync(adapter.config.enumFavorites, {
         type: 'enum',
         common: {
             name: 'Favorites'
@@ -1253,7 +1240,7 @@ async function getFavorites(callback) {
                 oldObj = await adapter.getForeignObjectAsync(obj._id);
             } catch (e) {
                 adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
-                return void (typeof callback === 'function' && callback());
+                return;
             }
 
             let changed = false;
@@ -1284,29 +1271,25 @@ async function getFavorites(callback) {
                 } // endFor
             } // endElse
             if (changed) {
-                adapter.setForeignObject(obj._id, oldObj);
+                await adapter.setForeignObjectAsync(obj._id, oldObj);
             } // endIf
         } // endFor
     } // endFor
-
-    if (typeof callback === 'function') {
-        callback();
-    }
 } // endGetFavorites
 
 /**
  * get all datapoints from the ccu and set the according states if configured
  *
- * @param {function()} [callback]
+ * @returns Promise<void>
  */
-async function getDatapoints(callback) {
+async function getDatapoints() {
     adapter.log.info('request state values');
     let data = await rega.runScriptFile('datapoints');
     try {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for datapoints: ${data}`);
-        return void (typeof callback === 'function' && callback());
+        return;
     }
     for (const dp of Object.keys(data)) {
         const tmp = _unescape(dp).replace(FORBIDDEN_CHARS, '_').split('.');
@@ -1377,14 +1360,11 @@ async function getDatapoints(callback) {
                 states[id].val !== state.val ||
                 !states[id].ack) {
             states[id] = state;
-            adapter.setForeignState(id, state);
+            await adapter.setForeignStateAsync(id, state);
         } // endIf
     } // endFor
 
     adapter.log.info('got state values');
-    if (typeof callback === 'function') {
-        callback();
-    }
     units = null;
 }
 
@@ -1603,9 +1583,9 @@ function getDevices(callback) {
 /**
  * get all variables from ccu (also invisible if configured) and set states accordingly
  *
- * @param {function()} [callback]
+ * @returns Promise<void>
  */
-function getVariables(callback) {
+async function getVariables() {
     const commonTypes = {
         2: 'boolean',
         4: 'number',
@@ -1613,146 +1593,140 @@ function getVariables(callback) {
         20: 'string'
     };
 
-    adapter.getObjectView('hm-rega', 'variables', {
+    const doc  = await adapter.getObjectViewAsync('hm-rega', 'variables', {
         startkey: `hm-rega.${adapter.instance}.`,
         endkey: `hm-rega.${adapter.instance}.\u9999`
-    }, async (err, doc) => {
-        const response = [];
-
-        if (!err && doc) {
-            for (const row of doc.rows) {
-                const id = row.value._id.split('.').pop();
-                response.push(id);
-            }
-            adapter.log.info(`got ${doc.rows.length} variables`);
-        } else {
-            adapter.log.info('got 0 variables');
-        }
-
-        let data = await rega.runScriptFile(adapter.config.showInvSysVar ? 'variablesInv' : 'variables');
-        try {
-            // CCU sometimes uses -inf or nan, we should handle them as null
-            data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf|nan/g, null));
-        } catch (e) {
-            adapter.log.error(`Cannot parse answer for variables: ${data}`);
-            return void (typeof callback === 'function' && callback());
-        }
-        let count = 0;
-        let id;
-
-        for (const dp of Object.keys(data)) {
-            id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
-            count += 1;
-
-            const role = 'state';
-
-            const obj = {
-                _id: `${adapter.namespace}.${id}`,
-                type: 'state',
-                common: {
-                    name: _unescape(data[dp].Name),
-                    type: commonTypes[data[dp].ValueType],
-                    read: true,
-                    write: true,
-                    role: role
-                },
-                native: {
-                    Name: _unescape(data[dp].Name),
-                    TypeName: _unescape(data[dp].TypeName),
-                    DPInfo: _unescape(data[dp].DPInfo),
-                    ValueMin: _unescape(data[dp].ValueMin),
-                    ValueMax: _unescape(data[dp].ValueMax),
-                    ValueUnit: _unescape(data[dp].ValueUnit),
-                    ValueType: _unescape(data[dp].ValueType),
-                    ValueSubType: _unescape(data[dp].ValueSubType),
-                    ValueList: _unescape(data[dp].ValueList)
-                }
-            };
-            if (data[dp].ValueMin || data[dp].ValueMin === 0) {
-                obj.common.min = obj.native.ValueMin;
-            }
-            if (data[dp].ValueMax || data[dp].ValueMax === 0) {
-                obj.common.max = obj.native.ValueMax;
-            }
-            if (data[dp].ValueUnit) {
-                obj.common.unit = obj.native.ValueUnit;
-            }
-            if (data[dp].DPInfo) {
-                obj.common.desc = obj.native.DPInfo;
-            }
-
-            if (data[dp].ValueList) {
-                const statesArr = _unescape(data[dp].ValueList).split(';');
-                obj.common.states = {};
-                for (const i in statesArr) {
-                    obj.common.states[i] = statesArr[i];
-                }
-                if (data[dp].ValueSubType === 29) {
-                    obj.common.min = 0;
-                    obj.common.max = statesArr.length - 1;
-                }
-
-            }
-
-            let val = data[dp].Value;
-            const timestamp = data[dp].Timestamp ? new Date(data[dp].Timestamp).getTime() : new Date().getTime();
-
-            if (typeof val === 'string') {
-                val = _unescape(val);
-            }
-
-            if (id === '40') {
-                id = 'alarms';
-                obj.role = `indicator.${id}`;
-                obj._id = `${adapter.namespace}.${id}`;
-            } else if (id === '41') {
-                id = 'maintenance';
-                obj.role = `indicator.${id}`;
-                obj._id = `${adapter.namespace}.${id}`;
-            }
-            const fullId = obj._id;
-
-            if (!objects[fullId]) {
-                objects[fullId] = true;
-                adapter.extendForeignObject(fullId, obj);
-            }
-
-            if (!states[fullId] || !states[fullId].ack ||
-                    states[fullId].val !== val || states[fullId].ts !== timestamp) {
-                states[fullId] = {val: val, ack: true, ts: timestamp};
-                adapter.setForeignState(fullId, states[fullId]);
-            }
-
-            if (response.indexOf(id) !== -1) {
-                response.splice(response.indexOf(id), 1);
-            }
-        }
-
-        adapter.log.info(`added/updated ${count} variables`);
-
-        for (const entry of response) {
-            adapter.delObject(entry);
-        }
-        adapter.log.info(`deleted ${response.length} variables`);
-
-        if (adapter.config.polling && adapter.config.pollingInterval > 0) {
-            if (!pollingInterval && (adapter.config.syncVariables || adapter.config.syncPrograms)) {
-                pollingInterval = setInterval(() => {
-                    if (adapter.config.syncVariables) {
-                        pollVariables();
-                    }
-                    if (adapter.config.syncPrograms) {
-                        pollPrograms();
-                    }
-                }, adapter.config.pollingInterval * 1000);
-            }
-        }
-
-        if (typeof callback === 'function') {
-            callback();
-        }
-
     });
+    const response = [];
+
+    if (doc) {
+        for (const row of doc.rows) {
+            const id = row.value._id.split('.').pop();
+            response.push(id);
+        }
+        adapter.log.info(`got ${doc.rows.length} variables`);
+    } else {
+        adapter.log.info('got 0 variables');
+    }
+
+    let data = await rega.runScriptFile(adapter.config.showInvSysVar ? 'variablesInv' : 'variables');
+    try {
+        // CCU sometimes uses -inf or nan, we should handle them as null
+        data = JSON.parse(data.replace(/\n/gm, '').replace(/-inf|nan/g, null));
+    } catch (e) {
+        adapter.log.error(`Cannot parse answer for variables: ${data}`);
+        return;
+    }
+    let count = 0;
+    let id;
+
+    for (const dp of Object.keys(data)) {
+        id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
+        count += 1;
+
+        const role = 'state';
+
+        const obj = {
+            _id: `${adapter.namespace}.${id}`,
+            type: 'state',
+            common: {
+                name: _unescape(data[dp].Name),
+                type: commonTypes[data[dp].ValueType],
+                read: true,
+                write: true,
+                role: role
+            },
+            native: {
+                Name: _unescape(data[dp].Name),
+                TypeName: _unescape(data[dp].TypeName),
+                DPInfo: _unescape(data[dp].DPInfo),
+                ValueMin: _unescape(data[dp].ValueMin),
+                ValueMax: _unescape(data[dp].ValueMax),
+                ValueUnit: _unescape(data[dp].ValueUnit),
+                ValueType: _unescape(data[dp].ValueType),
+                ValueSubType: _unescape(data[dp].ValueSubType),
+                ValueList: _unescape(data[dp].ValueList)
+            }
+        };
+        if (data[dp].ValueMin || data[dp].ValueMin === 0) {
+            obj.common.min = obj.native.ValueMin;
+        }
+        if (data[dp].ValueMax || data[dp].ValueMax === 0) {
+            obj.common.max = obj.native.ValueMax;
+        }
+        if (data[dp].ValueUnit) {
+            obj.common.unit = obj.native.ValueUnit;
+        }
+        if (data[dp].DPInfo) {
+            obj.common.desc = obj.native.DPInfo;
+        }
+
+        if (data[dp].ValueList) {
+            const statesArr = _unescape(data[dp].ValueList).split(';');
+            obj.common.states = {};
+            for (const i in statesArr) {
+                obj.common.states[i] = statesArr[i];
+            }
+            if (data[dp].ValueSubType === 29) {
+                obj.common.min = 0;
+                obj.common.max = statesArr.length - 1;
+            }
+
+        }
+
+        let val = data[dp].Value;
+        const timestamp = data[dp].Timestamp ? new Date(data[dp].Timestamp).getTime() : new Date().getTime();
+
+        if (typeof val === 'string') {
+            val = _unescape(val);
+        }
+
+        if (id === '40') {
+            id = 'alarms';
+            obj.role = `indicator.${id}`;
+            obj._id = `${adapter.namespace}.${id}`;
+        } else if (id === '41') {
+            id = 'maintenance';
+            obj.role = `indicator.${id}`;
+            obj._id = `${adapter.namespace}.${id}`;
+        }
+        const fullId = obj._id;
+
+        if (!objects[fullId]) {
+            objects[fullId] = true;
+            await adapter.extendForeignObjectAsync(fullId, obj);
+        }
+
+        if (!states[fullId] || !states[fullId].ack ||
+                    states[fullId].val !== val || states[fullId].ts !== timestamp) {
+            states[fullId] = {val: val, ack: true, ts: timestamp};
+            await adapter.setForeignStateAsync(fullId, states[fullId]);
+        }
+
+        if (response.indexOf(id) !== -1) {
+            response.splice(response.indexOf(id), 1);
+        }
+    }
+
+    adapter.log.info(`added/updated ${count} variables`);
+
+    for (const entry of response) {
+        await adapter.delObjectAsync(entry);
+    }
+    adapter.log.info(`deleted ${response.length} variables`);
+
+    if (adapter.config.polling && adapter.config.pollingInterval > 0) {
+        if (!pollingInterval && (adapter.config.syncVariables || adapter.config.syncPrograms)) {
+            pollingInterval = setInterval(() => {
+                if (adapter.config.syncVariables) {
+                    pollVariables();
+                }
+                if (adapter.config.syncPrograms) {
+                    pollPrograms();
+                }
+            }, adapter.config.pollingInterval * 1000);
+        }
+    }
 }
 
 /**
@@ -2043,10 +2017,17 @@ async function getDutyCycle(callback) {
     }
 } // endGetDutyCycle
 
-function addNewStateOrObject(obj, val) {
+/**
+ * Add new object and set state afterwards
+ *
+ * @param {object} obj - object to set
+ * @param {any} val - state val to set
+ * @return {Promise<void>}
+ */
+async function addNewStateOrObject(obj, val) {
     if (!objects[obj._id]) {
         objects[obj._id] = true;
-        adapter.extendForeignObject(obj._id, obj);
+        await adapter.extendForeignObjectAsync(obj._id, obj);
     }
 
     if (typeof val === 'string') {
@@ -2054,17 +2035,24 @@ function addNewStateOrObject(obj, val) {
     }
     if (!states[obj._id] || !states[obj._id].ack || states[obj._id].val !== val) {
         states[obj._id] = {val: val, ack: true};
-        adapter.setForeignState(obj._id, states[obj._id]);
+        await adapter.setForeignStateAsync(obj._id, states[obj._id]);
     }
 }
 
-function updateNewState(fullId, val) {
+/**
+ * Update state in cache and db
+ *
+ * @param {string} fullId - id of state
+ * @param {any} val - value of state
+ * @return {Promise<void>}
+ */
+async function updateNewState(fullId, val) {
     if (typeof val === 'string') {
         val = _unescape(val);
     }
     if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
         states[fullId] = {val: val, ack: true};
-        adapter.setForeignState(fullId, val, true);
+        await adapter.setForeignStateAsync(fullId, val, true);
     }
 }
 
