@@ -81,6 +81,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
+### 3.0.9 (2021-01-27)
+* (foxriver76) fix gh actions
+
 ### 3.0.8 (2021-01-27)
 * (foxriver76) we now wait until objects are created before setting states (fixes #122)
 * (foxriver76) added release script

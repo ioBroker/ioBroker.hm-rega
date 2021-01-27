@@ -1,8 +1,21 @@
 {
+    "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.8",
+        "version": "3.0.9",
         "news": {
+            "3.0.9": {
+                "en": "fix gh actions",
+                "de": "Beheben Sie Gh-Aktionen",
+                "ru": "исправить действия gh",
+                "pt": "corrigir ações gh",
+                "nl": "gh-acties repareren",
+                "fr": "corriger les actions gh",
+                "it": "correggere azioni gh",
+                "es": "arreglar acciones de gh",
+                "pl": "napraw działania gh",
+                "zh-cn": "修复gh动作"
+            },
             "3.0.8": {
                 "en": "we now wait until objects are created before setting states (fixes #122)\nadded release script",
                 "de": "Wir warten nun, bis Objekte erstellt wurden, bevor wir Zustände festlegen (Fixes # 122).\nRelease-Skript hinzugefügt",
@@ -230,18 +243,6 @@
                 "es": "arreglado algunos casos extremos, reportados por Sentry",
                 "pl": "naprawiono niektóre przypadki krawędzi, zgłoszone przez Sentry",
                 "zh-cn": "修复了哨兵报告的一些极端情况"
-            },
-            "2.6.6": {
-                "en": "we use current time as timestamp if non-existent on initial variables poll",
-                "de": "Wir verwenden die aktuelle Zeit als Zeitstempel, wenn sie bei der ersten Variablenabfrage nicht vorhanden ist",
-                "ru": "мы используем текущее время в качестве метки времени, если оно отсутствует при опросе исходных переменных",
-                "pt": "usamos o tempo atual como carimbo de data / hora, se inexistente na pesquisa de variáveis iniciais",
-                "nl": "we gebruiken de huidige tijd als tijdstempel als deze niet aanwezig is in de initiële variabelenpeiling",
-                "fr": "nous utilisons l'heure actuelle comme horodatage si inexistant sur le sondage des variables initiales",
-                "it": "usiamo l'ora corrente come timestamp se inesistente nel poll iniziale delle variabili",
-                "es": "Utilizamos la hora actual como marca de tiempo si no existe en la encuesta de variables iniciales",
-                "pl": "używamy aktualnego czasu jako znacznika czasu, jeśli nie istnieje w ankiecie zmiennych początkowych",
-                "zh-cn": "如果初始变量民意调查不存在，我们使用当前时间作为时间戳"
             }
         },
         "title": "HomeMatic ReGaHSS",
