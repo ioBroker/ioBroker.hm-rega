@@ -246,6 +246,10 @@
             }
         },
         "title": "HomeMatic ReGaHSS",
+        "titleLang": {
+            "en": "HomeMatic ReGaHSS",
+            "de": "HomeMatic ReGaHSS"
+        },
         "desc": {
             "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
             "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
