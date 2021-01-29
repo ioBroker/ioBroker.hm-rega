@@ -2,8 +2,20 @@
     "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.11",
+        "version": "3.0.12",
         "news": {
+            "3.0.12": {
+                "en": "we now handle some more edge case errors",
+                "de": "Wir behandeln jetzt einige weitere Randfallfehler",
+                "ru": "Теперь мы обрабатываем еще несколько ошибок крайнего случая",
+                "pt": "agora lidamos com mais alguns erros de caso extremo",
+                "nl": "we behandelen nu wat meer edge case-fouten",
+                "fr": "nous traitons maintenant d'autres erreurs de cas de bord",
+                "it": "ora gestiamo altri errori di casi limite",
+                "es": "ahora manejamos algunos errores más de casos extremos",
+                "pl": "teraz zajmiemy się więcej błędami w przypadku skrajnych przypadków",
+                "zh-cn": "我们现在处理更多边缘情况错误"
+            },
             "3.0.11": {
                 "en": "we now handle some more edge case errors",
                 "de": "Wir behandeln jetzt einige weitere Randfallfehler",
@@ -231,18 +243,6 @@
                 "es": "arregla el bloqueo cuando un usuario en CCU es una cadena vacía al sincronizar favoritos",
                 "pl": "napraw awarię, gdy użytkownik w CCU jest pustym ciągiem synchronizacji ulubionych",
                 "zh-cn": "修复当CCU上的用户为同步收藏夹中的空字符串时的崩溃"
-            },
-            "2.6.9": {
-                "en": "fixed crash when we cannot determine CCU version",
-                "de": "Absturz behoben, wenn wir die CCU-Version nicht bestimmen können",
-                "ru": "исправлено падение, когда мы не можем определить версию CCU",
-                "pt": "falha corrigida quando não podemos determinar a versão da CCU",
-                "nl": "crash opgelost wanneer we de CCU-versie niet kunnen bepalen",
-                "fr": "Correction d'un crash lorsque nous ne pouvons pas déterminer la version CCU",
-                "it": "risolto crash quando non siamo in grado di determinare la versione della CCU",
-                "es": "Se corrigió el bloqueo cuando no podemos determinar la versión de CCU",
-                "pl": "naprawiono awarię, gdy nie możemy ustalić wersji CCU",
-                "zh-cn": "修复了无法确定CCU版本时的崩溃"
             }
         },
         "title": "HomeMatic ReGaHSS",
