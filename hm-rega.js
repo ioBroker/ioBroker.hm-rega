@@ -48,7 +48,7 @@ function startAdapter(options) {
 
         name: adapterName,
 
-        stateChange: (id, state) => {
+        stateChange: async (id, state) => {
             if (!state || state.ack) {
                 if (state && id === pollingTrigger) {
                     adapter.log.info('pollingTrigger');
@@ -66,8 +66,12 @@ function startAdapter(options) {
                 // Read devices anew if hm-rpc updated the list of devices
                 if (state.val) {
                     setTimeout(() => getDevices(), 1000);
-                    // Reset flag
-                    adapter.setForeignState(id, false, true);
+                    try {
+                        // Reset flag
+                        await adapter.setForeignStateAsync(id, false, true);
+                    } catch {
+                        // ignore
+                    }
                 }
             } else if (id === `${adapter.config.rfdAdapter}.info.connection` ||
                 id === `${adapter.config.virtualDevicesAdapter}.info.connection` ||
@@ -320,31 +324,47 @@ function main() {
                 adapter.log.error(`ReGaHSS ${adapter.config.homematicAddress} down`);
                 ccuReachable = true;
                 ccuRegaUp = false;
-                adapter.setState('info.connection', false, true);
-                adapter.setState('info.ccuReachable', ccuReachable, true);
-                adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
+                try {
+                    await adapter.setStateAsync('info.connection', false, true);
+                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
+                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                } catch {
+                    // ignore
+                }
 
             } else if (err === 'CCU unreachable') {
                 adapter.log.error(`CCU ${adapter.config.homematicAddress} unreachable`);
                 ccuReachable = false;
                 ccuRegaUp = false;
-                adapter.setState('info.connection', false, true);
-                adapter.setState('info.ccuReachable', ccuReachable, true);
-                adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
+                try {
+                    await adapter.setStateAsync('info.connection', false, true);
+                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
+                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                } catch {
+                    // ignore
+                }
             } else if (err) {
                 adapter.log.error(err);
                 ccuReachable = false;
                 ccuRegaUp = false;
-                adapter.setState('info.connection', false, true);
-                adapter.setState('info.ccuReachable', ccuReachable, true);
-                adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
+                try {
+                    await adapter.setStateAsync('info.connection', false, true);
+                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
+                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                } catch {
+                    // ignore
+                }
             } else {
                 adapter.log.info(`ReGaHSS ${adapter.config.homematicAddress} up`);
                 ccuReachable = true;
                 ccuRegaUp = true;
-                adapter.setState('info.connection', true, true);
-                adapter.setState('info.ccuReachable', ccuReachable, true);
-                adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
+                try {
+                    await adapter.setStateAsync('info.connection', true, true);
+                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
+                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                } catch {
+                    // ignore
+                }
 
                 await rega.checkTime();
 
@@ -427,7 +447,11 @@ async function pollVariables() {
 
         if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || (states[fullId].ts && states[fullId].ts !== timestamp)) {
             states[fullId] = {val: val, ack: true, ts: timestamp};
-            adapter.setForeignState(fullId, val, true);
+            try {
+                await adapter.setForeignStateAsync(fullId, val, true);
+            } catch {
+                // ignore
+            }
         }
     }
 }
@@ -578,7 +602,11 @@ async function pollPrograms() {
                 states[fullId].val !== val
         ) {
             states[fullId] = {val: val, ack: true};
-            adapter.setForeignState(fullId, states[fullId]);
+            try {
+                await adapter.setForeignStateAsync(fullId, states[fullId]);
+            } catch {
+                // ignore
+            }
         }
     }
 }
@@ -632,7 +660,11 @@ async function pollServiceMsgs() {
                 states[id].ts !== state.ts
         ) {
             states[id] = state;
-            adapter.setForeignState(id, state);
+            try {
+                await adapter.setForeignStateAsync(id, state);
+            } catch {
+                // ignore
+            }
         }
     }
 }
@@ -1340,7 +1372,7 @@ async function getDatapoints() {
         id += `${tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_')}.${tmp[2].replace(FORBIDDEN_CHARS, '_')}`;
 
         // convert dimmer and blinds
-        if (typeof units[id] === 'object') {
+        if (units[id] && typeof units[id] === 'object') {
             // data[dp] = ((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100;
             const max = units[id].MAX;
             // check if we need to scale
@@ -2094,10 +2126,14 @@ function convertDataToJSON(data) {
 
 let stopCount = 0;
 
-function stop(callback) {
-    adapter.setState('info.connection', false, true);
-    adapter.setState('info.ccuReachable', false, true);
-    adapter.setState('info.ccuRegaUp', false, true);
+async function stop(callback) {
+    try {
+        await adapter.setStateAsync('info.connection', false, true);
+        await adapter.setStateAsync('info.ccuReachable', false, true);
+        await adapter.setStateAsync('info.ccuRegaUp', false, true);
+    } catch {
+        // ignore
+    }
 
     if (!stopCount) {
         clearInterval(pollingInterval);

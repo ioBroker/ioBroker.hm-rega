@@ -2,8 +2,20 @@
     "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.10",
+        "version": "3.0.11",
         "news": {
+            "3.0.11": {
+                "en": "we now handle some more edge case errors",
+                "de": "Wir behandeln jetzt einige weitere Randfallfehler",
+                "ru": "Теперь мы обрабатываем еще несколько ошибок крайнего случая",
+                "pt": "agora lidamos com mais alguns erros de caso extremo",
+                "nl": "we behandelen nu wat meer edge case-fouten",
+                "fr": "nous traitons maintenant d'autres erreurs de cas de bord",
+                "it": "ora gestiamo altri errori di casi limite",
+                "es": "ahora manejamos algunos errores más de casos extremos",
+                "pl": "teraz zajmiemy się więcej błędami w przypadku skrajnych przypadków",
+                "zh-cn": "我们现在处理更多边缘情况错误"
+            },
             "3.0.10": {
                 "en": "no build needed",
                 "de": "Kein Build erforderlich",
@@ -231,18 +243,6 @@
                 "es": "Se corrigió el bloqueo cuando no podemos determinar la versión de CCU",
                 "pl": "naprawiono awarię, gdy nie możemy ustalić wersji CCU",
                 "zh-cn": "修复了无法确定CCU版本时的崩溃"
-            },
-            "2.6.8": {
-                "en": "Script post requests will time out after 15 seconds to prevent  stucking in queue if no answer from ccu received",
-                "de": "Skript-Post-Anfragen laufen nach 15 Sekunden ab, um zu verhindern, dass sie in der Warteschlange hängen bleiben, wenn keine Antwort von ccu empfangen wird",
-                "ru": "Сценарий отправки запросов истекает через 15 секунд, чтобы предотвратить зависание в очереди, если не получен ответ от ccu",
-                "pt": "As solicitações de postagem de script atingem o tempo limite após 15 segundos para evitar a espera na fila se nenhuma resposta da ccu for recebida",
-                "nl": "Verzoeken voor scriptposts verlopen na 15 seconden om te voorkomen dat ze in de wachtrij blijven steken als er geen antwoord van ccu wordt ontvangen",
-                "fr": "Les demandes de publication de script expireront au bout de 15 secondes pour empêcher le blocage dans la file d'attente si aucune réponse du ccu n'est reçue",
-                "it": "Le richieste di post degli script scadranno dopo 15 secondi per impedire il blocco in coda se non viene ricevuta alcuna risposta da ccu",
-                "es": "Las solicitudes de publicación de guiones se agotarán después de 15 segundos para evitar el bloqueo en la cola si no se recibe respuesta de ccu",
-                "pl": "Żądania wysłania skryptu przekroczą limit czasu po 15 sekundach, aby zapobiec utknięciu w kolejce, jeśli nie otrzymano odpowiedzi od ccu",
-                "zh-cn": "如果未收到ccu的答复，则脚本发布请求将在15秒后超时，以防止卡在队列中"
             }
         },
         "title": "HomeMatic ReGaHSS",
