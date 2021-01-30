@@ -2,8 +2,20 @@
     "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.12",
+        "version": "3.0.13",
         "news": {
+            "3.0.13": {
+                "en": "ensure to not set states of non-existing RPC objects due to differences in the APIs (fixes #123)",
+                "de": "Stellen Sie sicher, dass keine Zustände nicht vorhandener RPC-Objekte aufgrund von Unterschieden in den APIs festgelegt werden (Fixes # 123).",
+                "ru": "убедитесь, что не устанавливаются состояния несуществующих объектов RPC из-за различий в API (исправления # 123)",
+                "pt": "certifique-se de não definir estados de objetos RPC não existentes devido a diferenças nas APIs (correções # 123)",
+                "nl": "zorg ervoor dat u geen statussen instelt van niet-bestaande RPC-objecten vanwege verschillen in de API's (fixes # 123)",
+                "fr": "assurez-vous de ne pas définir les états des objets RPC non existants en raison de différences dans les API (correctifs # 123)",
+                "it": "assicurarsi di non impostare stati di oggetti RPC non esistenti a causa delle differenze nelle API (correzioni # 123)",
+                "es": "asegúrese de no establecer estados de objetos RPC no existentes debido a diferencias en las API (arreglos # 123)",
+                "pl": "zapewnić, aby nie ustawiać stanów nieistniejących obiektów RPC ze względu na różnice w interfejsach API (poprawki nr 123)",
+                "zh-cn": "确保不设置由于API的不同而导致的不存在的RPC对象的状态（修复＃123）"
+            },
             "3.0.12": {
                 "en": "we now handle some more edge case errors",
                 "de": "Wir behandeln jetzt einige weitere Randfallfehler",
@@ -231,18 +243,6 @@
                 "es": "el tiempo de espera de las solicitudes aumentó a 90 segundos",
                 "pl": "limit czasu żądań zwiększony do 90 sekund",
                 "zh-cn": "请求超时增加到90秒"
-            },
-            "2.6.10": {
-                "en": "fix crash when a user on CCU is a empty string on synchronizing favorites",
-                "de": "Absturz behoben, wenn ein Benutzer auf der CCU beim Synchronisieren von Favoriten eine leere Zeichenfolge ist",
-                "ru": "исправление сбоя, когда пользователь в CCU представляет собой пустую строку при синхронизации избранного",
-                "pt": "corrigir falha quando um usuário na CCU é uma string vazia na sincronização de favoritos",
-                "nl": "crash repareren wanneer een gebruiker op CCU een lege string is bij het synchroniseren van favorieten",
-                "fr": "Correction d'un crash lorsqu'un utilisateur sur CCU est une chaîne vide lors de la synchronisation des favoris",
-                "it": "risolve il crash quando un utente su CCU è una stringa vuota durante la sincronizzazione dei preferiti",
-                "es": "arregla el bloqueo cuando un usuario en CCU es una cadena vacía al sincronizar favoritos",
-                "pl": "napraw awarię, gdy użytkownik w CCU jest pustym ciągiem synchronizacji ulubionych",
-                "zh-cn": "修复当CCU上的用户为同步收藏夹中的空字符串时的崩溃"
             }
         },
         "title": "HomeMatic ReGaHSS",

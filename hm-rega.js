@@ -213,6 +213,7 @@ const checkInterval = {};
 let units = {};
 const states = {};
 const objects = {};
+let existingStates = [];
 
 function _unescape(text) {
     if (typeof text !== 'string') {
@@ -372,6 +373,8 @@ function main() {
                     await getServiceMsgs();
                 }
 
+                // get Devices before datapoints to know which states exist
+                await getDevices();
                 await getDatapoints();
 
                 if (adapter.config.syncDutyCycle) {
@@ -385,8 +388,6 @@ function main() {
                 if (adapter.config.syncPrograms) {
                     await getPrograms();
                 }
-
-                await getDevices();
 
                 if (adapter.config.syncRooms && adapter.config.enumRooms) {
                     await getRooms();
@@ -1392,30 +1393,36 @@ async function getDatapoints() {
                 states[id].val !== state.val ||
                 !states[id].ack) {
             states[id] = state;
-            await adapter.setForeignStateAsync(id, state);
+            // only set the state if it's a valid dp at RPC API and thus has an object
+            if (existingStates.includes(id)) {
+                await adapter.setForeignStateAsync(id, state);
+            } else {
+                adapter.log.debug(`Do not set "${JSON.stringify(state)}" to "${id}", because non-existing in corresponding adapter`);
+            }
         } // endIf
     } // endFor
 
-    adapter.log.info('got state values');
+    adapter.log.info('Updated all datapoints');
+    // delete it from RAM
     units = null;
+    existingStates = null;
 }
 
 /**
- * Gets all devices, channels, states and rename them
+ * Gets all devices, channels, states and renames them
  * @param {string[]} devices
  * @param {string[]} channels
  * @param {string[]} _states
- * @param {function} [callback]
  * @private
  */
-async function _getDevicesFromRega(devices, channels, _states, callback) {
+async function _getDevicesFromRega(devices, channels, _states) {
     // Get all devices channels and states
     let data = await rega.runScriptFile('devices');
     try {
         data = JSON.parse(data.replace(/\n/gm, ''));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for devices: ${data}`);
-        return void (typeof callback === 'function' && callback());
+        return;
     }
     const objs = [];
     let id;
@@ -1495,8 +1502,7 @@ async function _getDevicesFromRega(devices, channels, _states, callback) {
     }
 
     // now rename all objects
-    while (objs.length > 0) {
-        const obj = objs.pop();
+    for (const obj of objs) {
         try {
             await adapter.extendForeignObjectAsync(obj._id, obj);
             adapter.log.info(`renamed ${obj._id} to "${obj.common.name}"`);
@@ -1504,13 +1510,14 @@ async function _getDevicesFromRega(devices, channels, _states, callback) {
             adapter.log.warn(`Could not rename object ${obj._id} to "${obj.common.name}": ${e}`);
         }
     }
-
-    if (typeof callback === 'function') {
-        callback();
-    }
 }
 
-function getDevices(callback) {
+/**
+ * Get all states/channels/devices from instance and request their name from REGA API and does renaming
+ *
+ * @return {Promise<void>}
+ */
+async function getDevices() {
     const promises = [];
     const channels = {};
     const devices = {};
@@ -1532,7 +1539,9 @@ function getDevices(callback) {
         promises.push(addStatesFromInstance(adapter.config.virtualDevicesAdapter));
     }
 
-    Promise.all(promises).then(() => _getDevicesFromRega(devices, channels, _states, callback));
+    await Promise.all(promises);
+
+    await _getDevicesFromRega(devices, channels, _states);
 
     /**
      * adds the state information (min, max, etc.) from a given instance
@@ -1587,6 +1596,8 @@ function getDevices(callback) {
                     const parts = row.id.split('.');
                     const last = parts.pop();
                     const id = parts.join('.');
+                    existingStates.push(row.id);
+
                     if (row.value && row.value.native && row.value.native.UNIT) {
                         const _id = row.id;
                         units[_id] = _unescape(row.value.native.UNIT);

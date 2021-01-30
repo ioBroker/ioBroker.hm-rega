@@ -81,6 +81,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
+### 3.0.13 (2021-01-30)
+* (foxriver76) ensure to not set states of non-existing RPC objects due to differences in the APIs (fixes #123)
+
 ### 3.0.12 (2021-01-29)
 * (foxriver76) we now handle some more edge case errors
 
