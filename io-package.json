@@ -2,8 +2,20 @@
     "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.13",
+        "version": "3.0.14",
         "news": {
+            "3.0.14": {
+                "en": "fix pot. crash after reconnect because of existingStates array",
+                "de": "Topf reparieren. Absturz nach erneuter Verbindung aufgrund des vorhandenen State-Arrays",
+                "ru": "исправить горшок. сбой после повторного подключения из-за массива существующих состояний",
+                "pt": "consertar maconha. travar após reconectar por causa da matriz existingStates",
+                "nl": "maak de pot vast. crasht na opnieuw verbinden vanwege een bestaande matrix",
+                "fr": "réparer le pot. crash après reconnexion à cause du tableau existingStates",
+                "it": "piatto fisso. arresto anomalo dopo la riconnessione a causa dell'array existingStates",
+                "es": "arreglar la olla. falla después de reconectar debido a una matriz de estado existente",
+                "pl": "naprawić garnek. Awaria po ponownym połączeniu z powodu tablicy existingStates",
+                "zh-cn": "修理锅。由于existingStates数组而重新连接后崩溃"
+            },
             "3.0.13": {
                 "en": "ensure to not set states of non-existing RPC objects due to differences in the APIs (fixes #123)",
                 "de": "Stellen Sie sicher, dass keine Zustände nicht vorhandener RPC-Objekte aufgrund von Unterschieden in den APIs festgelegt werden (Fixes # 123).",
@@ -231,18 +243,6 @@
                 "es": "problema potencial solucionado en la sincronización de enumeración",
                 "pl": "naprawiono potencjalny problem z synchronizacją enum",
                 "zh-cn": "修复了枚举同步的潜在问题"
-            },
-            "2.6.11": {
-                "en": "timeout of requests increased to 90 seconds",
-                "de": "Das Zeitlimit für Anforderungen wurde auf 90 Sekunden erhöht",
-                "ru": "таймаут запросов увеличен до 90 секунд",
-                "pt": "o tempo limite das solicitações aumentou para 90 segundos",
-                "nl": "time-out van verzoeken is verhoogd tot 90 seconden",
-                "fr": "délai d'expiration des demandes augmenté à 90 secondes",
-                "it": "timeout delle richieste aumentato a 90 secondi",
-                "es": "el tiempo de espera de las solicitudes aumentó a 90 segundos",
-                "pl": "limit czasu żądań zwiększony do 90 sekund",
-                "zh-cn": "请求超时增加到90秒"
             }
         },
         "title": "HomeMatic ReGaHSS",

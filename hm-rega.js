@@ -1403,9 +1403,9 @@ async function getDatapoints() {
     } // endFor
 
     adapter.log.info('Updated all datapoints');
-    // delete it from RAM
+    // free RAM
     units = null;
-    existingStates = null;
+    existingStates = [];
 }
 
 /**
