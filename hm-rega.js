@@ -485,32 +485,32 @@ async function pollDutyCycle() {
     const ccuType = `CCU${typeof sysInfo.ccuVersion === 'string' ? sysInfo.ccuVersion.split('.')[0] : ''}`;
 
     try {
-        data = JSON.parse(convertDataToJSON(data));
+        data = JSON.parse(convertDataToJSONArray(data));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for dutycycle: ${data}`);
         return;
     }
 
     let id;
-    for (const dp of Object.keys(data)) {
-        id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
+    for (const dp of data) {
+        id = _unescape(dp.ADDRESS).replace(FORBIDDEN_CHARS, '_');
 
         // DUTY_CYCLE State:
-        if (data[dp].DUTY_CYCLE) {
-            updateNewState(`${adapter.namespace}.${id}.0.DUTY_CYCLE`, data[dp].DUTY_CYCLE);
-            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DUTY_CYCLE => ${data[dp].DUTY_CYCLE}`);
+        if (dp.DUTY_CYCLE) {
+            updateNewState(`${adapter.namespace}.${id}.0.DUTY_CYCLE`, dp.DUTY_CYCLE);
+            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DUTY_CYCLE => ${dp.DUTY_CYCLE}`);
         }
 
         // CONNECTED State:
-        if (data[dp].CONNECTED) {
-            updateNewState(`${adapter.namespace}.${id}.0.CONNECTED`, data[dp].CONNECTED);
-            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.CONNECTED => ${data[dp].CONNECTED}`);
+        if (dp.CONNECTED) {
+            updateNewState(`${adapter.namespace}.${id}.0.CONNECTED`, dp.CONNECTED);
+            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.CONNECTED => ${dp.CONNECTED}`);
         }
 
         // DEFAULT State:
-        if (data[dp].DEFAULT) {
-            updateNewState(`${adapter.namespace}.${id}.0.DEFAULT`, data[dp].DEFAULT);
-            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DEFAULT => ${data[dp].DEFAULT}`);
+        if (dp.DEFAULT) {
+            updateNewState(`${adapter.namespace}.${id}.0.DEFAULT`, dp.DEFAULT);
+            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DEFAULT => ${dp.DEFAULT}`);
         }
 
         // FIRMWARE_VERSION State:
@@ -569,17 +569,15 @@ async function pollDutyCycle() {
                 name: ccuType
             },
             native: {
-                ADDRESS: _unescape(data[dp].ADDRESS),
+                ADDRESS: _unescape(dp.ADDRESS),
                 TYPE: ccuType
             }
         };
 
-        adapter.getObject(obj._id, (err, _obj) => {
-            if (err || !_obj || !_obj.common || (obj.common.name !== _obj.common.name)) {
-                adapter.extendForeignObject(obj._id, obj);
-            }
-        });
-
+        const _obj = await adapter.getObjectAsync(obj._id);
+        if (!_obj || !_obj.common || (obj.common.name !== _obj.common.name)) {
+            adapter.extendForeignObject(obj._id, obj);
+        }
     }
 } // endPollDutyCycle
 
@@ -1796,14 +1794,14 @@ async function getVariables() {
  *
  * @returns {Promise<void>}
  */
-async function getDutyCycle(callback) {
+async function getDutyCycle() {
     let data = await rega.runScriptFile('dutycycle');
     let sysInfo = await rega.runScriptFile('system');
     try {
-        data = JSON.parse(convertDataToJSON(data));
+        data = JSON.parse(convertDataToJSONArray(data));
     } catch (e) {
         adapter.log.error(`Cannot parse answer for dutycycle: ${data}`);
-        return void (typeof callback === 'function' && callback());
+        return;
     }
     let count = 0;
     let id;
@@ -1814,10 +1812,11 @@ async function getDutyCycle(callback) {
         sysInfo = {};
     } // endTryCatch
 
-    const ccuType = `CCU${sysInfo.ccuVersion === 'string' ? sysInfo.ccuVersion.split('.')[0] : ''}`;
+    const ccuType = `CCU${typeof sysInfo.ccuVersion === 'string' ? sysInfo.ccuVersion.split('.')[0] : ''}`;
 
-    for (const dp of Object.keys(data)) {
-        id = _unescape(data[dp].ADDRESS).replace(FORBIDDEN_CHARS, '_');
+    // iterate over JSON array
+    for (const dp of data) {
+        id = _unescape(dp.ADDRESS).replace(FORBIDDEN_CHARS, '_');
         count += 1;
 
         const obj = {
@@ -1827,7 +1826,7 @@ async function getDutyCycle(callback) {
                 name: ccuType
             },
             native: {
-                ADDRESS: _unescape(data[dp].ADDRESS),
+                ADDRESS: _unescape(dp.ADDRESS),
                 TYPE: ccuType
             }
         };
@@ -1838,7 +1837,7 @@ async function getDutyCycle(callback) {
         }
 
         //DUTY_CYCLE State:
-        if (data[dp].DUTY_CYCLE) {
+        if (dp.DUTY_CYCLE !== undefined) {
             const stateDutycycle = {
                 _id: `${adapter.namespace}.${id}.0.DUTY_CYCLE`,
                 type: 'state',
@@ -1863,17 +1862,17 @@ async function getDutyCycle(callback) {
                     CONTROL: 'NONE'
                 }
             };
-            addNewStateOrObject(stateDutycycle, data[dp].DUTY_CYCLE);
+            await addNewStateOrObject(stateDutycycle, dp.DUTY_CYCLE);
         }
 
         //CONNECTED State:
-        if (data[dp].CONNECTED) {
+        if (dp.CONNECTED !== undefined) {
             const stateConnected = {
                 _id: `${adapter.namespace}.${id}.0.CONNECTED`,
                 type: 'state',
                 common: {
                     name: `${adapter.namespace}.${id}.0.CONNECTED`,
-                    type: 'boolean',
+                    type: 'number',
                     read: true,
                     write: false,
                     role: 'indicator.connected',
@@ -1886,17 +1885,17 @@ async function getDutyCycle(callback) {
                     CONTROL: 'NONE'
                 }
             };
-            addNewStateOrObject(stateConnected, data[dp].CONNECTED);
+            await addNewStateOrObject(stateConnected, dp.CONNECTED);
         }
 
         //DEFAULT State:
-        if (data[dp].DEFAULT) {
+        if (dp.DEFAULT !== undefined) {
             const stateDefault = {
                 _id: `${adapter.namespace}.${id}.0.DEFAULT`,
                 type: 'state',
                 common: {
                     name: `${adapter.namespace}.${id}.0.DEFAULT`,
-                    type: 'boolean',
+                    type: 'number',
                     read: true,
                     write: false,
                     role: 'indicator',
@@ -1909,158 +1908,158 @@ async function getDutyCycle(callback) {
                     CONTROL: 'NONE'
                 }
             };
-            addNewStateOrObject(stateDefault, data[dp].DEFAULT);
+            await addNewStateOrObject(stateDefault, dp.DEFAULT);
+        }
+
+        // FIRMWARE_VERSION State:
+        if (sysInfo.ccuVersion !== undefined) {
+            const stateFirmware = {
+                _id: `${adapter.namespace}.${id}.0.FIRMWARE_VERSION`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.FIRMWARE_VERSION`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'text',
+                    desc: 'firmware_version'
+                },
+                native: {
+                    ID: 'FIRMWARE_VERSION',
+                    TYPE: 'STRING',
+                    DEFAULT: '',
+                    CONTROL: 'NONE'
+                }
+            };
+            await addNewStateOrObject(stateFirmware, sysInfo.ccuVersion);
+        }
+
+        // ReGaHss-Version
+        if (sysInfo.regaVersion !== undefined) {
+            const regaVersion = {
+                _id: `${adapter.namespace}.${id}.0.regaVersion`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.regaVersion`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'text',
+                    desc: 'Version of ReGaHss'
+                },
+                native: {}
+            };
+            await addNewStateOrObject(regaVersion, sysInfo.regaVersion);
+        }
+
+        // Number of devices
+        if (sysInfo.countDevices !== undefined) {
+            const countDevices = {
+                _id: `${adapter.namespace}.${id}.0.countDevices`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.countDevices`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'indicator.count',
+                    desc: 'Total number of devices'
+                },
+                native: {}
+            };
+            await addNewStateOrObject(countDevices, sysInfo.countDevices);
+        }
+
+        // Rega Build Label
+        if (sysInfo.buildLabel !== undefined) {
+            const buildLabel = {
+                _id: `${adapter.namespace}.${id}.0.buildLabel`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.buildLabel`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'text',
+                    desc: 'Build Label of ReGaHss'
+                },
+                native: {}
+            };
+            await addNewStateOrObject(buildLabel, sysInfo.buildLabel);
+        }
+
+        // Number of channels
+        if (sysInfo.countChannels !== undefined) {
+            const countChannels = {
+                _id: `${adapter.namespace}.${id}.0.countChannels`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.countChannels`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'indicator.count',
+                    desc: 'Total number of channels'
+                },
+                native: {}
+            };
+            await addNewStateOrObject(countChannels, sysInfo.countChannels);
+        }
+
+        // Number of datapoints
+        if (sysInfo.countDatapoints !== undefined) {
+            const countDatapoints = {
+                _id: `${adapter.namespace}.${id}.0.countDatapoints`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.countDatapoints`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'indicator.count',
+                    desc: 'Total number of datapoints'
+                },
+                native: {}
+            };
+            await addNewStateOrObject(countDatapoints, sysInfo.countDatapoints);
+        }
+
+        // Number of datapoints
+        if (sysInfo.countSystemVars !== undefined) {
+            const countSysVars = {
+                _id: `${adapter.namespace}.${id}.0.countSystemVariables`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.countSystemVariables`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'indicator.count',
+                    desc: 'Total number of system variables'
+                },
+                native: {}
+            };
+            await addNewStateOrObject(countSysVars, sysInfo.countSystemVars);
+        }
+
+        // Number of programs
+        if (sysInfo.countPrograms !== undefined) {
+            const countPrograms = {
+                _id: `${adapter.namespace}.${id}.0.countPrograms`,
+                type: 'state',
+                common: {
+                    name: `${adapter.namespace}.${id}.0.countPrograms`,
+                    type: 'string',
+                    read: true,
+                    write: false,
+                    role: 'indicator.count',
+                    desc: 'Total number of programs'
+                },
+                native: {}
+            };
+            await addNewStateOrObject(countPrograms, sysInfo.countPrograms);
         }
     } // endFor
-
-    // FIRMWARE_VERSION State:
-    if (sysInfo.ccuVersion) {
-        const stateFirmware = {
-            _id: `${adapter.namespace}.${id}.0.FIRMWARE_VERSION`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.FIRMWARE_VERSION`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'text',
-                desc: 'firmeware_version'
-            },
-            native: {
-                ID: 'FIRMWARE_VERSION',
-                TYPE: 'STRING',
-                DEFAULT: '',
-                CONTROL: 'NONE'
-            }
-        };
-        addNewStateOrObject(stateFirmware, sysInfo.ccuVersion);
-    }
-
-    // ReGaHss-Version
-    if (sysInfo.regaVersion) {
-        const regaVersion = {
-            _id: `${adapter.namespace}.${id}.0.regaVersion`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.regaVersion`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'text',
-                desc: 'Version of ReGaHss'
-            },
-            native: {}
-        };
-        addNewStateOrObject(regaVersion, sysInfo.regaVersion);
-    }
-
-    // Number of devices
-    if (sysInfo.countDevices) {
-        const countDevices = {
-            _id: `${adapter.namespace}.${id}.0.countDevices`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.countDevices`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'indicator.count',
-                desc: 'Total number of devices'
-            },
-            native: {}
-        };
-        addNewStateOrObject(countDevices, sysInfo.countDevices);
-    }
-
-    // Rega Build Label
-    if (sysInfo.buildLabel) {
-        const buildLabel = {
-            _id: `${adapter.namespace}.${id}.0.buildLabel`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.buildLabel`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'text',
-                desc: 'Build Label of ReGaHss'
-            },
-            native: {}
-        };
-        addNewStateOrObject(buildLabel, sysInfo.buildLabel);
-    }
-
-    // Number of channels
-    if (sysInfo.countChannels) {
-        const countChannels = {
-            _id: `${adapter.namespace}.${id}.0.countChannels`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.countChannels`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'indicator.count',
-                desc: 'Total number of channels'
-            },
-            native: {}
-        };
-        addNewStateOrObject(countChannels, sysInfo.countChannels);
-    }
-
-    // Number of datapoints
-    if (sysInfo.countDatapoints) {
-        const countDatapoints = {
-            _id: `${adapter.namespace}.${id}.0.countDatapoints`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.countDatapoints`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'indicator.count',
-                desc: 'Total number of datapoints'
-            },
-            native: {}
-        };
-        addNewStateOrObject(countDatapoints, sysInfo.countDatapoints);
-    }
-
-    // Number of datapoints
-    if (sysInfo.countSystemVars) {
-        const countSysVars = {
-            _id: `${adapter.namespace}.${id}.0.countSystemVariables`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.countSystemVariables`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'indicator.count',
-                desc: 'Total number of system variables'
-            },
-            native: {}
-        };
-        addNewStateOrObject(countSysVars, sysInfo.countSystemVars);
-    }
-
-    // Number of programs
-    if (sysInfo.countPrograms) {
-        const countPrograms = {
-            _id: `${adapter.namespace}.${id}.0.countPrograms`,
-            type: 'state',
-            common: {
-                name: `${adapter.namespace}.${id}.0.countPrograms`,
-                type: 'string',
-                read: true,
-                write: false,
-                role: 'indicator.count',
-                desc: 'Total number of programs'
-            },
-            native: {}
-        };
-        addNewStateOrObject(countPrograms, sysInfo.countPrograms);
-    }
 
     adapter.log.info(`added/updated ${count} objects`);
 
@@ -2072,10 +2071,6 @@ async function getDutyCycle(callback) {
                 }
             }, adapter.config.pollingIntervalDC * 1000);
         }
-    }
-
-    if (typeof callback === 'function') {
-        callback();
     }
 } // endGetDutyCycle
 
@@ -2118,7 +2113,13 @@ async function updateNewState(fullId, val) {
     }
 }
 
-function convertDataToJSON(data) {
+/**
+ * Converts the Duty Cycle output to a real JSON array string
+ *
+ * @param {string} data - duty cycle string
+ * @return {string}
+ */
+function convertDataToJSONArray(data) {
     data = data.replace(/\r/gm, '');
     data = data.replace(/\n/gm, '');
     data = data.replace(/{/g, '');

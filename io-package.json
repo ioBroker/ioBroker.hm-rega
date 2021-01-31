@@ -2,8 +2,20 @@
     "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.15",
+        "version": "3.0.16",
         "news": {
+            "3.0.16": {
+                "en": "fix issue with non-existing objects when using LAN-Gateways",
+                "de": "Behebung eines Problems mit nicht vorhandenen Objekten bei Verwendung von LAN-Gateways",
+                "ru": "исправить проблему с несуществующими объектами при использовании LAN-шлюзов",
+                "pt": "corrigir o problema com objetos não existentes ao usar LAN-Gateways",
+                "nl": "probleem oplossen met niet-bestaande objecten bij gebruik van LAN-gateways",
+                "fr": "correction d'un problème avec des objets non existants lors de l'utilisation de passerelles LAN",
+                "it": "risolvere il problema con oggetti inesistenti quando si utilizzano gateway LAN",
+                "es": "solucionar el problema con los objetos no existentes al usar LAN-Gateways",
+                "pl": "naprawiono problem z nieistniejącymi obiektami podczas korzystania z bram sieci LAN",
+                "zh-cn": "修复使用LAN-Gateways时不存在的对象的问题"
+            },
             "3.0.15": {
                 "en": "Ensure that objects are created if something (devices, variables, programs) created during runtime (fixes #124)",
                 "de": "Stellen Sie sicher, dass Objekte erstellt werden, wenn zur Laufzeit etwas (Geräte, Variablen, Programme) erstellt wurde (Fixes # 124).",
@@ -231,18 +243,6 @@
                 "es": "corrección de% de escala de números flotantes",
                 "pl": "poprawka dla %s kalowania liczb zmiennoprzecinkowych",
                 "zh-cn": "修正浮点数的百分比缩放"
-            },
-            "2.6.15": {
-                "en": "fixed potential issues with scaling of % values",
-                "de": "potenzielle Probleme mit der Skalierung von %-Werten wurden behoben",
-                "ru": "исправлены потенциальные проблемы с масштабированием значений%",
-                "pt": "corrigidos problemas potenciais com escala de valores%",
-                "nl": "Mogelijke problemen opgelost met het schalen van% -waarden",
-                "fr": "Correction de problèmes potentiels avec la mise à l'échelle des valeurs%",
-                "it": "risolti potenziali problemi con il ridimensionamento dei valori%",
-                "es": "problemas potenciales solucionados con la escala de valores de porcentaje",
-                "pl": "naprawiono potencjalne problemy ze skalowaniem wartości%",
-                "zh-cn": "修正了％值缩放的潜在问题"
             }
         },
         "title": "HomeMatic ReGaHSS",
