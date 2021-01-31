@@ -81,6 +81,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
+### 3.0.15 (2021-01-31)
+* (foxriver76) Ensure that objects are created if something (devices, variables, programs) created during runtime (fixes #124)
+
 ### 3.0.14 (2021-01-30)
 * (foxriver76) fix pot. crash after reconnect because of existingStates array
 

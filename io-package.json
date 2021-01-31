@@ -2,8 +2,20 @@
     "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
-        "version": "3.0.14",
+        "version": "3.0.15",
         "news": {
+            "3.0.15": {
+                "en": "Ensure that objects are created if something (devices, variables, programs) created during runtime (fixes #124)",
+                "de": "Stellen Sie sicher, dass Objekte erstellt werden, wenn zur Laufzeit etwas (Geräte, Variablen, Programme) erstellt wurde (Fixes # 124).",
+                "ru": "Убедитесь, что объекты созданы, если что-то (устройства, переменные, программы) было создано во время выполнения (исправления # 124)",
+                "pt": "Certifique-se de que os objetos sejam criados se algo (dispositivos, variáveis, programas) for criado durante o tempo de execução (correções # 124)",
+                "nl": "Zorg ervoor dat objecten worden gemaakt als er iets (apparaten, variabelen, programma's) is gemaakt tijdens runtime (fixes # 124)",
+                "fr": "Assurez-vous que les objets sont créés si quelque chose (périphériques, variables, programmes) est créé pendant l'exécution (corrections # 124)",
+                "it": "Assicurati che gli oggetti vengano creati se qualcosa (dispositivi, variabili, programmi) viene creato durante il runtime (correzioni # 124)",
+                "es": "Asegúrese de que los objetos se creen si algo (dispositivos, variables, programas) se crea durante el tiempo de ejecución (arreglos # 124)",
+                "pl": "Upewnij się, że obiekty są tworzone, jeśli coś (urządzenia, zmienne, programy) zostały utworzone w czasie wykonywania (poprawki # 124)",
+                "zh-cn": "确保在运行时创建某些对象（设备，变量，程序）时创建对象（修复程序＃124）"
+            },
             "3.0.14": {
                 "en": "fix pot. crash after reconnect because of existingStates array",
                 "de": "Topf reparieren. Absturz nach erneuter Verbindung aufgrund des vorhandenen State-Arrays",
@@ -231,18 +243,6 @@
                 "es": "problemas potenciales solucionados con la escala de valores de porcentaje",
                 "pl": "naprawiono potencjalne problemy ze skalowaniem wartości%",
                 "zh-cn": "修正了％值缩放的潜在问题"
-            },
-            "2.6.14": {
-                "en": "fixed potential problem on enum sync",
-                "de": "Mögliches Problem bei der Enum-Synchronisierung behoben",
-                "ru": "исправлена потенциальная проблема при синхронизации перечислений",
-                "pt": "problema potencial fixo na sincronização enum",
-                "nl": "Potentieel probleem opgelost met enum sync",
-                "fr": "correction d'un problème potentiel sur la synchronisation enum",
-                "it": "risolto potenziale problema sulla sincronizzazione enum",
-                "es": "problema potencial solucionado en la sincronización de enumeración",
-                "pl": "naprawiono potencjalny problem z synchronizacją enum",
-                "zh-cn": "修复了枚举同步的潜在问题"
             }
         },
         "title": "HomeMatic ReGaHSS",

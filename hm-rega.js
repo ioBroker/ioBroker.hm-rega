@@ -446,6 +446,12 @@ async function pollVariables() {
             setTimeout(pollServiceMsgs, 1000);
         }
 
+        if (!objects[fullId]) {
+            adapter.log.info(`Variable received for not-known dp ${id}, requesting Variables`);
+            await getVariables();
+            return;
+        }
+
         if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || (states[fullId].ts && states[fullId].ts !== timestamp)) {
             states[fullId] = {val: val, ack: true, ts: timestamp};
             try {
@@ -598,6 +604,13 @@ async function pollPrograms() {
         const val = data[dp].Active;
 
         const fullId = `${adapter.namespace}.${id}.Active`;
+
+        if (!objects[fullId]) {
+            adapter.log.info(`Program received for not-known dp ${id}, requesting programs`);
+            await getPrograms();
+            return;
+        }
+
         if (!states[fullId] ||
                 !states[fullId].ack ||
                 states[fullId].val !== val
@@ -646,6 +659,12 @@ async function pollServiceMsgs() {
         } // endTryCatch
 
         id = `hm-rpc.${instanceNumber}.${id.replace(':', '.').replace(FORBIDDEN_CHARS, '_')}_ALARM`;
+
+        if (!objects[id]) {
+            adapter.log.info(`Alarm DP received for not-known dp ${id}, requesting Service Messages`);
+            await getServiceMsgs();
+            return;
+        }
 
         const state = {
             val: data[dp].AlState,
