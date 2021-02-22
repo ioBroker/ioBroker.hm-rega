@@ -1,5 +1,4 @@
 {
-    "$schema": "https://raw.githubusercontent.com/foxriver76/ioBroker.js-controller/schemas/schemas/io-package.json",
     "common": {
         "name": "hm-rega",
         "version": "3.0.16",
@@ -245,7 +244,6 @@
                 "zh-cn": "修正浮点数的百分比缩放"
             }
         },
-        "title": "HomeMatic ReGaHSS",
         "titleLang": {
             "en": "HomeMatic ReGaHSS",
             "de": "HomeMatic ReGaHSS"
@@ -277,7 +275,9 @@
         "platform": "Javascript/Node.js",
         "loglevel": "info",
         "materialize": true,
-        "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
+        "docs": {
+            "en": "README.md"
+        },
         "icon": "homematic.png",
         "compact": true,
         "messagebox": true,
@@ -289,7 +289,7 @@
             "ccu1",
             "ccu2"
         ],
-        "localLink": "http://%homematicAddress%",
+        "localLinks": ["http://%homematicAddress%"],
         "type": "iot-systems",
         "connectionType": "local",
         "dataSource": "poll",
