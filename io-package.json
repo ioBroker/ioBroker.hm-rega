@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.16",
+        "version": "3.0.17",
         "news": {
+            "3.0.17": {
+                "en": "correctly identify incomplete requests",
+                "de": "unvollständige Anfragen korrekt identifizieren",
+                "ru": "правильно определять неполные запросы",
+                "pt": "identificar corretamente os pedidos incompletos",
+                "nl": "onvolledige verzoeken correct identificeren",
+                "fr": "identifier correctement les demandes incomplètes",
+                "it": "identificare correttamente le richieste incomplete",
+                "es": "identificar correctamente las solicitudes incompletas",
+                "pl": "poprawnie zidentyfikować niekompletne wnioski",
+                "zh-cn": "正确识别不完整的请求"
+            },
             "3.0.16": {
                 "en": "fix issue with non-existing objects when using LAN-Gateways",
                 "de": "Behebung eines Problems mit nicht vorhandenen Objekten bei Verwendung von LAN-Gateways",
@@ -230,18 +242,6 @@
                 "es": "Problema solucionado al sincronizar el contador de mensajes del servicio cuando se sincronizan variables invisibles",
                 "pl": "naprawiono problem z synchronizacją licznika komunikatów serwisowych, gdy synchronizowane są niewidoczne zmienne",
                 "zh-cn": "解决了同步不可见变量时同步服务消息计数器的问题"
-            },
-            "2.6.17": {
-                "en": "fix for % scaling of float numbers",
-                "de": "Fix für% Skalierung von Float-Zahlen",
-                "ru": "исправление для% масштабирования чисел с плавающей запятой",
-                "pt": "correção para escala% de números flutuantes",
-                "nl": "oplossing voor %s chaling van float-getallen",
-                "fr": "correction de la mise à l'échelle en% des nombres flottants",
-                "it": "corretto il ridimensionamento% dei numeri in virgola mobile",
-                "es": "corrección de% de escala de números flotantes",
-                "pl": "poprawka dla %s kalowania liczb zmiennoprzecinkowych",
-                "zh-cn": "修正浮点数的百分比缩放"
             }
         },
         "titleLang": {
@@ -289,7 +289,9 @@
             "ccu1",
             "ccu2"
         ],
-        "localLinks": ["http://%homematicAddress%"],
+        "localLinks": {
+            "_default": "http://%homematicAddress%"
+        },
         "type": "iot-systems",
         "connectionType": "local",
         "dataSource": "poll",
