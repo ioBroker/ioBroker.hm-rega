@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.17",
+        "version": "3.0.18",
         "news": {
+            "3.0.18": {
+                "en": "local link now respects port and protocol",
+                "de": "Die lokale Verbindung respektiert jetzt Port und Protokoll",
+                "ru": "локальная ссылка теперь уважает порт и протокол",
+                "pt": "o link local agora respeita a porta e o protocolo",
+                "nl": "lokale link respecteert nu poort en protocol",
+                "fr": "le lien local respecte désormais le port et le protocole",
+                "it": "il collegamento locale ora rispetta la porta e il protocollo",
+                "es": "el enlace local ahora respeta el puerto y el protocolo",
+                "pl": "łącze lokalne obsługuje teraz port i protokół",
+                "zh-cn": "本地链接现在遵守端口和协议"
+            },
             "3.0.17": {
                 "en": "correctly identify incomplete requests",
                 "de": "unvollständige Anfragen korrekt identifizieren",
@@ -230,18 +242,6 @@
                 "es": "ahora establecemos el tipo de objeto explícito al extender el objeto",
                 "pl": "teraz ustawiamy jawny typ obiektu na rozszerzanie obiektu",
                 "zh-cn": "现在，我们在扩展对象上设置显式对象类型"
-            },
-            "2.6.19": {
-                "en": "fixed issue on syncing service message counter when invisible variables are synchronized",
-                "de": "Problem beim Synchronisieren des Dienstnachrichtenzählers beim Synchronisieren unsichtbarer Variablen behoben",
-                "ru": "исправлена проблема с синхронизацией счетчика служебных сообщений при синхронизации невидимых переменных",
-                "pt": "Foi corrigido o problema de sincronização do contador de mensagens de serviço quando variáveis invisíveis são sincronizadas",
-                "nl": "probleem opgelost bij het synchroniseren van serviceberichtenteller wanneer onzichtbare variabelen werden gesynchroniseerd",
-                "fr": "Correction d'un problème sur la synchronisation du compteur de messages de service lorsque les variables invisibles sont synchronisées",
-                "it": "risolto il problema relativo alla sincronizzazione del contatore dei messaggi del servizio quando le variabili invisibili sono sincronizzate",
-                "es": "Problema solucionado al sincronizar el contador de mensajes del servicio cuando se sincronizan variables invisibles",
-                "pl": "naprawiono problem z synchronizacją licznika komunikatów serwisowych, gdy synchronizowane są niewidoczne zmienne",
-                "zh-cn": "解决了同步不可见变量时同步服务消息计数器的问题"
             }
         },
         "titleLang": {
@@ -290,7 +290,7 @@
             "ccu2"
         ],
         "localLinks": {
-            "_default": "http://%homematicAddress%"
+            "_default": "%webinterfaceProtocol%://%homematicAddress%:%webinterfacePort%"
         },
         "type": "iot-systems",
         "connectionType": "local",
@@ -335,7 +335,8 @@
         "password": "",
         "useHttps": false,
         "showInvSysVar": false,
-        "webinterfacePort": 0
+        "webinterfacePort": 80,
+        "webinterfaceProtocol": "http"
     },
     "protectedNative": [
         "username",

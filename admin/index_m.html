@@ -161,10 +161,6 @@
                     }
                 }
 
-                if (settings.username === undefined) settings.username = '';
-                if (settings.password === undefined) settings.password = '';
-                if (settings.useHttps === undefined) settings.useHttps = false;
-
                 for (var key in settings) {
                   if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
                 } // endFor
@@ -250,6 +246,24 @@
                     obj[$this.attr('id')] = $this.data('crypt') && $this.val() ? encrypt(secret, $this.val()) : $this.val();
                 } // endElse
             });
+
+            const webifPort = parseInt(obj.webinterfacePort)
+
+            if (!webifPort || webifPort === 80 || webifPort === 443) {
+                // if no port set or standard port used - if user specified we do not change
+                if (obj.useHttps) {
+                    obj.webinterfacePort = 443;
+                } else {
+                    obj.webinterfacePort = 80;
+                }
+            }
+
+            if (obj.useHttps) {
+                obj.webinterfaceProtocol = 'https';
+            } else {
+                obj.webinterfaceProtocol = 'http';
+            }
+
             return obj;
         }
 
@@ -584,6 +598,12 @@
             <div class="input-field col s12 m6 l4">
                 <input class="value" id="password" data-crypt="1" type="password" disabled>
                 <label for="password" class="translate">Password</label>
+            </div>
+            <div>
+                <input class="value" id="webinterfacePort" hidden>
+            </div>
+            <div>
+                <input class="value" id="webinterfaceProtocol" hidden>
             </div>
         </div>
     </div>
