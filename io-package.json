@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.19",
+        "version": "3.0.20",
         "news": {
+            "3.0.20": {
+                "en": "admin/controller has a bug still requiring `common.title` (fixes #133)",
+                "de": "admin / controller hat einen Fehler, der immer noch \"common.title\" erfordert (Fixes # 133)",
+                "ru": "У администратора / контроллера есть ошибка, по-прежнему требующая `common.title` (исправления # 133)",
+                "pt": "admin / controlador tem um bug que ainda requer `common.title` (correções # 133)",
+                "nl": "admin / controller heeft een bug die nog steeds `common.title` vereist (fixes # 133)",
+                "fr": "admin / controller a un bogue nécessitant toujours `common.title` (corrections # 133)",
+                "it": "admin / controller ha un bug che richiede ancora `common.title` (correzioni # 133)",
+                "es": "admin / controller tiene un error que aún requiere `common.title` (arreglos # 133)",
+                "pl": "administrator / kontroler ma błąd wciąż wymagający `common.title` (poprawki # 133)",
+                "zh-cn": "管理员/控制器有一个仍然需要`common.title`的错误（修正＃133）"
+            },
             "3.0.19": {
                 "en": "fix for custom webinterface port (addresses #117)",
                 "de": "Fix für benutzerdefinierten Webinterface-Port (Adressen # 117)",
@@ -230,20 +242,9 @@
                 "es": "arreglos para fallas de casos de borde",
                 "pl": "poprawki dotyczące awarii skrajnych",
                 "zh-cn": "修复了边缘机壳崩溃的问题"
-            },
-            "2.6.22": {
-                "en": "fixed error where alarm states of hm-rpc instances with instance number >= 10 are created for the wrong instance",
-                "de": "Fehler behoben, bei dem Alarmzustände von hm-rpc-Instanzen mit der Instanznummer> = 10 für die falsche Instanz erstellt wurden",
-                "ru": "исправлена ошибка, при которой аварийные состояния экземпляров hm-rpc с номером экземпляра> = 10 создаются для неправильного экземпляра",
-                "pt": "corrigido o erro em que os estados de alarme de instâncias hm-rpc com número de instância> = 10 são criados para a instância errada",
-                "nl": "fout opgelost waarbij alarmstatussen van hm-rpc-instanties met instantienummer> = 10 werden gemaakt voor de verkeerde instantie",
-                "fr": "Correction d'une erreur où les états d'alarme des instances hm-rpc avec un numéro d'instance> = 10 sont créés pour la mauvaise instance",
-                "it": "corretto errore in cui gli stati di allarme delle istanze hm-rpc con numero di istanza> = 10 venivano creati per l'istanza sbagliata",
-                "es": "Error fijo donde los estados de alarma de instancias de hm-rpc con número de instancia> = 10 se crean para la instancia incorrecta",
-                "pl": "poprawiono błąd, w którym stany alarmowe instancji hm-rpc o numerze instancji> = 10 są tworzone dla niewłaściwej instancji",
-                "zh-cn": "修复了以下错误：为错误的实例创建了实例号> = 10的hm-rpc实例的警报状态"
             }
         },
+        "title": "HomeMatic ReGaHSS",
         "titleLang": {
             "en": "HomeMatic ReGaHSS",
             "de": "HomeMatic ReGaHSS"

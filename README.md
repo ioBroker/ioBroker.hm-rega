@@ -81,6 +81,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
+### 3.0.20 (2021-04-20)
+* (foxriver76) admin/controller has a bug still requiring `common.title` (fixes #133)
+
 ### 3.0.19 (2021-04-16)
 * (foxriver76) fix for custom webinterface port (addresses #117)
 
