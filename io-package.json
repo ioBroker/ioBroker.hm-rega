@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.20",
+        "version": "3.0.21",
         "news": {
+            "3.0.21": {
+                "en": "bring back io-package json readme attribute, admin does not fall back to docs as expected (fixes #135)",
+                "de": "Bringen Sie das Ready-Attribut io-package json zurück. Der Administrator greift nicht wie erwartet auf die Dokumente zurück (Fixes # 135).",
+                "ru": "вернуть атрибут readme json io-package, администратор не возвращается к документации, как ожидалось (исправления # 135)",
+                "pt": "trazer de volta o atributo leia-me io-package json, o administrador não volta aos documentos conforme o esperado (correções # 135)",
+                "nl": "breng het io-pakket json readme-attribuut terug, admin valt niet terug naar documenten zoals verwacht (fixes # 135)",
+                "fr": "ramener l'attribut readme json io-package, l'administrateur ne revient pas aux documents comme prévu (correctifs # 135)",
+                "it": "riporta l'attributo readme json del pacchetto io, l'amministratore non torna ai documenti come previsto (correzioni # 135)",
+                "es": "traer de vuelta el atributo léame de io-package json, el administrador no recurre a los documentos como se esperaba (arreglos # 135)",
+                "pl": "przywróć atrybut io-package json readme, administrator nie wraca do dokumentów zgodnie z oczekiwaniami (poprawki # 135)",
+                "zh-cn": "带回io-package json自述文件属性，管理不会按预期退回到文档（修复＃135）"
+            },
             "3.0.20": {
                 "en": "admin/controller has a bug still requiring `common.title` (fixes #133)",
                 "de": "admin / controller hat einen Fehler, der immer noch \"common.title\" erfordert (Fixes # 133)",
@@ -230,18 +242,6 @@
                 "es": "ahora los estados se marcarán en consecuencia para indicar que rega está inactivo cuando se reciben respuestas no válidas",
                 "pl": "teraz stany będą odpowiednio oznaczone, aby wskazać, że rega nie działa podczas otrzymywania nieprawidłowych odpowiedzi",
                 "zh-cn": "现在状态将相应地标记为指示接收到无效响应时rega已关闭"
-            },
-            "2.6.23": {
-                "en": "fixes for edge case crashes",
-                "de": "Korrekturen für Edge-Case-Abstürze",
-                "ru": "исправления сбоев крайнего случая",
-                "pt": "correções para falhas de casos extremos",
-                "nl": "oplossingen voor crashes aan de rand",
-                "fr": "correctifs pour les plantages de bordures",
-                "it": "correzioni per crash del case edge",
-                "es": "arreglos para fallas de casos de borde",
-                "pl": "poprawki dotyczące awarii skrajnych",
-                "zh-cn": "修复了边缘机壳崩溃的问题"
             }
         },
         "title": "HomeMatic ReGaHSS",
@@ -279,6 +279,7 @@
         "docs": {
             "en": "README.md"
         },
+        "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
         "icon": "homematic.png",
         "compact": true,
         "messagebox": true,
