@@ -35,7 +35,7 @@
     "@alcalzone/release-script": "^1.8.3",
     "@iobroker/testing": "^2.4.4",
     "chai": "^4.1.2",
-    "eslint": "^5.9.0",
+    "eslint": "^7.25.0",
     "gulp": "^4.0.0",
     "mocha": "^5.2.0"
   },
