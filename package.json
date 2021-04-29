@@ -25,19 +25,18 @@
     "url": "https://github.com/ioBroker/ioBroker.hm-rega"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.0.0",
-    "extend": "^3.0.2",
-    "iconv-lite": "^0.4.23",
+    "@iobroker/adapter-core": "^2.4.0",
+    "iconv-lite": "^0.6.2",
     "request": "^2.87.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "^1.8.3",
+    "@alcalzone/release-script": "^1.9.0",
     "@iobroker/testing": "^2.4.4",
-    "chai": "^4.1.2",
-    "eslint": "^5.9.0",
-    "gulp": "^4.0.0",
-    "mocha": "^5.2.0"
+    "chai": "^4.3.4",
+    "eslint": "^7.25.0",
+    "gulp": "^4.0.2",
+    "mocha": "^8.3.2"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.hm-rega/issues"

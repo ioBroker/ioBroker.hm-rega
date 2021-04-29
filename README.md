@@ -81,6 +81,10 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
+### __WORK IN PROGRESS__
+* (foxriver76) update dependencies
+* (foxriver76) removed unneeded dependency
+
 ### 3.0.21 (2021-04-24)
 * (foxriver76) bring back io-package json readme attribute, admin does not fall back to docs as expected (fixes #135)
 
