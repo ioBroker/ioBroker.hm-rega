@@ -1995,7 +1995,7 @@ async function getDutyCycle() {
                 type: 'state',
                 common: {
                     name: `${adapter.namespace}.${id}.0.countChannels`,
-                    type: 'string',
+                    type: 'number',
                     read: true,
                     write: false,
                     role: 'indicator.count',
@@ -2013,7 +2013,7 @@ async function getDutyCycle() {
                 type: 'state',
                 common: {
                     name: `${adapter.namespace}.${id}.0.countDatapoints`,
-                    type: 'string',
+                    type: 'number',
                     read: true,
                     write: false,
                     role: 'indicator.count',
@@ -2031,7 +2031,7 @@ async function getDutyCycle() {
                 type: 'state',
                 common: {
                     name: `${adapter.namespace}.${id}.0.countSystemVariables`,
-                    type: 'string',
+                    type: 'number',
                     read: true,
                     write: false,
                     role: 'indicator.count',
@@ -2049,7 +2049,7 @@ async function getDutyCycle() {
                 type: 'state',
                 common: {
                     name: `${adapter.namespace}.${id}.0.countPrograms`,
-                    type: 'string',
+                    type: 'number',
                     read: true,
                     write: false,
                     role: 'indicator.count',
