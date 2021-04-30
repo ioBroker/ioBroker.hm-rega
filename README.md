@@ -81,7 +81,8 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 3.0.22 (2021-04-30)
+* (foxriver76) parse the dutyCycle state to int (fixes #144)
 * (foxriver76) update dependencies
 * (foxriver76) removed unneeded dependency
 

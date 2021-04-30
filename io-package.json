@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.21",
+        "version": "3.0.22",
         "news": {
+            "3.0.22": {
+                "en": "parse the dutyCycle state to int (fixes #144)\nupdate dependencies\nremoved unneeded dependency",
+                "de": "Analysieren Sie den DutyCycle-Status auf int (Fixes # 144).\nAbhängigkeiten aktualisieren\nnicht benötigte Abhängigkeit entfernt",
+                "ru": "разобрать состояние dutyCycle на int (исправления # 144)\nобновить зависимости\nудалена ненужная зависимость",
+                "pt": "analisar o estado dutyCycle para int (corrige # 144)\natualizar dependências\ndependência desnecessária removida",
+                "nl": "parseer de dutyCycle-status naar int (fixes # 144)\nupdate afhankelijkheden\nonnodige afhankelijkheid verwijderd",
+                "fr": "analyser l'état dutyCycle en int (corrections # 144)\nmettre à jour les dépendances\nsuppression des dépendances inutiles",
+                "it": "analizza lo stato dutyCycle su int (correzioni # 144)\naggiornare le dipendenze\nha rimosso la dipendenza non necessaria",
+                "es": "analizar el estado dutyCycle en int (arreglos # 144)\nactualizar dependencias\neliminado dependencia innecesaria",
+                "pl": "przeanalizuj stan dutyCycle na int (poprawki # 144)\nzależności aktualizacji\nusunięto niepotrzebną zależność",
+                "zh-cn": "将占空比状态解析为int（修复＃144）\n更新依赖\n删除了不需要的依赖"
+            },
             "3.0.21": {
                 "en": "bring back io-package json readme attribute, admin does not fall back to docs as expected (fixes #135)",
                 "de": "Bringen Sie das Ready-Attribut io-package json zurück. Der Administrator greift nicht wie erwartet auf die Dokumente zurück (Fixes # 135).",
@@ -230,18 +242,6 @@
                 "es": "Se corrigieron los alias que se eliminaron de las enumeraciones si contienen \"hm-rpc\".",
                 "pl": "naprawiono usuwanie aliasów z wyliczeń, jeśli zawierają one „hm-rpc”.",
                 "zh-cn": "固定别名（如果它们包含“ hm-rpc”）将从枚举中删除。"
-            },
-            "2.6.24": {
-                "en": "now states will be accordingly marked to indicate that rega is down when receiving invalid responses",
-                "de": "Jetzt werden Zustände entsprechend markiert, um anzuzeigen, dass die Rega beim Empfang ungültiger Antworten nicht verfügbar ist",
-                "ru": "Теперь состояния будут соответственно отмечены, чтобы указать, что rega не работает при получении неверных ответов",
-                "pt": "agora os estados serão devidamente marcados para indicar que rega está inativo ao receber respostas inválidas",
-                "nl": "Nu worden staten dienovereenkomstig gemarkeerd om aan te geven dat rega down is bij het ontvangen van ongeldige antwoorden",
-                "fr": "maintenant les états seront marqués en conséquence pour indiquer que rega est en panne lors de la réception de réponses invalides",
-                "it": "ora gli stati saranno contrassegnati di conseguenza per indicare che la rega è inattiva quando si ricevono risposte non valide",
-                "es": "ahora los estados se marcarán en consecuencia para indicar que rega está inactivo cuando se reciben respuestas no válidas",
-                "pl": "teraz stany będą odpowiednio oznaczone, aby wskazać, że rega nie działa podczas otrzymywania nieprawidłowych odpowiedzi",
-                "zh-cn": "现在状态将相应地标记为指示接收到无效响应时rega已关闭"
             }
         },
         "title": "HomeMatic ReGaHSS",
