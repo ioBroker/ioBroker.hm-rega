@@ -82,7 +82,7 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 -->
 ### 3.0.23 (2021-04-30)
 * (foxriver76) we now correctly convert the rssi values, workaround for https://github.com/jens-maus/RaspberryMatic/issues/897
-* (foxriver76) we made counter states of type "number", was incorrectly "string" (closes #897)
+* (foxriver76) we made counter states of type "number", was incorrectly "string" (closes #145)
 
 ### 3.0.22 (2021-04-30)
 * (foxriver76) parse the dutyCycle state to int (fixes #144)
