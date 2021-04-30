@@ -80,6 +80,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
+### 3.0.24 (2021-04-30)
+* (foxriver76) we fixed more occurrences of incorrect types (fixes #146)
+
 ### 3.0.23 (2021-04-30)
 * (foxriver76) we now correctly convert the rssi values, workaround for https://github.com/jens-maus/RaspberryMatic/issues/897
 * (foxriver76) we made counter states of type "number", was incorrectly "string" (closes #145)

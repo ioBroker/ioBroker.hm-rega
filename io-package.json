@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.23",
+        "version": "3.0.24",
         "news": {
+            "3.0.24": {
+                "en": "we fixed more occurrences of incorrect types (fixes #146)",
+                "de": "Wir haben mehr Vorkommen falscher Typen behoben (Fixes # 146).",
+                "ru": "мы исправили больше случаев появления некорректных типов (исправления # 146)",
+                "pt": "corrigimos mais ocorrências de tipos incorretos (correções # 146)",
+                "nl": "we hebben meer gevallen van onjuiste typen opgelost (fix # 146)",
+                "fr": "nous avons corrigé plus d'occurrences de types incorrects (corrections # 146)",
+                "it": "abbiamo corretto più occorrenze di tipi errati (correzioni # 146)",
+                "es": "arreglamos más ocurrencias de tipos incorrectos (arreglos # 146)",
+                "pl": "naprawiliśmy więcej wystąpień nieprawidłowych typów (poprawki # 146)",
+                "zh-cn": "我们修复了更多错误类型的情况（修复＃146）"
+            },
             "3.0.23": {
                 "en": "we now correctly convert the rssi values, workaround for https://github.com/jens-maus/RaspberryMatic/issues/897\nwe made counter states of type \"number\", was incorrectly \"string\" (closes #897)",
                 "de": "Wir konvertieren jetzt die RSSI-Werte korrekt, Problemumgehung für https://github.com/jens-maus/RaspberryMatic/issues/897\nWir haben Zählerzustände vom Typ \"Nummer\" erstellt, die fälschlicherweise \"Zeichenfolge\" waren (schließt # 897).",
@@ -230,18 +242,6 @@
                 "es": "ahora ofrecemos la posibilidad de utilizar un puerto de interfaz web personalizado, consulte las preguntas frecuentes",
                 "pl": "oferujemy teraz możliwość korzystania z niestandardowego portu interfejsu internetowego, zobacz FAQ",
                 "zh-cn": "我们现在提供使用自定义Web界面端口的可能性，请参阅常见问题解答"
-            },
-            "3.0.4": {
-                "en": "fixed missing enum translations (changed in API)",
-                "de": "fehlende Enum-Übersetzungen behoben (in API geändert)",
-                "ru": "исправлены отсутствующие переводы enum (изменено в API)",
-                "pt": "corrigidas traduções enum ausentes (alteradas na API)",
-                "nl": "ontbrekende enum-vertalingen opgelost (gewijzigd in API)",
-                "fr": "corrections d'énumérations manquantes (modifiées dans l'API)",
-                "it": "risolte traduzioni enum mancanti (modificate nell'API)",
-                "es": "Se corrigieron las traducciones de enumeración que faltaban (cambiadas en la API)",
-                "pl": "naprawiono brakujące tłumaczenia wyliczeń (zmienione w API)",
-                "zh-cn": "修复缺少的枚举翻译（已在API中更改）"
             }
         },
         "title": "HomeMatic ReGaHSS",

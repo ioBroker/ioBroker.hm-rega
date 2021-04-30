@@ -1890,7 +1890,7 @@ async function getDutyCycle() {
                     CONTROL: 'NONE'
                 }
             };
-            await addNewStateOrObject(stateConnected, dp.CONNECTED);
+            await addNewStateOrObject(stateConnected, parseInt(dp.CONNECTED));
         }
 
         //DEFAULT State:
@@ -1913,7 +1913,7 @@ async function getDutyCycle() {
                     CONTROL: 'NONE'
                 }
             };
-            await addNewStateOrObject(stateDefault, dp.DEFAULT);
+            await addNewStateOrObject(stateDefault, parseInt(dp.DEFAULT));
         }
 
         // FIRMWARE_VERSION State:
@@ -1964,7 +1964,7 @@ async function getDutyCycle() {
                 type: 'state',
                 common: {
                     name: `${adapter.namespace}.${id}.0.countDevices`,
-                    type: 'string',
+                    type: 'number',
                     read: true,
                     write: false,
                     role: 'indicator.count',
