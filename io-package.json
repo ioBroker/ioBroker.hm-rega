@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.22",
+        "version": "3.0.23",
         "news": {
+            "3.0.23": {
+                "en": "we now correctly convert the rssi values, workaround for https://github.com/jens-maus/RaspberryMatic/issues/897\nwe made counter states of type \"number\", was incorrectly \"string\" (closes #897)",
+                "de": "Wir konvertieren jetzt die RSSI-Werte korrekt, Problemumgehung für https://github.com/jens-maus/RaspberryMatic/issues/897\nWir haben Zählerzustände vom Typ \"Nummer\" erstellt, die fälschlicherweise \"Zeichenfolge\" waren (schließt # 897).",
+                "ru": "теперь мы правильно конвертируем значения rssi, обходной путь для https://github.com/jens-maus/RaspberryMatic/issues/897\nсделали состояния счетчика типа \"число\", было некорректно \"строка\" (закрывает # 897)",
+                "pt": "agora convertemos corretamente os valores rssi, solução alternativa para https://github.com/jens-maus/RaspberryMatic/issues/897\ncriamos estados de contador do tipo \"número\", era incorretamente \"string\" (fecha # 897)",
+                "nl": "we converteren nu correct de rssi-waarden, workaround voor https://github.com/jens-maus/RaspberryMatic/issues/897\nwe hebben tellerstanden gemaakt van het type \"nummer\", was ten onrechte \"string\" (sluit # 897)",
+                "fr": "nous convertissons maintenant correctement les valeurs rssi, solution de contournement pour https://github.com/jens-maus/RaspberryMatic/issues/897\nnous avons fait des états de compteur de type \"nombre\", était incorrectement \"chaîne\" (ferme # 897)",
+                "it": "ora convertiamo correttamente i valori rssi, soluzione alternativa per https://github.com/jens-maus/RaspberryMatic/issues/897\nabbiamo creato stati contatore di tipo \"numero\", era erroneamente \"stringa\" (chiude # 897)",
+                "es": "ahora convertimos correctamente los valores rssi, solución alternativa para https://github.com/jens-maus/RaspberryMatic/issues/897\nhicimos estados de contador de tipo \"número\", era incorrectamente \"cadena\" (cierra # 897)",
+                "pl": "teraz poprawnie konwertujemy wartości rssi, obejście dla https://github.com/jens-maus/RaspberryMatic/issues/897\nzrobiliśmy stan licznika typu „liczba”, był niepoprawnie „ciąg” (zamyka # 897)",
+                "zh-cn": "我们现在可以正确转换rssi值，https：//github.com/jens-maus/RaspberryMatic/issues/897的解决方法\n我们将计数器状态设置为“数字”类型，错误地将其设置为“字符串”（关闭＃897）"
+            },
             "3.0.22": {
                 "en": "parse the dutyCycle state to int (fixes #144)\nupdate dependencies\nremoved unneeded dependency",
                 "de": "Analysieren Sie den DutyCycle-Status auf int (Fixes # 144).\nAbhängigkeiten aktualisieren\nnicht benötigte Abhängigkeit entfernt",
@@ -230,18 +242,6 @@
                 "es": "Se corrigieron las traducciones de enumeración que faltaban (cambiadas en la API)",
                 "pl": "naprawiono brakujące tłumaczenia wyliczeń (zmienione w API)",
                 "zh-cn": "修复缺少的枚举翻译（已在API中更改）"
-            },
-            "2.6.25": {
-                "en": "fixed aliases being removed from enums if they contain \"hm-rpc.\"",
-                "de": "Fehler behoben, bei denen Aliase aus Aufzählungen entfernt wurden, wenn sie \"hm-rpc\" enthielten.",
-                "ru": "исправлено удаление псевдонимов из перечислений, если они содержат «hm-rpc».",
-                "pt": "aliases corrigidos sendo removidos de enums se contiverem \"hm-rpc.\"",
-                "nl": "vaste aliassen verwijderd uit enums als ze \"hm-rpc\" bevatten.",
-                "fr": "correction des alias supprimés des énumérations s'ils contiennent \"hm-rpc\".",
-                "it": "corretti gli alias rimossi dalle enumerazioni se contengono \"hm-rpc\".",
-                "es": "Se corrigieron los alias que se eliminaron de las enumeraciones si contienen \"hm-rpc\".",
-                "pl": "naprawiono usuwanie aliasów z wyliczeń, jeśli zawierają one „hm-rpc”.",
-                "zh-cn": "固定别名（如果它们包含“ hm-rpc”）将从枚举中删除。"
             }
         },
         "title": "HomeMatic ReGaHSS",

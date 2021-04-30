@@ -503,14 +503,14 @@ async function pollDutyCycle() {
 
         // CONNECTED State:
         if (dp.CONNECTED) {
-            updateNewState(`${adapter.namespace}.${id}.0.CONNECTED`, dp.CONNECTED);
-            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.CONNECTED => ${dp.CONNECTED}`);
+            updateNewState(`${adapter.namespace}.${id}.0.CONNECTED`, parseInt(dp.CONNECTED));
+            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.CONNECTED => ${parseInt(dp.CONNECTED)}`);
         }
 
         // DEFAULT State:
         if (dp.DEFAULT) {
-            updateNewState(`${adapter.namespace}.${id}.0.DEFAULT`, dp.DEFAULT);
-            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DEFAULT => ${dp.DEFAULT}`);
+            updateNewState(`${adapter.namespace}.${id}.0.DEFAULT`, parseInt(dp.DEFAULT));
+            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DEFAULT => ${parseInt(dp.DEFAULT)}`);
         }
 
         // FIRMWARE_VERSION State:
@@ -1412,6 +1412,11 @@ async function getDatapoints() {
             states[id] = state;
             // only set the state if it's a valid dp at RPC API and thus has an object
             if (existingStates.includes(id)) {
+                if (id.endsWith('.RSSI_DEVICE') || id.endsWith('.RSSI_PEER')) {
+                    // workaround until https://github.com/jens-maus/RaspberryMatic/issues/897 is fixed
+                    state.val = state.val - 256;
+                }
+
                 await adapter.setForeignStateAsync(id, state);
             } else {
                 adapter.log.debug(`Do not set "${JSON.stringify(state)}" to "${id}", because non-existing in corresponding adapter`);
