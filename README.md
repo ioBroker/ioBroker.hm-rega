@@ -81,7 +81,7 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 3.0.25 (2021-05-14)
 * (foxriver76) remove old code, which also scaled unit: % values and not only unit: 100 %
 
 ### 3.0.24 (2021-04-30)

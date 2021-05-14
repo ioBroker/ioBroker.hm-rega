@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.24",
+        "version": "3.0.25",
         "news": {
+            "3.0.25": {
+                "en": "remove old code, which also scaled unit: % values and not only unit: 100 %",
+                "de": "Entfernen Sie den alten Code, der auch die Werte für Einheit:% und nicht nur Einheit: 100 %s kaliert.",
+                "ru": "удалить старый код, который также масштабировал значения unit:%, а не только unit: 100%",
+                "pt": "remova o código antigo, que também escalou a unidade:% valores e não apenas a unidade: 100%",
+                "nl": "verwijder oude code, die ook schaal eenheid:% waarden en niet alleen eenheid: 100%",
+                "fr": "supprimer l'ancien code, qui a également mis à l'échelle unité: valeurs% et pas seulement unité: 100%",
+                "it": "rimuovere il vecchio codice, che ha anche ridimensionato unità: valori% e non solo unità: 100%",
+                "es": "eliminar el código antiguo, que también escala los valores unit:% y no solo unit: 100%",
+                "pl": "usuń stary kod, który również przeskalował jednostkę:% wartości, a nie tylko jednostkę: 100%",
+                "zh-cn": "删除旧代码，该代码也按比例缩放单位：％值，而不仅仅是单位：100％"
+            },
             "3.0.24": {
                 "en": "we fixed more occurrences of incorrect types (fixes #146)",
                 "de": "Wir haben mehr Vorkommen falscher Typen behoben (Fixes # 146).",
@@ -230,18 +242,6 @@
                 "es": "no escribimos puntos de datos si la marca de tiempo es 0",
                 "pl": "nie zapisujemy punktów danych, jeśli znacznik czasu wynosi 0",
                 "zh-cn": "如果时间戳为0，我们不写数据点"
-            },
-            "3.0.5": {
-                "en": "we now provide possibility to use custom webinterface port, please see FAQ",
-                "de": "Wir bieten jetzt die Möglichkeit, einen benutzerdefinierten Webinterface-Port zu verwenden (siehe FAQ)",
-                "ru": "теперь мы предоставляем возможность использовать собственный порт веб-интерфейса, см. FAQ",
-                "pt": "agora oferecemos a possibilidade de usar uma porta de interface da web personalizada, consulte o FAQ",
-                "nl": "we bieden nu de mogelijkheid om een aangepaste webinterfacepoort te gebruiken, zie FAQ",
-                "fr": "nous offrons maintenant la possibilité d'utiliser un port d'interface Web personnalisé, veuillez consulter la FAQ",
-                "it": "ora forniamo la possibilità di utilizzare la porta dell'interfaccia web personalizzata, vedere le domande frequenti",
-                "es": "ahora ofrecemos la posibilidad de utilizar un puerto de interfaz web personalizado, consulte las preguntas frecuentes",
-                "pl": "oferujemy teraz możliwość korzystania z niestandardowego portu interfejsu internetowego, zobacz FAQ",
-                "zh-cn": "我们现在提供使用自定义Web界面端口的可能性，请参阅常见问题解答"
             }
         },
         "title": "HomeMatic ReGaHSS",
