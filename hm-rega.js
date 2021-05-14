@@ -1400,7 +1400,7 @@ async function getDatapoints() {
                 // round to xx.yy
                 data[dp] = Math.round(data[dp] * 100) / 100;
             }
-        } else if (units[id] === '100%' || units[id] === '%') {
+        } else if (units[id] === '100%') {
             data[dp] = Math.round(parseFloat(data[dp]) * 100 * 1000) / 1000;
         }
 
