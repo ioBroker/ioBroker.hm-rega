@@ -29,7 +29,7 @@ When a service message appears for the related state the state will change to _A
 of the alarm occurrence on the CCU in the last changed timestamp of the state (state.ls). When you change 
 the state in ioBroker, this will acknowledge the alarm in the CCU and the service message will be gone. 
 The alarm state in ioBroker will change to _ACKNOWLEDGED_ still containing the occurrence timestamp 
-in the last changed state, and the timestamp when it has been acknowledged in the states timestamp (state.ts).
+in the last changed state, and the timestamp when it has been acknowledged in the states timestamp (`state.ts`).
 
 ### I have a HomeMatic CCU2/CCU3, how can I add it to the adapter settings?
 Within the adapter settings, you add the IP address of your CCU2, then 
@@ -47,7 +47,7 @@ At the Sync tab you will find `Invisible variables` when `Variables` is checked.
 
 ### I want to execute my own scripts on the CCU via ioBroker. Is this possible?
 Since version 2.3.0 it is possible to execute your own scripts on the CCU by using the ``sendTo`` command.
-E. g. getting the uptime of your CCU by the following script:
+E.g. getting the uptime of your CCU by the following script:
 
 ### My CCU webinterface has a different port than the standard http/https protocols, thus no connection is established. How can I configure the adapter to use a custom port for the webinterface?
 Until now, this is an edge case and thus no configuration in the Admin GUI is possible. This has been decided because it would confuse
@@ -80,6 +80,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
+
+### __WORK IN PROGRESS__
+* (bluefox) Use name from device if channel has a default name
 
 ### 3.0.25 (2021-05-14)
 * (foxriver76) remove old code, which also scaled unit: % values and not only unit: 100 %
@@ -474,7 +477,6 @@ or non existent if no rpc instance existed
 * (hobbyquaker) Fix common.name attribute
 
 ## License
-
 The MIT License (MIT)
 
 Copyright (c) 2014-2021 bluefox <dogafox@gmail.com>

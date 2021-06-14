@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2014-2019 bluefox <dogafox@gmail.com>
+ * Copyright (c) 2014-2021 bluefox <dogafox@gmail.com>
  *
  * Copyright (c) 2014 hobbyquaker
  *
@@ -30,9 +30,9 @@
 'use strict';
 const utils = require('@iobroker/adapter-core');
 const words = require('./lib/enumNames');
-const crypto = require(`${__dirname}/lib/crypto`); // get cryptography functions
-const Rega = require(`${__dirname}/lib/rega`);
-const helper = require(`${__dirname}/lib/utils`);
+const crypto = require('./lib/crypto'); // get cryptography functions
+const Rega = require('./lib/rega');
+const helper = require('./lib/utils');
 const fs = require('fs');
 
 const adapterName = require('./package.json').name.split('.').pop();
@@ -890,7 +890,7 @@ async function getPrograms(callback) {
                 await adapter.setForeignStateAsync(fullId, states[fullId]);
             }
 
-            if (response.indexOf(id) !== -1) {
+            if (response.includes(id)) {
                 response.splice(response.indexOf(id), 1);
             }
         }
@@ -1011,7 +1011,7 @@ async function getFunctions() {
             oldObj.common.members = oldObj.common.members || [];
             for (const newMember of obj.common.members) {
                 // Check if new channel added
-                if (oldObj.common.members.indexOf(newMember) === -1) {
+                if (!oldObj.common.members.includes(newMember)) {
                     changed = true;
                     oldObj.common.members.push(newMember);
                     adapter.log.info(`${newMember} has been added to functions ${name}`);
@@ -1022,7 +1022,7 @@ async function getFunctions() {
             for (let i = oldObj.common.members.length; i >= 0; i--) {
                 const oldMember = oldObj.common.members[i];
                 // Check if channel has been removed
-                if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
+                if (!obj.common.members.includes(oldMember) && HM_RPC_REGEX.test(oldMember)) {
                     changed = true;
                     oldObj.common.members.splice(i, 1);
                     adapter.log.info(`${oldMember} has been removed from functions ${name}`);
@@ -1147,7 +1147,7 @@ async function getRooms() {
             oldObj.common.members = oldObj.common.members || [];
             for (const newMember of obj.common.members) {
                 // Check if new room added
-                if (oldObj.common.members.indexOf(newMember) === -1) {
+                if (!oldObj.common.members.includes(newMember)) {
                     changed = true;
                     oldObj.common.members.push(newMember);
                     adapter.log.info(`${newMember} has been added to room ${name}`);
@@ -1158,7 +1158,7 @@ async function getRooms() {
             for (let i = oldObj.common.members.length; i >= 0; i--) {
                 const oldMember = oldObj.common.members[i];
                 // Check if room has been removed
-                if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
+                if (!obj.common.members.includes(oldMember) && HM_RPC_REGEX.test(oldMember)) {
                     changed = true;
                     oldObj.common.members.splice(i, 1);
                     adapter.log.info(`${oldMember} has been removed from room ${name}`);
@@ -1302,7 +1302,7 @@ async function getFavorites() {
                 oldObj.common.members = oldObj.common.members || [];
                 for (const newMember of obj.common.members) {
                     // Check if new channel added
-                    if (oldObj.common.members.indexOf(newMember) === -1) {
+                    if (!oldObj.common.members.includes(newMember)) {
                         changed = true;
                         oldObj.common.members.push(newMember);
                         adapter.log.info(`${newMember} has been added to favorites for "${user}" on list "${_unescape(fav)}"`);
@@ -1313,7 +1313,7 @@ async function getFavorites() {
                 for (let i = oldObj.common.members.length; i >= 0; i--) {
                     const oldMember = oldObj.common.members[i];
                     // Check if channel has been removed
-                    if (obj.common.members.indexOf(oldMember) === -1 && HM_RPC_REGEX.test(oldMember)) {
+                    if (!obj.common.members.includes(oldMember) && HM_RPC_REGEX.test(oldMember)) {
                         changed = true;
                         oldObj.common.members.splice(i, 1);
                         adapter.log.info(`${oldMember} has been removed from favorites for "${user}" on list "${_unescape(fav)}"`);
@@ -1406,9 +1406,7 @@ async function getDatapoints() {
 
         const state = {val: _unescape(data[dp]), ack: true};
 
-        if (!states[id] ||
-                states[id].val !== state.val ||
-                !states[id].ack) {
+        if (!states[id] || states[id].val !== state.val || !states[id].ack) {
             states[id] = state;
             // only set the state if it's a valid dp at RPC API and thus has an object
             if (existingStates.includes(id)) {
@@ -1428,6 +1426,15 @@ async function getDatapoints() {
     // free RAM
     units = null;
     existingStates = [];
+}
+
+function getParentId(id) {
+    const pos = id.lastIndexOf('.');
+    if (pos !== -1) {
+        return id.substring(0, pos);
+    } else {
+        return null;
+    }
 }
 
 /**
@@ -1489,17 +1496,28 @@ async function _getDevicesFromRega(devices, channels, _states) {
                 continue;
         }
 
-        id += _unescape(addr).replace(':', '.').replace(FORBIDDEN_CHARS, '_');
-        const name = _unescape(data[addr].Name);
-        if (addr.indexOf(':') === -1) {
+        const _addr = _unescape(addr);
+        id += _addr.replace(':', '.').replace(FORBIDDEN_CHARS, '_');
+        let name = _unescape(data[addr].Name);
+        if (!addr.includes(':')) {
             // device
             if (devices[id] === undefined || (devices[id] !== name && adapter.config.syncNames)) {
-                objs.push({_id: id, type: 'device', common: {name: name}});
+                objs.push({_id: id, type: 'device', common: {name}});
             }
         } else {
+            if (name.endsWith(' ' + _addr)) {
+                // try to get name from device
+                const parts = id.split('.');
+                const channelIndex = parts.pop();
+                const deviceId = parts.join('.');
+                if (devices[deviceId]) {
+                    name = devices[deviceId] + ':' + channelIndex;
+                }
+            }
+
             // channel
             if (channels[id] === undefined || (channels[id] !== name && adapter.config.syncNames)) {
-                objs.push({_id: id, type: 'channel', common: {name: name}});
+                objs.push({_id: id, type: 'channel', common: {name}});
             } else if (!channels[id]) {
                 let dev = id.split('.');
                 const last = dev.pop();
@@ -1768,7 +1786,7 @@ async function getVariables() {
             await adapter.setForeignStateAsync(fullId, states[fullId]);
         }
 
-        if (response.indexOf(id) !== -1) {
+        if (response.includes(id)) {
             response.splice(response.indexOf(id), 1);
         }
     }
