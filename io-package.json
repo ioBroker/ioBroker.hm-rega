@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.25",
+        "version": "3.0.26",
         "news": {
+            "3.0.26": {
+                "en": "Use name from device if channel has a default name",
+                "de": "Name vom Gerät verwenden, wenn der Kanal einen Standardnamen hat",
+                "ru": "Использовать имя с устройства, если канал имеет имя по умолчанию",
+                "pt": "Use o nome do dispositivo se o canal tiver um nome padrão",
+                "nl": "Naam van apparaat gebruiken als kanaal een standaardnaam heeft",
+                "fr": "Utiliser le nom de l'appareil si le canal a un nom par défaut",
+                "it": "Usa il nome dal dispositivo se il canale ha un nome predefinito",
+                "es": "Usar el nombre del dispositivo si el canal tiene un nombre predeterminado",
+                "pl": "Użyj nazwy z urządzenia, jeśli kanał ma domyślną nazwę",
+                "zh-cn": "如果通道具有默认名称，则使用设备中的名称"
+            },
             "3.0.25": {
                 "en": "remove old code, which also scaled unit: % values and not only unit: 100 %",
                 "de": "Entfernen Sie den alten Code, der auch die Werte für Einheit:% und nicht nur Einheit: 100 %s kaliert.",

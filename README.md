@@ -81,7 +81,7 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 3.0.26 (2021-06-14)
 * (bluefox) Use name from device if channel has a default name
 
 ### 3.0.25 (2021-05-14)
