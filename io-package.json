@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.26",
+        "version": "3.0.27",
         "news": {
+            "3.0.27": {
+                "en": "* fixed a bug that already deleted programs were only partially deleted in ioBroker\n__Please note: This will only work for deleted programs up from now. You have to clean up orphan programs manually__",
+                "de": "* Fehler behoben, bei dem bereits gelöschte Programme in ioBroker nur teilweise gelöscht wurden\n__Bitte beachten Sie: Dies funktioniert ab jetzt nur noch für gelöschte Programme. Sie müssen verwaiste Programme manuell bereinigen__",
+                "ru": "* исправлена ошибка, из-за которой уже удаленные программы удалялись лишь частично в ioBroker\n__Обратите внимание: с этого момента это будет работать только для удаленных программ. Вам нужно вручную очистить бесхозные программы __",
+                "pt": "* corrigido um bug que os programas já excluídos eram apenas parcialmente excluídos no ioBroker\n__Por favor, observe: Isso só funcionará para programas excluídos a partir de agora. Você tem que limpar programas órfãos manualmente__",
+                "nl": "* een bug opgelost waarbij reeds verwijderde programma's slechts gedeeltelijk werden verwijderd in ioBroker\n__Let op: dit werkt vanaf nu alleen voor verwijderde programma's. U moet weesprogramma's handmatig opschonen__",
+                "fr": "* correction d'un bug qui faisait que les programmes déjà supprimés n'étaient que partiellement supprimés dans ioBroker\n__Veuillez noter : cela ne fonctionnera que pour les programmes supprimés à partir de maintenant. Vous devez nettoyer les programmes orphelins manuellement__",
+                "it": "* risolto un bug per il quale i programmi già eliminati venivano eliminati solo parzialmente in ioBroker\n__Nota: d'ora in poi funzionerà solo per i programmi eliminati. Devi pulire i programmi orfani manualmente__",
+                "es": "* Se corrigió un error por el cual los programas ya eliminados solo se eliminaron parcialmente en ioBroker\n__Tenga en cuenta: esto solo funcionará para los programas eliminados a partir de ahora. Tienes que limpiar los programas huérfanos manualmente__",
+                "pl": "* naprawiono błąd, który powodował, że już usunięte programy były tylko częściowo usuwane w ioBroker\n__Uwaga: od teraz będzie to działać tylko w przypadku usuniętych programów. Musisz ręcznie wyczyścić osierocone programy__",
+                "zh-cn": "* 修复了 ioBroker 中已删除的程序仅部分删除的问题\n__请注意：这仅适用于从现在开始删除的程序。您必须手动清理孤立程序__"
+            },
             "3.0.26": {
                 "en": "Use name from device if channel has a default name",
                 "de": "Name vom Gerät verwenden, wenn der Kanal einen Standardnamen hat",
