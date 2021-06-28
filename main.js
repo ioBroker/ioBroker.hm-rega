@@ -890,6 +890,7 @@ async function getPrograms(callback) {
                 await adapter.setForeignStateAsync(fullId, states[fullId]);
             }
 
+            // if we already have the program from CCU locally, remove it
             if (response.includes(id)) {
                 response.splice(response.indexOf(id), 1);
             }
@@ -897,8 +898,9 @@ async function getPrograms(callback) {
 
         adapter.log.info(`added/updated ${count} programs`);
 
+        // only left what has not been in data
         for (const entry of response) {
-            await adapter.delObjectAsync(entry);
+            await adapter.delObjectAsync(entry, {recursive: true});
         }
         adapter.log.info(`deleted ${response.length} programs`);
 
