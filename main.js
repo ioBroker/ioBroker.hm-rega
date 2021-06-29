@@ -443,6 +443,7 @@ async function pollVariables() {
         const fullId = `${adapter.namespace}.${id}`;
 
         if ((id === 'maintenance') && (!states[fullId] || states[fullId].val !== val)) {
+            // poll service messages but do not skip this id, because #servicemsgs should be set
             setTimeout(pollServiceMsgs, 1000);
         }
 
@@ -1428,15 +1429,6 @@ async function getDatapoints() {
     // free RAM
     units = null;
     existingStates = [];
-}
-
-function getParentId(id) {
-    const pos = id.lastIndexOf('.');
-    if (pos !== -1) {
-        return id.substring(0, pos);
-    } else {
-        return null;
-    }
 }
 
 /**
