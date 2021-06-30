@@ -707,6 +707,7 @@ function acknowledgeAlarm(id) {
  */
 async function getServiceMsgs() {
 
+    // states cache won't have all DPS, because e.g. heating groups are not provided via getDatapoints
     let existingDevices = [];
 
     try {
