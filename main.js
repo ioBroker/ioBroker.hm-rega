@@ -713,7 +713,9 @@ async function getServiceMsgs() {
     try {
         const res = await adapter.getObjectViewAsync('system', 'device',
             {startkey: 'hm.rpc.', endkey: 'hm-rpc.\u9999'});
+        adapter.log.debug('existing devices before mapping: ' + JSON.stringify(res.rows)); // TODO: remove
         existingDevices = res.rows.map(obj => obj.id);
+        adapter.log.debug('existing devices after mapping: ' + JSON.stringify(existingDevices)); // TODO: remove
     } catch (e) {
         adapter.log.error(`Could not determine existing devices: ${e.message}`);
     }
