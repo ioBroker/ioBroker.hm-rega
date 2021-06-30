@@ -707,6 +707,16 @@ function acknowledgeAlarm(id) {
  */
 async function getServiceMsgs() {
 
+    let existingDevices = [];
+
+    try {
+        const res = await adapter.getObjectViewAsync('system', 'device',
+            {startkey: 'hm.rpc.', endkey: 'hm-rpc.\u9999'});
+        existingDevices = res.rows.map(obj => obj.id);
+    } catch (e) {
+        adapter.log.error(`Could not determine existing devices: ${e.message}`);
+    }
+
     adapter.log.debug('create service messages');
 
     let data = await rega.runScriptFile('alarms');
@@ -728,9 +738,10 @@ async function getServiceMsgs() {
         let instanceNumber;
 
         try {
-            instanceNumber = Object.keys(states).find(value => id.split(':')[0] === value.split('.')[2]).split('.')[1];
+            instanceNumber = existingDevices.find(value => id.split(':')[0] === value.split('.')[2]).split('.')[1];
         } catch {
             // instance not found -> "split" raises
+            adapter.log.debug(`No instance found for ${id}`);
             continue;
         } // endTryCatch
 

@@ -81,6 +81,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	### __WORK IN PROGRESS__
 -->
 
+### 3.0.28 (2021-06-30)
+* (foxriver76) improve creation of ALARM dps even if no states provided by `getDatapoints` (fixes #168)
+
 ### 3.0.27 (2021-06-28)
 * (foxriver76) fixed a bug that already deleted programs were only partially deleted in ioBroker
 __Please note: This will only work for deleted programs up from now. You have to clean up orphan programs manually__

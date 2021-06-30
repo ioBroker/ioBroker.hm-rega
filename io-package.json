@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.27",
+        "version": "3.0.28",
         "news": {
+            "3.0.28": {
+                "en": "improve creation of ALARM dps even if no states provided by `getDatapoints` (fixes #168)",
+                "de": "Verbessern Sie die Erstellung von ALARM dps, auch wenn keine Zustände von `getDatapoints` bereitgestellt werden (fixes #168)",
+                "ru": "улучшить создание ALARM dps, даже если нет состояний, предоставленных `getDatapoints` (исправления # 168)",
+                "pt": "melhorar a criação de ALARM dps mesmo se nenhum estado for fornecido por `getDatapoints` (correções # 168)",
+                "nl": "het maken van ALARM dps verbeteren, zelfs als er geen statussen zijn geleverd door 'getDatapoints' (fixes #168)",
+                "fr": "améliorer la création d'ALARM dps même si aucun état n'est fourni par `getDatapoints` (correctifs #168)",
+                "it": "migliorare la creazione di ALARM dps anche se nessuno stato fornito da `getDatapoints` (correzioni #168)",
+                "es": "mejorar la creación de ALARM dps incluso si no hay estados proporcionados por `getDatapoints` (arreglos # 168)",
+                "pl": "poprawić tworzenie ALARM dps, nawet jeśli nie ma stanów dostarczonych przez `getDatapoints` (poprawki #168)",
+                "zh-cn": "即使`getDatapoints` 没有提供状态，也会改进 ALARM dps 的创建（修复 #168）"
+            },
             "3.0.27": {
                 "en": "* fixed a bug that already deleted programs were only partially deleted in ioBroker\n__Please note: This will only work for deleted programs up from now. You have to clean up orphan programs manually__",
                 "de": "* Fehler behoben, bei dem bereits gelöschte Programme in ioBroker nur teilweise gelöscht wurden\n__Bitte beachten Sie: Dies funktioniert ab jetzt nur noch für gelöschte Programme. Sie müssen verwaiste Programme manuell bereinigen__",
