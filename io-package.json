@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.28",
+        "version": "3.0.29",
         "news": {
+            "3.0.29": {
+                "en": "fixed bug on ALARM datapoint creation",
+                "de": "Fehler bei der ALARM-Datenpunkterstellung behoben",
+                "ru": "исправлена ошибка при создании точки ТРЕВОГИ",
+                "pt": "bug corrigido na criação de pontos de dados ALARM",
+                "nl": "bug opgelost bij het maken van ALARM-gegevenspunten",
+                "fr": "correction d'un bug sur la création du point de données ALARM",
+                "it": "bug risolto sulla creazione del punto dati ALARM",
+                "es": "error corregido en la creación de puntos de datos de ALARMA",
+                "pl": "poprawiony błąd w tworzeniu punktu danych ALARM",
+                "zh-cn": "修复了 ALARM 数据点创建的错误"
+            },
             "3.0.28": {
                 "en": "improve creation of ALARM dps even if no states provided by `getDatapoints` (fixes #168)",
                 "de": "Verbessern Sie die Erstellung von ALARM dps, auch wenn keine Zustände von `getDatapoints` bereitgestellt werden (fixes #168)",
