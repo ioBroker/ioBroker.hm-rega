@@ -151,7 +151,15 @@
         "title": "HomeMatic ReGaHSS",
         "titleLang": {
             "en": "HomeMatic ReGaHSS",
-            "de": "HomeMatic ReGaHSS"
+            "de": "HomeMatic ReGaHSS",
+            "ru": "HomeMatic ReGaHSS",
+            "pt": "HomeMatic ReGaHSS",
+            "nl": "HomeMatic ReGaHSS",
+            "fr": "AccueilMatic ReGaHSS",
+            "it": "HomeMatic ReGaHSS",
+            "es": "HomeMatic ReGaHSS",
+            "pl": "HomeMatic ReGaHSS",
+            "zh-cn": "HomeMatic ReGaHSS"
         },
         "desc": {
             "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
@@ -162,7 +170,8 @@
             "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
             "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
             "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
-            "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker"
+            "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker",
+            "zh-cn": "将 HomeMatic CCU“逻辑层”（“ReGaHSS”）连接到 ioBroker"
         },
         "dependencies": [
             "hm-rpc",
@@ -201,6 +210,7 @@
         "type": "iot-systems",
         "connectionType": "local",
         "dataSource": "poll",
+        "tier": 2,
         "plugins": {
             "sentry": {
                 "dsn": "https://08c0b6d9b71c43cc91e9705877681085@sentry.iobroker.net/11",

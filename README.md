@@ -1,13 +1,17 @@
 ![Logo](admin/homematic.png)
 # ioBroker HomeMatic ReGaHSS Adapter
 
-![Build Status](https://github.com/ioBroker/ioBroker.hm-rega/workflows/Test%20and%20Release/badge.svg)
-![Number of Installations](http://iobroker.live/badges/hm-rega-installed.svg) ![Number of Installations](http://iobroker.live/badges/hm-rega-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
+![Number of Installations](http://iobroker.live/badges/hm-rega-installed.svg)
+![Number of Installations](http://iobroker.live/badges/hm-rega-stable.svg)
+[![NPM version](http://img.shields.io/npm/v/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
+
+![Test and Release](https://github.com/ioBroker/ioBroker.hm-rega/workflows/Test%20and%20Release/badge.svg)
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/hm-rega/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.hm-rega.svg)](https://www.npmjs.com/package/iobroker.hm-rega)
 
-[![NPM](https://nodei.co/npm/iobroker.hm-rega.png?downloads=true)](https://nodei.co/npm/iobroker.hm-rega/)
-
 Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker.
+
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 ## Purpose
 This Adapter keeps the HomeMatic CCU variables in sync with ioBroker and provides the possibility to start
