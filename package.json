@@ -44,8 +44,8 @@
   },
   "main": "main.js",
   "scripts": {
-    "test:package": "node_modules/.bin/mocha test/packageFiles --exit",
-    "test:integration": "node_modules/.bin/mocha test/integrationAdapter --exit",
+    "test:package": "mocha test/packageFiles --exit",
+    "test:integration": "mocha test/integrationAdapter --exit",
     "release": "release-script"
   },
   "license": "MIT"
