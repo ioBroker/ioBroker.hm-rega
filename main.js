@@ -34,6 +34,8 @@ const crypto = require('./lib/crypto'); // get cryptography functions
 const Rega = require('./lib/rega');
 const helper = require('./lib/utils');
 const fs = require('fs');
+// states cache won't have all DPS, because e.g. heating groups are not provided via getDatapoints
+let existingDevices = [];
 
 const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
@@ -651,9 +653,10 @@ async function pollServiceMsgs() {
 
         let instanceNumber;
         try {
-            instanceNumber = Object.keys(states).find(value => id.split(':')[0] === value.split('.')[2]).split('.')[1];
+            instanceNumber = existingDevices.find(value => id.split(':')[0] === value.split('.')[2]).split('.')[1];
         } catch {
             // instance not found -> "split" raises
+            adapter.log.debug(`No instance found for ${id}`);
             continue;
         } // endTryCatch
 
@@ -706,10 +709,6 @@ function acknowledgeAlarm(id) {
  * @returns {Promise<void>}
  */
 async function getServiceMsgs() {
-
-    // states cache won't have all DPS, because e.g. heating groups are not provided via getDatapoints
-    let existingDevices = [];
-
     try {
         const res = await adapter.getObjectViewAsync('system', 'device',
             {startkey: 'hm-rpc.', endkey: 'hm-rpc.\u9999'});

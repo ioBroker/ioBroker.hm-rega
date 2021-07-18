@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.29",
+        "version": "3.0.30",
         "news": {
+            "3.0.30": {
+                "en": "improved the detection of ALARM occurrences for virtual devices",
+                "de": "verbesserte Erkennung von ALARM-Ereignissen für virtuelle Geräte",
+                "ru": "улучшено обнаружение возникновения ТРЕВОГИ для виртуальных устройств",
+                "pt": "melhorou a detecção de ocorrências de ALARME para dispositivos virtuais",
+                "nl": "verbeterde de detectie van ALARM-gebeurtenissen voor virtuele apparaten",
+                "fr": "amélioration de la détection des occurrences d'ALARM pour les appareils virtuels",
+                "it": "migliorato il rilevamento delle occorrenze di ALLARME per i dispositivi virtuali",
+                "es": "mejoró la detección de ocurrencias de ALARMAS para dispositivos virtuales",
+                "pl": "poprawiono wykrywanie wystąpień ALARM dla urządzeń wirtualnych",
+                "zh-cn": "改进了对虚拟设备警报发生的检测"
+            },
             "3.0.29": {
                 "en": "fixed bug on ALARM datapoint creation",
                 "de": "Fehler bei der ALARM-Datenpunkterstellung behoben",
