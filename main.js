@@ -1355,6 +1355,7 @@ async function getDatapoints() {
         adapter.log.error(`Cannot parse answer for datapoints: ${data}`);
         return;
     }
+
     for (const dp of Object.keys(data)) {
         const tmp = _unescape(dp).replace(FORBIDDEN_CHARS, '_').split('.');
 
@@ -1402,6 +1403,11 @@ async function getDatapoints() {
                 continue;
         }
         id += `${tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_')}.${tmp[2].replace(FORBIDDEN_CHARS, '_')}`;
+
+        if (units === null) {
+            adapter.log.error(`Units is null at getDatapoints, (id: ${id}) please report this to developer with steps to reproduce`);
+            continue;
+        }
 
         // convert dimmer and blinds
         if (units[id] && typeof units[id] === 'object') {

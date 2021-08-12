@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "hm-rega",
-        "version": "3.0.30",
+        "version": "3.0.31",
         "news": {
+            "3.0.31": {
+                "en": "we fixed some sentry issues (closes #182, closes #183)",
+                "de": "wir haben einige Wachsamkeitsprobleme behoben (schließt #182, schließt #183)",
+                "ru": "мы исправили некоторые проблемы с часовой (закрывает # 182, закрывает # 183)",
+                "pt": "corrigimos alguns problemas de sentinela (fecha # 182, fecha # 183)",
+                "nl": "we hebben een aantal schildwachtproblemen opgelost (sluit #182, sluit #183)",
+                "fr": "nous avons corrigé quelques problèmes de sentinelle (ferme #182, ferme #183)",
+                "it": "abbiamo risolto alcuni problemi di sentinella (chiude #182, chiude #183)",
+                "es": "arreglamos algunos problemas de centinela (cierra # 182, cierra # 183)",
+                "pl": "naprawiliśmy kilka problemów z wartownikami (zamyka #182, zamyka #183)",
+                "zh-cn": "我们修复了一些哨兵问题（关闭 #182，关闭 #183）"
+            },
             "3.0.30": {
                 "en": "improved the detection of ALARM occurrences for virtual devices",
                 "de": "verbesserte Erkennung von ALARM-Ereignissen für virtuelle Geräte",
