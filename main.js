@@ -1881,7 +1881,7 @@ async function getDutyCycle() {
                     read: true,
                     write: false,
                     role: 'value',
-                    min: 0,
+                    min: -1,
                     max: 100,
                     unit: '%',
                     desc: 'Dutycycle'
@@ -1889,7 +1889,7 @@ async function getDutyCycle() {
                 native: {
                     ID: 'DUTYCYCLE',
                     TYPE: 'INTEGER',
-                    MIN: 0,
+                    MIN: -1,
                     MAX: 100,
                     UNIT: '%',
                     DEFAULT: 0,
