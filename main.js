@@ -1410,6 +1410,7 @@ async function getDatapoints() {
         }
 
         // convert dimmer and blinds
+        /*
         if (units[id] && typeof units[id] === 'object') {
             // data[dp] = ((parseFloat(data[dp]) - units[id].MIN) / (units[id].MAX - units[id].MIN)) * 100;
             const max = units[id].MAX;
@@ -1420,7 +1421,9 @@ async function getDatapoints() {
                 // round to xx.yy
                 data[dp] = Math.round(data[dp] * 100) / 100;
             }
-        } else if (units[id] === '100%') {
+             */
+        // same procedure as hm-rpc, only scale 100%
+        if (units[id] === '100%' || (units[id] && units[id].UNIT === '100%')) {
             data[dp] = Math.round(parseFloat(data[dp]) * 100 * 1000) / 1000;
         }
 

@@ -1,348 +1,264 @@
 {
-    "common": {
-        "name": "hm-rega",
-        "version": "3.0.31",
-        "news": {
-            "3.0.31": {
-                "en": "we fixed some sentry issues (closes #182, closes #183)",
-                "de": "wir haben einige Wachsamkeitsprobleme behoben (schließt #182, schließt #183)",
-                "ru": "мы исправили некоторые проблемы с часовой (закрывает # 182, закрывает # 183)",
-                "pt": "corrigimos alguns problemas de sentinela (fecha # 182, fecha # 183)",
-                "nl": "we hebben een aantal schildwachtproblemen opgelost (sluit #182, sluit #183)",
-                "fr": "nous avons corrigé quelques problèmes de sentinelle (ferme #182, ferme #183)",
-                "it": "abbiamo risolto alcuni problemi di sentinella (chiude #182, chiude #183)",
-                "es": "arreglamos algunos problemas de centinela (cierra # 182, cierra # 183)",
-                "pl": "naprawiliśmy kilka problemów z wartownikami (zamyka #182, zamyka #183)",
-                "zh-cn": "我们修复了一些哨兵问题（关闭 #182，关闭 #183）"
-            },
-            "3.0.30": {
-                "en": "improved the detection of ALARM occurrences for virtual devices",
-                "de": "verbesserte Erkennung von ALARM-Ereignissen für virtuelle Geräte",
-                "ru": "улучшено обнаружение возникновения ТРЕВОГИ для виртуальных устройств",
-                "pt": "melhorou a detecção de ocorrências de ALARME para dispositivos virtuais",
-                "nl": "verbeterde de detectie van ALARM-gebeurtenissen voor virtuele apparaten",
-                "fr": "amélioration de la détection des occurrences d'ALARM pour les appareils virtuels",
-                "it": "migliorato il rilevamento delle occorrenze di ALLARME per i dispositivi virtuali",
-                "es": "mejoró la detección de ocurrencias de ALARMAS para dispositivos virtuales",
-                "pl": "poprawiono wykrywanie wystąpień ALARM dla urządzeń wirtualnych",
-                "zh-cn": "改进了对虚拟设备警报发生的检测"
-            },
-            "3.0.29": {
-                "en": "fixed bug on ALARM datapoint creation",
-                "de": "Fehler bei der ALARM-Datenpunkterstellung behoben",
-                "ru": "исправлена ошибка при создании точки ТРЕВОГИ",
-                "pt": "bug corrigido na criação de pontos de dados ALARM",
-                "nl": "bug opgelost bij het maken van ALARM-gegevenspunten",
-                "fr": "correction d'un bug sur la création du point de données ALARM",
-                "it": "bug risolto sulla creazione del punto dati ALARM",
-                "es": "error corregido en la creación de puntos de datos de ALARMA",
-                "pl": "poprawiony błąd w tworzeniu punktu danych ALARM",
-                "zh-cn": "修复了 ALARM 数据点创建的错误"
-            },
-            "3.0.28": {
-                "en": "improve creation of ALARM dps even if no states provided by `getDatapoints` (fixes #168)",
-                "de": "Verbessern Sie die Erstellung von ALARM dps, auch wenn keine Zustände von `getDatapoints` bereitgestellt werden (fixes #168)",
-                "ru": "улучшить создание ALARM dps, даже если нет состояний, предоставленных `getDatapoints` (исправления # 168)",
-                "pt": "melhorar a criação de ALARM dps mesmo se nenhum estado for fornecido por `getDatapoints` (correções # 168)",
-                "nl": "het maken van ALARM dps verbeteren, zelfs als er geen statussen zijn geleverd door 'getDatapoints' (fixes #168)",
-                "fr": "améliorer la création d'ALARM dps même si aucun état n'est fourni par `getDatapoints` (correctifs #168)",
-                "it": "migliorare la creazione di ALARM dps anche se nessuno stato fornito da `getDatapoints` (correzioni #168)",
-                "es": "mejorar la creación de ALARM dps incluso si no hay estados proporcionados por `getDatapoints` (arreglos # 168)",
-                "pl": "poprawić tworzenie ALARM dps, nawet jeśli nie ma stanów dostarczonych przez `getDatapoints` (poprawki #168)",
-                "zh-cn": "即使`getDatapoints` 没有提供状态，也会改进 ALARM dps 的创建（修复 #168）"
-            },
-            "3.0.27": {
-                "en": "* fixed a bug that already deleted programs were only partially deleted in ioBroker\n__Please note: This will only work for deleted programs up from now. You have to clean up orphan programs manually__",
-                "de": "* Fehler behoben, bei dem bereits gelöschte Programme in ioBroker nur teilweise gelöscht wurden\n__Bitte beachten Sie: Dies funktioniert ab jetzt nur noch für gelöschte Programme. Sie müssen verwaiste Programme manuell bereinigen__",
-                "ru": "* исправлена ошибка, из-за которой уже удаленные программы удалялись лишь частично в ioBroker\n__Обратите внимание: с этого момента это будет работать только для удаленных программ. Вам нужно вручную очистить бесхозные программы __",
-                "pt": "* corrigido um bug que os programas já excluídos eram apenas parcialmente excluídos no ioBroker\n__Por favor, observe: Isso só funcionará para programas excluídos a partir de agora. Você tem que limpar programas órfãos manualmente__",
-                "nl": "* een bug opgelost waarbij reeds verwijderde programma's slechts gedeeltelijk werden verwijderd in ioBroker\n__Let op: dit werkt vanaf nu alleen voor verwijderde programma's. U moet weesprogramma's handmatig opschonen__",
-                "fr": "* correction d'un bug qui faisait que les programmes déjà supprimés n'étaient que partiellement supprimés dans ioBroker\n__Veuillez noter : cela ne fonctionnera que pour les programmes supprimés à partir de maintenant. Vous devez nettoyer les programmes orphelins manuellement__",
-                "it": "* risolto un bug per il quale i programmi già eliminati venivano eliminati solo parzialmente in ioBroker\n__Nota: d'ora in poi funzionerà solo per i programmi eliminati. Devi pulire i programmi orfani manualmente__",
-                "es": "* Se corrigió un error por el cual los programas ya eliminados solo se eliminaron parcialmente en ioBroker\n__Tenga en cuenta: esto solo funcionará para los programas eliminados a partir de ahora. Tienes que limpiar los programas huérfanos manualmente__",
-                "pl": "* naprawiono błąd, który powodował, że już usunięte programy były tylko częściowo usuwane w ioBroker\n__Uwaga: od teraz będzie to działać tylko w przypadku usuniętych programów. Musisz ręcznie wyczyścić osierocone programy__",
-                "zh-cn": "* 修复了 ioBroker 中已删除的程序仅部分删除的问题\n__请注意：这仅适用于从现在开始删除的程序。您必须手动清理孤立程序__"
-            },
-            "3.0.26": {
-                "en": "Use name from device if channel has a default name",
-                "de": "Name vom Gerät verwenden, wenn der Kanal einen Standardnamen hat",
-                "ru": "Использовать имя с устройства, если канал имеет имя по умолчанию",
-                "pt": "Use o nome do dispositivo se o canal tiver um nome padrão",
-                "nl": "Naam van apparaat gebruiken als kanaal een standaardnaam heeft",
-                "fr": "Utiliser le nom de l'appareil si le canal a un nom par défaut",
-                "it": "Usa il nome dal dispositivo se il canale ha un nome predefinito",
-                "es": "Usar el nombre del dispositivo si el canal tiene un nombre predeterminado",
-                "pl": "Użyj nazwy z urządzenia, jeśli kanał ma domyślną nazwę",
-                "zh-cn": "如果通道具有默认名称，则使用设备中的名称"
-            },
-            "3.0.25": {
-                "en": "remove old code, which also scaled unit: % values and not only unit: 100 %",
-                "de": "Entfernen Sie den alten Code, der auch die Werte für Einheit:% und nicht nur Einheit: 100 %s kaliert.",
-                "ru": "удалить старый код, который также масштабировал значения unit:%, а не только unit: 100%",
-                "pt": "remova o código antigo, que também escalou a unidade:% valores e não apenas a unidade: 100%",
-                "nl": "verwijder oude code, die ook schaal eenheid:% waarden en niet alleen eenheid: 100%",
-                "fr": "supprimer l'ancien code, qui a également mis à l'échelle unité: valeurs% et pas seulement unité: 100%",
-                "it": "rimuovere il vecchio codice, che ha anche ridimensionato unità: valori% e non solo unità: 100%",
-                "es": "eliminar el código antiguo, que también escala los valores unit:% y no solo unit: 100%",
-                "pl": "usuń stary kod, który również przeskalował jednostkę:% wartości, a nie tylko jednostkę: 100%",
-                "zh-cn": "删除旧代码，该代码也按比例缩放单位：％值，而不仅仅是单位：100％"
-            },
-            "3.0.24": {
-                "en": "we fixed more occurrences of incorrect types (fixes #146)",
-                "de": "Wir haben mehr Vorkommen falscher Typen behoben (Fixes # 146).",
-                "ru": "мы исправили больше случаев появления некорректных типов (исправления # 146)",
-                "pt": "corrigimos mais ocorrências de tipos incorretos (correções # 146)",
-                "nl": "we hebben meer gevallen van onjuiste typen opgelost (fix # 146)",
-                "fr": "nous avons corrigé plus d'occurrences de types incorrects (corrections # 146)",
-                "it": "abbiamo corretto più occorrenze di tipi errati (correzioni # 146)",
-                "es": "arreglamos más ocurrencias de tipos incorrectos (arreglos # 146)",
-                "pl": "naprawiliśmy więcej wystąpień nieprawidłowych typów (poprawki # 146)",
-                "zh-cn": "我们修复了更多错误类型的情况（修复＃146）"
-            },
-            "3.0.23": {
-                "en": "we now correctly convert the rssi values, workaround for https://github.com/jens-maus/RaspberryMatic/issues/897\nwe made counter states of type \"number\", was incorrectly \"string\" (closes #897)",
-                "de": "Wir konvertieren jetzt die RSSI-Werte korrekt, Problemumgehung für https://github.com/jens-maus/RaspberryMatic/issues/897\nWir haben Zählerzustände vom Typ \"Nummer\" erstellt, die fälschlicherweise \"Zeichenfolge\" waren (schließt # 897).",
-                "ru": "теперь мы правильно конвертируем значения rssi, обходной путь для https://github.com/jens-maus/RaspberryMatic/issues/897\nсделали состояния счетчика типа \"число\", было некорректно \"строка\" (закрывает # 897)",
-                "pt": "agora convertemos corretamente os valores rssi, solução alternativa para https://github.com/jens-maus/RaspberryMatic/issues/897\ncriamos estados de contador do tipo \"número\", era incorretamente \"string\" (fecha # 897)",
-                "nl": "we converteren nu correct de rssi-waarden, workaround voor https://github.com/jens-maus/RaspberryMatic/issues/897\nwe hebben tellerstanden gemaakt van het type \"nummer\", was ten onrechte \"string\" (sluit # 897)",
-                "fr": "nous convertissons maintenant correctement les valeurs rssi, solution de contournement pour https://github.com/jens-maus/RaspberryMatic/issues/897\nnous avons fait des états de compteur de type \"nombre\", était incorrectement \"chaîne\" (ferme # 897)",
-                "it": "ora convertiamo correttamente i valori rssi, soluzione alternativa per https://github.com/jens-maus/RaspberryMatic/issues/897\nabbiamo creato stati contatore di tipo \"numero\", era erroneamente \"stringa\" (chiude # 897)",
-                "es": "ahora convertimos correctamente los valores rssi, solución alternativa para https://github.com/jens-maus/RaspberryMatic/issues/897\nhicimos estados de contador de tipo \"número\", era incorrectamente \"cadena\" (cierra # 897)",
-                "pl": "teraz poprawnie konwertujemy wartości rssi, obejście dla https://github.com/jens-maus/RaspberryMatic/issues/897\nzrobiliśmy stan licznika typu „liczba”, był niepoprawnie „ciąg” (zamyka # 897)",
-                "zh-cn": "我们现在可以正确转换rssi值，https：//github.com/jens-maus/RaspberryMatic/issues/897的解决方法\n我们将计数器状态设置为“数字”类型，错误地将其设置为“字符串”（关闭＃897）"
-            },
-            "3.0.22": {
-                "en": "parse the dutyCycle state to int (fixes #144)\nupdate dependencies\nremoved unneeded dependency",
-                "de": "Analysieren Sie den DutyCycle-Status auf int (Fixes # 144).\nAbhängigkeiten aktualisieren\nnicht benötigte Abhängigkeit entfernt",
-                "ru": "разобрать состояние dutyCycle на int (исправления # 144)\nобновить зависимости\nудалена ненужная зависимость",
-                "pt": "analisar o estado dutyCycle para int (corrige # 144)\natualizar dependências\ndependência desnecessária removida",
-                "nl": "parseer de dutyCycle-status naar int (fixes # 144)\nupdate afhankelijkheden\nonnodige afhankelijkheid verwijderd",
-                "fr": "analyser l'état dutyCycle en int (corrections # 144)\nmettre à jour les dépendances\nsuppression des dépendances inutiles",
-                "it": "analizza lo stato dutyCycle su int (correzioni # 144)\naggiornare le dipendenze\nha rimosso la dipendenza non necessaria",
-                "es": "analizar el estado dutyCycle en int (arreglos # 144)\nactualizar dependencias\neliminado dependencia innecesaria",
-                "pl": "przeanalizuj stan dutyCycle na int (poprawki # 144)\nzależności aktualizacji\nusunięto niepotrzebną zależność",
-                "zh-cn": "将占空比状态解析为int（修复＃144）\n更新依赖\n删除了不需要的依赖"
-            },
-            "3.0.21": {
-                "en": "bring back io-package json readme attribute, admin does not fall back to docs as expected (fixes #135)",
-                "de": "Bringen Sie das Ready-Attribut io-package json zurück. Der Administrator greift nicht wie erwartet auf die Dokumente zurück (Fixes # 135).",
-                "ru": "вернуть атрибут readme json io-package, администратор не возвращается к документации, как ожидалось (исправления # 135)",
-                "pt": "trazer de volta o atributo leia-me io-package json, o administrador não volta aos documentos conforme o esperado (correções # 135)",
-                "nl": "breng het io-pakket json readme-attribuut terug, admin valt niet terug naar documenten zoals verwacht (fixes # 135)",
-                "fr": "ramener l'attribut readme json io-package, l'administrateur ne revient pas aux documents comme prévu (correctifs # 135)",
-                "it": "riporta l'attributo readme json del pacchetto io, l'amministratore non torna ai documenti come previsto (correzioni # 135)",
-                "es": "traer de vuelta el atributo léame de io-package json, el administrador no recurre a los documentos como se esperaba (arreglos # 135)",
-                "pl": "przywróć atrybut io-package json readme, administrator nie wraca do dokumentów zgodnie z oczekiwaniami (poprawki # 135)",
-                "zh-cn": "带回io-package json自述文件属性，管理不会按预期退回到文档（修复＃135）"
-            },
-            "3.0.20": {
-                "en": "admin/controller has a bug still requiring `common.title` (fixes #133)",
-                "de": "admin / controller hat einen Fehler, der immer noch \"common.title\" erfordert (Fixes # 133)",
-                "ru": "У администратора / контроллера есть ошибка, по-прежнему требующая `common.title` (исправления # 133)",
-                "pt": "admin / controlador tem um bug que ainda requer `common.title` (correções # 133)",
-                "nl": "admin / controller heeft een bug die nog steeds `common.title` vereist (fixes # 133)",
-                "fr": "admin / controller a un bogue nécessitant toujours `common.title` (corrections # 133)",
-                "it": "admin / controller ha un bug che richiede ancora `common.title` (correzioni # 133)",
-                "es": "admin / controller tiene un error que aún requiere `common.title` (arreglos # 133)",
-                "pl": "administrator / kontroler ma błąd wciąż wymagający `common.title` (poprawki # 133)",
-                "zh-cn": "管理员/控制器有一个仍然需要`common.title`的错误（修正＃133）"
-            },
-            "3.0.19": {
-                "en": "fix for custom webinterface port (addresses #117)",
-                "de": "Fix für benutzerdefinierten Webinterface-Port (Adressen # 117)",
-                "ru": "исправление для настраиваемого порта веб-интерфейса (адреса # 117)",
-                "pt": "correção para porta de interface da web personalizada (endereços # 117)",
-                "nl": "reparatie voor aangepaste webinterfacepoort (adressen # 117)",
-                "fr": "correction pour le port d'interface Web personnalisé (adresses # 117)",
-                "it": "correzione per la porta dell'interfaccia web personalizzata (indirizzi # 117)",
-                "es": "corrección para puerto de interfaz web personalizado (direcciones # 117)",
-                "pl": "poprawka dla niestandardowego portu interfejsu internetowego (adresy # 117)",
-                "zh-cn": "修复自定义Web界面端口（地址＃117）"
-            },
-            "3.0.18": {
-                "en": "local link now respects port and protocol",
-                "de": "Die lokale Verbindung respektiert jetzt Port und Protokoll",
-                "ru": "локальная ссылка теперь уважает порт и протокол",
-                "pt": "o link local agora respeita a porta e o protocolo",
-                "nl": "lokale link respecteert nu poort en protocol",
-                "fr": "le lien local respecte désormais le port et le protocole",
-                "it": "il collegamento locale ora rispetta la porta e il protocollo",
-                "es": "el enlace local ahora respeta el puerto y el protocolo",
-                "pl": "łącze lokalne obsługuje teraz port i protokół",
-                "zh-cn": "本地链接现在遵守端口和协议"
-            }
-        },
-        "title": "HomeMatic ReGaHSS",
-        "titleLang": {
-            "en": "HomeMatic ReGaHSS",
-            "de": "HomeMatic ReGaHSS",
-            "ru": "HomeMatic ReGaHSS",
-            "pt": "HomeMatic ReGaHSS",
-            "nl": "HomeMatic ReGaHSS",
-            "fr": "AccueilMatic ReGaHSS",
-            "it": "HomeMatic ReGaHSS",
-            "es": "HomeMatic ReGaHSS",
-            "pl": "HomeMatic ReGaHSS",
-            "zh-cn": "HomeMatic ReGaHSS"
-        },
-        "desc": {
-            "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
-            "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
-            "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker",
-            "pt": "Conecta o HomeMatic CCU \"Layer Lógica\" (\"ReGaHSS\") para ioBroker",
-            "nl": "Verbindt HomeMatic CCU \"Logic Layer\" (\"ReGaHSS \") met ioBroker",
-            "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
-            "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
-            "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
-            "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker",
-            "zh-cn": "将 HomeMatic CCU“逻辑层”（“ReGaHSS”）连接到 ioBroker"
-        },
-        "dependencies": [
-            "hm-rpc",
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
-        "authors": [
-            "hobbyquaker <hq@ccu.io>",
-            "bluefox <dogafox@gmail.com>",
-            "Moritz Heusinger <moritz.heusinger@gmail.com>"
-        ],
-        "license": "MIT",
-        "mode": "daemon",
-        "platform": "Javascript/Node.js",
-        "loglevel": "info",
-        "materialize": true,
-        "docs": {
-            "en": "README.md"
-        },
-        "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
-        "icon": "homematic.png",
-        "compact": true,
-        "messagebox": true,
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
-        "keywords": [
-            "homematic",
-            "eq3",
-            "regahss",
-            "ccu1",
-            "ccu2"
-        ],
-        "localLinks": {
-            "_default": "%webinterfaceProtocol%://%homematicAddress%:%webinterfacePort%"
-        },
-        "type": "iot-systems",
-        "connectionType": "local",
-        "dataSource": "poll",
-        "tier": 2,
-        "plugins": {
-            "sentry": {
-                "dsn": "https://08c0b6d9b71c43cc91e9705877681085@sentry.iobroker.net/11",
-                "pathWhitelist": [],
-                "errorBlacklist": [
-                    "SyntaxError"
-                ]
-            }
-        }
+  "common": {
+    "name": "hm-rega",
+    "version": "3.0.32",
+    "news": {
+      "3.0.32": {
+        "en": "Duty Cycle of LAN gateways can be -1 if they are disconnected (fixes #196)\nwe now only scale on UNIT \"100%\" as hm-rpc does (fixes #207)",
+        "de": "Duty Cycle von LAN-Gateways kann -1 sein, wenn sie getrennt sind (Fixes #196)\nwir skalieren jetzt nur noch auf UNIT \"100%\", wie es hm-rpc tut (fixes #207)",
+        "ru": "Рабочий цикл шлюзов LAN может быть -1, если они отключены (исправления # 196).\nтеперь мы масштабируем только UNIT \"100%\", как это делает hm-rpc (исправления # 207)",
+        "pt": "O ciclo de trabalho dos gateways LAN pode ser -1 se eles estiverem desconectados (correções # 196)\nagora só escalamos em UNIT \"100%\" como o hm-rpc faz (corrige # 207)",
+        "nl": "Duty Cycle van LAN-gateways kan -1 zijn als ze zijn losgekoppeld (fixes #196)\nwe schalen nu alleen op UNIT \"100%\" zoals hm-rpc doet (fixes #207)",
+        "fr": "Le cycle de service des passerelles LAN peut être de -1 si elles sont déconnectées (corrections #196)\nnous évoluons désormais uniquement sur UNIT \"100%\" comme le fait hm-rpc (corrections #207)",
+        "it": "Il Duty Cycle dei gateway LAN può essere -1 se sono disconnessi (correzioni #196)\nora ridimensioniamo solo su UNIT \"100%\" come fa hm-rpc (correzioni #207)",
+        "es": "El ciclo de trabajo de las puertas de enlace LAN puede ser -1 si están desconectadas (arreglos n. ° 196)\nahora solo escalamos en UNIDAD \"100%\" como lo hace hm-rpc (arreglos # 207)",
+        "pl": "Cykl pracy bramek LAN może wynosić -1, jeśli są odłączone (poprawki nr 196)\nteraz skalujemy tylko na UNIT \"100%\", tak jak robi to hm-rpc (poprawki #207)",
+        "zh-cn": "如果 LAN 网关断开连接，则它们的占空比可以为 -1（修复 #196）\n我们现在只像 hm-rpc 一样在 UNIT \"100%\" 上进行缩放（修复 #207）"
+      },
+      "3.0.31": {
+        "en": "we fixed some sentry issues (closes #182, closes #183)",
+        "de": "wir haben einige Wachsamkeitsprobleme behoben (schließt #182, schließt #183)",
+        "ru": "мы исправили некоторые проблемы с часовой (закрывает # 182, закрывает # 183)",
+        "pt": "corrigimos alguns problemas de sentinela (fecha # 182, fecha # 183)",
+        "nl": "we hebben een aantal schildwachtproblemen opgelost (sluit #182, sluit #183)",
+        "fr": "nous avons corrigé quelques problèmes de sentinelle (ferme #182, ferme #183)",
+        "it": "abbiamo risolto alcuni problemi di sentinella (chiude #182, chiude #183)",
+        "es": "arreglamos algunos problemas de centinela (cierra # 182, cierra # 183)",
+        "pl": "naprawiliśmy kilka problemów z wartownikami (zamyka #182, zamyka #183)",
+        "zh-cn": "我们修复了一些哨兵问题（关闭 #182，关闭 #183）"
+      },
+      "3.0.30": {
+        "en": "improved the detection of ALARM occurrences for virtual devices",
+        "de": "verbesserte Erkennung von ALARM-Ereignissen für virtuelle Geräte",
+        "ru": "улучшено обнаружение возникновения ТРЕВОГИ для виртуальных устройств",
+        "pt": "melhorou a detecção de ocorrências de ALARME para dispositivos virtuais",
+        "nl": "verbeterde de detectie van ALARM-gebeurtenissen voor virtuele apparaten",
+        "fr": "amélioration de la détection des occurrences d'ALARM pour les appareils virtuels",
+        "it": "migliorato il rilevamento delle occorrenze di ALLARME per i dispositivi virtuali",
+        "es": "mejoró la detección de ocurrencias de ALARMAS para dispositivos virtuales",
+        "pl": "poprawiono wykrywanie wystąpień ALARM dla urządzeń wirtualnych",
+        "zh-cn": "改进了对虚拟设备警报发生的检测"
+      },
+      "3.0.29": {
+        "en": "fixed bug on ALARM datapoint creation",
+        "de": "Fehler bei der ALARM-Datenpunkterstellung behoben",
+        "ru": "исправлена ошибка при создании точки ТРЕВОГИ",
+        "pt": "bug corrigido na criação de pontos de dados ALARM",
+        "nl": "bug opgelost bij het maken van ALARM-gegevenspunten",
+        "fr": "correction d'un bug sur la création du point de données ALARM",
+        "it": "bug risolto sulla creazione del punto dati ALARM",
+        "es": "error corregido en la creación de puntos de datos de ALARMA",
+        "pl": "poprawiony błąd w tworzeniu punktu danych ALARM",
+        "zh-cn": "修复了 ALARM 数据点创建的错误"
+      },
+      "3.0.28": {
+        "en": "improve creation of ALARM dps even if no states provided by `getDatapoints` (fixes #168)",
+        "de": "Verbessern Sie die Erstellung von ALARM dps, auch wenn keine Zustände von `getDatapoints` bereitgestellt werden (fixes #168)",
+        "ru": "улучшить создание ALARM dps, даже если нет состояний, предоставленных `getDatapoints` (исправления # 168)",
+        "pt": "melhorar a criação de ALARM dps mesmo se nenhum estado for fornecido por `getDatapoints` (correções # 168)",
+        "nl": "het maken van ALARM dps verbeteren, zelfs als er geen statussen zijn geleverd door 'getDatapoints' (fixes #168)",
+        "fr": "améliorer la création d'ALARM dps même si aucun état n'est fourni par `getDatapoints` (correctifs #168)",
+        "it": "migliorare la creazione di ALARM dps anche se nessuno stato fornito da `getDatapoints` (correzioni #168)",
+        "es": "mejorar la creación de ALARM dps incluso si no hay estados proporcionados por `getDatapoints` (arreglos # 168)",
+        "pl": "poprawić tworzenie ALARM dps, nawet jeśli nie ma stanów dostarczonych przez `getDatapoints` (poprawki #168)",
+        "zh-cn": "即使`getDatapoints` 没有提供状态，也会改进 ALARM dps 的创建（修复 #168）"
+      },
+      "3.0.27": {
+        "en": "* fixed a bug that already deleted programs were only partially deleted in ioBroker\n__Please note: This will only work for deleted programs up from now. You have to clean up orphan programs manually__",
+        "de": "* Fehler behoben, bei dem bereits gelöschte Programme in ioBroker nur teilweise gelöscht wurden\n__Bitte beachten Sie: Dies funktioniert ab jetzt nur noch für gelöschte Programme. Sie müssen verwaiste Programme manuell bereinigen__",
+        "ru": "* исправлена ошибка, из-за которой уже удаленные программы удалялись лишь частично в ioBroker\n__Обратите внимание: с этого момента это будет работать только для удаленных программ. Вам нужно вручную очистить бесхозные программы __",
+        "pt": "* corrigido um bug que os programas já excluídos eram apenas parcialmente excluídos no ioBroker\n__Por favor, observe: Isso só funcionará para programas excluídos a partir de agora. Você tem que limpar programas órfãos manualmente__",
+        "nl": "* een bug opgelost waarbij reeds verwijderde programma's slechts gedeeltelijk werden verwijderd in ioBroker\n__Let op: dit werkt vanaf nu alleen voor verwijderde programma's. U moet weesprogramma's handmatig opschonen__",
+        "fr": "* correction d'un bug qui faisait que les programmes déjà supprimés n'étaient que partiellement supprimés dans ioBroker\n__Veuillez noter : cela ne fonctionnera que pour les programmes supprimés à partir de maintenant. Vous devez nettoyer les programmes orphelins manuellement__",
+        "it": "* risolto un bug per il quale i programmi già eliminati venivano eliminati solo parzialmente in ioBroker\n__Nota: d'ora in poi funzionerà solo per i programmi eliminati. Devi pulire i programmi orfani manualmente__",
+        "es": "* Se corrigió un error por el cual los programas ya eliminados solo se eliminaron parcialmente en ioBroker\n__Tenga en cuenta: esto solo funcionará para los programas eliminados a partir de ahora. Tienes que limpiar los programas huérfanos manualmente__",
+        "pl": "* naprawiono błąd, który powodował, że już usunięte programy były tylko częściowo usuwane w ioBroker\n__Uwaga: od teraz będzie to działać tylko w przypadku usuniętych programów. Musisz ręcznie wyczyścić osierocone programy__",
+        "zh-cn": "* 修复了 ioBroker 中已删除的程序仅部分删除的问题\n__请注意：这仅适用于从现在开始删除的程序。您必须手动清理孤立程序__"
+      },
+      "3.0.26": {
+        "en": "Use name from device if channel has a default name",
+        "de": "Name vom Gerät verwenden, wenn der Kanal einen Standardnamen hat",
+        "ru": "Использовать имя с устройства, если канал имеет имя по умолчанию",
+        "pt": "Use o nome do dispositivo se o canal tiver um nome padrão",
+        "nl": "Naam van apparaat gebruiken als kanaal een standaardnaam heeft",
+        "fr": "Utiliser le nom de l'appareil si le canal a un nom par défaut",
+        "it": "Usa il nome dal dispositivo se il canale ha un nome predefinito",
+        "es": "Usar el nombre del dispositivo si el canal tiene un nombre predeterminado",
+        "pl": "Użyj nazwy z urządzenia, jeśli kanał ma domyślną nazwę",
+        "zh-cn": "如果通道具有默认名称，则使用设备中的名称"
+      }
     },
-    "native": {
-        "homematicAddress": "192.168.0.100",
-        "homematicPort": 8181,
-        "reconnectionInterval": 30,
-        "polling": true,
-        "pollingInterval": 30,
-        "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
-        "rfdEnabled": true,
-        "rfdAdapter": "hm-rpc.0",
-        "hs485denabled": false,
-        "hs485dAdapter": "hm-rpc.1",
-        "cuxdEnabled": false,
-        "cuxdAdapter": "hm-rpc.2",
-        "hmipEnabled": false,
-        "hmipAdapter": "hm-rpc.3",
-        "virtualDevicesEnabled": false,
-        "virtualDevicesAdapter": "hm-rpc.4",
-        "syncVariables": true,
-        "syncPrograms": true,
-        "syncNames": true,
-        "syncRooms": true,
-        "enumRooms": "enum.rooms",
-        "syncFunctions": true,
-        "enumFunctions": "enum.functions",
-        "syncFavorites": true,
-        "enumFavorites": "enum.favorites",
-        "username": "",
-        "password": "",
-        "useHttps": false,
-        "showInvSysVar": false,
-        "webinterfacePort": 80,
-        "webinterfaceProtocol": "http"
+    "title": "HomeMatic ReGaHSS",
+    "titleLang": {
+      "en": "HomeMatic ReGaHSS",
+      "de": "HomeMatic ReGaHSS",
+      "ru": "HomeMatic ReGaHSS",
+      "pt": "HomeMatic ReGaHSS",
+      "nl": "HomeMatic ReGaHSS",
+      "fr": "AccueilMatic ReGaHSS",
+      "it": "HomeMatic ReGaHSS",
+      "es": "HomeMatic ReGaHSS",
+      "pl": "HomeMatic ReGaHSS",
+      "zh-cn": "HomeMatic ReGaHSS"
     },
-    "protectedNative": [
-        "username",
-        "password"
+    "desc": {
+      "en": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
+      "de": "Verbindet die Logikschicht einer HomeMatic CCU (\"ReGaHSS\") mit ioBroker",
+      "ru": "Соединяет модуль логики системы Homematic CCU (\"ReGaHSS\") с ioBroker",
+      "pt": "Conecta o HomeMatic CCU \"Layer Lógica\" (\"ReGaHSS\") para ioBroker",
+      "nl": "Verbindt HomeMatic CCU \"Logic Layer\" (\"ReGaHSS \") met ioBroker",
+      "fr": "Connecte HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") à ioBroker",
+      "it": "Collega HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") a ioBroker",
+      "es": "Conecta CCU HomeMatic \"Capa lógica\" (\"ReGaHSS\") a ioBroker",
+      "pl": "Łączy HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") z ioBroker",
+      "zh-cn": "将 HomeMatic CCU“逻辑层”（“ReGaHSS”）连接到 ioBroker"
+    },
+    "dependencies": [
+      "hm-rpc",
+      {
+        "js-controller": ">=2.0.0"
+      }
     ],
-    "objects": [
-        {
-            "_id": "_design/hm-rega",
-            "language": "javascript",
-            "views": {
-                "variables": {
-                    "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'ALARMDP' || doc.native.TypeName === 'VARDP')) {\n   emit(doc._id, doc);\n  }\n}"
-                },
-                "programs": {
-                    "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
-                }
-            }
-        }
+    "authors": [
+      "hobbyquaker <hq@ccu.io>",
+      "bluefox <dogafox@gmail.com>",
+      "Moritz Heusinger <moritz.heusinger@gmail.com>"
     ],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
+    "license": "MIT",
+    "mode": "daemon",
+    "platform": "Javascript/Node.js",
+    "loglevel": "info",
+    "materialize": true,
+    "docs": {
+      "en": "README.md"
+    },
+    "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
+    "icon": "homematic.png",
+    "compact": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.hm-rega/master/admin/homematic.png",
+    "keywords": [
+      "homematic",
+      "eq3",
+      "regahss",
+      "ccu1",
+      "ccu2"
+    ],
+    "localLinks": {
+      "_default": "%webinterfaceProtocol%://%homematicAddress%:%webinterfacePort%"
+    },
+    "type": "iot-systems",
+    "connectionType": "local",
+    "dataSource": "poll",
+    "tier": 2,
+    "plugins": {
+      "sentry": {
+        "dsn": "https://08c0b6d9b71c43cc91e9705877681085@sentry.iobroker.net/11",
+        "pathWhitelist": [],
+        "errorBlacklist": [
+          "SyntaxError"
+        ]
+      }
+    }
+  },
+  "native": {
+    "homematicAddress": "192.168.0.100",
+    "homematicPort": 8181,
+    "reconnectionInterval": 30,
+    "polling": true,
+    "pollingInterval": 30,
+    "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
+    "rfdEnabled": true,
+    "rfdAdapter": "hm-rpc.0",
+    "hs485denabled": false,
+    "hs485dAdapter": "hm-rpc.1",
+    "cuxdEnabled": false,
+    "cuxdAdapter": "hm-rpc.2",
+    "hmipEnabled": false,
+    "hmipAdapter": "hm-rpc.3",
+    "virtualDevicesEnabled": false,
+    "virtualDevicesAdapter": "hm-rpc.4",
+    "syncVariables": true,
+    "syncPrograms": true,
+    "syncNames": true,
+    "syncRooms": true,
+    "enumRooms": "enum.rooms",
+    "syncFunctions": true,
+    "enumFunctions": "enum.functions",
+    "syncFavorites": true,
+    "enumFavorites": "enum.favorites",
+    "username": "",
+    "password": "",
+    "useHttps": false,
+    "showInvSysVar": false,
+    "webinterfacePort": 80,
+    "webinterfaceProtocol": "http"
+  },
+  "protectedNative": [
+    "username",
+    "password"
+  ],
+  "objects": [
+    {
+      "_id": "_design/hm-rega",
+      "language": "javascript",
+      "views": {
+        "variables": {
+          "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'ALARMDP' || doc.native.TypeName === 'VARDP')) {\n   emit(doc._id, doc);\n  }\n}"
         },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "If connected to CCU",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.ccuReachable",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "If connected to CCU on IP layer",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.ccuRegaUp",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "If rega is UP",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
+        "programs": {
+          "map": "function(doc) {\n  if (doc._id.match(/^hm-rega\\.[0-9]+\\.[0-9,A-Z,a-z]+/) && (doc.native.TypeName === 'PROGRAM')) {\n   emit(doc._id, doc);\n  }\n}"
         }
-    ]
+      }
+    }
+  ],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If connected to CCU",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.ccuReachable",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If connected to CCU on IP layer",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.ccuRegaUp",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If rega is UP",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }
