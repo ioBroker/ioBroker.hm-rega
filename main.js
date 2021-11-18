@@ -988,7 +988,7 @@ async function getFunctions() {
             members.push(id);
         } // endFor
 
-        const name = _unescape(data[regaId].Name);
+        const name = _unescape(data[regaId].Name).replace(/\./g, '_'); // if we have dots into it, we should replace it
         const desc = _unescape(data[regaId].EnumInfo);
 
         const obj = {
@@ -1126,7 +1126,7 @@ async function getRooms() {
             members.push(id);
         }
 
-        const name = _unescape(data[regaId].Name);
+        const name = _unescape(data[regaId].Name).replace(/\./g, '_'); // if we have dots into it, we should replace it
         const desc = _unescape(data[regaId].EnumInfo);
 
         const obj = {

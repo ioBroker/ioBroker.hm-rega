@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.32",
+    "version": "3.0.33",
     "news": {
+      "3.0.33": {
+        "en": "if function or room names on CCU include dots, we replace them (fixes Sentry IOBROKER-HM-REGA-3H)",
+        "de": "Wenn Funktions- oder Raumnamen auf der CCU Punkte enthalten, ersetzen wir diese (behebt Sentry IOBROKER-HM-REGA-3H)",
+        "ru": "если в названиях функций или комнат на CCU есть точки, мы их заменяем (исправляет Sentry IOBROKER-HM-REGA-3H)",
+        "pt": "se os nomes da função ou da sala no CCU incluem pontos, nós os substituímos (corrige o Sentinela IOBROKER-HM-REGA-3H)",
+        "nl": "als functie- of kamernamen op CCU punten bevatten, vervangen we deze (repareert Sentry IOBROKER-HM-REGA-3H)",
+        "fr": "si les noms de fonction ou de pièce sur le CCU incluent des points, nous les remplaçons (corrige Sentry IOBROKER-HM-REGA-3H)",
+        "it": "se i nomi delle funzioni o delle stanze sulla CCU includono punti, li sostituiamo (corregge Sentry IOBROKER-HM-REGA-3H)",
+        "es": "si los nombres de función o sala en CCU incluyen puntos, los reemplazamos (corrige Sentry IOBROKER-HM-REGA-3H)",
+        "pl": "jeśli nazwy funkcji lub pomieszczeń na CCU zawierają kropki, zastępujemy je (poprawki Sentry IOBROKER-HM-REGA-3H)",
+        "zh-cn": "如果 CCU 上的功能或房间名称包含点，我们将替换它们（修复 Sentry IOBROKER-HM-REGA-3H）"
+      },
       "3.0.32": {
         "en": "Duty Cycle of LAN gateways can be -1 if they are disconnected (fixes #196)\nwe now only scale on UNIT \"100%\" as hm-rpc does (fixes #207)",
         "de": "Duty Cycle von LAN-Gateways kann -1 sein, wenn sie getrennt sind (Fixes #196)\nwir skalieren jetzt nur noch auf UNIT \"100%\", wie es hm-rpc tut (fixes #207)",
@@ -74,18 +86,6 @@
         "es": "* Se corrigió un error por el cual los programas ya eliminados solo se eliminaron parcialmente en ioBroker\n__Tenga en cuenta: esto solo funcionará para los programas eliminados a partir de ahora. Tienes que limpiar los programas huérfanos manualmente__",
         "pl": "* naprawiono błąd, który powodował, że już usunięte programy były tylko częściowo usuwane w ioBroker\n__Uwaga: od teraz będzie to działać tylko w przypadku usuniętych programów. Musisz ręcznie wyczyścić osierocone programy__",
         "zh-cn": "* 修复了 ioBroker 中已删除的程序仅部分删除的问题\n__请注意：这仅适用于从现在开始删除的程序。您必须手动清理孤立程序__"
-      },
-      "3.0.26": {
-        "en": "Use name from device if channel has a default name",
-        "de": "Name vom Gerät verwenden, wenn der Kanal einen Standardnamen hat",
-        "ru": "Использовать имя с устройства, если канал имеет имя по умолчанию",
-        "pt": "Use o nome do dispositivo se o canal tiver um nome padrão",
-        "nl": "Naam van apparaat gebruiken als kanaal een standaardnaam heeft",
-        "fr": "Utiliser le nom de l'appareil si le canal a un nom par défaut",
-        "it": "Usa il nome dal dispositivo se il canale ha un nome predefinito",
-        "es": "Usar el nombre del dispositivo si el canal tiene un nombre predeterminado",
-        "pl": "Użyj nazwy z urządzenia, jeśli kanał ma domyślną nazwę",
-        "zh-cn": "如果通道具有默认名称，则使用设备中的名称"
       }
     },
     "title": "HomeMatic ReGaHSS",
