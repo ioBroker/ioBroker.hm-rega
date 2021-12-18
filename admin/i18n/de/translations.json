@@ -7,7 +7,7 @@
     "Homematic Rega-Logic adapter settings": "Homematic Rega-Logik Adaptereinstellungen",
     "Main settings": "Allgemeine Einstellungen",
     "Password": "Passwort",
-    "Polling": "Polling",
+    "Polling": "zyklisches Abfragen",
     "Reconnection interval(s)": "Wiederverbindungsintervall (s)",
     "Setup first according rpc adapter!": "Richten Sie zunächst den entsprechenden RPC-Adapter ein!",
     "Sync": "Synchronisiere",
