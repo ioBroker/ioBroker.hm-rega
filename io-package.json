@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.33",
+    "version": "3.0.34",
     "news": {
+      "3.0.34": {
+        "en": "(martin-herzog/foxriver76) fixed unnedded call which lead to warnings in rega log",
+        "de": "(martin-herzog/foxriver76) Unnötige Aufrufe behoben, die zu Warnungen im Rega-Log führten",
+        "ru": "(martin-herzog/foxriver76) исправлен ненужный вызов, который приводил к предупреждениям в журнале rega",
+        "pt": "(martin-herzog/foxriver76) corrigiu a chamada unnedded que levava a avisos no log de rega",
+        "nl": "(martin-herzog/foxriver76) opgeloste oproep die leidde tot waarschuwingen in het rega-logboek",
+        "fr": "(martin-herzog/foxriver76) correction d'un appel sans numéro qui conduisait à des avertissements dans le journal rega",
+        "it": "(martin-herzog/foxriver76) risolta la chiamata non ripetuta che portava ad avvisi nel registro rega",
+        "es": "(martin-herzog/foxriver76) arregló una llamada no necesaria que generaba advertencias en el registro de registro",
+        "pl": "(martin-herzog/foxriver76) naprawiono nieoczekiwane połączenie, które prowadziło do ostrzeżeń w dzienniku rega",
+        "zh-cn": "(martin-herzog/foxriver76) 修复了导致 rega 日志中警告的 unnedded 调用"
+      },
       "3.0.33": {
         "en": "if function or room names on CCU include dots, we replace them (fixes Sentry IOBROKER-HM-REGA-3H)",
         "de": "Wenn Funktions- oder Raumnamen auf der CCU Punkte enthalten, ersetzen wir diese (behebt Sentry IOBROKER-HM-REGA-3H)",
@@ -74,18 +86,6 @@
         "es": "mejorar la creación de ALARM dps incluso si no hay estados proporcionados por `getDatapoints` (arreglos # 168)",
         "pl": "poprawić tworzenie ALARM dps, nawet jeśli nie ma stanów dostarczonych przez `getDatapoints` (poprawki #168)",
         "zh-cn": "即使`getDatapoints` 没有提供状态，也会改进 ALARM dps 的创建（修复 #168）"
-      },
-      "3.0.27": {
-        "en": "* fixed a bug that already deleted programs were only partially deleted in ioBroker\n__Please note: This will only work for deleted programs up from now. You have to clean up orphan programs manually__",
-        "de": "* Fehler behoben, bei dem bereits gelöschte Programme in ioBroker nur teilweise gelöscht wurden\n__Bitte beachten Sie: Dies funktioniert ab jetzt nur noch für gelöschte Programme. Sie müssen verwaiste Programme manuell bereinigen__",
-        "ru": "* исправлена ошибка, из-за которой уже удаленные программы удалялись лишь частично в ioBroker\n__Обратите внимание: с этого момента это будет работать только для удаленных программ. Вам нужно вручную очистить бесхозные программы __",
-        "pt": "* corrigido um bug que os programas já excluídos eram apenas parcialmente excluídos no ioBroker\n__Por favor, observe: Isso só funcionará para programas excluídos a partir de agora. Você tem que limpar programas órfãos manualmente__",
-        "nl": "* een bug opgelost waarbij reeds verwijderde programma's slechts gedeeltelijk werden verwijderd in ioBroker\n__Let op: dit werkt vanaf nu alleen voor verwijderde programma's. U moet weesprogramma's handmatig opschonen__",
-        "fr": "* correction d'un bug qui faisait que les programmes déjà supprimés n'étaient que partiellement supprimés dans ioBroker\n__Veuillez noter : cela ne fonctionnera que pour les programmes supprimés à partir de maintenant. Vous devez nettoyer les programmes orphelins manuellement__",
-        "it": "* risolto un bug per il quale i programmi già eliminati venivano eliminati solo parzialmente in ioBroker\n__Nota: d'ora in poi funzionerà solo per i programmi eliminati. Devi pulire i programmi orfani manualmente__",
-        "es": "* Se corrigió un error por el cual los programas ya eliminados solo se eliminaron parcialmente en ioBroker\n__Tenga en cuenta: esto solo funcionará para los programas eliminados a partir de ahora. Tienes que limpiar los programas huérfanos manualmente__",
-        "pl": "* naprawiono błąd, który powodował, że już usunięte programy były tylko częściowo usuwane w ioBroker\n__Uwaga: od teraz będzie to działać tylko w przypadku usuniętych programów. Musisz ręcznie wyczyścić osierocone programy__",
-        "zh-cn": "* 修复了 ioBroker 中已删除的程序仅部分删除的问题\n__请注意：这仅适用于从现在开始删除的程序。您必须手动清理孤立程序__"
       }
     },
     "title": "HomeMatic ReGaHSS",

@@ -43,7 +43,6 @@ foreach(sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumIDs()) {
   sValue = oSysVar.Value();
   iValueType = oSysVar.ValueType();
   iValueSubType = oSysVar.ValueSubType();
-  sValueList = oSysVar.ValueList();
 
   Write('"' # sSysVarId # '":{');
 
@@ -69,6 +68,7 @@ foreach(sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumIDs()) {
       string sItem;
       integer iIndex = 0;
       string sIndex = "null";
+      sValueList = oSysVar.ValueList();
       foreach(sItem, sValueList.Split(";")) {
         if ((sIndex == "null") && (sItem == sValue)) {
           sIndex = iIndex.ToString();
