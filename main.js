@@ -1222,6 +1222,11 @@ async function getFavorites() {
 
     for (const _user of Object.keys(data)) {
         const user = _unescape(_user).replace(FORBIDDEN_CHARS, '_');
+        if (user === '') {
+            adapter.log.debug('Skip favorites of empty user');
+            continue;
+        }
+
         try {
             // create every user even if no channels there
             await adapter.setForeignObjectNotExistsAsync(`${adapter.config.enumFavorites}.${user}`, {

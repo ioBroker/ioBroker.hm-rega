@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.34",
+    "version": "3.0.35",
     "news": {
+      "3.0.35": {
+        "en": "do not log warning if we cannot sychnoronize favorites of empty string user (fixes #227)",
+        "de": "Keine Warnung protokollieren, wenn wir Favoriten von Benutzern mit leeren Zeichenfolgen nicht synchronisieren können (Fixes Nr. 227)",
+        "ru": "не выводить предупреждение, если мы не можем синхронизировать избранное пользователя с пустой строкой (исправлено #227)",
+        "pt": "não registre o aviso se não pudermos sincronizar os favoritos do usuário de string vazia (correções #227)",
+        "nl": "log geen waarschuwing in als we de favorieten van de lege string-gebruiker niet kunnen synchroniseren (fixes #227)",
+        "fr": "ne pas enregistrer l'avertissement si nous ne pouvons pas synchroniser les favoris d'un utilisateur de chaîne vide (corrections #227)",
+        "it": "non registrare l'avviso se non riusciamo a sincronizzare i preferiti dell'utente stringa vuota (correzioni n. 227)",
+        "es": "no registre una advertencia si no podemos sincronizar los favoritos del usuario de cadena vacía (correcciones # 227)",
+        "pl": "nie loguj ostrzeżenia, jeśli nie możemy zsynchronizować ulubionych użytkowników z pustym ciągiem (poprawki #227)",
+        "zh-cn": "如果我们无法同步空字符串用户的收藏夹，则不记录警告（修复 #227）"
+      },
       "3.0.34": {
         "en": "(martin-herzog/foxriver76) fixed unnedded call which lead to warnings in rega log",
         "de": "(martin-herzog/foxriver76) Unnötige Aufrufe behoben, die zu Warnungen im Rega-Log führten",
@@ -74,18 +86,6 @@
         "es": "error corregido en la creación de puntos de datos de ALARMA",
         "pl": "poprawiony błąd w tworzeniu punktu danych ALARM",
         "zh-cn": "修复了 ALARM 数据点创建的错误"
-      },
-      "3.0.28": {
-        "en": "improve creation of ALARM dps even if no states provided by `getDatapoints` (fixes #168)",
-        "de": "Verbessern Sie die Erstellung von ALARM dps, auch wenn keine Zustände von `getDatapoints` bereitgestellt werden (fixes #168)",
-        "ru": "улучшить создание ALARM dps, даже если нет состояний, предоставленных `getDatapoints` (исправления # 168)",
-        "pt": "melhorar a criação de ALARM dps mesmo se nenhum estado for fornecido por `getDatapoints` (correções # 168)",
-        "nl": "het maken van ALARM dps verbeteren, zelfs als er geen statussen zijn geleverd door 'getDatapoints' (fixes #168)",
-        "fr": "améliorer la création d'ALARM dps même si aucun état n'est fourni par `getDatapoints` (correctifs #168)",
-        "it": "migliorare la creazione di ALARM dps anche se nessuno stato fornito da `getDatapoints` (correzioni #168)",
-        "es": "mejorar la creación de ALARM dps incluso si no hay estados proporcionados por `getDatapoints` (arreglos # 168)",
-        "pl": "poprawić tworzenie ALARM dps, nawet jeśli nie ma stanów dostarczonych przez `getDatapoints` (poprawki #168)",
-        "zh-cn": "即使`getDatapoints` 没有提供状态，也会改进 ALARM dps 的创建（修复 #168）"
       }
     },
     "title": "HomeMatic ReGaHSS",
