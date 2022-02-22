@@ -2279,7 +2279,7 @@ function getRegex() {
         instances.push(`(${instanceNo})`);
     }
 
-    const regex = new RegExp(`^hm-rpc\\.(${instances.join('|')})\\.+.+$`);
+    const regex = new RegExp(`^hm-rpc\\.(${instances.join('|')})\\..+$`);
 
     return regex;
 }
