@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.36",
+    "version": "3.0.37",
     "news": {
+      "3.0.37": {
+        "en": "only delete hm-rpc objects of configured instances from enums (fixes #253)",
+        "de": "lösche nur hm-rpc-Objekte von konfigurierten Instanzen aus Enums (Fixes Nr. 253)",
+        "ru": "удалять только объекты hm-rpc настроенных экземпляров из перечислений (исправление № 253)",
+        "pt": "exclua apenas objetos hm-rpc de instâncias configuradas de enums (correções #253)",
+        "nl": "verwijder alleen hm-rpc-objecten van geconfigureerde instanties uit enums (fixes # 253)",
+        "fr": "supprimer uniquement les objets hm-rpc des instances configurées des énumérations (correctifs #253)",
+        "it": "elimina solo gli oggetti hm-rpc delle istanze configurate da enum (correzioni n. 253)",
+        "es": "solo elimine los objetos hm-rpc de las instancias configuradas de las enumeraciones (correcciones # 253)",
+        "pl": "usuwaj tylko obiekty hm-rpc skonfigurowanych instancji z wyliczeń (poprawki #253)",
+        "zh-cn": "仅从枚举中删除已配置实例的 hm-rpc 对象（修复 #253）"
+      },
       "3.0.36": {
         "en": "only delete hm-rpc objects of configured instances from enums",
         "de": "lösche nur hm-rpc-Objekte konfigurierter Instanzen aus Enums",
@@ -74,18 +86,6 @@
         "es": "arreglamos algunos problemas de centinela (cierra # 182, cierra # 183)",
         "pl": "naprawiliśmy kilka problemów z wartownikami (zamyka #182, zamyka #183)",
         "zh-cn": "我们修复了一些哨兵问题（关闭 #182，关闭 #183）"
-      },
-      "3.0.30": {
-        "en": "improved the detection of ALARM occurrences for virtual devices",
-        "de": "verbesserte Erkennung von ALARM-Ereignissen für virtuelle Geräte",
-        "ru": "улучшено обнаружение возникновения ТРЕВОГИ для виртуальных устройств",
-        "pt": "melhorou a detecção de ocorrências de ALARME para dispositivos virtuais",
-        "nl": "verbeterde de detectie van ALARM-gebeurtenissen voor virtuele apparaten",
-        "fr": "amélioration de la détection des occurrences d'ALARM pour les appareils virtuels",
-        "it": "migliorato il rilevamento delle occorrenze di ALLARME per i dispositivi virtuali",
-        "es": "mejoró la detección de ocurrencias de ALARMAS para dispositivos virtuales",
-        "pl": "poprawiono wykrywanie wystąpień ALARM dla urządzeń wirtualnych",
-        "zh-cn": "改进了对虚拟设备警报发生的检测"
       }
     },
     "title": "HomeMatic ReGaHSS",

@@ -84,8 +84,8 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
-### 3.0.36 (2022-02-22)
-* (foxriver76) only delete hm-rpc objects of configured instances from enums
+### 3.0.37 (2022-02-22)
+* (foxriver76) only delete hm-rpc objects of configured instances from enums (fixes #253)
 
 ### 3.0.35 (2022-01-28)
 * (foxriver76) do not log warning if we cannot sychnoronize favorites of empty string user (fixes #227)

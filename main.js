@@ -2280,7 +2280,6 @@ function getRegex() {
     }
 
     const regex = new RegExp(`^hm-rpc\\.(${instances.join('|')})\\.+.+$`);
-    adapter.log.warn(regex);
 
     return regex;
 }
