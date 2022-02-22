@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.35",
+    "version": "3.0.36",
     "news": {
+      "3.0.36": {
+        "en": "only delete hm-rpc objects of configured instances from enums",
+        "de": "lösche nur hm-rpc-Objekte konfigurierter Instanzen aus Enums",
+        "ru": "удалять только объекты hm-rpc настроенных экземпляров из перечислений",
+        "pt": "exclua apenas objetos hm-rpc de instâncias configuradas de enums",
+        "nl": "verwijder alleen hm-rpc-objecten van geconfigureerde instanties uit opsommingen",
+        "fr": "supprimer uniquement les objets hm-rpc des instances configurées des énumérations",
+        "it": "eliminare solo gli oggetti hm-rpc delle istanze configurate da enum",
+        "es": "solo elimine objetos hm-rpc de instancias configuradas de las enumeraciones",
+        "pl": "usuwaj tylko obiekty hm-rpc skonfigurowanych instancji z wyliczeń",
+        "zh-cn": "仅从枚举中删除已配置实例的 hm-rpc 对象"
+      },
       "3.0.35": {
         "en": "do not log warning if we cannot sychnoronize favorites of empty string user (fixes #227)",
         "de": "Keine Warnung protokollieren, wenn wir Favoriten von Benutzern mit leeren Zeichenfolgen nicht synchronisieren können (Fixes Nr. 227)",
@@ -74,18 +86,6 @@
         "es": "mejoró la detección de ocurrencias de ALARMAS para dispositivos virtuales",
         "pl": "poprawiono wykrywanie wystąpień ALARM dla urządzeń wirtualnych",
         "zh-cn": "改进了对虚拟设备警报发生的检测"
-      },
-      "3.0.29": {
-        "en": "fixed bug on ALARM datapoint creation",
-        "de": "Fehler bei der ALARM-Datenpunkterstellung behoben",
-        "ru": "исправлена ошибка при создании точки ТРЕВОГИ",
-        "pt": "bug corrigido na criação de pontos de dados ALARM",
-        "nl": "bug opgelost bij het maken van ALARM-gegevenspunten",
-        "fr": "correction d'un bug sur la création du point de données ALARM",
-        "it": "bug risolto sulla creazione del punto dati ALARM",
-        "es": "error corregido en la creación de puntos de datos de ALARMA",
-        "pl": "poprawiony błąd w tworzeniu punktu danych ALARM",
-        "zh-cn": "修复了 ALARM 数据点创建的错误"
       }
     },
     "title": "HomeMatic ReGaHSS",

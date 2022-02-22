@@ -40,7 +40,8 @@ let existingDevices = [];
 const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\][*,;'"`<>\\?]/g;
-const HM_RPC_REGEX = new RegExp('^hm-rpc[.]\\d+[.]+.+');
+/** Regex to match all configured hm-rpc objects of the configured instances */
+let HM_RPC_REGEX;
 let adapter;
 
 function startAdapter(options) {
@@ -198,6 +199,8 @@ function startAdapter(options) {
             } catch (e) {
                 adapter.log.warn(`[REGASCRIPTS] Error updating scripts: ${e.message}`);
             }
+
+            HM_RPC_REGEX = getRegex();
 
             main();
         }
@@ -2240,6 +2243,46 @@ async function stop(callback) {
         callback();
     }
     stopCount++;
+}
+
+/**
+ * Builds up Regex to match configured hm-rpc objects
+ *
+ * @return {RegExp} regex
+ */
+function getRegex() {
+    const instances = [];
+
+    // build up regex
+    if (adapter.config.rfdEnabled && adapter.config.rfdAdapter) {
+        const instanceNo = adapter.config.rfdAdapter.split('.')[1];
+        instances.push(`(${instanceNo})`);
+    }
+
+    if (adapter.config.hs485denabled && adapter.config.hs485dAdapter) {
+        const instanceNo = adapter.config.hs485dAdapter.split('.')[1];
+        instances.push(`(${instanceNo})`);
+    }
+
+    if (adapter.config.cuxdEnabled && adapter.config.cuxdAdapter) {
+        const instanceNo = adapter.config.cuxdAdapter.split('.')[1];
+        instances.push(`(${instanceNo})`);
+    }
+
+    if (adapter.config.hmipEnabled && adapter.config.hmipAdapter) {
+        const instanceNo = adapter.config.hmipAdapter.split('.')[1];
+        instances.push(`(${instanceNo})`);
+    }
+
+    if (adapter.config.virtualDevicesEnabled && adapter.config.virtualDevicesAdapter) {
+        const instanceNo = adapter.config.virtualDevicesAdapter.split('.')[1];
+        instances.push(`(${instanceNo})`);
+    }
+
+    const regex = new RegExp(`^hm-rpc\\.(${instances.join('|')})\\.+.+$`);
+    adapter.log.warn(regex);
+
+    return regex;
 }
 
 if (module === require.main) {
