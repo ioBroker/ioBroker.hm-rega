@@ -163,7 +163,7 @@ function startAdapter(options) {
                         adapter.config.username = crypto.decrypt('Zgfr56gFe87jJOM', adapter.config.username);
                     } // endElse
                 } catch (e) {
-                    adapter.log.warn(`Could not decrypt credentials: ${e}`);
+                    adapter.log.warn(`Could not decrypt credentials: ${e.message}`);
                 }
             } // endIf
 
@@ -196,7 +196,7 @@ function startAdapter(options) {
                     }
                 } // endFor
             } catch (e) {
-                adapter.log.warn(`[REGASCRIPTS] Error updating scripts: ${e}`);
+                adapter.log.warn(`[REGASCRIPTS] Error updating scripts: ${e.message}`);
             }
 
             main();
@@ -818,122 +818,117 @@ async function getServiceMsgs() {
 /**
  * Get all programs from the CCU and sync it with enums accordingly
  *
- * @param {function()} [callback]
+ * @returns {Promise<void>}
  */
-async function getPrograms(callback) {
-    adapter.getObjectView(
-        'hm-rega',
-        'programs',
-        {
+async function getPrograms() {
+    try {
+        const doc = await adapter.getObjectViewAsync('hm-rega', 'programs', {
             startkey: `hm-rega.${adapter.instance}.`,
             endkey: `hm-rega.${adapter.instance}.\u9999`
-        },
-        async (err, doc) => {
-            const response = [];
+        });
 
-            if (!err && doc) {
-                for (const row of doc.rows) {
-                    const id = row.value._id.split('.').pop();
-                    response.push(id);
-                } // endFor
-                adapter.log.info(`got ${doc.rows.length} programs`);
-            } else {
-                adapter.log.info('got 0 programs');
-            } // endElse
+        const response = [];
 
-            let data = await rega.runScriptFile('programs');
-            try {
-                data = JSON.parse(data.replace(/\n/gm, ''));
-            } catch (e) {
-                adapter.log.error(`Cannot parse answer for programs: ${data}`);
-                return void (typeof callback === 'function' && callback());
-            }
-            let count = 0;
-            let id;
-            for (const dp of Object.keys(data)) {
-                id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
-                count += 1;
-                let fullId = `${adapter.namespace}.${id}`;
-                if (!objects[fullId]) {
-                    objects[fullId] = true;
-                    await adapter.setForeignObjectAsync(fullId, {
-                        type: 'channel',
-                        common: {
-                            name: _unescape(data[dp].Name),
-                            enabled: true
-                        },
-                        native: {
-                            Name: _unescape(data[dp].Name),
-                            TypeName: data[dp].TypeName,
-                            PrgInfo: _unescape(data[dp].DPInfo)
-                        }
-                    });
-                }
+        if (doc) {
+            for (const row of doc.rows) {
+                const id = row.value._id.split('.').pop();
+                response.push(id);
+            } // endFor
+            adapter.log.info(`got ${doc.rows.length} programs`);
+        } else {
+            adapter.log.info('got 0 programs');
+        } // endElse
 
-                const val = data[dp].Active;
-
-                fullId = `${adapter.namespace}.${id}.ProgramExecute`;
-
-                if (!objects[fullId]) {
-                    objects[fullId] = true;
-                    await adapter.extendForeignObjectAsync(fullId, {
-                        type: 'state',
-                        common: {
-                            name: `${_unescape(data[dp].Name)} execute`,
-                            type: 'boolean',
-                            role: 'action.execute',
-                            read: true,
-                            write: true
-                        },
-                        native: {}
-                    });
-                }
-
-                if (!states[fullId] || !states[fullId].ack || states[fullId].val !== false) {
-                    states[fullId] = { val: false, ack: true };
-                    await adapter.setForeignStateAsync(fullId, states[fullId]);
-                }
-
-                fullId = `${adapter.namespace}.${id}.Active`;
-                if (!objects[fullId]) {
-                    objects[fullId] = true;
-                    await adapter.extendForeignObjectAsync(fullId, {
-                        type: 'state',
-                        common: {
-                            name: `${_unescape(data[dp].Name)} enabled`,
-                            type: 'boolean',
-                            role: 'state.enabled',
-                            read: true,
-                            write: true
-                        },
-                        native: {}
-                    });
-                }
-
-                if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
-                    states[fullId] = { val: val, ack: true };
-                    await adapter.setForeignStateAsync(fullId, states[fullId]);
-                }
-
-                // if we already have the program from CCU locally, remove it
-                if (response.includes(id)) {
-                    response.splice(response.indexOf(id), 1);
-                }
+        let data = await rega.runScriptFile('programs');
+        try {
+            data = JSON.parse(data.replace(/\n/gm, ''));
+        } catch (e) {
+            adapter.log.error(`Cannot parse answer for programs: ${data}`);
+            return;
+        }
+        let count = 0;
+        let id;
+        for (const dp of Object.keys(data)) {
+            id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
+            count += 1;
+            let fullId = `${adapter.namespace}.${id}`;
+            if (!objects[fullId]) {
+                objects[fullId] = true;
+                await adapter.setForeignObjectAsync(fullId, {
+                    type: 'channel',
+                    common: {
+                        name: _unescape(data[dp].Name),
+                        enabled: true
+                    },
+                    native: {
+                        Name: _unescape(data[dp].Name),
+                        TypeName: data[dp].TypeName,
+                        PrgInfo: _unescape(data[dp].DPInfo)
+                    }
+                });
             }
 
-            adapter.log.info(`added/updated ${count} programs`);
+            const val = data[dp].Active;
 
-            // only left what has not been in data
-            for (const entry of response) {
-                await adapter.delObjectAsync(entry, { recursive: true });
+            fullId = `${adapter.namespace}.${id}.ProgramExecute`;
+
+            if (!objects[fullId]) {
+                objects[fullId] = true;
+                await adapter.extendForeignObjectAsync(fullId, {
+                    type: 'state',
+                    common: {
+                        name: `${_unescape(data[dp].Name)} execute`,
+                        type: 'boolean',
+                        role: 'action.execute',
+                        read: true,
+                        write: true
+                    },
+                    native: {}
+                });
             }
-            adapter.log.info(`deleted ${response.length} programs`);
 
-            if (typeof callback === 'function') {
-                callback();
+            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== false) {
+                states[fullId] = { val: false, ack: true };
+                await adapter.setForeignStateAsync(fullId, states[fullId]);
+            }
+
+            fullId = `${adapter.namespace}.${id}.Active`;
+            if (!objects[fullId]) {
+                objects[fullId] = true;
+                await adapter.extendForeignObjectAsync(fullId, {
+                    type: 'state',
+                    common: {
+                        name: `${_unescape(data[dp].Name)} enabled`,
+                        type: 'boolean',
+                        role: 'state.enabled',
+                        read: true,
+                        write: true
+                    },
+                    native: {}
+                });
+            }
+
+            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
+                states[fullId] = { val: val, ack: true };
+                await adapter.setForeignStateAsync(fullId, states[fullId]);
+            }
+
+            // if we already have the program from CCU locally, remove it
+            if (response.includes(id)) {
+                response.splice(response.indexOf(id), 1);
             }
         }
-    );
+
+        adapter.log.info(`added/updated ${count} programs`);
+
+        // only left what has not been in data
+        for (const entry of response) {
+            await adapter.delObjectAsync(entry, { recursive: true });
+        }
+        adapter.log.info(`deleted ${response.length} programs`);
+    } catch (e) {
+        adapter.log.error(`Could not update programs: ${e.message}`);
+    }
 }
 
 /**
@@ -1025,7 +1020,7 @@ async function getFunctions() {
         try {
             oldObj = await adapter.getForeignObjectAsync(obj._id);
         } catch (e) {
-            adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
+            adapter.log.error(`Could not update enum ${obj._id}: ${e.message}`);
             return;
         }
 
@@ -1164,7 +1159,7 @@ async function getRooms() {
         try {
             oldObj = await adapter.getForeignObjectAsync(obj._id);
         } catch (e) {
-            adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
+            adapter.log.error(`Could not update enum ${obj._id}: ${e.message}`);
             return;
         }
 
@@ -1253,7 +1248,7 @@ async function getFavorites() {
                 native: {}
             });
         } catch (e) {
-            adapter.log.error(`Could not synchronize favorites of user "${user}": ${e}`);
+            adapter.log.error(`Could not synchronize favorites of user "${user}": ${e.message}`);
         }
 
         // every user can have multiple favorite lists
@@ -1323,7 +1318,7 @@ async function getFavorites() {
             try {
                 oldObj = await adapter.getForeignObjectAsync(obj._id);
             } catch (e) {
-                adapter.log.error(`Could not update enum ${obj._id}: ${e}`);
+                adapter.log.error(`Could not update enum ${obj._id}: ${e.message}`);
                 return;
             }
 
@@ -1589,7 +1584,7 @@ async function _getDevicesFromRega(devices, channels, _states) {
             await adapter.extendForeignObjectAsync(obj._id, obj);
             adapter.log.info(`renamed ${obj._id} to "${obj.common.name}"`);
         } catch (e) {
-            adapter.log.warn(`Could not rename object ${obj._id} to "${obj.common.name}": ${e}`);
+            adapter.log.warn(`Could not rename object ${obj._id} to "${obj.common.name}": ${e.message}`);
         }
     }
 }
@@ -1646,7 +1641,7 @@ async function getDevices() {
                 }
             }
         } catch (e) {
-            adapter.log.warn(`Could not add devices from instance ${instance}: ${e}`);
+            adapter.log.warn(`Could not add devices from instance ${instance}: ${e.message}`);
         }
 
         try {
@@ -1663,7 +1658,7 @@ async function getDevices() {
                 }
             }
         } catch (e) {
-            adapter.log.warn(`Could not add channels from instance ${instance}: ${e}`);
+            adapter.log.warn(`Could not add channels from instance ${instance}: ${e.message}`);
         }
 
         try {
@@ -1699,7 +1694,7 @@ async function getDevices() {
                 }
             }
         } catch (e) {
-            adapter.log.warn(`Could not add states from instance ${instance}: ${e}`);
+            adapter.log.warn(`Could not add states from instance ${instance}: ${e.message}`);
         }
     } // endAddStatesFromInstance
 } // endGetDevices
