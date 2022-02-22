@@ -47,7 +47,6 @@ function startAdapter(options) {
     options = options || {};
 
     Object.assign(options, {
-
         name: adapterName,
 
         stateChange: async (id, state) => {
@@ -60,11 +59,13 @@ function startAdapter(options) {
                 }
             } else if (id.match(/_ALARM$/)) {
                 setTimeout(acknowledgeAlarm, 100, id);
-            } else if (id === `${adapter.config.rfdAdapter}.updated` ||
+            } else if (
+                id === `${adapter.config.rfdAdapter}.updated` ||
                 id === `${adapter.config.virtualDevicesAdapter}.updated` ||
                 id === `${adapter.config.cuxdAdapter}.updated` ||
                 id === `${adapter.config.hmipAdapter}.updated` ||
-                id === `${adapter.config.hs485dAdapter}.updated`) {
+                id === `${adapter.config.hs485dAdapter}.updated`
+            ) {
                 // Read devices anew if hm-rpc updated the list of devices
                 if (state.val) {
                     setTimeout(() => getDevices(), 1000);
@@ -75,11 +76,13 @@ function startAdapter(options) {
                         // ignore
                     }
                 }
-            } else if (id === `${adapter.config.rfdAdapter}.info.connection` ||
+            } else if (
+                id === `${adapter.config.rfdAdapter}.info.connection` ||
                 id === `${adapter.config.virtualDevicesAdapter}.info.connection` ||
                 id === `${adapter.config.cuxdAdapter}.info.connection` ||
                 id === `${adapter.config.hmipAdapter}.info.connection` ||
-                id === `${adapter.config.hs485dAdapter}.info.connection`) {
+                id === `${adapter.config.hs485dAdapter}.info.connection`
+            ) {
                 if (state.val) {
                     if (!afterReconnect) {
                         adapter.log.debug(`Connection of "${id}" detected. Read variables anew in 60 seconds`);
@@ -104,12 +107,12 @@ function startAdapter(options) {
                 if (rid[3] === 'ProgramExecute') {
                     if (state.val) {
                         adapter.log.debug(`ProgramExecute ${rid[2]}`);
-                        states[id] = {ack: false};
+                        states[id] = { ack: false };
                         rega.script(`dom.GetObject(${rid[2]}).ProgramExecute();`);
                     }
                 } else if (rid[3] === 'Active') {
                     adapter.log.debug(`Active ${rid[2]} ${state.val}`);
-                    states[id] = {ack: false};
+                    states[id] = { ack: false };
                     rega.script(`dom.GetObject(${rid[2]}).Active(${JSON.stringify(state.val)})`);
                 } else {
                     if (rid[2] === 'alarms') {
@@ -127,7 +130,7 @@ function startAdapter(options) {
                     }
 
                     adapter.log.debug(`Set state ${rid[2]}: ${state.val}`);
-                    states[id] = {ack: false};
+                    states[id] = { ack: false };
                     rega.script(`dom.GetObject(${rid[2]}).State(${JSON.stringify(state.val)})`);
                 }
             }
@@ -139,10 +142,10 @@ function startAdapter(options) {
             adapter.log.debug(`[MSSG] Received: ${JSON.stringify(obj)}`);
             if (ccuRegaUp) {
                 rega.script(obj.message, data => {
-                    adapter.sendTo(obj.from, obj.command, {result: data, error: null}, obj.callback);
+                    adapter.sendTo(obj.from, obj.command, { result: data, error: null }, obj.callback);
                 });
             } else {
-                adapter.sendTo(obj.from, obj.command, {result: null, error: 'Not connected'}, obj.callback);
+                adapter.sendTo(obj.from, obj.command, { result: null, error: 'Not connected' }, obj.callback);
             } // endElse
         },
 
@@ -322,7 +325,6 @@ function main() {
         password: adapter.config.password,
 
         ready: async err => {
-
             if (err === 'ReGaHSS down') {
                 adapter.log.error(`ReGaHSS ${adapter.config.homematicAddress} down`);
                 ccuReachable = true;
@@ -334,7 +336,6 @@ function main() {
                 } catch {
                     // ignore
                 }
-
             } else if (err === 'CCU unreachable') {
                 adapter.log.error(`CCU ${adapter.config.homematicAddress} unreachable`);
                 ccuReachable = false;
@@ -403,7 +404,6 @@ function main() {
                     await getFavorites();
                 }
             }
-
         }
     });
 }
@@ -444,7 +444,7 @@ async function pollVariables() {
         }
         const fullId = `${adapter.namespace}.${id}`;
 
-        if ((id === 'maintenance') && (!states[fullId] || states[fullId].val !== val)) {
+        if (id === 'maintenance' && (!states[fullId] || states[fullId].val !== val)) {
             // poll service messages but do not skip this id, because #servicemsgs should be set
             setTimeout(pollServiceMsgs, 1000);
         }
@@ -455,8 +455,13 @@ async function pollVariables() {
             return;
         }
 
-        if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || (states[fullId].ts && states[fullId].ts !== timestamp)) {
-            states[fullId] = {val: val, ack: true, ts: timestamp};
+        if (
+            !states[fullId] ||
+            !states[fullId].ack ||
+            states[fullId].val !== val ||
+            (states[fullId].ts && states[fullId].ts !== timestamp)
+        ) {
+            states[fullId] = { val: val, ack: true, ts: timestamp };
             try {
                 await adapter.setForeignStateAsync(fullId, val, true);
             } catch {
@@ -549,7 +554,9 @@ async function pollDutyCycle() {
         // Count Datapoints
         if (sysInfo.countDatapoints) {
             updateNewState(`${adapter.namespace}.${id}.0.countDatapoints`, sysInfo.countDatapoints);
-            adapter.log.debug(`Count Datapoints: ${adapter.namespace}.${id}.0.countDatapoints => ${sysInfo.countDatapoints}`);
+            adapter.log.debug(
+                `Count Datapoints: ${adapter.namespace}.${id}.0.countDatapoints => ${sysInfo.countDatapoints}`
+            );
         }
 
         // Count Programs
@@ -561,7 +568,9 @@ async function pollDutyCycle() {
         // Count System Variables
         if (sysInfo.countSystemVars) {
             updateNewState(`${adapter.namespace}.${id}.0.countSystemVariables`, sysInfo.countSystemVars);
-            adapter.log.debug(`Count System variables: ${adapter.namespace}.${id}.0.countSystemVariables => ${sysInfo.countSystemVars}`);
+            adapter.log.debug(
+                `Count System variables: ${adapter.namespace}.${id}.0.countSystemVariables => ${sysInfo.countSystemVars}`
+            );
         }
 
         // CCU-Type - User can update e. g. Raspmatic w/o restarting adapter
@@ -578,7 +587,7 @@ async function pollDutyCycle() {
         };
 
         const _obj = await adapter.getObjectAsync(obj._id);
-        if (!_obj || !_obj.common || (obj.common.name !== _obj.common.name)) {
+        if (!_obj || !_obj.common || obj.common.name !== _obj.common.name) {
             adapter.extendForeignObject(obj._id, obj);
         }
     }
@@ -612,11 +621,8 @@ async function pollPrograms() {
             return;
         }
 
-        if (!states[fullId] ||
-                !states[fullId].ack ||
-                states[fullId].val !== val
-        ) {
-            states[fullId] = {val: val, ack: true};
+        if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
+            states[fullId] = { val: val, ack: true };
             try {
                 await adapter.setForeignStateAsync(fullId, states[fullId]);
             } catch {
@@ -632,7 +638,6 @@ async function pollPrograms() {
  * @returns {Promise<void>}
  */
 async function pollServiceMsgs() {
-
     adapter.log.debug('polling service messages');
 
     let data = await rega.runScriptFile('alarms');
@@ -675,11 +680,12 @@ async function pollServiceMsgs() {
             ts: new Date(data[dp].LastTriggerTime).getTime()
         };
 
-        if (!states[id] ||
-                !states[id].ack ||
-                states[id].val !== state.val ||
-                states[id].lc !== state.lc ||
-                states[id].ts !== state.ts
+        if (
+            !states[id] ||
+            !states[id].ack ||
+            states[id].val !== state.val ||
+            states[id].lc !== state.lc ||
+            states[id].ts !== state.ts
         ) {
             states[id] = state;
             try {
@@ -694,7 +700,7 @@ async function pollServiceMsgs() {
 // Acknowledge Alarm
 function acknowledgeAlarm(id) {
     adapter.log.debug(`[INFO] Acknowledge alarm ${id}`);
-    states[id] = {ack: false};
+    states[id] = { ack: false };
     adapter.getForeignObject(id, (err, obj) => {
         if (obj && obj.native) {
             rega.script(`dom.GetObject(${obj.native.DP}).AlReceipt();`);
@@ -710,8 +716,10 @@ function acknowledgeAlarm(id) {
  */
 async function getServiceMsgs() {
     try {
-        const res = await adapter.getObjectViewAsync('system', 'device',
-            {startkey: 'hm-rpc.', endkey: 'hm-rpc.\u9999'});
+        const res = await adapter.getObjectViewAsync('system', 'device', {
+            startkey: 'hm-rpc.',
+            endkey: 'hm-rpc.\u9999'
+        });
         existingDevices = res.rows.map(obj => obj.id);
     } catch (e) {
         adapter.log.error(`Could not determine existing devices: ${e.message}`);
@@ -790,8 +798,13 @@ async function getServiceMsgs() {
             ts: new Date(data[dp].LastTriggerTime).getTime()
         };
 
-        if (!states[id] || !states[id].ack || states[id].val !== state.val ||
-                states[id].lc !== state.lc || states[id].ts !== state.ts) {
+        if (
+            !states[id] ||
+            !states[id].ack ||
+            states[id].val !== state.val ||
+            states[id].lc !== state.lc ||
+            states[id].ts !== state.ts
+        ) {
             states[id] = state;
             try {
                 await adapter.setForeignStateAsync(id, state);
@@ -808,118 +821,119 @@ async function getServiceMsgs() {
  * @param {function()} [callback]
  */
 async function getPrograms(callback) {
-    adapter.getObjectView('hm-rega', 'programs', {
-        startkey: `hm-rega.${adapter.instance}.`,
-        endkey: `hm-rega.${adapter.instance}.\u9999`
-    }, async (err, doc) => {
+    adapter.getObjectView(
+        'hm-rega',
+        'programs',
+        {
+            startkey: `hm-rega.${adapter.instance}.`,
+            endkey: `hm-rega.${adapter.instance}.\u9999`
+        },
+        async (err, doc) => {
+            const response = [];
 
-        const response = [];
+            if (!err && doc) {
+                for (const row of doc.rows) {
+                    const id = row.value._id.split('.').pop();
+                    response.push(id);
+                } // endFor
+                adapter.log.info(`got ${doc.rows.length} programs`);
+            } else {
+                adapter.log.info('got 0 programs');
+            } // endElse
 
-        if (!err && doc) {
-            for (const row of doc.rows) {
-                const id = row.value._id.split('.').pop();
-                response.push(id);
-            } // endFor
-            adapter.log.info(`got ${doc.rows.length} programs`);
-        } else {
-            adapter.log.info('got 0 programs');
-        } // endElse
+            let data = await rega.runScriptFile('programs');
+            try {
+                data = JSON.parse(data.replace(/\n/gm, ''));
+            } catch (e) {
+                adapter.log.error(`Cannot parse answer for programs: ${data}`);
+                return void (typeof callback === 'function' && callback());
+            }
+            let count = 0;
+            let id;
+            for (const dp of Object.keys(data)) {
+                id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
+                count += 1;
+                let fullId = `${adapter.namespace}.${id}`;
+                if (!objects[fullId]) {
+                    objects[fullId] = true;
+                    await adapter.setForeignObjectAsync(fullId, {
+                        type: 'channel',
+                        common: {
+                            name: _unescape(data[dp].Name),
+                            enabled: true
+                        },
+                        native: {
+                            Name: _unescape(data[dp].Name),
+                            TypeName: data[dp].TypeName,
+                            PrgInfo: _unescape(data[dp].DPInfo)
+                        }
+                    });
+                }
 
-        let data = await rega.runScriptFile('programs');
-        try {
-            data = JSON.parse(data.replace(/\n/gm, ''));
-        } catch (e) {
-            adapter.log.error(`Cannot parse answer for programs: ${data}`);
-            return void (typeof callback === 'function' && callback());
+                const val = data[dp].Active;
+
+                fullId = `${adapter.namespace}.${id}.ProgramExecute`;
+
+                if (!objects[fullId]) {
+                    objects[fullId] = true;
+                    await adapter.extendForeignObjectAsync(fullId, {
+                        type: 'state',
+                        common: {
+                            name: `${_unescape(data[dp].Name)} execute`,
+                            type: 'boolean',
+                            role: 'action.execute',
+                            read: true,
+                            write: true
+                        },
+                        native: {}
+                    });
+                }
+
+                if (!states[fullId] || !states[fullId].ack || states[fullId].val !== false) {
+                    states[fullId] = { val: false, ack: true };
+                    await adapter.setForeignStateAsync(fullId, states[fullId]);
+                }
+
+                fullId = `${adapter.namespace}.${id}.Active`;
+                if (!objects[fullId]) {
+                    objects[fullId] = true;
+                    await adapter.extendForeignObjectAsync(fullId, {
+                        type: 'state',
+                        common: {
+                            name: `${_unescape(data[dp].Name)} enabled`,
+                            type: 'boolean',
+                            role: 'state.enabled',
+                            read: true,
+                            write: true
+                        },
+                        native: {}
+                    });
+                }
+
+                if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
+                    states[fullId] = { val: val, ack: true };
+                    await adapter.setForeignStateAsync(fullId, states[fullId]);
+                }
+
+                // if we already have the program from CCU locally, remove it
+                if (response.includes(id)) {
+                    response.splice(response.indexOf(id), 1);
+                }
+            }
+
+            adapter.log.info(`added/updated ${count} programs`);
+
+            // only left what has not been in data
+            for (const entry of response) {
+                await adapter.delObjectAsync(entry, { recursive: true });
+            }
+            adapter.log.info(`deleted ${response.length} programs`);
+
+            if (typeof callback === 'function') {
+                callback();
+            }
         }
-        let count = 0;
-        let id;
-        for (const dp of Object.keys(data)) {
-            id = _unescape(dp).replace(FORBIDDEN_CHARS, '_');
-            count += 1;
-            let fullId = `${adapter.namespace}.${id}`;
-            if (!objects[fullId]) {
-                objects[fullId] = true;
-                await adapter.setForeignObjectAsync(fullId, {
-                    type: 'channel',
-                    common: {
-                        name: _unescape(data[dp].Name),
-                        enabled: true
-                    },
-                    native: {
-                        Name: _unescape(data[dp].Name),
-                        TypeName: data[dp].TypeName,
-                        PrgInfo: _unescape(data[dp].DPInfo)
-                    }
-                });
-            }
-
-            const val = data[dp].Active;
-
-            fullId = `${adapter.namespace}.${id}.ProgramExecute`;
-
-            if (!objects[fullId]) {
-                objects[fullId] = true;
-                await adapter.extendForeignObjectAsync(fullId, {
-                    type: 'state',
-                    common: {
-                        name: `${_unescape(data[dp].Name)} execute`,
-                        type: 'boolean',
-                        role: 'action.execute',
-                        read: true,
-                        write: true
-                    },
-                    native: {}
-                });
-            }
-
-            if (!states[fullId] ||
-                    !states[fullId].ack ||
-                    states[fullId].val !== false
-            ) {
-                states[fullId] = {val: false, ack: true};
-                await adapter.setForeignStateAsync(fullId, states[fullId]);
-            }
-
-            fullId = `${adapter.namespace}.${id}.Active`;
-            if (!objects[fullId]) {
-                objects[fullId] = true;
-                await adapter.extendForeignObjectAsync(fullId, {
-                    type: 'state',
-                    common: {
-                        name: `${_unescape(data[dp].Name)} enabled`,
-                        type: 'boolean',
-                        role: 'state.enabled',
-                        read: true,
-                        write: true
-                    },
-                    native: {}
-                });
-            }
-
-            if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
-                states[fullId] = {val: val, ack: true};
-                await adapter.setForeignStateAsync(fullId, states[fullId]);
-            }
-
-            // if we already have the program from CCU locally, remove it
-            if (response.includes(id)) {
-                response.splice(response.indexOf(id), 1);
-            }
-        }
-
-        adapter.log.info(`added/updated ${count} programs`);
-
-        // only left what has not been in data
-        for (const entry of response) {
-            await adapter.delObjectAsync(entry, {recursive: true});
-        }
-        adapter.log.info(`deleted ${response.length} programs`);
-
-        if (typeof callback === 'function') {
-            callback();
-        }
-    });
+    );
 }
 
 /**
@@ -982,7 +996,6 @@ async function getFunctions() {
 
                 default:
                     continue;
-
             }
             id = id + memberObj.Address.replace(':', '.').replace(FORBIDDEN_CHARS, '_');
             members.push(id);
@@ -992,7 +1005,9 @@ async function getFunctions() {
         const desc = _unescape(data[regaId].EnumInfo);
 
         const obj = {
-            _id: `${adapter.config.enumFunctions}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
+            _id: `${adapter.config.enumFunctions}.${
+                words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name
+            }`,
             desc: desc,
             type: 'enum',
             common: {
@@ -1120,7 +1135,6 @@ async function getRooms() {
 
                 default:
                     continue;
-
             }
             id = id + _unescape(memberObj.Address).replace(':', '.').replace(FORBIDDEN_CHARS, '_');
             members.push(id);
@@ -1130,7 +1144,9 @@ async function getRooms() {
         const desc = _unescape(data[regaId].EnumInfo);
 
         const obj = {
-            _id: `${adapter.config.enumRooms}.${words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name}`,
+            _id: `${adapter.config.enumRooms}.${
+                words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name
+            }`,
             type: 'enum',
             common: {
                 name: words[name] || name,
@@ -1283,7 +1299,6 @@ async function getFavorites() {
                             break;
                         default:
                             continue;
-
                     }
                     id = id + _unescape(channel.Address).replace(':', '.').replace(FORBIDDEN_CHARS, '_');
                     members.push(id);
@@ -1324,7 +1339,9 @@ async function getFavorites() {
                     if (!oldObj.common.members.includes(newMember)) {
                         changed = true;
                         oldObj.common.members.push(newMember);
-                        adapter.log.info(`${newMember} has been added to favorites for "${user}" on list "${_unescape(fav)}"`);
+                        adapter.log.info(
+                            `${newMember} has been added to favorites for "${user}" on list "${_unescape(fav)}"`
+                        );
                     } // endIf
                 } // endFor
 
@@ -1335,7 +1352,9 @@ async function getFavorites() {
                     if (!obj.common.members.includes(oldMember) && HM_RPC_REGEX.test(oldMember)) {
                         changed = true;
                         oldObj.common.members.splice(i, 1);
-                        adapter.log.info(`${oldMember} has been removed from favorites for "${user}" on list "${_unescape(fav)}"`);
+                        adapter.log.info(
+                            `${oldMember} has been removed from favorites for "${user}" on list "${_unescape(fav)}"`
+                        );
                     } // endIf
                 } // endFor
             } // endElse
@@ -1410,7 +1429,9 @@ async function getDatapoints() {
         id += `${tmp[1].replace(':', '.').replace(FORBIDDEN_CHARS, '_')}.${tmp[2].replace(FORBIDDEN_CHARS, '_')}`;
 
         if (units === null) {
-            adapter.log.error(`Units is null at getDatapoints, (id: ${id}) please report this to developer with steps to reproduce`);
+            adapter.log.error(
+                `Units is null at getDatapoints, (id: ${id}) please report this to developer with steps to reproduce`
+            );
             continue;
         }
 
@@ -1432,7 +1453,7 @@ async function getDatapoints() {
             data[dp] = Math.round(parseFloat(data[dp]) * 100 * 1000) / 1000;
         }
 
-        const state = {val: _unescape(data[dp]), ack: true};
+        const state = { val: _unescape(data[dp]), ack: true };
 
         if (!states[id] || states[id].val !== state.val || !states[id].ack) {
             states[id] = state;
@@ -1445,7 +1466,9 @@ async function getDatapoints() {
 
                 await adapter.setForeignStateAsync(id, state);
             } else {
-                adapter.log.debug(`Do not set "${JSON.stringify(state)}" to "${id}", because non-existing in corresponding adapter`);
+                adapter.log.debug(
+                    `Do not set "${JSON.stringify(state)}" to "${id}", because non-existing in corresponding adapter`
+                );
             }
         } // endIf
     } // endFor
@@ -1521,7 +1544,7 @@ async function _getDevicesFromRega(devices, channels, _states) {
         if (!addr.includes(':')) {
             // device
             if (devices[id] === undefined || (devices[id] !== name && adapter.config.syncNames)) {
-                objs.push({_id: id, type: 'device', common: {name}});
+                objs.push({ _id: id, type: 'device', common: { name } });
             }
         } else {
             if (name.endsWith(' ' + _addr)) {
@@ -1536,13 +1559,13 @@ async function _getDevicesFromRega(devices, channels, _states) {
 
             // channel
             if (channels[id] === undefined || (channels[id] !== name && adapter.config.syncNames)) {
-                objs.push({_id: id, type: 'channel', common: {name}});
+                objs.push({ _id: id, type: 'channel', common: { name } });
             } else if (!channels[id]) {
                 let dev = id.split('.');
                 const last = dev.pop();
                 dev = dev.join('.');
                 if (devices[dev]) {
-                    objs.push({_id: id, type:'channel', common: {name: `${devices[dev]}.${last}`}});
+                    objs.push({ _id: id, type: 'channel', common: { name: `${devices[dev]}.${last}` } });
                 }
             }
             if (_states[id]) {
@@ -1552,7 +1575,7 @@ async function _getDevicesFromRega(devices, channels, _states) {
                         objs.push({
                             _id: `${id}.${s}`,
                             type: 'state',
-                            common: {name: stateName}
+                            common: { name: stateName }
                         });
                     }
                 }
@@ -1660,8 +1683,7 @@ async function getDevices() {
                     if (row.value && row.value.native && row.value.native.UNIT) {
                         const _id = row.id;
                         units[_id] = _unescape(row.value.native.UNIT);
-                        if ((units[_id] === '%') &&
-                            typeof row.value.native.MIN === 'number') {
+                        if (units[_id] === '%' && typeof row.value.native.MIN === 'number') {
                             units[_id] = {
                                 UNIT: '%',
                                 MIN: parseFloat(row.value.native.MIN),
@@ -1695,7 +1717,7 @@ async function getVariables() {
         20: 'string'
     };
 
-    const doc  = await adapter.getObjectViewAsync('hm-rega', 'variables', {
+    const doc = await adapter.getObjectViewAsync('hm-rega', 'variables', {
         startkey: `hm-rega.${adapter.instance}.`,
         endkey: `hm-rega.${adapter.instance}.\u9999`
     });
@@ -1773,7 +1795,6 @@ async function getVariables() {
                 obj.common.min = 0;
                 obj.common.max = statesArr.length - 1;
             }
-
         }
 
         let val = data[dp].Value;
@@ -1799,9 +1820,8 @@ async function getVariables() {
             await adapter.extendForeignObjectAsync(fullId, obj);
         }
 
-        if (!states[fullId] || !states[fullId].ack ||
-                    states[fullId].val !== val || states[fullId].ts !== timestamp) {
-            states[fullId] = {val: val, ack: true, ts: timestamp};
+        if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val || states[fullId].ts !== timestamp) {
+            states[fullId] = { val: val, ack: true, ts: timestamp };
             await adapter.setForeignStateAsync(fullId, states[fullId]);
         }
 
@@ -2133,7 +2153,7 @@ async function addNewStateOrObject(obj, val) {
         val = _unescape(val);
     }
     if (!states[obj._id] || !states[obj._id].ack || states[obj._id].val !== val) {
-        states[obj._id] = {val: val, ack: true};
+        states[obj._id] = { val: val, ack: true };
         await adapter.setForeignStateAsync(obj._id, states[obj._id]);
     }
 }
@@ -2150,7 +2170,7 @@ async function updateNewState(fullId, val) {
         val = _unescape(val);
     }
     if (!states[fullId] || !states[fullId].ack || states[fullId].val !== val) {
-        states[fullId] = {val: val, ack: true};
+        states[fullId] = { val: val, ack: true };
         await adapter.setForeignStateAsync(fullId, val, true);
     }
 }

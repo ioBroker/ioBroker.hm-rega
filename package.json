@@ -38,8 +38,11 @@
     "axios": "^0.26.0",
     "chai": "^4.3.4",
     "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "gulp": "^4.0.2",
-    "mocha": "^9.2.0"
+    "mocha": "^9.2.0",
+    "prettier": "^2.5.1"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.hm-rega/issues"
@@ -50,5 +53,13 @@
     "test:integration": "mocha test/integrationAdapter --exit",
     "release": "release-script"
   },
+  "files": [
+    "main.js",
+    "regascripts/",
+    "lib/",
+    "admin/",
+    "io-package.json",
+    "LICENSE"
+  ],
   "license": "MIT"
 }

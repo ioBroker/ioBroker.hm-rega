@@ -1,11 +1,10 @@
 'use strict';
 
 const path = require('path');
-const {tests} = require('@iobroker/testing');
+const { tests } = require('@iobroker/testing');
 
 // Run tests
 tests.integration(path.join(__dirname, '..'), {
-
     defineAdditionalTests(getHarness) {
         describe('Test sendTo()', () => {
             it('Should work', () => {
@@ -21,7 +20,6 @@ tests.integration(path.join(__dirname, '..'), {
                     });
                 });
             });
-
         });
     }
 });
