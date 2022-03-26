@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.37",
+    "version": "3.0.38",
     "news": {
+      "3.0.38": {
+        "en": "fixed bug with `ValueList` (closes #268)",
+        "de": "Fehler mit `ValueList` behoben (schließt #268)",
+        "ru": "исправлена ошибка с `ValueList` (закрывает #268)",
+        "pt": "bug corrigido com `ValueList` (fecha #268)",
+        "nl": "bug opgelost met `ValueList` (sluit #268)",
+        "fr": "correction d'un bug avec `ValueList` (ferme #268)",
+        "it": "bug corretto con `ValueList` (chiude #268)",
+        "es": "error corregido con `ValueList` (cierra #268)",
+        "pl": "naprawiony błąd z `ValueList` (zamyka #268)",
+        "zh-cn": "修复了 `ValueList` 的错误（关闭 #268）"
+      },
       "3.0.37": {
         "en": "only delete hm-rpc objects of configured instances from enums (fixes #253)",
         "de": "lösche nur hm-rpc-Objekte von konfigurierten Instanzen aus Enums (Fixes Nr. 253)",
@@ -74,18 +86,6 @@
         "es": "El ciclo de trabajo de las puertas de enlace LAN puede ser -1 si están desconectadas (arreglos n. ° 196)\nahora solo escalamos en UNIDAD \"100%\" como lo hace hm-rpc (arreglos # 207)",
         "pl": "Cykl pracy bramek LAN może wynosić -1, jeśli są odłączone (poprawki nr 196)\nteraz skalujemy tylko na UNIT \"100%\", tak jak robi to hm-rpc (poprawki #207)",
         "zh-cn": "如果 LAN 网关断开连接，则它们的占空比可以为 -1（修复 #196）\n我们现在只像 hm-rpc 一样在 UNIT \"100%\" 上进行缩放（修复 #207）"
-      },
-      "3.0.31": {
-        "en": "we fixed some sentry issues (closes #182, closes #183)",
-        "de": "wir haben einige Wachsamkeitsprobleme behoben (schließt #182, schließt #183)",
-        "ru": "мы исправили некоторые проблемы с часовой (закрывает # 182, закрывает # 183)",
-        "pt": "corrigimos alguns problemas de sentinela (fecha # 182, fecha # 183)",
-        "nl": "we hebben een aantal schildwachtproblemen opgelost (sluit #182, sluit #183)",
-        "fr": "nous avons corrigé quelques problèmes de sentinelle (ferme #182, ferme #183)",
-        "it": "abbiamo risolto alcuni problemi di sentinella (chiude #182, chiude #183)",
-        "es": "arreglamos algunos problemas de centinela (cierra # 182, cierra # 183)",
-        "pl": "naprawiliśmy kilka problemów z wartownikami (zamyka #182, zamyka #183)",
-        "zh-cn": "我们修复了一些哨兵问题（关闭 #182，关闭 #183）"
       }
     },
     "title": "HomeMatic ReGaHSS",

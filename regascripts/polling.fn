@@ -33,13 +33,13 @@ foreach (sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumUsedIDs()) {
     WriteURL(sValue);
     Write('"');
   } elseif ((iValueType == 16) && (iValueSubType == 29)) {
+    sValueList = oSysVar.ValueList();
     if (sValue.VarType() == 2) {
       Write(sValue);
     } else {
       string sItem;
       integer iIndex = 0;
       string sIndex = "null";
-      sValueList = oSysVar.ValueList();
       foreach(sItem, sValueList.Split(";")) {
         if ((sIndex == "null") && (sItem == sValue)) {
           sIndex = iIndex.ToString();
