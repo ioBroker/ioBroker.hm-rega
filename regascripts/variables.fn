@@ -38,6 +38,7 @@ foreach(sSysVarId, dom.GetObject(ID_SYSTEM_VARIABLES).EnumUsedIDs()) {
   sValue = oSysVar.Value();
   iValueType = oSysVar.ValueType();
   iValueSubType = oSysVar.ValueSubType();
+  sValueList = '';
 
   Write('"' # sSysVarId # '":{');
 

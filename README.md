@@ -84,6 +84,9 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
+### 3.0.39 (2022-03-26)
+* (foxriver76) fixed another `ValueList` bug
+
 ### 3.0.38 (2022-03-26)
 * (foxriver76) fixed bug with `ValueList` (closes #268)
 

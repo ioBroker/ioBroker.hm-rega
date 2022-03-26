@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.38",
+    "version": "3.0.39",
     "news": {
+      "3.0.39": {
+        "en": "fixed another `ValueList` bug",
+        "de": "Ein weiterer `ValueList`-Bug wurde behoben",
+        "ru": "исправлена еще одна ошибка `ValueList`",
+        "pt": "corrigido outro bug `ValueList`",
+        "nl": "een andere `ValueList`-bug gerepareerd",
+        "fr": "correction d'un autre bogue `ValueList`",
+        "it": "risolto un altro bug di `ValueList`",
+        "es": "corrigió otro error de `ValueList`",
+        "pl": "naprawiono kolejny błąd `ValueList`",
+        "zh-cn": "修复了另一个“ValueList”错误"
+      },
       "3.0.38": {
         "en": "fixed bug with `ValueList` (closes #268)",
         "de": "Fehler mit `ValueList` behoben (schließt #268)",
@@ -74,18 +86,6 @@
         "es": "si los nombres de función o sala en CCU incluyen puntos, los reemplazamos (corrige Sentry IOBROKER-HM-REGA-3H)",
         "pl": "jeśli nazwy funkcji lub pomieszczeń na CCU zawierają kropki, zastępujemy je (poprawki Sentry IOBROKER-HM-REGA-3H)",
         "zh-cn": "如果 CCU 上的功能或房间名称包含点，我们将替换它们（修复 Sentry IOBROKER-HM-REGA-3H）"
-      },
-      "3.0.32": {
-        "en": "Duty Cycle of LAN gateways can be -1 if they are disconnected (fixes #196)\nwe now only scale on UNIT \"100%\" as hm-rpc does (fixes #207)",
-        "de": "Duty Cycle von LAN-Gateways kann -1 sein, wenn sie getrennt sind (Fixes #196)\nwir skalieren jetzt nur noch auf UNIT \"100%\", wie es hm-rpc tut (fixes #207)",
-        "ru": "Рабочий цикл шлюзов LAN может быть -1, если они отключены (исправления # 196).\nтеперь мы масштабируем только UNIT \"100%\", как это делает hm-rpc (исправления # 207)",
-        "pt": "O ciclo de trabalho dos gateways LAN pode ser -1 se eles estiverem desconectados (correções # 196)\nagora só escalamos em UNIT \"100%\" como o hm-rpc faz (corrige # 207)",
-        "nl": "Duty Cycle van LAN-gateways kan -1 zijn als ze zijn losgekoppeld (fixes #196)\nwe schalen nu alleen op UNIT \"100%\" zoals hm-rpc doet (fixes #207)",
-        "fr": "Le cycle de service des passerelles LAN peut être de -1 si elles sont déconnectées (corrections #196)\nnous évoluons désormais uniquement sur UNIT \"100%\" comme le fait hm-rpc (corrections #207)",
-        "it": "Il Duty Cycle dei gateway LAN può essere -1 se sono disconnessi (correzioni #196)\nora ridimensioniamo solo su UNIT \"100%\" come fa hm-rpc (correzioni #207)",
-        "es": "El ciclo de trabajo de las puertas de enlace LAN puede ser -1 si están desconectadas (arreglos n. ° 196)\nahora solo escalamos en UNIDAD \"100%\" como lo hace hm-rpc (arreglos # 207)",
-        "pl": "Cykl pracy bramek LAN może wynosić -1, jeśli są odłączone (poprawki nr 196)\nteraz skalujemy tylko na UNIT \"100%\", tak jak robi to hm-rpc (poprawki #207)",
-        "zh-cn": "如果 LAN 网关断开连接，则它们的占空比可以为 -1（修复 #196）\n我们现在只像 hm-rpc 一样在 UNIT \"100%\" 上进行缩放（修复 #207）"
       }
     },
     "title": "HomeMatic ReGaHSS",
