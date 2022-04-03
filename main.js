@@ -1907,7 +1907,7 @@ async function getDutyCycle() {
                     read: true,
                     write: false,
                     role: 'value',
-                    min: -1,
+                    min: 0,
                     max: 100,
                     unit: '%',
                     desc: 'Dutycycle'
@@ -1915,14 +1915,16 @@ async function getDutyCycle() {
                 native: {
                     ID: 'DUTYCYCLE',
                     TYPE: 'INTEGER',
-                    MIN: -1,
+                    MIN: 0,
                     MAX: 100,
                     UNIT: '%',
                     DEFAULT: 0,
                     CONTROL: 'NONE'
                 }
             };
-            await addNewStateOrObject(stateDutycycle, parseInt(dp.DUTY_CYCLE));
+
+            const dutyCycle = parseInt(dp.DUTY_CYCLE);
+            await addNewStateOrObject(stateDutycycle, dutyCycle === -1 ? null : dutyCycle);
         }
 
         //CONNECTED State:
