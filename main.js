@@ -508,8 +508,9 @@ async function pollDutyCycle() {
 
         // DUTY_CYCLE State:
         if (dp.DUTY_CYCLE) {
-            updateNewState(`${adapter.namespace}.${id}.0.DUTY_CYCLE`, parseInt(dp.DUTY_CYCLE));
-            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DUTY_CYCLE => ${parseInt(dp.DUTY_CYCLE)}`);
+            const dutyCycle = parseInt(dp.DUTY_CYCLE);
+            updateNewState(`${adapter.namespace}.${id}.0.DUTY_CYCLE`, dutyCycle === -1 ? null : dutyCycle);
+            adapter.log.debug(`Dutycycle: ${adapter.namespace}.${id}.0.DUTY_CYCLE => ${dutyCycle}`);
         }
 
         // CONNECTED State:

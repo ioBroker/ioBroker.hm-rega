@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.40",
+    "version": "3.0.41",
     "news": {
+      "3.0.41": {
+        "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)\n",
+        "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)\n",
+        "ru": "если LGW недоступен, мы теперь установили рабочий цикл, чтобы обнулиться вместо -1 во всех случаях (закрыты #298)\n",
+        "pt": "se LGW não for alcançável agora estabelecemos o ciclo de dever para null em vez de -1 em todos os casos (fecha #298)\n",
+        "nl": "als LGW niet bereikbaar is, zetten we nu de plichtscyclus in plaats van 1 in alle gevallen (closes #298)\n",
+        "fr": "si LGW n'est pas joignable, nous mettons maintenant le cycle de devoir à null au lieu de -1 dans tous les cas (ferme #298)\n",
+        "it": "se LGW non è raggiungibile abbiamo ora impostato il ciclo di dovere a null anziché -1 in tutti i casi (chiude #298)\n",
+        "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)\n",
+        "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)\n",
+        "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。\n"
+      },
       "3.0.40": {
         "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1`",
         "de": "Wenn LGW nicht erreichbar ist, setzen wir jetzt den Arbeitszyklus auf \"Null\" anstelle von \"-1\".",
@@ -74,18 +86,6 @@
         "es": "no registre una advertencia si no podemos sincronizar los favoritos del usuario de cadena vacía (correcciones # 227)",
         "pl": "nie loguj ostrzeżenia, jeśli nie możemy zsynchronizować ulubionych użytkowników z pustym ciągiem (poprawki #227)",
         "zh-cn": "如果我们无法同步空字符串用户的收藏夹，则不记录警告（修复 #227）"
-      },
-      "3.0.34": {
-        "en": "(martin-herzog/foxriver76) fixed unnedded call which lead to warnings in rega log",
-        "de": "(martin-herzog/foxriver76) Unnötige Aufrufe behoben, die zu Warnungen im Rega-Log führten",
-        "ru": "(martin-herzog/foxriver76) исправлен ненужный вызов, который приводил к предупреждениям в журнале rega",
-        "pt": "(martin-herzog/foxriver76) corrigiu a chamada unnedded que levava a avisos no log de rega",
-        "nl": "(martin-herzog/foxriver76) opgeloste oproep die leidde tot waarschuwingen in het rega-logboek",
-        "fr": "(martin-herzog/foxriver76) correction d'un appel sans numéro qui conduisait à des avertissements dans le journal rega",
-        "it": "(martin-herzog/foxriver76) risolta la chiamata non ripetuta che portava ad avvisi nel registro rega",
-        "es": "(martin-herzog/foxriver76) arregló una llamada no necesaria que generaba advertencias en el registro de registro",
-        "pl": "(martin-herzog/foxriver76) naprawiono nieoczekiwane połączenie, które prowadziło do ostrzeżeń w dzienniku rega",
-        "zh-cn": "(martin-herzog/foxriver76) 修复了导致 rega 日志中警告的 unnedded 调用"
       }
     },
     "title": "HomeMatic ReGaHSS",
