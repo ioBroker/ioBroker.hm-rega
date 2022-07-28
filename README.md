@@ -84,9 +84,8 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
-### 3.0.41 (2022-07-28)
+### 3.0.42 (2022-07-28)
 * (foxriver76) if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)
-*
 
 ### 3.0.40 (2022-04-03)
 * (foxriver76) if LGW is not reachable we now set duty cycle to `null` instead of `-1`

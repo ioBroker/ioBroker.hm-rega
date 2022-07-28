@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.41",
+    "version": "3.0.42",
     "news": {
+      "3.0.42": {
+        "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)",
+        "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)",
+        "ru": "если LGW недоступен, мы теперь установили рабочий цикл, чтобы обнулиться вместо -1 во всех случаях (закрыты #298)",
+        "pt": "se LGW não for alcançável agora estabelecemos o ciclo de dever para null em vez de -1 em todos os casos (fecha #298)",
+        "nl": "als LGW niet bereikbaar is, zetten we nu de plichtscyclus in plaats van 1 in alle gevallen (closes #298)",
+        "fr": "si LGW n'est pas joignable, nous mettons maintenant le cycle de devoir à null au lieu de -1 dans tous les cas (ferme #298)",
+        "it": "se LGW non è raggiungibile abbiamo ora impostato il ciclo di dovere a null anziché -1 in tutti i casi (chiude #298)",
+        "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)",
+        "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)",
+        "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。"
+      },
       "3.0.41": {
         "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)\n",
         "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)\n",
@@ -74,18 +86,6 @@
         "es": "solo elimine objetos hm-rpc de instancias configuradas de las enumeraciones",
         "pl": "usuwaj tylko obiekty hm-rpc skonfigurowanych instancji z wyliczeń",
         "zh-cn": "仅从枚举中删除已配置实例的 hm-rpc 对象"
-      },
-      "3.0.35": {
-        "en": "do not log warning if we cannot sychnoronize favorites of empty string user (fixes #227)",
-        "de": "Keine Warnung protokollieren, wenn wir Favoriten von Benutzern mit leeren Zeichenfolgen nicht synchronisieren können (Fixes Nr. 227)",
-        "ru": "не выводить предупреждение, если мы не можем синхронизировать избранное пользователя с пустой строкой (исправлено #227)",
-        "pt": "não registre o aviso se não pudermos sincronizar os favoritos do usuário de string vazia (correções #227)",
-        "nl": "log geen waarschuwing in als we de favorieten van de lege string-gebruiker niet kunnen synchroniseren (fixes #227)",
-        "fr": "ne pas enregistrer l'avertissement si nous ne pouvons pas synchroniser les favoris d'un utilisateur de chaîne vide (corrections #227)",
-        "it": "non registrare l'avviso se non riusciamo a sincronizzare i preferiti dell'utente stringa vuota (correzioni n. 227)",
-        "es": "no registre una advertencia si no podemos sincronizar los favoritos del usuario de cadena vacía (correcciones # 227)",
-        "pl": "nie loguj ostrzeżenia, jeśli nie możemy zsynchronizować ulubionych użytkowników z pustym ciągiem (poprawki #227)",
-        "zh-cn": "如果我们无法同步空字符串用户的收藏夹，则不记录警告（修复 #227）"
       }
     },
     "title": "HomeMatic ReGaHSS",
