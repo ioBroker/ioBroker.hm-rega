@@ -6,7 +6,7 @@ const { tests } = require('@iobroker/testing');
 // Run tests
 tests.integration(path.join(__dirname, '..'), {
     defineAdditionalTests({ suite }) {
-        suite('Test sendTo()', () => {
+        suite('Test sendTo()', getHarness => {
             it('Should work', () => {
                 return new Promise(resolve => {
                     // Create a fresh harness instance each test!

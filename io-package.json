@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.42",
+    "version": "3.0.43",
     "news": {
+      "3.0.43": {
+        "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)",
+        "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)",
+        "ru": "если LGW недоступен, мы теперь установили рабочий цикл, чтобы обнулиться вместо -1 во всех случаях (закрыты #298)",
+        "pt": "se LGW não for alcançável agora estabelecemos o ciclo de dever para null em vez de -1 em todos os casos (fecha #298)",
+        "nl": "als LGW niet bereikbaar is, zetten we nu de plichtscyclus in plaats van 1 in alle gevallen (closes #298)",
+        "fr": "si LGW n'est pas joignable, nous mettons maintenant le cycle de devoir à null au lieu de -1 dans tous les cas (ferme #298)",
+        "it": "se LGW non è raggiungibile abbiamo ora impostato il ciclo di dovere a null anziché -1 in tutti i casi (chiude #298)",
+        "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)",
+        "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)",
+        "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。"
+      },
       "3.0.42": {
         "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)",
         "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)",
@@ -74,18 +86,6 @@
         "es": "solo elimine los objetos hm-rpc de las instancias configuradas de las enumeraciones (correcciones # 253)",
         "pl": "usuwaj tylko obiekty hm-rpc skonfigurowanych instancji z wyliczeń (poprawki #253)",
         "zh-cn": "仅从枚举中删除已配置实例的 hm-rpc 对象（修复 #253）"
-      },
-      "3.0.36": {
-        "en": "only delete hm-rpc objects of configured instances from enums",
-        "de": "lösche nur hm-rpc-Objekte konfigurierter Instanzen aus Enums",
-        "ru": "удалять только объекты hm-rpc настроенных экземпляров из перечислений",
-        "pt": "exclua apenas objetos hm-rpc de instâncias configuradas de enums",
-        "nl": "verwijder alleen hm-rpc-objecten van geconfigureerde instanties uit opsommingen",
-        "fr": "supprimer uniquement les objets hm-rpc des instances configurées des énumérations",
-        "it": "eliminare solo gli oggetti hm-rpc delle istanze configurate da enum",
-        "es": "solo elimine objetos hm-rpc de instancias configuradas de las enumeraciones",
-        "pl": "usuwaj tylko obiekty hm-rpc skonfigurowanych instancji z wyliczeń",
-        "zh-cn": "仅从枚举中删除已配置实例的 hm-rpc 对象"
       }
     },
     "title": "HomeMatic ReGaHSS",
