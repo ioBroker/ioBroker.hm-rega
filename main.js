@@ -1458,11 +1458,6 @@ async function getDatapoints() {
             states[id] = state;
             // only set the state if it's a valid dp at RPC API and thus has an object
             if (existingStates.includes(id)) {
-                if (id.endsWith('.RSSI_DEVICE') || id.endsWith('.RSSI_PEER')) {
-                    // workaround until https://github.com/jens-maus/RaspberryMatic/issues/897 is fixed
-                    state.val = state.val - 256;
-                }
-
                 await adapter.setForeignStateAsync(id, state);
             } else {
                 adapter.log.debug(
