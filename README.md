@@ -87,6 +87,7 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 
 ### __WORK IN PROGRESS__
 * (foxriver76) compatibility of RSSI_DEVICE and RSSI_PEER for CCU update (closes #352)
+* (foxriver76) also sync enums for maintenance channel of rfd devices (closes #320)
 
 ### 3.0.43 (2022-07-28)
 * (foxriver76) if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)

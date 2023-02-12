@@ -28,7 +28,7 @@ foreach (sRoomId, dom.GetObject(ID_ROOMS).EnumUsedIDs())
     WriteURL(oRoom.EnumInfo());
     Write('", "Channels":[');
 	bFirstSecond = true;
-    foreach(sChannelId, oRoom.EnumUsedIDs()) {
+    foreach(sChannelId, oRoom.EnumIDs()) {
 		if (bFirstSecond == false) {
 		  Write(',');
 		} else {
@@ -38,7 +38,7 @@ foreach (sRoomId, dom.GetObject(ID_ROOMS).EnumUsedIDs())
         string sIface = dom.GetObject(sIfaceId).Name();
         Write('{"Address":"' # dom.GetObject(sChannelId).Address() # '",');
         Write('"Interface":"' # sIface # '"}');
-      
+
     }
     Write(']}');
 }
