@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.43",
+    "version": "3.0.44",
     "news": {
+      "3.0.44": {
+        "en": "compatibility of RSSI_DEVICE and RSSI_PEER for CCU update (closes #352)\nalso sync enums for maintenance channel of rfd devices (closes #320)",
+        "de": "kompatibilität von RSSI_DEVICE und RSSI_PEER für CCU-Update (schließt #352)\nauch sync-enums für wartungskanal von rfd-geräten (schließt #320)",
+        "ru": "совместимость с RSSI_DEVICE и RSSI_PEER для обновления CCU (closes #352)\nтакже синхронизируйте enums для канала обслуживания rfd устройств (closes #320)",
+        "pt": "compatibilidade de RSSI_DEVICE e RSSI_PEER para atualização CCU (fecha #352)\ntambém sincroniza enums para o canal de manutenção de dispositivos rfd (closes #320)",
+        "nl": "quality over Quantity (QoQ) Releases Vertaling:\nook sync voor onderhoudskanaal van rfd apparaten (closes #320)",
+        "fr": "compatibilité de RSSI_DEVICE et RSSI_PEER pour la mise à jour de CCU (ferme #352)\négalement sync enums pour le canal d'entretien des dispositifs rfd (fermetures #320)",
+        "it": "compatibilità di RSSI_DEVICE e RSSI_PEER per l'aggiornamento CCU (chiude #352)\nanche sincronizzare enums per il canale di manutenzione di rfd dispositivi (chiude #320)",
+        "es": "compatibilidad con RSSI_DEVICE y RSSI_PEER para la actualización de CCU (cerca #352)\ntambién enums de sincronización para el canal de mantenimiento de dispositivos rfd (closes #320)",
+        "pl": "kompatybilność z RSSI_DEVICE i RSSI_PEER dla aktualizacji CCU (zapełnia #352)\nzsynchronizowane są również enumy na kanał utrzymywania urządzeń (około 320)",
+        "uk": "сумісність RSSI_DEVICE та RSSI_PEER для оновлення CCU (закриває #352)\nтакож сипучих ферментів для технічного обслуговування пристроїв rfd (закривається no320)",
+        "zh-cn": "rSSI_DEVICE and RSSI_PEER for CCU最新情况 (clos #352)\n此外,装有装置的维修渠道(第320号)。"
+      },
       "3.0.43": {
         "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)",
         "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)",
@@ -74,18 +87,6 @@
         "es": "error corregido con `ValueList` (cierra #268)",
         "pl": "naprawiony błąd z `ValueList` (zamyka #268)",
         "zh-cn": "修复了 `ValueList` 的错误（关闭 #268）"
-      },
-      "3.0.37": {
-        "en": "only delete hm-rpc objects of configured instances from enums (fixes #253)",
-        "de": "lösche nur hm-rpc-Objekte von konfigurierten Instanzen aus Enums (Fixes Nr. 253)",
-        "ru": "удалять только объекты hm-rpc настроенных экземпляров из перечислений (исправление № 253)",
-        "pt": "exclua apenas objetos hm-rpc de instâncias configuradas de enums (correções #253)",
-        "nl": "verwijder alleen hm-rpc-objecten van geconfigureerde instanties uit enums (fixes # 253)",
-        "fr": "supprimer uniquement les objets hm-rpc des instances configurées des énumérations (correctifs #253)",
-        "it": "elimina solo gli oggetti hm-rpc delle istanze configurate da enum (correzioni n. 253)",
-        "es": "solo elimine los objetos hm-rpc de las instancias configuradas de las enumeraciones (correcciones # 253)",
-        "pl": "usuwaj tylko obiekty hm-rpc skonfigurowanych instancji z wyliczeń (poprawki #253)",
-        "zh-cn": "仅从枚举中删除已配置实例的 hm-rpc 对象（修复 #253）"
       }
     },
     "title": "HomeMatic ReGaHSS",
