@@ -49,7 +49,7 @@ foreach (sDevId, root.Devices().EnumUsedIDs()) {
                                     Write("0");
                                } else {
                                     !# see https://github.com/jens-maus/RaspberryMatic/issues/897
-                                    if ((oDP.Name().EndsWith('.RSSI_PEER') || oDP.Name().EndsWith('.RSSI_DEVICE')) && sValueType == 8) {
+                                    if (((oDP.Name().EndsWith('.RSSI_PEER')) || (oDP.Name().EndsWith('.RSSI_DEVICE'))) && (sValueType == ivtByte)) {
                                       sValue = sValue - 256;
                                     }
                                     Write(sValue);
