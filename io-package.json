@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.44",
+    "version": "3.0.45",
     "news": {
+      "3.0.45": {
+        "en": "fix for controller v5 (closes #368)",
+        "de": "fix für controller v5 (schließt #368)",
+        "ru": "для контроллера v5 (closes #368)",
+        "pt": "correção para controlador v5 (fecha #368)",
+        "nl": "vertaling:",
+        "fr": "correction pour le contrôleur v5 (fermetures #368)",
+        "it": "fix per controller v5 (chiude #368)",
+        "es": "fijado para el controlador v5 (cerca #368)",
+        "pl": "rezultatem dla kontrolera v5 jest numer 368)",
+        "uk": "фіксатор для контролера v5 (закривається #368)",
+        "zh-cn": "fix 控制勒诉5(第368号)"
+      },
       "3.0.44": {
         "en": "compatibility of RSSI_DEVICE and RSSI_PEER for CCU update (closes #352)\nalso sync enums for maintenance channel of rfd devices (closes #320)",
         "de": "kompatibilität von RSSI_DEVICE und RSSI_PEER für CCU-Update (schließt #352)\nauch sync-enums für wartungskanal von rfd-geräten (schließt #320)",
@@ -75,18 +88,6 @@
         "es": "corrigió otro error de `ValueList`",
         "pl": "naprawiono kolejny błąd `ValueList`",
         "zh-cn": "修复了另一个“ValueList”错误"
-      },
-      "3.0.38": {
-        "en": "fixed bug with `ValueList` (closes #268)",
-        "de": "Fehler mit `ValueList` behoben (schließt #268)",
-        "ru": "исправлена ошибка с `ValueList` (закрывает #268)",
-        "pt": "bug corrigido com `ValueList` (fecha #268)",
-        "nl": "bug opgelost met `ValueList` (sluit #268)",
-        "fr": "correction d'un bug avec `ValueList` (ferme #268)",
-        "it": "bug corretto con `ValueList` (chiude #268)",
-        "es": "error corregido con `ValueList` (cierra #268)",
-        "pl": "naprawiony błąd z `ValueList` (zamyka #268)",
-        "zh-cn": "修复了 `ValueList` 的错误（关闭 #268）"
       }
     },
     "title": "HomeMatic ReGaHSS",
