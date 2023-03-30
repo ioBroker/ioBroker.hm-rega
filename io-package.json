@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.45",
+    "version": "3.0.46",
     "news": {
+      "3.0.46": {
+        "en": "fix for controller v5 (closes #368)",
+        "de": "fix für controller v5 (schließt #368)",
+        "ru": "для контроллера v5 (closes #368)",
+        "pt": "correção para controlador v5 (fecha #368)",
+        "nl": "vertaling:",
+        "fr": "correction pour le contrôleur v5 (fermetures #368)",
+        "it": "fix per controller v5 (chiude #368)",
+        "es": "fijado para el controlador v5 (cerca #368)",
+        "pl": "rezultatem dla kontrolera v5 jest numer 368)",
+        "uk": "фіксатор для контролера v5 (закривається #368)",
+        "zh-cn": "fix 控制勒诉5(第368号)"
+      },
       "3.0.45": {
         "en": "fix for controller v5 (closes #368)",
         "de": "fix für controller v5 (schließt #368)",
@@ -76,18 +89,6 @@
         "es": "si no se puede acceder a LGW, ahora establecemos el ciclo de trabajo en `nulo` en lugar de `-1`",
         "pl": "jeśli LGW nie jest osiągalne, ustawiamy teraz cykl pracy na „null” zamiast „-1”",
         "zh-cn": "如果无法访问 LGW，我们现在将占空比设置为“空”而不是“-1”"
-      },
-      "3.0.39": {
-        "en": "fixed another `ValueList` bug",
-        "de": "Ein weiterer `ValueList`-Bug wurde behoben",
-        "ru": "исправлена еще одна ошибка `ValueList`",
-        "pt": "corrigido outro bug `ValueList`",
-        "nl": "een andere `ValueList`-bug gerepareerd",
-        "fr": "correction d'un autre bogue `ValueList`",
-        "it": "risolto un altro bug di `ValueList`",
-        "es": "corrigió otro error de `ValueList`",
-        "pl": "naprawiono kolejny błąd `ValueList`",
-        "zh-cn": "修复了另一个“ValueList”错误"
       }
     },
     "title": "HomeMatic ReGaHSS",

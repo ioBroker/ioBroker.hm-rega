@@ -183,14 +183,16 @@ function startAdapter(options) {
                     const sourceFile = fs.readFileSync(`${__dirname}/regascripts/${regascript}`, 'utf-8');
                     let targetFile;
                     try {
-                        targetFile = await adapter.readFileAsync('hm-rega', `regascripts/${regascript}`, 'utf-8');
+                        targetFile = await adapter.readFileAsync('hm-rega', `regascripts/${regascript}`);
                     } catch (e) {
                         adapter.log.debug(`[REGASCRIPTS] Script ${regascript} does not exist in file storage yet`);
                     }
 
                     if (!targetFile || targetFile.file !== sourceFile) {
                         // update file storage
-                        await adapter.writeFileAsync('hm-rega', `regascripts/${regascript}`, sourceFile, 'utf-8');
+                        await adapter.writeFileAsync('hm-rega', `regascripts/${regascript}`, sourceFile, {
+                            mimeType: 'text/plain'
+                        });
                         adapter.log.info(`[REGASCRIPTS] Successfully updated ${regascript}`);
                     } else {
                         adapter.log.debug(`[REGASCRIPTS] Script ${regascript} is already up-to-date`);
