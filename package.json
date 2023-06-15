@@ -28,7 +28,7 @@
     "@iobroker/adapter-core": "^2.6.0",
     "iconv-lite": "^0.6.3",
     "request": "^2.88.2",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.6.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.5.0",
