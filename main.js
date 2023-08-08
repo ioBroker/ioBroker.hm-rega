@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2014-2021 bluefox <dogafox@gmail.com>
+ * Copyright (c) 2014-2023 bluefox <dogafox@gmail.com>
  *
  * Copyright (c) 2014 hobbyquaker
  *
@@ -34,7 +34,7 @@ const crypto = require('./lib/crypto'); // get cryptography functions
 const Rega = require('./lib/rega');
 const helper = require('./lib/utils');
 const fs = require('fs');
-// states cache won't have all DPS, because e.g. heating groups are not provided via getDatapoints
+// state cache won't have all DPS, because e.g., heating groups are not provided via getDatapoints
 let existingDevices = [];
 
 const adapterName = require('./package.json').name.split('.').pop();
@@ -1009,11 +1009,11 @@ async function getFunctions() {
             _id: `${adapter.config.enumFunctions}.${
                 words[name] ? words[name].en.replace(FORBIDDEN_CHARS, '_').replace(/\s/g, '_') : name
             }`,
-            desc: desc,
+            desc,
             type: 'enum',
             common: {
                 name: words[name] || name,
-                members: members
+                members
             },
             native: {
                 Name: name,
@@ -1040,7 +1040,7 @@ async function getFunctions() {
             oldObj.common = oldObj.common || {};
             oldObj.common.members = oldObj.common.members || [];
             for (const newMember of obj.common.members) {
-                // Check if new channel added
+                // Check if a new channel added
                 if (!oldObj.common.members.includes(newMember)) {
                     changed = true;
                     oldObj.common.members.push(newMember);
@@ -1051,7 +1051,7 @@ async function getFunctions() {
             // do it reverse, because we delete own elements in loop
             for (let i = oldObj.common.members.length; i >= 0; i--) {
                 const oldMember = oldObj.common.members[i];
-                // Check if channel has been removed
+                // Check if a channel has been removed
                 if (!obj.common.members.includes(oldMember) && HM_RPC_REGEX.test(oldMember)) {
                     changed = true;
                     oldObj.common.members.splice(i, 1);
@@ -1151,8 +1151,8 @@ async function getRooms() {
             type: 'enum',
             common: {
                 name: words[name] || name,
-                desc: desc,
-                members: members
+                desc,
+                members
             },
             native: {
                 Name: name,
@@ -1188,7 +1188,7 @@ async function getRooms() {
             // do it reverse, because we delete own elements in loop
             for (let i = oldObj.common.members.length; i >= 0; i--) {
                 const oldMember = oldObj.common.members[i];
-                // Check if room has been removed
+                // Check if the room has been removed
                 if (!obj.common.members.includes(oldMember) && HM_RPC_REGEX.test(oldMember)) {
                     changed = true;
                     oldObj.common.members.splice(i, 1);
@@ -1311,10 +1311,10 @@ async function getFavorites() {
                 type: 'enum',
                 common: {
                     name: _unescape(fav),
-                    members: members
+                    members
                 },
                 native: {
-                    user: user,
+                    user,
                     id: data[_user][fav].id,
                     TypeName: 'FAVORITE'
                 }
@@ -1336,7 +1336,7 @@ async function getFavorites() {
                 oldObj.common = oldObj.common || {};
                 oldObj.common.members = oldObj.common.members || [];
                 for (const newMember of obj.common.members) {
-                    // Check if new channel added
+                    // Check if a new channel added
                     if (!oldObj.common.members.includes(newMember)) {
                         changed = true;
                         oldObj.common.members.push(newMember);
@@ -1349,7 +1349,7 @@ async function getFavorites() {
                 // do it reverse, because we delete own elements in loop
                 for (let i = oldObj.common.members.length; i >= 0; i--) {
                     const oldMember = oldObj.common.members[i];
-                    // Check if channel has been removed
+                    // Check if a channel has been removed
                     if (!obj.common.members.includes(oldMember) && HM_RPC_REGEX.test(oldMember)) {
                         changed = true;
                         oldObj.common.members.splice(i, 1);
@@ -1367,7 +1367,7 @@ async function getFavorites() {
 } // endGetFavorites
 
 /**
- * get all datapoints from the ccu and set the according states if configured
+ * get all data points from the ccu and set the according states if configured
  *
  * @returns Promise<void>
  */
@@ -1449,7 +1449,7 @@ async function getDatapoints() {
                 data[dp] = Math.round(data[dp] * 100) / 100;
             }
              */
-        // same procedure as hm-rpc, only scale 100%
+        // same procedure as hm-rpc, only scales 100%
         if (units[id] === '100%' || (units[id] && units[id].UNIT === '100%')) {
             data[dp] = Math.round(parseFloat(data[dp]) * 100 * 1000) / 1000;
         }
@@ -1483,7 +1483,7 @@ async function getDatapoints() {
  * @private
  */
 async function _getDevicesFromRega(devices, channels, _states) {
-    // Get all devices channels and states
+    // Get all devices, channels and states
     let data = await rega.runScriptFile('devices');
     try {
         data = JSON.parse(data.replace(/\n/gm, ''));
@@ -1543,13 +1543,13 @@ async function _getDevicesFromRega(devices, channels, _states) {
                 objs.push({ _id: id, type: 'device', common: { name } });
             }
         } else {
-            if (name.endsWith(' ' + _addr)) {
-                // try to get name from device
+            if (name.endsWith(` ${_addr}`)) {
+                // try to get name from a device
                 const parts = id.split('.');
                 const channelIndex = parts.pop();
                 const deviceId = parts.join('.');
                 if (devices[deviceId]) {
-                    name = devices[deviceId] + ':' + channelIndex;
+                    name = `${devices[deviceId]}:${channelIndex}`;
                 }
             }
 
@@ -1858,7 +1858,7 @@ async function getDutyCycle() {
     try {
         data = JSON.parse(convertDataToJSONArray(data));
     } catch (e) {
-        adapter.log.error(`Cannot parse answer for dutycycle: ${data}`);
+        adapter.log.error(`Cannot parse answer for duty cycle: ${data}`);
         return;
     }
     let count = 0;
@@ -1936,7 +1936,7 @@ async function getDutyCycle() {
                     read: true,
                     write: false,
                     role: 'indicator.connected',
-                    desc: 'conected'
+                    desc: 'connected'
                 },
                 native: {
                     ID: 'CONNECTED',
@@ -2066,7 +2066,7 @@ async function getDutyCycle() {
             await addNewStateOrObject(countChannels, sysInfo.countChannels);
         }
 
-        // Number of datapoints
+        // Number of data points
         if (sysInfo.countDatapoints !== undefined) {
             const countDatapoints = {
                 _id: `${adapter.namespace}.${id}.0.countDatapoints`,
@@ -2077,14 +2077,14 @@ async function getDutyCycle() {
                     read: true,
                     write: false,
                     role: 'indicator.count',
-                    desc: 'Total number of datapoints'
+                    desc: 'Total number of data points'
                 },
                 native: {}
             };
             await addNewStateOrObject(countDatapoints, sysInfo.countDatapoints);
         }
 
-        // Number of datapoints
+        // Number of data points
         if (sysInfo.countSystemVars !== undefined) {
             const countSysVars = {
                 _id: `${adapter.namespace}.${id}.0.countSystemVariables`,
@@ -2135,7 +2135,7 @@ async function getDutyCycle() {
 } // endGetDutyCycle
 
 /**
- * Add new object and set state afterwards
+ * Add new object and set state afterward
  *
  * @param {object} obj - object to set
  * @param {any} val - state val to set

@@ -204,6 +204,7 @@
   "objects": [
     {
       "_id": "_design/hm-rega",
+      "type": "design",
       "language": "javascript",
       "views": {
         "variables": {
