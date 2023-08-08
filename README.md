@@ -84,7 +84,7 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.0.47 (2023-08-08)
 * (bluefox) Updated packages
 
 ### 3.0.46 (2023-03-30)

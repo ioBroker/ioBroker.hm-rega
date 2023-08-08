@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.46",
+    "version": "3.0.47",
     "news": {
+      "3.0.47": {
+        "en": "Updated packages",
+        "de": "Aktualisierte Pakete",
+        "ru": "Обновленные пакеты",
+        "pt": "Pacotes atualizados",
+        "nl": "Verouderde pakketten",
+        "fr": "Forfaits mis à jour",
+        "it": "Pacchetti aggiornati",
+        "es": "Paquetes actualizados",
+        "pl": "Pakiet upoważniony",
+        "uk": "Оновлені пакети",
+        "zh-cn": "最新一揽子计划"
+      },
       "3.0.46": {
         "en": "fix for controller v5 (closes #368)",
         "de": "fix für controller v5 (schließt #368)",
@@ -77,18 +90,6 @@
         "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)\n",
         "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)\n",
         "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。\n"
-      },
-      "3.0.40": {
-        "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1`",
-        "de": "Wenn LGW nicht erreichbar ist, setzen wir jetzt den Arbeitszyklus auf \"Null\" anstelle von \"-1\".",
-        "ru": "если LGW недоступен, мы теперь устанавливаем рабочий цикл на «ноль» вместо «-1».",
-        "pt": "se LGW não for alcançável, agora definimos o ciclo de trabalho como `null` em vez de `-1`",
-        "nl": "als LGW niet bereikbaar is, stellen we de duty cycle nu in op `null` in plaats van `-1`",
-        "fr": "si LGW n'est pas accessible, nous définissons maintenant le rapport cyclique sur \"null\" au lieu de \"-1\"",
-        "it": "se LGW non è raggiungibile, ora impostiamo il duty cycle su `null` invece di `-1`",
-        "es": "si no se puede acceder a LGW, ahora establecemos el ciclo de trabajo en `nulo` en lugar de `-1`",
-        "pl": "jeśli LGW nie jest osiągalne, ustawiamy teraz cykl pracy na „null” zamiast „-1”",
-        "zh-cn": "如果无法访问 LGW，我们现在将占空比设置为“空”而不是“-1”"
       }
     },
     "title": "HomeMatic ReGaHSS",
