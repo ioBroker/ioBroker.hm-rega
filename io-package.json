@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "3.0.47",
+    "version": "4.0.0",
     "news": {
+      "4.0.0": {
+        "en": "required node 16 due to adapter-core 3.x.x\nremoved deprecated package - `request`\n",
+        "de": "benötigter knoten 16 durch adapter-kern 3.x.x\nabgeschriebenes paket entfernt - anfrage\n",
+        "ru": "требуется нод 16 из-за переходника 3.x.x\nудалили устаревший пакет - запрос\n",
+        "pt": "nó 16 necessário devido ao adaptador-core 3.x.x\npacote desprecated removido - pedido\n",
+        "nl": "node 16 nodig door adaptercore 3.x\nverwijderingspakket\n",
+        "fr": "noeud requis 16 en raison de l'adaptateur-core 3.x.x\npaquet déprécié supprimé - demande\n",
+        "it": "nodo richiesto 16 a causa dell'adattatore-core 3.x.x\nrimosso pacchetto deprecato - richiesta\n",
+        "es": "nodo 16 requerido debido al adaptador-core 3.x.x\npaquete eliminado deprecated - solicitud\n",
+        "pl": "węzeł 16 z powodu adapter-core 3.x\nusunąć pakiety - żądanie usunąć\n",
+        "uk": "необхідний вузол 16 через адаптер-core 3.x.x\nвидалити депресований пакет - запит\n",
+        "zh-cn": "由于适应能力较重的3.x,不需要16。\nd. 取消配件-请求\n"
+      },
       "3.0.47": {
         "en": "Updated packages",
         "de": "Aktualisierte Pakete",
@@ -78,18 +91,6 @@
         "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)",
         "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)",
         "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。"
-      },
-      "3.0.41": {
-        "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)\n",
-        "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)\n",
-        "ru": "если LGW недоступен, мы теперь установили рабочий цикл, чтобы обнулиться вместо -1 во всех случаях (закрыты #298)\n",
-        "pt": "se LGW não for alcançável agora estabelecemos o ciclo de dever para null em vez de -1 em todos os casos (fecha #298)\n",
-        "nl": "als LGW niet bereikbaar is, zetten we nu de plichtscyclus in plaats van 1 in alle gevallen (closes #298)\n",
-        "fr": "si LGW n'est pas joignable, nous mettons maintenant le cycle de devoir à null au lieu de -1 dans tous les cas (ferme #298)\n",
-        "it": "se LGW non è raggiungibile abbiamo ora impostato il ciclo di dovere a null anziché -1 in tutti i casi (chiude #298)\n",
-        "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)\n",
-        "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)\n",
-        "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。\n"
       }
     },
     "title": "HomeMatic ReGaHSS",
