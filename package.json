@@ -1,9 +1,6 @@
 {
   "name": "iobroker.hm-rega",
   "version": "3.0.47",
-  "engines": {
-    "node": ">=10.0.0"
-  },
   "description": "Connects HomeMatic CCU \"Logic Layer\" (\"ReGaHSS\") to ioBroker",
   "author": "hobbyquaker <hq@ccu.io>",
   "contributors": [
@@ -23,6 +20,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ioBroker/ioBroker.hm-rega"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.0.3",
