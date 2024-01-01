@@ -8,6 +8,7 @@
 object  oRoom;
 string  sRoomId;
 string  sChannelId;
+object  oChannel;
 boolean bFirst       = true;
 boolean bFirstSecond = true;
 
@@ -29,14 +30,18 @@ foreach (sRoomId, dom.GetObject(ID_ROOMS).EnumUsedIDs())
     Write('", "Channels":[');
 	bFirstSecond = true;
     foreach(sChannelId, oRoom.EnumIDs()) {
+        oChannel = dom.GetObject(sChannelId);
+        ! Objekt ueberspringen, falls nicht vom Typ CHANNEL (33)
+        if (oChannel.Type() != 33) { continue; }
+        
 		if (bFirstSecond == false) {
 		  Write(',');
 		} else {
 		  bFirstSecond = false;
 		}
-        string sIfaceId = dom.GetObject(sChannelId).Interface();
+        string sIfaceId = oChannel.Interface();
         string sIface = dom.GetObject(sIfaceId).Name();
-        Write('{"Address":"' # dom.GetObject(sChannelId).Address() # '",');
+        Write('{"Address":"' # oChannel.Address() # '",');
         Write('"Interface":"' # sIface # '"}');
 
     }
