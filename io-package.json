@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "4.0.0",
+    "version": "5.0.0",
     "news": {
+      "5.0.0": {
+        "en": "required node 18\nupdated dependencies",
+        "de": "erforderlicher knoten 183\naktualisierte abhängigkeiten",
+        "ru": "требуемый узел 18\nобновленные зависимости",
+        "pt": "nó necessário 18\ndependências atualizadas",
+        "nl": "vereiste node 18\nbijgewerkte afhankelijkheden",
+        "fr": "noeud requis 18\ndépendances actualisées",
+        "it": "nodo richiesto 18\ndipendenze aggiornate",
+        "es": "nodo requerido 18\ndependencias actualizadas",
+        "pl": "wymagany węzeł 18\nzaktualizowane zależności",
+        "uk": "необхідний вузол 18 років\nоновлені залежності",
+        "zh-cn": "需要的节点 第 18 条\n更新的依赖关系"
+      },
       "4.0.0": {
         "en": "required node 16 due to adapter-core 3.x.x\nremoved deprecated package - `request`\n",
         "de": "benötigter knoten 16 durch adapter-kern 3.x.x\nabgeschriebenes paket entfernt - anfrage\n",
@@ -69,18 +82,6 @@
         "zh-cn": "rSSI_DEVICE and RSSI_PEER for CCU最新情况 (clos #352)\n此外,装有装置的维修渠道(第320号)。"
       },
       "3.0.43": {
-        "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)",
-        "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)",
-        "ru": "если LGW недоступен, мы теперь установили рабочий цикл, чтобы обнулиться вместо -1 во всех случаях (закрыты #298)",
-        "pt": "se LGW não for alcançável agora estabelecemos o ciclo de dever para null em vez de -1 em todos os casos (fecha #298)",
-        "nl": "als LGW niet bereikbaar is, zetten we nu de plichtscyclus in plaats van 1 in alle gevallen (closes #298)",
-        "fr": "si LGW n'est pas joignable, nous mettons maintenant le cycle de devoir à null au lieu de -1 dans tous les cas (ferme #298)",
-        "it": "se LGW non è raggiungibile abbiamo ora impostato il ciclo di dovere a null anziché -1 in tutti i casi (chiude #298)",
-        "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)",
-        "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)",
-        "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。"
-      },
-      "3.0.42": {
         "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)",
         "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)",
         "ru": "если LGW недоступен, мы теперь установили рабочий цикл, чтобы обнулиться вместо -1 во всех случаях (закрыты #298)",
