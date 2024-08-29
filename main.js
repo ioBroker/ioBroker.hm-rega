@@ -24,16 +24,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/* jshint -W097 */
-/* jshint strict: false */
-/* jslint node: true */
 'use strict';
 const utils = require('@iobroker/adapter-core');
 const words = require('./lib/enumNames');
 const crypto = require('./lib/crypto'); // get cryptography functions
 const Rega = require('./lib/rega');
 const helper = require('./lib/utils');
-const fs = require('fs');
+const fs = require('node:fs');
 // state cache won't have all DPS, because e.g., heating groups are not provided via getDatapoints
 let existingDevices = [];
 
