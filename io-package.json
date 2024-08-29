@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "5.0.0",
+    "version": "5.1.0",
     "news": {
+      "5.1.0": {
+        "en": "added notification if devices are low on battery",
+        "de": "zusätzliche benachrichtigung, wenn geräte niedrig auf batterie",
+        "ru": "добавленное уведомление, если устройства являются низкими",
+        "pt": "notificação adicionada se os dispositivos são baixos na bateria",
+        "nl": "toegevoegde melding als de apparaten bijna leeg zijn",
+        "fr": "notification supplémentaire si les appareils sont bas sur la batterie",
+        "it": "notifica aggiuntiva se i dispositivi sono bassi sulla batteria",
+        "es": "notificación agregada si los dispositivos son bajos en la batería",
+        "pl": "dodane powiadomienie, jeśli urządzenia są niskie na baterii",
+        "uk": "додано повідомлення, якщо пристрої низькі на акумуляторі",
+        "zh-cn": "如果电池装置不足,则添加通知"
+      },
       "5.0.0": {
         "en": "required node 18\nupdated dependencies",
         "de": "erforderlicher knoten 183\naktualisierte abhängigkeiten",
@@ -272,65 +285,69 @@
       "native": {}
     }
   ],
-  "notifications": [{
-    "scope": "hm-rega",
-    "name": {
-      "en": "HomeMatic ReGaHSS Adapter",
-      "de": "HomeMatic ReGaHSS Adapter",
-      "ru": "HomeMatic ReGaHSS Adapter",
-      "pt": "HomeMatic ReGaHSS Adapter",
-      "nl": "HomeMatic ReGaHSS Adapter",
-      "fr": "HomeMatic ReGaHSS Adapter",
-      "it": "HomeMatic ReGaHSS Adapter",
-      "es": "HomeMatic ReGaHSS Adapter",
-      "pl": "HomeMatic ReGaHSS Adapter",
-      "uk": "HomeMatic ReGaHSS Adapter",
-      "zh-cn": "HomeMatic ReGaHSS Adapter"
-    },
-    "description": {
-      "en": "These notifications represent news from your Homematic system.",
-      "de": "Diese Benachrichtigungen stellen Neuigkeiten von Ihrem Homematic System dar.",
-      "ru": "Эти уведомления представляют собой новости из вашей системы Homematic.",
-      "pt": "Estas notificações representam notícias do seu sistema Homematic.",
-      "nl": "Deze meldingen geven nieuws weer van je Homematic-systeem.",
-      "fr": "Ces notifications représentent des nouvelles de votre système Homematic.",
-      "it": "Queste notifiche rappresentano le novità del vostro sistema Homematic.",
-      "es": "Estas notificaciones representan noticias de su sistema Homematic.",
-      "pl": "Powiadomienia te przedstawiają wiadomości z systemu Homematic.",
-      "uk": "Ці сповіщення відображають новини з вашої системи Homematic.",
-      "zh-cn": "这些通知代表来自 Homematic 系统的消息。"
-    },
-    "categories": [{
-      "category": "lowbat",
+  "notifications": [
+    {
+      "scope": "hm-rega",
       "name": {
-        "en": "A device has a low battery level",
-        "de": "Ein Gerät hat einen niedrigen Batteriestand",
-        "ru": "В устройстве разряжен аккумулятор",
-        "pt": "Um dispositivo tem um nível de bateria baixo",
-        "nl": "De batterij van een apparaat is bijna leeg",
-        "fr": "La batterie d'un appareil est faible",
-        "it": "Il livello della batteria di un dispositivo è basso",
-        "es": "Un dispositivo tiene un nivel bajo de batería",
-        "pl": "Urządzenie ma niski poziom naładowania baterii",
-        "uk": "Пристрій має низький рівень заряду акумулятора",
-        "zh-cn": "设备电池电量不足"
+        "en": "HomeMatic ReGaHSS Adapter",
+        "de": "HomeMatic ReGaHSS Adapter",
+        "ru": "HomeMatic ReGaHSS Adapter",
+        "pt": "HomeMatic ReGaHSS Adapter",
+        "nl": "HomeMatic ReGaHSS Adapter",
+        "fr": "HomeMatic ReGaHSS Adapter",
+        "it": "HomeMatic ReGaHSS Adapter",
+        "es": "HomeMatic ReGaHSS Adapter",
+        "pl": "HomeMatic ReGaHSS Adapter",
+        "uk": "HomeMatic ReGaHSS Adapter",
+        "zh-cn": "HomeMatic ReGaHSS Adapter"
       },
       "description": {
-        "en": "These devices have a low battery level.",
-        "de": "Diese Geräte haben einen niedrigen Batteriestand.",
-        "ru": "У этих устройств низкий уровень заряда батареи.",
-        "pt": "Estes dispositivos têm um nível de bateria baixo.",
-        "nl": "De batterij van deze apparaten is bijna leeg.",
-        "fr": "Ces appareils ont un niveau de batterie faible.",
-        "it": "Questi dispositivi hanno un livello di batteria basso.",
-        "es": "Estos dispositivos tienen un nivel de batería bajo.",
-        "pl": "Urządzenia te mają niski poziom naładowania baterii.",
-        "uk": "Ці пристрої мають низький рівень заряду батареї.",
-        "zh-cn": "这些设备的电池电量不足。"
+        "en": "These notifications represent news from your Homematic system.",
+        "de": "Diese Benachrichtigungen stellen Neuigkeiten von Ihrem Homematic System dar.",
+        "ru": "Эти уведомления представляют собой новости из вашей системы Homematic.",
+        "pt": "Estas notificações representam notícias do seu sistema Homematic.",
+        "nl": "Deze meldingen geven nieuws weer van je Homematic-systeem.",
+        "fr": "Ces notifications représentent des nouvelles de votre système Homematic.",
+        "it": "Queste notifiche rappresentano le novità del vostro sistema Homematic.",
+        "es": "Estas notificaciones representan noticias de su sistema Homematic.",
+        "pl": "Powiadomienia te przedstawiają wiadomości z systemu Homematic.",
+        "uk": "Ці сповіщення відображають новини з вашої системи Homematic.",
+        "zh-cn": "这些通知代表来自 Homematic 系统的消息。"
       },
-      "regex": [],
-      "limit": 1,
-      "severity": "notify"
-    }]
-  }]
+      "categories": [
+        {
+          "category": "lowbat",
+          "name": {
+            "en": "A device has a low battery level",
+            "de": "Ein Gerät hat einen niedrigen Batteriestand",
+            "ru": "В устройстве разряжен аккумулятор",
+            "pt": "Um dispositivo tem um nível de bateria baixo",
+            "nl": "De batterij van een apparaat is bijna leeg",
+            "fr": "La batterie d'un appareil est faible",
+            "it": "Il livello della batteria di un dispositivo è basso",
+            "es": "Un dispositivo tiene un nivel bajo de batería",
+            "pl": "Urządzenie ma niski poziom naładowania baterii",
+            "uk": "Пристрій має низький рівень заряду акумулятора",
+            "zh-cn": "设备电池电量不足"
+          },
+          "description": {
+            "en": "These devices have a low battery level.",
+            "de": "Diese Geräte haben einen niedrigen Batteriestand.",
+            "ru": "У этих устройств низкий уровень заряда батареи.",
+            "pt": "Estes dispositivos têm um nível de bateria baixo.",
+            "nl": "De batterij van deze apparaten is bijna leeg.",
+            "fr": "Ces appareils ont un niveau de batterie faible.",
+            "it": "Questi dispositivi hanno un livello di batteria basso.",
+            "es": "Estos dispositivos tienen un nivel de batería bajo.",
+            "pl": "Urządzenia te mają niski poziom naładowania baterii.",
+            "uk": "Ці пристрої мають низький рівень заряду батареї.",
+            "zh-cn": "这些设备的电池电量不足。"
+          },
+          "regex": [],
+          "limit": 1,
+          "severity": "notify"
+        }
+      ]
+    }
+  ]
 }
