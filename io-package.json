@@ -55,19 +55,6 @@
         "uk": "фіксатор для контролера v5 (закривається #368)",
         "zh-cn": "fix 控制勒诉5(第368号)"
       },
-      "3.0.45": {
-        "en": "fix for controller v5 (closes #368)",
-        "de": "fix für controller v5 (schließt #368)",
-        "ru": "для контроллера v5 (closes #368)",
-        "pt": "correção para controlador v5 (fecha #368)",
-        "nl": "vertaling:",
-        "fr": "correction pour le contrôleur v5 (fermetures #368)",
-        "it": "fix per controller v5 (chiude #368)",
-        "es": "fijado para el controlador v5 (cerca #368)",
-        "pl": "rezultatem dla kontrolera v5 jest numer 368)",
-        "uk": "фіксатор для контролера v5 (закривається #368)",
-        "zh-cn": "fix 控制勒诉5(第368号)"
-      },
       "3.0.44": {
         "en": "compatibility of RSSI_DEVICE and RSSI_PEER for CCU update (closes #352)\nalso sync enums for maintenance channel of rfd devices (closes #320)",
         "de": "kompatibilität von RSSI_DEVICE und RSSI_PEER für CCU-Update (schließt #352)\nauch sync-enums für wartungskanal von rfd-geräten (schließt #320)",
@@ -122,7 +109,7 @@
     "dependencies": [
       "hm-rpc",
       {
-        "js-controller": ">=2.0.0"
+        "js-controller": ">=4.0.0"
       }
     ],
     "authors": [
