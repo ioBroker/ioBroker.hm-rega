@@ -179,7 +179,7 @@
     "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
     "rfdEnabled": true,
     "rfdAdapter": "hm-rpc.0",
-    "hs485denabled": false,
+    "hs485dEnabled": false,
     "hs485dAdapter": "hm-rpc.1",
     "cuxdEnabled": false,
     "cuxdAdapter": "hm-rpc.2",
@@ -188,6 +188,7 @@
     "virtualDevicesEnabled": false,
     "virtualDevicesAdapter": "hm-rpc.4",
     "syncVariables": true,
+    "syncDutyCycle": true,
     "syncPrograms": true,
     "syncNames": true,
     "syncRooms": true,
@@ -267,6 +268,19 @@
         "read": true,
         "write": false,
         "def": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.lowbatDevices",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Devices which are running low on battery",
+        "type": "array",
+        "read": true,
+        "write": false,
+        "def": "[]"
       },
       "native": {}
     }

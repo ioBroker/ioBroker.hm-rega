@@ -34,11 +34,17 @@ const fs = require('node:fs');
 // state cache won't have all DPS, because e.g., heating groups are not provided via getDatapoints
 let existingDevices = [];
 
+/** IDs to detect lowbat alarms */
+const LOWBAT_ALARM_IDS = ['LOWBAT_ALARM', 'LOW_BAT_ALARM'];
+/** Constant which indicates that lowbat is active */
+const LOWBAT_ACTIVE_INDICATOR = 1;
+
 const adapterName = require('./package.json').name.split('.').pop();
 let afterReconnect = null;
 const FORBIDDEN_CHARS = /[\][*,;'"`<>\\?]/g;
 /** Regex to match all configured hm-rpc objects of the configured instances */
 let HM_RPC_REGEX;
+/** @type {ioBroker.Adapter} */
 let adapter;
 
 function startAdapter(options) {
@@ -170,8 +176,10 @@ function startAdapter(options) {
                 await adapter.setForeignObjectNotExistsAsync('hm-rega', {
                     type: 'meta',
                     common: {
-                        name: 'hm-rega'
-                    }
+                        name: 'hm-rega',
+                        type: 'meta.folder'
+                    },
+                    native: {}
                 });
 
                 // read all files
@@ -265,7 +273,7 @@ function checkInit(id) {
 }
 
 function main() {
-    adapter.config.reconnectionInterval = parseInt(adapter.config.reconnectionInterval, 10) || 30;
+    adapter.config.reconnectionInterval = Math.round(adapter.config.reconnectionInterval) || 30;
 
     if (adapter.config.pollingTrigger) {
         adapter.config.pollingTrigger = adapter.config.pollingTrigger.replace(':', '.').replace(FORBIDDEN_CHARS, '_');
@@ -332,9 +340,9 @@ function main() {
                 ccuReachable = true;
                 ccuRegaUp = false;
                 try {
-                    await adapter.setStateAsync('info.connection', false, true);
-                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
-                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                    await adapter.setState('info.connection', false, true);
+                    await adapter.setState('info.ccuReachable', ccuReachable, true);
+                    await adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
                 } catch {
                     // ignore
                 }
@@ -343,9 +351,9 @@ function main() {
                 ccuReachable = false;
                 ccuRegaUp = false;
                 try {
-                    await adapter.setStateAsync('info.connection', false, true);
-                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
-                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                    await adapter.setState('info.connection', false, true);
+                    await adapter.setState('info.ccuReachable', ccuReachable, true);
+                    await adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
                 } catch {
                     // ignore
                 }
@@ -354,9 +362,9 @@ function main() {
                 ccuReachable = false;
                 ccuRegaUp = false;
                 try {
-                    await adapter.setStateAsync('info.connection', false, true);
-                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
-                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                    await adapter.setState('info.connection', false, true);
+                    await adapter.setState('info.ccuReachable', ccuReachable, true);
+                    await adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
                 } catch {
                     // ignore
                 }
@@ -365,9 +373,9 @@ function main() {
                 ccuReachable = true;
                 ccuRegaUp = true;
                 try {
-                    await adapter.setStateAsync('info.connection', true, true);
-                    await adapter.setStateAsync('info.ccuReachable', ccuReachable, true);
-                    await adapter.setStateAsync('info.ccuRegaUp', ccuRegaUp, true);
+                    await adapter.setState('info.connection', true, true);
+                    await adapter.setState('info.ccuReachable', ccuReachable, true);
+                    await adapter.setState('info.ccuRegaUp', ccuRegaUp, true);
                 } catch {
                     // ignore
                 }
@@ -448,7 +456,7 @@ async function pollVariables() {
 
         if (id === 'maintenance' && (!states[fullId] || states[fullId].val !== val)) {
             // poll service messages but do not skip this id, because #servicemsgs should be set
-            setTimeout(pollServiceMsgs, 1000);
+            setTimeout(pollServiceMsgs, 1_000);
         }
 
         if (!objects[fullId]) {
@@ -653,6 +661,9 @@ async function pollServiceMsgs() {
         adapter.log.error(`Cannot parse answer for alarms: ${data}`);
         return;
     }
+
+    const activeLowbatIds = [];
+
     for (const dp of Object.keys(data)) {
         let id = _unescape(data[dp].Name);
         if (id.match(/^AL-/)) {
@@ -683,6 +694,13 @@ async function pollServiceMsgs() {
             ts: new Date(data[dp].LastTriggerTime).getTime()
         };
 
+        const isLowBat = LOWBAT_ALARM_IDS.some(lowbatId => id.endsWith(`.${lowbatId}`));
+
+        if (isLowBat && state.val === LOWBAT_ACTIVE_INDICATOR) {
+            const [adapterName, instance, device] = id.split('.');
+            activeLowbatIds.push(`${adapterName}.${instance}.${device}`);
+        }
+
         if (
             !states[id] ||
             !states[id].ack ||
@@ -698,6 +716,8 @@ async function pollServiceMsgs() {
             }
         }
     }
+
+    return registerLowBatNotification(activeLowbatIds);
 }
 
 // Acknowledge Alarm
@@ -705,7 +725,7 @@ function acknowledgeAlarm(id) {
     adapter.log.debug(`[INFO] Acknowledge alarm ${id}`);
     states[id] = { ack: false };
     adapter.getForeignObject(id, (err, obj) => {
-        if (obj && obj.native) {
+        if (obj?.native) {
             rega.script(`dom.GetObject(${obj.native.DP}).AlReceipt();`);
             setTimeout(pollServiceMsgs, 1000);
         }
@@ -740,6 +760,9 @@ async function getServiceMsgs() {
         adapter.log.error(`Cannot parse answer for alarms: ${data}`);
         return;
     }
+
+    const activeLowbatIds = [];
+
     for (const dp of Object.keys(data)) {
         let id = _unescape(data[dp].Name);
         if (id.match(/^AL-/)) {
@@ -801,6 +824,13 @@ async function getServiceMsgs() {
             ts: new Date(data[dp].LastTriggerTime).getTime()
         };
 
+        const isLowBat = LOWBAT_ALARM_IDS.some(lowbatId => id.endsWith(`.${lowbatId}`));
+
+        if (isLowBat && state.val === LOWBAT_ACTIVE_INDICATOR) {
+            const [adapterName, instance, device] = id.split('.');
+            activeLowbatIds.push(`${adapterName}.${instance}.${device}`);
+        }
+
         if (
             !states[id] ||
             !states[id].ack ||
@@ -814,8 +844,44 @@ async function getServiceMsgs() {
             } catch (e) {
                 adapter.log.error(`Could not update state of "${id}": ${e.message}`);
             }
-        } // endIf
-    } // endFor
+        }
+    }
+
+    return registerLowBatNotification(activeLowbatIds);
+}
+
+/**
+ * Register the notification for low battery devices if new devices are available
+ *
+ * @param {string[]} activeLowbatIds all devices which have a low battery level
+ * @returns {Promise<void>}
+ */
+async function registerLowBatNotification(activeLowbatIds) {
+    const names = await Promise.all(
+        activeLowbatIds.map(async id => {
+            const obj = await adapter.getForeignObjectAsync(id);
+
+            if (!obj) {
+                return id;
+            }
+
+            return typeof obj.common.name === 'string' ? obj.common.name : obj.common.name.en;
+        })
+    );
+
+    const namesStr = JSON.stringify(names);
+
+    const lowbatState = await adapter.getStateAsync('info.lowbatDevices');
+    await adapter.setState('info.lowbatDevices', namesStr, true);
+
+    const knownDevices = typeof lowbatState?.val === 'string' ? JSON.parse(lowbatState.val) : [];
+    const hasNewLowbat = names.some(name => !knownDevices.includes(name));
+
+    if (!hasNewLowbat) {
+        return;
+    }
+
+    await adapter.registerNotification('hm-rega', 'lowbat', names.join(', '));
 }
 
 /**
@@ -2256,7 +2322,7 @@ function getRegex() {
         instances.push(`(${instanceNo})`);
     }
 
-    if (adapter.config.hs485denabled && adapter.config.hs485dAdapter) {
+    if (adapter.config.hs485dEnabled && adapter.config.hs485dAdapter) {
         const instanceNo = adapter.config.hs485dAdapter.split('.')[1];
         instances.push(`(${instanceNo})`);
     }
