@@ -84,6 +84,10 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (@foxriver76) added notification if devices are low on battery
+
 ### 5.0.0 (2024-07-18)
 * (bluefox) required node 18
 * (bluefox) updated dependencies

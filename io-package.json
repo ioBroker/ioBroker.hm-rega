@@ -55,19 +55,6 @@
         "uk": "фіксатор для контролера v5 (закривається #368)",
         "zh-cn": "fix 控制勒诉5(第368号)"
       },
-      "3.0.45": {
-        "en": "fix for controller v5 (closes #368)",
-        "de": "fix für controller v5 (schließt #368)",
-        "ru": "для контроллера v5 (closes #368)",
-        "pt": "correção para controlador v5 (fecha #368)",
-        "nl": "vertaling:",
-        "fr": "correction pour le contrôleur v5 (fermetures #368)",
-        "it": "fix per controller v5 (chiude #368)",
-        "es": "fijado para el controlador v5 (cerca #368)",
-        "pl": "rezultatem dla kontrolera v5 jest numer 368)",
-        "uk": "фіксатор для контролера v5 (закривається #368)",
-        "zh-cn": "fix 控制勒诉5(第368号)"
-      },
       "3.0.44": {
         "en": "compatibility of RSSI_DEVICE and RSSI_PEER for CCU update (closes #352)\nalso sync enums for maintenance channel of rfd devices (closes #320)",
         "de": "kompatibilität von RSSI_DEVICE und RSSI_PEER für CCU-Update (schließt #352)\nauch sync-enums für wartungskanal von rfd-geräten (schließt #320)",
@@ -122,7 +109,7 @@
     "dependencies": [
       "hm-rpc",
       {
-        "js-controller": ">=2.0.0"
+        "js-controller": ">=4.0.0"
       }
     ],
     "authors": [
@@ -130,7 +117,10 @@
       "bluefox <dogafox@gmail.com>",
       "Moritz Heusinger <moritz.heusinger@gmail.com>"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "mode": "daemon",
     "platform": "Javascript/Node.js",
     "loglevel": "info",
@@ -176,7 +166,7 @@
     "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
     "rfdEnabled": true,
     "rfdAdapter": "hm-rpc.0",
-    "hs485denabled": false,
+    "hs485dEnabled": false,
     "hs485dAdapter": "hm-rpc.1",
     "cuxdEnabled": false,
     "cuxdAdapter": "hm-rpc.2",
@@ -185,6 +175,7 @@
     "virtualDevicesEnabled": false,
     "virtualDevicesAdapter": "hm-rpc.4",
     "syncVariables": true,
+    "syncDutyCycle": true,
     "syncPrograms": true,
     "syncNames": true,
     "syncRooms": true,
@@ -266,6 +257,80 @@
         "def": false
       },
       "native": {}
+    },
+    {
+      "_id": "info.lowbatDevices",
+      "type": "state",
+      "common": {
+        "role": "state",
+        "name": "Devices which are running low on battery",
+        "type": "array",
+        "read": true,
+        "write": false,
+        "def": "[]"
+      },
+      "native": {}
     }
-  ]
+  ],
+  "notifications": [{
+    "scope": "hm-rega",
+    "name": {
+      "en": "HomeMatic ReGaHSS Adapter",
+      "de": "HomeMatic ReGaHSS Adapter",
+      "ru": "HomeMatic ReGaHSS Adapter",
+      "pt": "HomeMatic ReGaHSS Adapter",
+      "nl": "HomeMatic ReGaHSS Adapter",
+      "fr": "HomeMatic ReGaHSS Adapter",
+      "it": "HomeMatic ReGaHSS Adapter",
+      "es": "HomeMatic ReGaHSS Adapter",
+      "pl": "HomeMatic ReGaHSS Adapter",
+      "uk": "HomeMatic ReGaHSS Adapter",
+      "zh-cn": "HomeMatic ReGaHSS Adapter"
+    },
+    "description": {
+      "en": "These notifications represent news from your Homematic system.",
+      "de": "Diese Benachrichtigungen stellen Neuigkeiten von Ihrem Homematic System dar.",
+      "ru": "Эти уведомления представляют собой новости из вашей системы Homematic.",
+      "pt": "Estas notificações representam notícias do seu sistema Homematic.",
+      "nl": "Deze meldingen geven nieuws weer van je Homematic-systeem.",
+      "fr": "Ces notifications représentent des nouvelles de votre système Homematic.",
+      "it": "Queste notifiche rappresentano le novità del vostro sistema Homematic.",
+      "es": "Estas notificaciones representan noticias de su sistema Homematic.",
+      "pl": "Powiadomienia te przedstawiają wiadomości z systemu Homematic.",
+      "uk": "Ці сповіщення відображають новини з вашої системи Homematic.",
+      "zh-cn": "这些通知代表来自 Homematic 系统的消息。"
+    },
+    "categories": [{
+      "category": "lowbat",
+      "name": {
+        "en": "A device has a low battery level",
+        "de": "Ein Gerät hat einen niedrigen Batteriestand",
+        "ru": "В устройстве разряжен аккумулятор",
+        "pt": "Um dispositivo tem um nível de bateria baixo",
+        "nl": "De batterij van een apparaat is bijna leeg",
+        "fr": "La batterie d'un appareil est faible",
+        "it": "Il livello della batteria di un dispositivo è basso",
+        "es": "Un dispositivo tiene un nivel bajo de batería",
+        "pl": "Urządzenie ma niski poziom naładowania baterii",
+        "uk": "Пристрій має низький рівень заряду акумулятора",
+        "zh-cn": "设备电池电量不足"
+      },
+      "description": {
+        "en": "These devices have a low battery level.",
+        "de": "Diese Geräte haben einen niedrigen Batteriestand.",
+        "ru": "У этих устройств низкий уровень заряда батареи.",
+        "pt": "Estes dispositivos têm um nível de bateria baixo.",
+        "nl": "De batterij van deze apparaten is bijna leeg.",
+        "fr": "Ces appareils ont un niveau de batterie faible.",
+        "it": "Questi dispositivi hanno un livello di batteria basso.",
+        "es": "Estos dispositivos tienen un nivel de batería bajo.",
+        "pl": "Urządzenia te mają niski poziom naładowania baterii.",
+        "uk": "Ці пристрої мають низький рівень заряду батареї.",
+        "zh-cn": "这些设备的电池电量不足。"
+      },
+      "regex": [],
+      "limit": 1,
+      "severity": "notify"
+    }]
+  }]
 }
