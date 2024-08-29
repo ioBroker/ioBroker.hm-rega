@@ -36,7 +36,9 @@ jobs:
         run: npm i
 
       - name: Test
-        run: npm test
+        run: |
+          npm run test:package
+          npm run test:integration
 
       - name: Build
         run: npm run build
