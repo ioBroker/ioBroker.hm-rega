@@ -25,10 +25,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 16.x
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: 20.x
 
       - name: Install Dependencies
         run: npm ci
@@ -45,7 +45,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x, 22.x]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
@@ -66,66 +66,97 @@ jobs:
         if: startsWith(runner.OS, 'windows')
         run: set DEBUG=testing:* & npm run test:integration
 
-  # Deploys the final package to NPM and GitHub Actions
-  deploy:
+  # Merges and deploys the final package to NPM
+  auto-merge:
     # Trigger this step only when a commit on master is tagged with a version number
     if: |
-      contains(github.event.head_commit.message, '[skip ci]') == false &&
-      github.event_name == 'push' &&
-      startsWith(github.ref, 'refs/tags/v')
+      always() &&
+      github.event_name == 'pull_request'
+
     needs: [adapter-tests]
 
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.16.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: "automated pr 🔧"
+          MERGE_FILTER_AUTHOR: "foxbot76"
+          MERGE_FORKS: "false"
+          MERGE_DELETE_BRANCH: "false"
+          UPDATE_LABELS: "automated pr 🔧"
+          MERGE_METHOD: "squash"
+          MERGE_COMMIT_MESSAGE: "pull-request-title-and-description"
+          MERGE_RETRY_SLEEP: 10000
 
-      - name: Use Node.js 16.x
+      - name: Checkout code
+        if: steps.automerge.outputs.mergeResult == 'merged'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch the history, or this action won't work
+          ref: 'master'
+
+      - name: Use Node.js 20.x
+        if: steps.automerge.outputs.mergeResult == 'merged'
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: 20.x
 
-      - name: Extract the version and commit body from the tag
+      - name: Determine version
+        if: steps.automerge.outputs.mergeResult == 'merged'
+        id: version
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            return require('./package.json').version;
+
+      - name: Extract the commit body
+        if: steps.automerge.outputs.mergeResult == 'merged'
         id: extract_release
         # The body may be multiline, therefore we need to escape some characters
         run: |
-          VERSION="${{ github.ref }}"
-          VERSION=${VERSION##*/v}
-          echo "::set-output name=VERSION::$VERSION"
           BODY=$(git show -s --format=%b)
           BODY="${BODY//'%'/'%25'}"
           BODY="${BODY//$'\n'/'%0A'}"
           BODY="${BODY//$'\r'/'%0D'}"
           echo "::set-output name=BODY::$BODY"
+
       - name: Install dependencies
+        if: steps.automerge.outputs.mergeResult == 'merged'
         run: npm ci
 
       - name: Publish package to npm
+        if: steps.automerge.outputs.mergeResult == 'merged'
         run: |
           npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
           npm whoami
           npm publish
+
       - name: Create Github Release
-        uses: actions/create-release@v1
+        if: steps.automerge.outputs.mergeResult == 'merged'
+        uses: ncipollo/release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release v${{ steps.extract_release.outputs.VERSION }}
+          tag: v${{ steps.version.outputs.result }}
+          name: Release v${{ steps.version.outputs.result }}
           draft: false
-          # Prerelease versions create pre-releases on GitHub
-          prerelease: ${{ contains(steps.extract_release.outputs.VERSION, '-') }}
+          prerelease: ${{ contains(steps.version.outputs.result, '-') }}
           body: ${{ steps.extract_release.outputs.BODY }}
 
       - name: Notify Sentry.io about the release
+        if: steps.automerge.outputs.mergeResult == 'merged'
         run: |
           npm i -g @sentry/cli
           export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
           export SENTRY_URL=https://sentry.iobroker.net
           export SENTRY_ORG=iobroker
           export SENTRY_PROJECT=iobroker-hm-rega
-          export SENTRY_VERSION=iobroker.hm-rega@${{ steps.extract_release.outputs.VERSION }}
+          export SENTRY_VERSION=iobroker.hm-rega@${{ steps.version.outputs.result }}
           sentry-cli releases new $SENTRY_VERSION
           sentry-cli releases set-commits $SENTRY_VERSION --auto
           sentry-cli releases finalize $SENTRY_VERSION
