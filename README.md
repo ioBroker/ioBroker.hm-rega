@@ -84,6 +84,10 @@ with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> -
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 5.1.0 (2024-08-29)
 * (@foxriver76) added notification if devices are low on battery
 
