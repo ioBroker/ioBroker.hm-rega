@@ -1,0 +1,370 @@
+{
+    "i18n": true,
+    "type": "tabs",
+    "items": {
+        "_main": {
+            "type": "panel",
+            "label": "Main settings",
+            "items": {
+                "_logo": {
+                    "type": "staticImage",
+                    "src": "homematic.png",
+                    "style": {
+                        "width": "64px"
+                    },
+                    "sm": 12,
+                    "md": 2,
+                    "lg": 1
+                },
+                "homematicAddress": {
+                    "type": "autocompleteSendTo",
+                    "command": "getCcuAddresses",
+                    "freeSolo": true,
+                    "label": "HomeMatic CCU Address",
+                    "help": "Setup first according rpc adapter!",
+                    "validator": "!!data.homematicAddress",
+                    "validatorErrorText": "Please enter the address of your CCU",
+                    "validatorNoSaveOnError": true,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "reconnectionInterval": {
+                    "type": "number",
+                    "label": "Reconnection interval(s)",
+                    "min": 5,
+                    "max": 600,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+
+                "_interfaces": {
+                    "type": "header",
+                    "text": "Interfaces",
+                    "size": 4,
+                    "newLine": true,
+                    "sm": 12
+                },
+                "rfdEnabled": {
+                    "type": "checkbox",
+                    "label": "rfd",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "rfdAdapter": {
+                    "type": "selectSendTo",
+                    "command": "getRpcInstances",
+                    "jsonData": "{\"type\": \"rfd\", \"ip\": \"${data.homematicAddress}\"}",
+                    "alsoDependsOn": ["homematicAddress"],
+                    "label": "hm-rpc instance",
+                    "disabled": "!data.rfdEnabled",
+                    "validator": "!data.rfdEnabled || (!!data.rfdAdapter && ![data.hs485dEnabled && data.hs485dAdapter, data.cuxdEnabled && data.cuxdAdapter, data.hmipEnabled && data.hmipAdapter, data.virtualDevicesEnabled && data.virtualDevicesAdapter].includes(data.rfdAdapter))",
+                    "validatorErrorText": "Cannot use one adapter instance for more than one service.",
+                    "validatorNoSaveOnError": true,
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 5
+                },
+                "hs485dEnabled": {
+                    "type": "checkbox",
+                    "label": "hs485d (Wired)",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "hs485dAdapter": {
+                    "type": "selectSendTo",
+                    "command": "getRpcInstances",
+                    "jsonData": "{\"type\": \"hs485d\", \"ip\": \"${data.homematicAddress}\"}",
+                    "alsoDependsOn": ["homematicAddress"],
+                    "label": "hm-rpc instance",
+                    "disabled": "!data.hs485dEnabled",
+                    "validator": "!data.hs485dEnabled || (!!data.hs485dAdapter && ![data.rfdEnabled && data.rfdAdapter, data.cuxdEnabled && data.cuxdAdapter, data.hmipEnabled && data.hmipAdapter, data.virtualDevicesEnabled && data.virtualDevicesAdapter].includes(data.hs485dAdapter))",
+                    "validatorErrorText": "Cannot use one adapter instance for more than one service.",
+                    "validatorNoSaveOnError": true,
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 5
+                },
+                "cuxdEnabled": {
+                    "type": "checkbox",
+                    "label": "CUxD",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "cuxdAdapter": {
+                    "type": "selectSendTo",
+                    "command": "getRpcInstances",
+                    "jsonData": "{\"type\": \"CUxD\", \"ip\": \"${data.homematicAddress}\"}",
+                    "alsoDependsOn": ["homematicAddress"],
+                    "label": "hm-rpc instance",
+                    "disabled": "!data.cuxdEnabled",
+                    "validator": "!data.cuxdEnabled || (!!data.cuxdAdapter && ![data.rfdEnabled && data.rfdAdapter, data.hs485dEnabled && data.hs485dAdapter, data.hmipEnabled && data.hmipAdapter, data.virtualDevicesEnabled && data.virtualDevicesAdapter].includes(data.cuxdAdapter))",
+                    "validatorErrorText": "Cannot use one adapter instance for more than one service.",
+                    "validatorNoSaveOnError": true,
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 5
+                },
+                "hmipEnabled": {
+                    "type": "checkbox",
+                    "label": "HomeMatic IP",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "hmipAdapter": {
+                    "type": "selectSendTo",
+                    "command": "getRpcInstances",
+                    "jsonData": "{\"type\": \"HMIP\", \"ip\": \"${data.homematicAddress}\"}",
+                    "alsoDependsOn": ["homematicAddress"],
+                    "label": "hm-rpc instance",
+                    "disabled": "!data.hmipEnabled",
+                    "validator": "!data.hmipEnabled || (!!data.hmipAdapter && ![data.rfdEnabled && data.rfdAdapter, data.hs485dEnabled && data.hs485dAdapter, data.cuxdEnabled && data.cuxdAdapter, data.virtualDevicesEnabled && data.virtualDevicesAdapter].includes(data.hmipAdapter))",
+                    "validatorErrorText": "Cannot use one adapter instance for more than one service.",
+                    "validatorNoSaveOnError": true,
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 5
+                },
+                "virtualDevicesEnabled": {
+                    "type": "checkbox",
+                    "label": "Virtual Devices",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "virtualDevicesAdapter": {
+                    "type": "selectSendTo",
+                    "command": "getRpcInstances",
+                    "jsonData": "{\"type\": \"virtual-devices\", \"ip\": \"${data.homematicAddress}\"}",
+                    "alsoDependsOn": ["homematicAddress"],
+                    "label": "hm-rpc instance",
+                    "disabled": "!data.virtualDevicesEnabled",
+                    "validator": "!data.virtualDevicesEnabled || (!!data.virtualDevicesAdapter && ![data.rfdEnabled && data.rfdAdapter, data.hs485dEnabled && data.hs485dAdapter, data.cuxdEnabled && data.cuxdAdapter, data.hmipEnabled && data.hmipAdapter].includes(data.virtualDevicesAdapter))",
+                    "validatorErrorText": "Cannot use one adapter instance for more than one service.",
+                    "validatorNoSaveOnError": true,
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 5
+                },
+
+                "_polling": {
+                    "type": "header",
+                    "text": "Polling",
+                    "size": 4,
+                    "newLine": true,
+                    "sm": 12
+                },
+                "polling": {
+                    "type": "checkbox",
+                    "label": "Polling",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "pollingInterval": {
+                    "type": "number",
+                    "label": "interval (s)",
+                    "min": 10,
+                    "disabled": "!data.polling",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "pollingTrigger": {
+                    "type": "text",
+                    "label": "trigger",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 8,
+                    "lg": 6
+                }
+            }
+        },
+        "_sync": {
+            "type": "panel",
+            "label": "Sync",
+            "items": {
+                "syncDutyCycle": {
+                    "type": "checkbox",
+                    "label": "Sync dutycycle",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "pollingIntervalDC": {
+                    "type": "number",
+                    "label": "interval (s)",
+                    "min": 0,
+                    "help": "0 = no cyclic update",
+                    "disabled": "!data.syncDutyCycle",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "syncVariables": {
+                    "type": "checkbox",
+                    "label": "Sync variables",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "showInvSysVar": {
+                    "type": "checkbox",
+                    "label": "Sync invisible variables",
+                    "hidden": "!data.syncVariables",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "syncPrograms": {
+                    "type": "checkbox",
+                    "label": "Sync programs",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "syncNames": {
+                    "type": "checkbox",
+                    "label": "Sync names",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "syncFavorites": {
+                    "type": "checkbox",
+                    "label": "Sync favorites",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "enumFavorites": {
+                    "type": "text",
+                    "label": "enum",
+                    "disabled": "!data.syncFavorites",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "syncRooms": {
+                    "type": "checkbox",
+                    "label": "Sync rooms",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "enumRooms": {
+                    "type": "text",
+                    "label": "enum",
+                    "disabled": "!data.syncRooms",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "syncFunctions": {
+                    "type": "checkbox",
+                    "label": "Sync functions",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "enumFunctions": {
+                    "type": "text",
+                    "label": "enum",
+                    "disabled": "!data.syncFunctions",
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                }
+            }
+        },
+        "_advanced": {
+            "type": "panel",
+            "label": "Additional settings",
+            "items": {
+                "useHttps": {
+                    "type": "checkbox",
+                    "label": "Use https",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 4,
+                    "lg": 3
+                },
+                "username": {
+                    "type": "password",
+                    "label": "Username",
+                    "encrypted": true,
+                    "visible": true,
+                    "disabled": "!data.useHttps",
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "password": {
+                    "type": "password",
+                    "label": "Password",
+                    "encrypted": true,
+                    "disabled": "!data.useHttps",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "homematicPort": {
+                    "type": "number",
+                    "label": "Rega port",
+                    "help": "Only change this if the ReGaHSS API does not listen on 8181 resp. 48181",
+                    "min": 0,
+                    "max": 65535,
+                    "expertMode": true,
+                    "newLine": true,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "webinterfacePort": {
+                    "type": "number",
+                    "label": "Web interface port",
+                    "help": "0 = default port (80 resp. 443)",
+                    "min": 0,
+                    "max": 65535,
+                    "expertMode": true,
+                    "onChange": {
+                        "alsoDependsOn": ["useHttps"],
+                        "ignoreOwnChanges": true,
+                        "calculateFunc": "(!data.webinterfacePort || data.webinterfacePort === 80 || data.webinterfacePort === 443) ? (data.useHttps ? 443 : 80) : data.webinterfacePort"
+                    },
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "webinterfaceProtocol": {
+                    "type": "text",
+                    "label": "Web interface protocol",
+                    "hidden": "true",
+                    "onChange": {
+                        "alsoDependsOn": ["useHttps"],
+                        "calculateFunc": "data.useHttps ? 'https' : 'http'"
+                    }
+                }
+            }
+        }
+    }
+}

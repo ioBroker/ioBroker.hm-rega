@@ -54,8 +54,8 @@ Since version 2.3.0 it is possible to execute your own scripts on the CCU by usi
 E.g., getting the uptime of your CCU by the following script:
 
 ### My CCU webinterface has a different port than the standard http/https protocols, thus no connection is established. How can I configure the adapter to use a custom port for the webinterface?
-Until now, this is an edge case and thus no configuration in the Admin GUI is possible. This has been decided because it would confuse
-10,000 users to help one user. However, the port can still be changed via the cli, using the following command:
+This is an edge case, so the setting is only shown in the *expert mode*: enable the expert mode in the admin and you will find
+`Web interface port` on the tab `Additional settings`. Alternatively, the port can still be changed via the cli:
 
 ```bash
 iob set hm-rega.0 --webinterfacePort 8765
@@ -76,14 +76,20 @@ sendTo('hm-rega.0', upTimeScript, res => {
 ```
 
 ### My Rega API is running at another port than 8181 (HTTPS: 48181), can I use the adapter anyway?
-If your Rega API is running at a non-default port (which should only happen in edge cases), we assume that you are familiar
-with the ioBroker CLI. You can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
+Yes. Enable the *expert mode* in the admin, then you can set `Rega port` on the tab `Additional settings`.
+Alternatively you can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (bluefox) migrated the adapter to TypeScript
+* (bluefox) migrated the configuration dialog to JSON config (requires admin 6.17.14 or newer)
+* (bluefox) the ports of the ReGaHSS API and of the web interface can now be configured in the expert mode
+* (bluefox) required js-controller 5.0.19
+
 ### 5.1.0 (2024-08-29)
 * (@foxriver76) added notification if devices are low on battery
 
@@ -546,7 +552,7 @@ or non existent if no rpc instance existed
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2014-2024 bluefox <dogafox@gmail.com>
+Copyright (c) 2014-2026 bluefox <dogafox@gmail.com>
 
 Copyright (c) 2014 hobbyquaker
 

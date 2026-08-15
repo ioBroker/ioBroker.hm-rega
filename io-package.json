@@ -94,7 +94,6 @@
         "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。"
       }
     },
-    "title": "HomeMatic ReGaHSS",
     "titleLang": {
       "en": "HomeMatic ReGaHSS",
       "de": "HomeMatic ReGaHSS",
@@ -122,7 +121,12 @@
     "dependencies": [
       "hm-rpc",
       {
-        "js-controller": ">=4.0.0"
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.0.0"
       }
     ],
     "authors": [
@@ -137,7 +141,9 @@
     "mode": "daemon",
     "platform": "Javascript/Node.js",
     "loglevel": "info",
-    "materialize": true,
+    "adminUI": {
+      "config": "json"
+    },
     "docs": {
       "en": "README.md"
     },
@@ -176,6 +182,7 @@
     "reconnectionInterval": 30,
     "polling": true,
     "pollingInterval": 30,
+    "pollingIntervalDC": 0,
     "pollingTrigger": "BidCoS-RF.50.PRESS_SHORT",
     "rfdEnabled": true,
     "rfdAdapter": "hm-rpc.0",
