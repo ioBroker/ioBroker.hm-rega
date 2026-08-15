@@ -2,5 +2,7 @@
 node_modules
 .git
 iob_npm.done
+build
+*.tsbuildinfo
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt
