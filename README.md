@@ -84,7 +84,7 @@ Alternatively you can change the port via `iob set hm-rega.<instance> --homemati
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 6.0.0 (2026-08-15)
 * (bluefox) migrated the adapter to TypeScript
 * (bluefox) migrated the configuration dialog to JSON config (requires admin 6.17.14 or newer)
 * (bluefox) the ports of the ReGaHSS API and of the web interface can now be configured in the expert mode

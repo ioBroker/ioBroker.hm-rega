@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "hm-rega",
-    "version": "5.1.0",
+    "version": "6.0.0",
     "news": {
+      "6.0.0": {
+        "en": "migrated the adapter to TypeScript\nmigrated the configuration dialog to JSON config (requires admin 6.17.14 or newer)\nthe ports of the ReGaHSS API and of the web interface can now be configured in the expert mode\nrequired js-controller 5.0.19",
+        "de": "Der Adapter wurde auf TypeScript migriert.\nDer Konfigurationsdialog wurde auf JSON-Konfiguration umgestellt (erfordert Admin 6.17.14 oder neuer).\nDie Ports der ReGaHSS-API und der Weboberfläche können nun im Expertenmodus konfiguriert werden.\nErforderlich ist js-controller 5.0.19",
+        "ru": "Перевел адаптер на TypeScript.\nПеренесено использование JSON-конфигурации в диалоговом окне настройки (требуется admin версии 6.17.14 или новее).\nТеперь порты API ReGaHSS и веб-интерфейса можно настраивать в экспертном режиме.\nтребуется js-контроллер 5.0.19",
+        "pt": "migramos o adaptador para TypeScript.\nA caixa de diálogo de configuração foi migrada para o formato JSON (requer o Admin versão 6.17.14 ou superior).\nAs portas da API ReGaHSS e da interface web agora podem ser configuradas no modo especialista.\nRequer js-controller 5.0.19",
+        "nl": "De adapter is gemigreerd naar TypeScript.\nHet configuratiedialoogvenster is gemigreerd naar JSON-configuratie (vereist admin 6.17.14 of nieuwer).\nDe poorten van de ReGaHSS API en van de webinterface kunnen nu in de expertmodus worden geconfigureerd.\nvereiste js-controller 5.0.19",
+        "fr": "l'adaptateur a été migré vers TypeScript\nLa boîte de dialogue de configuration a été migrée vers une configuration JSON (nécessite l'administrateur version 6.17.14 ou plus récente).\nLes ports de l'API ReGaHSS et de l'interface web peuvent désormais être configurés en mode expert.\ncontrôleur JS 5.0.19 requis",
+        "it": "ho migrato l'adattatore a TypeScript\nMigrazione della finestra di dialogo di configurazione a JSON config (richiede admin 6.17.14 o versioni successive)\nLe porte dell'API ReGaHSS e dell'interfaccia web possono ora essere configurate in modalità esperto.\nÈ richiesto js-controller 5.0.19",
+        "es": "Se migró el adaptador a TypeScript.\nSe migró el cuadro de diálogo de configuración a configuración JSON (requiere admin 6.17.14 o posterior).\nLos puertos de la API ReGaHSS y de la interfaz web ahora se pueden configurar en el modo experto.\nSe requiere js-controller 5.0.19",
+        "pl": "przeniesiono adapter do TypeScript\nprzeniesiono okno dialogowe konfiguracji do konfiguracji JSON (wymaga administratora 6.17.14 lub nowszego)\nporty API ReGaHSS i interfejsu internetowego można teraz skonfigurować w trybie eksperckim\nwymagany kontroler js 5.0.19",
+        "uk": "переніс адаптер на TypeScript\nперенесено діалогове вікно конфігурації до JSON config (потрібна версія admin 6.17.14 або новіша)\nПорти API ReGaHSS та веб-інтерфейсу тепер можна налаштовувати в експертному режимі.\nнеобхідний js-контролер 5.0.19",
+        "zh-cn": "将适配器迁移到 TypeScript\n将配置对话框迁移到 JSON 配置（需要管理员版本 6.17.14 或更高版本）\n现在可以在专家模式下配置 ReGaHSS API 和 Web 界面的端口。\n需要 js-controller 5.0.19"
+      },
       "5.1.0": {
         "en": "added notification if devices are low on battery",
         "de": "zusätzliche benachrichtigung, wenn geräte niedrig auf batterie",
@@ -80,18 +93,6 @@
         "pl": "kompatybilność z RSSI_DEVICE i RSSI_PEER dla aktualizacji CCU (zapełnia #352)\nzsynchronizowane są również enumy na kanał utrzymywania urządzeń (około 320)",
         "uk": "сумісність RSSI_DEVICE та RSSI_PEER для оновлення CCU (закриває #352)\nтакож сипучих ферментів для технічного обслуговування пристроїв rfd (закривається no320)",
         "zh-cn": "rSSI_DEVICE and RSSI_PEER for CCU最新情况 (clos #352)\n此外,装有装置的维修渠道(第320号)。"
-      },
-      "3.0.43": {
-        "en": "if LGW is not reachable we now set duty cycle to `null` instead of `-1` in all cases (closes #298)",
-        "de": "wenn LGW nicht erreichbar ist, setzen wir nun den Pflichtzyklus auf Null statt -1 in allen Fällen (schließt #298)",
-        "ru": "если LGW недоступен, мы теперь установили рабочий цикл, чтобы обнулиться вместо -1 во всех случаях (закрыты #298)",
-        "pt": "se LGW não for alcançável agora estabelecemos o ciclo de dever para null em vez de -1 em todos os casos (fecha #298)",
-        "nl": "als LGW niet bereikbaar is, zetten we nu de plichtscyclus in plaats van 1 in alle gevallen (closes #298)",
-        "fr": "si LGW n'est pas joignable, nous mettons maintenant le cycle de devoir à null au lieu de -1 dans tous les cas (ferme #298)",
-        "it": "se LGW non è raggiungibile abbiamo ora impostato il ciclo di dovere a null anziché -1 in tutti i casi (chiude #298)",
-        "es": "si LGW no es alcanzable ahora fijamos el ciclo de deber para anular en lugar de -1 en todos los casos (cerca #298)",
-        "pl": "w przypadku, gdy LGW nie jest w stanie osiągnąć takiego obrotu, musimy teraz uruchomić cykl obowiązku zamiast -1 we wszystkich przypadkach (zawiera #298)",
-        "zh-cn": "如果我们目前没有能够实现的男女同性恋、双性恋、双性恋、双性恋、双性恋和变性者(第298号纪念活动)规定,我们现在就规定义务周期无效。"
       }
     },
     "titleLang": {
