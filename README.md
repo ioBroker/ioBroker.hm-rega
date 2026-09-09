@@ -11,57 +11,159 @@
 
 Connects HomeMatic CCU "Logic Layer" ("ReGaHSS") to ioBroker.
 
-**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information on how to disable the error reporting, see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+
+## Homematic
+
+> Homematic is the smart home system of eQ-3. It controls many different functions in a house or in a flat with simple or complex scenarios.
+
+> The devices include products for the control of light, roller shutters and heating, hazard detectors, security sensors and products for the measurement of weather data. The radio communication makes the retrofitting easier. In new buildings, wired bus components can be used.
+
+[Source](https://www.eq-3.de/produkte/homematic.html)
+
+## Adapter Homematic ReGaHSS
+
+This adapter connects to the Homematic logic layer "ReGaHSS" (**Re**sidential **Ga**teway).
+It synchronizes plain text names, system variables, rooms, functions and programs between Homematic and ioBroker.
+
+If you want to connect more than one CCU to ioBroker, install and configure one instance of this adapter for every CCU.
+
+Together with this adapter, an instance of the adapter "hm-rpc" is installed too. Configure and activate this instance first.
+
+One instance of this adapter can manage up to five different instances of the Homematic RPC adapter. Every service needs its own RPC instance:
+
+- rfd (radio service of the CCU for the standard components)
+- hs485d (Wired) (for the wired bus components)
+- CUxD (additional software that provides a universal interface)
+- Homematic IP (components with IP support)
+- Virtual Devices
 
 ## Purpose
-This Adapter keeps the HomeMatic CCU variables in sync with ioBroker and provides the possibility to start
-HomeMatic CCU programs from within ioBroker. Furthermore, this adapter can be used as a "migration helper": you can sync
-device/channel names, rooms, functions, and favorites from the CCU to ioBroker (this is one way only, changes in ioBroker
-will be overwritten once synced again – so deactivate this features after the first sync).
 
-## Install
-This adapter requires one (ore more) already installed and initialized hm-rpc adapter(s) to work.
+This adapter keeps the HomeMatic CCU variables in sync with ioBroker and makes it possible to start HomeMatic CCU programs from ioBroker.
+
+The adapter can also be used as a "migration helper": you can copy device and channel names, rooms, functions and favorites from the CCU to ioBroker. This works only in one direction. Changes in ioBroker are overwritten with the next synchronization, so switch these options off after the first synchronization.
+
+## Requirements
+
+- Homematic gateway (CCU/CCU2/CCU3 …) **or** a radio module with suitable software (piVCCU, RaspberryMatic or similar)
+- At least one instance of the adapter hm-rpc, which is already installed and configured
+
+## Installation
+
+Install one instance of the adapter in the ioBroker admin interface. When the installation is finished, the configuration window opens automatically.
+
+Create and configure the instance of the hm-rpc adapter, which was installed together with this adapter, before you configure this adapter. If you need more services, create the additional hm-rpc instances too.
 
 ## Configuration
 
+![Selection menu](media/01c7dbc4da0240421b0711b331971d2d.png)
+
+*Selection menu at the top*
+
+The selection menu at the top has three areas:
+
+### Area "Main settings"
+
+![Main settings](media/3e0325b2bf61e508e131f8792e2c004d.png)
+
+*Main settings*
+
+The basic settings are made in this area.
+
+You can select the IP address of the CCU in the drop-down menu. You can also change the reconnection interval (default: 30 seconds).
+
+![Assignment of the RPC instances](media/ce181cdbb3b8979e1233b57a4588cf1d.png)
+
+*Assignment of the RPC instances*
+
+After that, activate the required services and connect every service with the matching hm-rpc instance.
+
+**Polling**
+
+If polling is activated, the adapter reads the ReGaHSS data from the CCU at regular intervals. The interval is set in seconds in the field "interval (s)". Do not set a too small interval, because too many requests can crash the CCU.
+
+**Trigger**
+
+To reduce the number of requests from ioBroker to the ReGaHSS, the CCU can also send the data on change. For this, use a virtual button of the CCU, which is switched in a CCU program. By default, this is the button `BidCosRF.50.PRESS_SHORT` (see the example program).
+
+### Area "Synchronize"
+
+Here you define which information is copied from the CCU to ioBroker. The adapter creates the according objects and states in ioBroker.
+
+- **DutyCycle**: shows the duty cycle (in %)
+- **variables**: copies the system variables from the CCU
+- **programs**: copies the program names from the CCU
+- **names**: copies the plain text names of the data points from the CCU
+- **favorites**: copies the favorites and lists them
+- **rooms**: copies the rooms and lists them
+- **functions**: copies the functions and lists them
+
+### Area "Additional settings"
+
+Here you decide if https (an encrypted connection) must be used. If https is activated, you must enter the user name and the according password.
+
+When all settings are done, close the configuration page with the button "save and close" below the settings. The adapter stops, and the instance starts again with the new values.
+
+### Instance
+
+![Instance and signal](media/44785b82964bcdc198565b1681787dc0.png)
+
+*Instance and signal*
+
+You find the created instances in the area *Instances* of ioBroker. On the left side, the traffic light shows if the adapter is activated and if it is connected with the CCU.
+
+If you move the mouse pointer over an icon, you get detailed information.
+
+### Objects of the adapter
+
+The area *Objects* shows all values and information, which the adapter reads from the CCU, in a tree structure.
+
+The objects depend on your own installation. That is why only the general objects, which are the same for all users, are described here.
+
+![Folder structure](media/c24d8382beda4c970093097959080524.png)
+
+*Folder structure*
+
+The first folders (normally a numeric ID) are the programs of the CCU.
+
+The folders CCU and info contain the basic information of the gateway, including the duty cycle in percent (if it is activated).
+
+At the end, the variables, which are created in the CCU, are listed.
+
 ## FAQ
 
-### What are the ALARM states created in the devices object?
-States which end on '_ALARM' are created by the Rega adapter, to represent service messages. The alarm has three 
-different states _NO ALARM_, which indicates that there is no related alarm (service message) for the state.
-When a service message appears for the related state the state will change to _ALARM_, containing the timestamp 
-of the alarm occurrence on the CCU in the last changed timestamp of the state (state.ls). When you change 
-the state in ioBroker, this will acknowledge the alarm in the CCU and the service message will be gone. 
-The alarm state in ioBroker will change to _ACKNOWLEDGED_ still containing the occurrence timestamp 
-in the last changed state, and the timestamp when it has been acknowledged in the state's timestamp (`state.ts`).
+### What are the ALARM states created in the device object?
 
-### I have a HomeMatic CCU2/CCU3, how can I add it to the adapter settings?
-Within the adapter settings, you added the IP address of your CCU2, then 
-* Activate "rfd" for regular HomeMatic devices, 
-* Activate "HomeMatic IP" if you use HomeMatic IP devices,
-* Activate "Virtual Devices" if you use Groups in HomeMatic (so if you combine e.g., multiple thermostats to a group)
+States which end on `_ALARM` are created by the ReGa adapter to represent service messages. The alarm has three different states.
 
-### If I modify rooms, etc. in HomeMatic, the changes are not applied right away within ioBroker.
-Please reload the hm-rega adapter instance, e.g., by clicking on the reload icon of hm-rega.x (actions table) in the Instances tab.
-Afterward, wait about 10-20 seconds and then check both the Enums tab and the Objects (`enum.xxx` - make sure you enabled the expert mode). If the changes do still not appear, restart ioBroker. Then the changes should be available in ioBroker.
+`_NO ALARM_` means that there is no service message for this state. When a service message appears, the state changes to `_ALARM_`. The time of the alarm on the CCU is stored in the "last changed" timestamp of the state (`state.lc`).
 
-### How can I sync the hidden/invisible variables, e.g., of HMIP-PSM?
-Since version 2.4.0, it is possible to sync hidden variables. For this purpose, you have to go to the settings of hm-rega.
-At the Sync tab you will find `Invisible variables` when `Variables` is checked.
+If you change the state in ioBroker, the alarm is acknowledged on the CCU and the service message disappears. The alarm state in ioBroker changes to `_ACKNOWLEDGED_`. It still contains the time of the alarm in the "last changed" timestamp, and the time of the acknowledgement in the timestamp of the state (`state.ts`).
 
-### I want to execute my own scripts on the CCU via ioBroker. Is this possible?
-Since version 2.3.0 it is possible to execute your own scripts on the CCU by using the ``sendTo`` command.
-E.g., getting the uptime of your CCU by the following script:
+### I have a HomeMatic CCU2/CCU3. How can I add it to the adapter settings?
 
-### My CCU webinterface has a different port than the standard http/https protocols, thus no connection is established. How can I configure the adapter to use a custom port for the webinterface?
-This is an edge case, so the setting is only shown in the *expert mode*: enable the expert mode in the admin and you will find
-`Web interface port` on the tab `Additional settings`. Alternatively, the port can still be changed via the cli:
+Enter the IP address of your CCU in the adapter settings and then
 
-```bash
-iob set hm-rega.0 --webinterfacePort 8765
-```
+* activate "rfd" for the normal HomeMatic devices,
+* activate "HomeMatic IP" if you use HomeMatic IP devices,
+* activate "Virtual Devices" if you use groups in HomeMatic (for example, if you combine several thermostats into one group).
 
-To use default port settings again, either set `443/80` according to your protocol, or set `0` for automatic selection.
+### I changed rooms or other settings in HomeMatic, but the changes are not visible in ioBroker.
+
+Restart the hm-rega instance, for example, with the restart button of hm-rega.x in the column "actions" on the tab "Instances".
+
+Wait about 10 to 20 seconds and then check the tab "Enums" and the objects (`enum.xxx` – the expert mode must be switched on). If the changes are still not there, restart ioBroker. After that, the changes are available in ioBroker.
+
+### How can I synchronize the hidden (invisible) variables, for example, of the HMIP-PSM?
+
+Since version 2.4.0 it is possible to synchronize hidden variables. Open the settings of hm-rega. On the tab "Synchronize" you find the option `Invisible variables` if the option `variables` is activated.
+
+### I want to execute my own scripts on the CCU from ioBroker. Is this possible?
+
+Since version 2.3.0 you can execute your own scripts on the CCU with the command `sendTo`.
+
+For example, you can read the uptime of your CCU with this script:
 
 ```javascript
 const upTimeScript = `
@@ -75,15 +177,31 @@ sendTo('hm-rega.0', upTimeScript, res => {
 });
 ```
 
-### My Rega API is running at another port than 8181 (HTTPS: 48181), can I use the adapter anyway?
-Yes. Enable the *expert mode* in the admin, then you can set `Rega port` on the tab `Additional settings`.
-Alternatively you can change the port via `iob set hm-rega.<instance> --homematicPort <port>`
+### The web interface of my CCU uses another port than the standard http/https ports, and no connection is established. How can I configure another port?
+
+This is a rare case, so the setting is only shown in the *expert mode*. Switch on the expert mode in the admin, and you find the option `Web interface port` on the tab "Additional settings". You can also change the port in the command line:
+
+```bash
+iob set hm-rega.0 --webinterfacePort 8765
+```
+
+To use the default ports again, enter `443` or `80` according to your protocol, or enter `0` for the automatic selection.
+
+### My ReGa API does not use port 8181 (HTTPS: 48181). Can I use the adapter anyway?
+
+Yes. Switch on the *expert mode* in the admin, and you can set the option `Rega port` on the tab "Additional settings".
+
+You can also change the port in the command line: `iob set hm-rega.<instance> --homematicPort <port>`
 
 ## Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (bluefox) Removed prepare script
+* (bluefox) Merged the English documentation into README.md and removed the docs folder
+
 ### 6.0.0 (2026-08-15)
 * (bluefox) migrated the adapter to TypeScript
 * (bluefox) migrated the configuration dialog to JSON config (requires admin 6.17.14 or newer)
@@ -153,10 +271,10 @@ Alternatively you can change the port via `iob set hm-rega.<instance> --homemati
 
 ### 3.0.27 (2021-06-28)
 * (foxriver76) fixed a bug that already deleted programs were only partially deleted in ioBroker
-__Please note: This will only work for deleted programs up from now. You have to clean up orphan programs manually__
+__Please note: This will only work for deleted programs up to now. You have to clean up orphan programs manually__
 
 ### 3.0.26 (2021-06-14)
-* (bluefox) Use name from device if channel has a default name
+* (bluefox) Use name from a device if the channel has a default name
 
 ### 3.0.25 (2021-05-14)
 * (foxriver76) remove old code, which also scaled unit: % values and not only unit: 100 %
@@ -166,7 +284,7 @@ __Please note: This will only work for deleted programs up from now. You have to
 
 ### 3.0.23 (2021-04-30)
 * (foxriver76) we now correctly convert the rssi values, workaround for https://github.com/jens-maus/RaspberryMatic/issues/897
-* (foxriver76) we made counter states of type "number", was incorrectly "string" (closes #145)
+* (foxriver76) we made counter-states of type "number", was incorrectly "string" (closes #145)
 
 ### 3.0.22 (2021-04-30)
 * (foxriver76) parse the dutyCycle state to int (fixes #144)
@@ -174,7 +292,7 @@ __Please note: This will only work for deleted programs up from now. You have to
 * (foxriver76) removed unneeded dependency
 
 ### 3.0.21 (2021-04-24)
-* (foxriver76) bring back io-package json readme attribute, admin does not fall back to docs as expected (fixes #135)
+* (foxriver76) bring back io-package.json readme attribute, admin does not fall back to docs as expected (fixes #135)
 
 ### 3.0.20 (2021-04-20)
 * (foxriver76) admin/controller has a bug still requiring `common.title` (fixes #133)
@@ -183,7 +301,7 @@ __Please note: This will only work for deleted programs up from now. You have to
 * (foxriver76) fixed for custom webinterface port (addresses #117)
 
 ### 3.0.18 (2021-04-05)
-* (foxriver76) local link now respects port and protocol
+* (foxriver76) a local link now respects port and protocol
 
 ### 3.0.17 (2021-04-04)
 * (foxriver76) correctly identify incomplete requests
@@ -544,7 +662,7 @@ or non existent if no rpc instance existed
 * (hobbyquaker) common.children vs children
 
 ### 0.1.2
-* (hobbyquaker) Fixed common.children in getPrograms
+* (hobbyquaker) Fixed `common.children` in getPrograms
 
 ### 0.1.1
 * (hobbyquaker) Fixed common.name attribute

@@ -23,7 +23,7 @@ npx mocha test/integrationAdapter --exit --grep "sendTo"   # single test
 npm run release-patch                     # @alcalzone/release-script, moves README changelog into io-package news
 ```
 
-`npm ci`/`npm install` runs `prepare` → `npm run build`, so a fresh checkout is buildable without an extra step. The integration test requires that **no** js-controller is running on the machine, otherwise it aborts with "JS-Controller is already running!".
+There is deliberately **no `prepare` script** — `npm ci`/`npm install` does not build. Run `npm run build` yourself after a fresh checkout and before starting the adapter or the tests. Because `build/` is neither committed nor built on install, `common.nogit` is `true` in `io-package.json`: the adapter can only be installed from npm, not from GitHub. The integration test requires that **no** js-controller is running on the machine, otherwise it aborts with "JS-Controller is already running!".
 
 ## Architecture
 
