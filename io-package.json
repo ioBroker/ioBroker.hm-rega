@@ -146,7 +146,8 @@
       "config": "json"
     },
     "docs": {
-      "en": "README.md"
+      "en": "docs/en/README.md",
+      "de": "docs/de/README.md"
     },
     "readme": "https://github.com/ioBroker/ioBroker.hm-rega/blob/master/README.md",
     "icon": "homematic.png",
