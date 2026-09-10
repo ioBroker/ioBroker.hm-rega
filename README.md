@@ -199,6 +199,7 @@ You can also change the port in the command line: `iob set hm-rega.<instance> --
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- (iobroker-bot) Adapter requires node.js >= 22 now.
 * (bluefox) Removed prepare script
 * (bluefox) Merged the English documentation into README.md and removed the docs folder
 
