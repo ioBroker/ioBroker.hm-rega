@@ -199,12 +199,12 @@ You can also change the port in the command line: `iob set hm-rega.<instance> --
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-- (iobroker-bot) Adapter requires node.js >= 22 now.
-* (bluefox) Removed prepare script
-* (bluefox) Merged the English documentation into README.md and removed the docs folder
-* (bluefox) The values of the device datapoints read from the CCU are converted to the type of the hm-rpc state (e.g. `STATE_NOT_AVAILABLE` of an ENUM to its index), values that cannot be converted are not written anymore. This removes the warnings "has to be type number but received type string" (hm-rpc #803, #1342, #1358)
-* (bluefox) If hm-rpc deletes a device (e.g. during a firmware update), the adapter recreates the `*_ALARM` objects of the service messages instead of writing states without objects until the next restart (hm-rpc #1200)
-* (bluefox) Write-only datapoints of hm-rpc, like `SET_STATE` of CUxD devices, do not get a value from the CCU anymore (hm-rpc #803)
+* (iobroker-bot) Adapter requires node.js >= 22.19.0 now.
+* (@GermanBluefox) Removed prepare script
+* (@GermanBluefox) Merged the English documentation into README.md and removed the docs folder
+* (@GermanBluefox) The values of the device datapoints read from the CCU are converted to the type of the hm-rpc state (e.g. `STATE_NOT_AVAILABLE` of an ENUM to its index), values that cannot be converted are not written anymore. This removes the warnings "has to be type number but received type string" (hm-rpc #803, #1342, #1358)
+* (@GermanBluefox) If hm-rpc deletes a device (e.g. during a firmware update), the adapter recreates the `*_ALARM` objects of the service messages instead of writing states without objects until the next restart (hm-rpc #1200)
+* (@GermanBluefox) Write-only datapoints of hm-rpc, like `SET_STATE` of CUxD devices, do not get a value from the CCU anymore (hm-rpc #803)
 
 ### 6.0.0 (2026-08-15)
 * (bluefox) migrated the adapter to TypeScript
