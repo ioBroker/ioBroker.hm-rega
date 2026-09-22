@@ -1697,6 +1697,12 @@ class HmRega extends utils.Adapter {
 
             const stateInfo = this.existingStates.get(id);
             if (stateInfo) {
+                if (!stateInfo.readable) {
+                    // write-only datapoints, e.g. the SET_STATE of CUxD devices, have no value to read (hm-rpc #803)
+                    this.log.debug(`Do not set "${JSON.stringify(value)}" to "${id}", because it is write-only`);
+                    continue;
+                }
+
                 // ReGa delivers some values as string, although the hm-rpc state is a number
                 const converted = convertRegaValue(value, stateInfo);
                 if (converted === undefined) {
@@ -1919,6 +1925,7 @@ class HmRega extends utils.Adapter {
                     this.existingStates.set(row.id, {
                         type: row.value.common?.type,
                         valueList: Array.isArray(native?.VALUE_LIST) ? native.VALUE_LIST : undefined,
+                        readable: row.value.common?.read !== false,
                     });
 
                     if (native?.UNIT) {

@@ -131,4 +131,6 @@ export interface RpcStateInfo {
     type?: ioBroker.CommonType;
     /** `native.VALUE_LIST` of an ENUM, the value of the state is the index */
     valueList?: string[];
+    /** false for write-only datapoints like the CUxD SET_STATE, they get no value from ReGa */
+    readable: boolean;
 }

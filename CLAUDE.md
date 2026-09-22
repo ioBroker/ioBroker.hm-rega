@@ -77,7 +77,7 @@ This adapter deliberately writes into **other adapters' namespaces**:
 | `hm-rega.<i>.<regaId>` | `variables.fn`, `programs.fn` | id is the numeric ReGa object id; `native.TypeName` = `VARDP`/`ALARMDP`/`PROGRAM` |
 | `hm-rega.<i>.alarms` / `.maintenance` | ReGa ids 40 / 41 | aliased both ways — `onStateChange` maps the name back to 40/41 before `dom.GetObject(...)` |
 | `hm-rega.<i>.<iface>.0.*` | `dutycycle.fn` + `system.fn` | DUTY_CYCLE, CONNECTED, firmware/rega version, object counters |
-| `hm-rpc.<n>.<channel>.<dp>` | `datapoints.fn` | only written when the object already exists (`existingStates`), else logged and skipped; the value is converted to the `common.type` of the hm-rpc state by `convertRegaValue()` (ReGa delivers e.g. ENUM texts), values that cannot be converted are skipped |
+| `hm-rpc.<n>.<channel>.<dp>` | `datapoints.fn` | only written when the object already exists (`existingStates`), else logged and skipped; the value is converted to the `common.type` of the hm-rpc state by `convertRegaValue()` (ReGa delivers e.g. ENUM texts), values that cannot be converted and write-only datapoints (`common.read === false`, e.g. CUxD `SET_STATE`) are skipped |
 | `hm-rpc.<n>.<channel>_ALARM` | `alarms.fn` | service messages; `_ALARM` objects are created by this adapter. hm-rpc deletes them together with the device, so `onObjectChange()` (subscription `<hm-rpc>.*_ALARM`) removes them from the `objects`/`states` caches and the next poll recreates them; `<hm-rpc>.updated` also runs `getServiceMsgs()` |
 | `enum.rooms/functions/favorites` | `rooms.fn`, `functions.fn`, `favorites.fn` | one-way CCU → ioBroker, overwrites ioBroker edits |
 
