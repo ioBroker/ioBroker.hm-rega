@@ -31,7 +31,7 @@ import { join } from 'node:path';
 import { Rega, type RegaError } from './lib/rega';
 import { words } from './lib/enumNames';
 import { decrypt } from './lib/crypto';
-import { chars, FORBIDDEN_CHARS, nameToString } from './lib/utils';
+import { chars, convertRegaValue, FORBIDDEN_CHARS, nameToString } from './lib/utils';
 import type {
     CachedState,
     RegaAlarm,
@@ -46,6 +46,7 @@ import type {
     RegaSystemInfo,
     RegaValue,
     RegaVariable,
+    RpcStateInfo,
     UnitInfo,
 } from './lib/types';
 
@@ -101,9 +102,10 @@ class HmRega extends utils.Adapter {
     /** Cache of the already created objects */
     private readonly objects: Record<string, boolean> = {};
     /**
+     * Existing hm-rpc states with their type, filled by `syncDevices()` and freed after `getDatapoints()`.
      * State cache won't have all DPs, because e.g., heating groups are not provided via getDatapoints
      */
-    private existingStates: string[] = [];
+    private existingStates = new Map<string, RpcStateInfo>();
     private existingDevices: string[] = [];
 
     private unloaded = false;
@@ -1658,7 +1660,7 @@ class HmRega extends utils.Adapter {
                 continue;
             }
 
-            let value = data[dp];
+            let value: ioBroker.StateValue = this.unescape(data[dp]);
             const unit = this.units[id];
 
             // same procedure as hm-rpc, only scales 100%
@@ -1666,12 +1668,25 @@ class HmRega extends utils.Adapter {
                 value = Math.round(parseFloat(String(value)) * 100 * 1000) / 1000;
             }
 
-            const state: CachedState = { val: this.unescape(value), ack: true };
+            const stateInfo = this.existingStates.get(id);
+            if (stateInfo) {
+                // ReGa delivers some values as string, although the hm-rpc state is a number
+                const converted = convertRegaValue(value, stateInfo);
+                if (converted === undefined) {
+                    this.log.debug(
+                        `Do not set "${JSON.stringify(value)}" to "${id}", because it cannot be converted to ${stateInfo.type}`,
+                    );
+                    continue;
+                }
+                value = converted;
+            }
+
+            const state: CachedState = { val: value, ack: true };
 
             if (!this.states[id] || this.states[id].val !== state.val || !this.states[id].ack) {
                 this.states[id] = state;
                 // only set the state if it's a valid dp at RPC API and thus has an object
-                if (this.existingStates.includes(id)) {
+                if (stateInfo) {
                     await this.setForeignStateAsync(id, state as ioBroker.SettableState);
                 } else {
                     this.log.debug(
@@ -1685,7 +1700,7 @@ class HmRega extends utils.Adapter {
 
         // free RAM
         this.units = null;
-        this.existingStates = [];
+        this.existingStates = new Map();
     }
 
     /**
@@ -1872,9 +1887,12 @@ class HmRega extends utils.Adapter {
                     const last = parts.pop()!;
                     const id = parts.join('.');
 
-                    this.existingStates.push(row.id);
-
                     const native = row.value.native;
+
+                    this.existingStates.set(row.id, {
+                        type: row.value.common?.type,
+                        valueList: Array.isArray(native?.VALUE_LIST) ? native.VALUE_LIST : undefined,
+                    });
 
                     if (native?.UNIT) {
                         let unit: UnitInfo = this.unescape(native.UNIT as string);

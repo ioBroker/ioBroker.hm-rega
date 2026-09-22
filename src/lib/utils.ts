@@ -1,3 +1,5 @@
+import type { RpcStateInfo } from './types';
+
 /**
  * The CCU writes strings with `WriteURL()`, which is *almost* but not quite `encodeURI`.
  * This table maps the sequences which `decodeURI` cannot handle back to their characters.
@@ -62,6 +64,57 @@ export const chars: EscapeChar[] = [
 
 /** Characters which are not allowed in ioBroker object IDs */
 export const FORBIDDEN_CHARS = /[\][*,;'"`<>\\?]/g;
+
+/**
+ * Converts a value of `datapoints.fn` to the type of the hm-rpc state. ReGa delivers some values as string,
+ * although the hm-rpc state is a number, e.g. "STATE_NOT_AVAILABLE" for the ENUM VALVE_STATE of a not used
+ * channel or an empty string for CUxD devices (hm-rpc #803, #1342, #1358).
+ *
+ * @param value value delivered by ReGa
+ * @param info type information of the hm-rpc state
+ * @returns the converted value or undefined, if it cannot be converted
+ */
+export function convertRegaValue(value: ioBroker.StateValue, info: RpcStateInfo): ioBroker.StateValue | undefined {
+    if (typeof value === 'number' && !Number.isFinite(value)) {
+        return undefined;
+    }
+    if (value === null || !info.type || info.type === 'mixed' || typeof value === info.type) {
+        return value;
+    }
+
+    switch (info.type) {
+        case 'number': {
+            if (typeof value === 'boolean') {
+                return value ? 1 : 0;
+            }
+            // ENUMs are stored as index of the VALUE_LIST
+            const index = info.valueList ? info.valueList.indexOf(String(value)) : -1;
+            if (index !== -1) {
+                return index;
+            }
+            if (typeof value !== 'string' || !value.trim()) {
+                return undefined;
+            }
+            const num = Number(value);
+            return Number.isFinite(num) ? num : undefined;
+        }
+        case 'boolean':
+            if (typeof value === 'number') {
+                return value !== 0;
+            }
+            if (value === 'true' || value === '1') {
+                return true;
+            }
+            if (value === 'false' || value === '0') {
+                return false;
+            }
+            return undefined;
+        case 'string':
+            return String(value);
+        default:
+            return value;
+    }
+}
 
 /**
  * Reduces a (possibly translated) object name to a plain string

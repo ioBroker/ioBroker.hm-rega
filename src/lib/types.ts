@@ -124,3 +124,11 @@ export interface UnitWithRange {
 }
 
 export type UnitInfo = string | UnitWithRange;
+
+/** Type information of an existing hm-rpc state, used to convert the values of `datapoints.fn` */
+export interface RpcStateInfo {
+    /** `common.type` of the hm-rpc state */
+    type?: ioBroker.CommonType;
+    /** `native.VALUE_LIST` of an ENUM, the value of the state is the index */
+    valueList?: string[];
+}

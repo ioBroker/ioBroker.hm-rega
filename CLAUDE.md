@@ -77,7 +77,7 @@ This adapter deliberately writes into **other adapters' namespaces**:
 | `hm-rega.<i>.<regaId>` | `variables.fn`, `programs.fn` | id is the numeric ReGa object id; `native.TypeName` = `VARDP`/`ALARMDP`/`PROGRAM` |
 | `hm-rega.<i>.alarms` / `.maintenance` | ReGa ids 40 / 41 | aliased both ways — `onStateChange` maps the name back to 40/41 before `dom.GetObject(...)` |
 | `hm-rega.<i>.<iface>.0.*` | `dutycycle.fn` + `system.fn` | DUTY_CYCLE, CONNECTED, firmware/rega version, object counters |
-| `hm-rpc.<n>.<channel>.<dp>` | `datapoints.fn` | only written when the object already exists (`existingStates`), else logged and skipped |
+| `hm-rpc.<n>.<channel>.<dp>` | `datapoints.fn` | only written when the object already exists (`existingStates`), else logged and skipped; the value is converted to the `common.type` of the hm-rpc state by `convertRegaValue()` (ReGa delivers e.g. ENUM texts), values that cannot be converted are skipped |
 | `hm-rpc.<n>.<channel>_ALARM` | `alarms.fn` | service messages; `_ALARM` objects are created by this adapter |
 | `enum.rooms/functions/favorites` | `rooms.fn`, `functions.fn`, `favorites.fn` | one-way CCU → ioBroker, overwrites ioBroker edits |
 
@@ -104,7 +104,7 @@ Always use `this.setTimeout` / `this.setInterval` (adapter-core, auto-cleared on
 
 ### Caches
 
-`states` and `objects` are instance-level caches used to skip redundant `setForeignState`/object writes; `existingStates` and `units` are populated during `syncDevices()`/`getDatapoints()` and then **set to `null`/`[]` to free RAM** (CCUs with many devices). Code that runs later must null-check `units`.
+`states` and `objects` are instance-level caches used to skip redundant `setForeignState`/object writes; `existingStates` (a `Map` of the hm-rpc state IDs to their `common.type`/`native.VALUE_LIST`) and `units` are populated during `syncDevices()`/`getDatapoints()` and then **set to an empty `Map`/`null` to free RAM** (CCUs with many devices). Code that runs later must null-check `units`.
 
 ### Admin configuration
 
