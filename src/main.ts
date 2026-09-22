@@ -115,6 +115,7 @@ class HmRega extends utils.Adapter {
 
         this.on('ready', this.onReady.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
+        this.on('objectChange', this.onObjectChange.bind(this));
         this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
     }
@@ -279,6 +280,8 @@ class HmRega extends utils.Adapter {
             this.subscribeForeignStates(`${adapter}.updated`);
             this.subscribeForeignStates(`${adapter}.info.connection`);
             this.subscribeForeignStates(`${adapter}.*_ALARM`);
+            // to notice when hm-rpc deletes the alarm objects together with their device
+            this.subscribeForeignObjects(`${adapter}.*_ALARM`);
             // the init check has always been done on the rfd instance only
             this.checkInit(this.config.rfdAdapter);
         }
@@ -414,6 +417,22 @@ class HmRega extends utils.Adapter {
     // Event handlers
     // -----------------------------------------------------------------------------------------
 
+    /**
+     * Forgets deleted alarm objects. hm-rpc deletes them together with their device, e.g. if the CCU reports the
+     * device as deleted during a firmware update. Otherwise the next poll writes states without objects until the
+     * adapter is restarted (hm-rpc #1200). The next poll recreates the object via getServiceMsgs().
+     *
+     * @param id ID of the changed object
+     * @param obj the object or null if it was deleted
+     */
+    private onObjectChange(id: string, obj: ioBroker.Object | null | undefined): void {
+        if (!obj && id.endsWith('_ALARM') && this.objects[id]) {
+            this.log.debug(`Alarm object "${id}" was deleted`);
+            delete this.objects[id];
+            delete this.states[id];
+        }
+    }
+
     private async onStateChange(id: string, state: ioBroker.State | null | undefined): Promise<void> {
         if (!state || state.ack) {
             if (state && id === this.pollingTrigger) {
@@ -427,7 +446,13 @@ class HmRega extends utils.Adapter {
         } else if (this.isRpcState(id, 'updated')) {
             // Read devices anew if hm-rpc updated the list of devices
             if (state.val) {
-                this.setTimeout(() => void this.syncDevices(), 1_000);
+                this.setTimeout(() => {
+                    void this.syncDevices();
+                    // new devices need their alarm objects (hm-rpc #1200)
+                    if (this.config.syncVariables) {
+                        void this.getServiceMsgs();
+                    }
+                }, 1_000);
                 try {
                     // Reset flag
                     await this.setForeignStateAsync(id, false, true);
@@ -1158,7 +1183,6 @@ class HmRega extends utils.Adapter {
 
             // create object if not created
             if (!this.objects[id]) {
-                this.objects[id] = true;
                 try {
                     const parent = await this.getForeignObjectAsync(id.substring(0, id.lastIndexOf('.')));
                     const name = parent?.common?.name ? `${nameToString(parent.common.name)}.${id.split('.')[4]}` : id;
@@ -1187,8 +1211,11 @@ class HmRega extends utils.Adapter {
                             },
                         });
                     }
+                    this.objects[id] = true;
                 } catch (e) {
+                    // without object the state cannot be set (hm-rpc #1200)
                     this.log.error(`Could not update object of "${id}": ${(e as Error).message}`);
+                    continue;
                 }
             }
 
